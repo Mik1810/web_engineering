@@ -1,4 +1,4 @@
-package it.univaq.ecommerce;
+package it.univaq.webmarket;
 
 import java.io.*;
 import javax.servlet.http.*;
