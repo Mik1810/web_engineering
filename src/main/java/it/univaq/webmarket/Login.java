@@ -11,6 +11,7 @@ package it.univaq.webmarket;
 import it.univaq.webmarket.framework.result.HTMLResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
 import it.univaq.webmarket.framework.utils.ServletHelpers;
+
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -28,6 +29,7 @@ import javax.servlet.http.*;
 public class Login extends HttpServlet {
 
     private void action_default(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         HTMLResult result = new HTMLResult(getServletContext());
         result.setTitle("Welcome");
         result.appendToBody("<h1>Please Login</h1>");
