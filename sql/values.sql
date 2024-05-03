@@ -52,7 +52,7 @@ INSERT INTO Ufficio (sede, numero, piano, telefono) VALUES ('Via Castello', 11, 
 
 -- Popolamento Ordinante
 INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('michaelpiccirilli3@gmail.com', 'supersafepassword', 3);
-INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('paoloccigiacomo@gmail.com', 'marilu1234', 1);
+INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('paoloccigiacomo@gmail.com', 'miksoccombi', 1);
 
 -- Popolamento RichiestaAcquisto
 INSERT INTO RichiestaAcquisto (codice_richiesta, note, ID_ordinante) VALUES ('7592783840', 'Voglio un PC Desktop per poter giocare a WarThunder in ufficio', 2);
@@ -61,3 +61,19 @@ INSERT INTO RichiestaAcquisto (codice_richiesta, note, ID_ordinante) VALUES ('76
 -- Popolamento composta
 INSERT INTO composta (valore, ID_richiesta_acquisto, ID_caratteristica) VALUES ('32', 1, 1);
 INSERT INTO composta (valore, ID_richiesta_acquisto, ID_caratteristica) VALUES ('100', 2, 5);
+
+-- Popolamento TecnicoPreventivi
+INSERT INTO TecnicoPreventivi (email, password) VALUES ('techprev1@gmail.com', 'password1');
+INSERT INTO TecnicoPreventivi (email, password) VALUES ('techprev2@gmail.com', 'password2');
+
+-- Popolamento RichiestaPresaInCarico
+INSERT INTO RichiestaPresaInCarico (ID_richiesta_acquisto, ID_tecnico_preventivi) VALUES (1, 1);
+INSERT INTO RichiestaPresaInCarico (ID_richiesta_acquisto, ID_tecnico_preventivi) VALUES (2, 2);
+
+-- Popolamento Amministratore
+INSERT INTO Amministratore (email, password) VALUES ('admin1@gmail.com', 'adminpassword1');
+INSERT INTO Amministratore (email, password) VALUES ('admin2@gmail.com', 'adminpassword2');
+
+-- Popolamento TecnicoOrdini
+INSERT INTO TecnicoOrdini (email, password) VALUES ('techord1@gmail.com', 'techpassword1');
+INSERT INTO TecnicoOrdini (email, password) VALUES ('techord2@gmail.com', 'techpassword2');

@@ -40,6 +40,11 @@ chiude: (ID, ID ordine, ID ordinante
     DROP TABLE IF EXISTS CategoriaFiglio;
     DROP TABLE IF EXISTS CategoriaPadre;
 
+    DROP USER IF EXISTS 'admin'@'localhost';
+
+    CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
+    GRANT ALL PRIVILEGES ON webmarket.* TO 'admin'@'localhost';
+
     CREATE TABLE CategoriaPadre (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         nome VARCHAR(255) NOT NULL
