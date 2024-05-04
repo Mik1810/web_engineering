@@ -18,5 +18,11 @@ public abstract class Categoria {
         return id;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

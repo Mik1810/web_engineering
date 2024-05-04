@@ -9,4 +9,9 @@ public class CategoriaFiglio extends Categoria{
         this.categoriaPadre = categoriaPadre;
     }
 
+    public CategoriaPadre getCategoriaGenitore() { return this.categoriaPadre; }
+
+    public void setCategoriaGenitore(CategoriaPadre categoriaPadre) {
+        this.categoriaPadre = categoriaPadre;
+    }
 }

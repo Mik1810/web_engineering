@@ -8,4 +8,10 @@ public class CategoriaNipote extends Categoria{
         super(nome, id);
         this.categoriaFiglio = categoriaFiglio;
     }
+
+    public CategoriaFiglio getCategoriaGenitore() { return this.categoriaFiglio; }
+
+    public void setCategoriaGenitore(CategoriaFiglio categoriaFiglio) {
+        this.categoriaFiglio = categoriaFiglio;
+    }
 }

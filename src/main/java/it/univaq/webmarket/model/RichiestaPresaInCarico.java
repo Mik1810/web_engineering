@@ -1,6 +1,40 @@
 package it.univaq.webmarket.model;
 
+import it.univaq.webmarket.model.Utenti.TecnicoPreventivi;
+
 public class RichiestaPresaInCarico {
 
-    // ok, forse questo non serve essendo che è una semplice tabella di join
+    private Integer id;
+    private RichiestaAcquisto richiestaAcquisto;
+    private TecnicoPreventivi tecnicoPreventivi;
+
+    public RichiestaPresaInCarico(Integer id, RichiestaAcquisto richiestaAcquisto, TecnicoPreventivi tecnicoPreventivi) {
+        this.id = id;
+        this.richiestaAcquisto = richiestaAcquisto;
+        this.tecnicoPreventivi = tecnicoPreventivi;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public RichiestaAcquisto getRichiestaAcquisto() {
+        return richiestaAcquisto;
+    }
+
+    public void setRichiestaAcquisto(RichiestaAcquisto richiestaAcquisto) {
+        this.richiestaAcquisto = richiestaAcquisto;
+    }
+
+    public TecnicoPreventivi getTecnicoPreventivi() {
+        return tecnicoPreventivi;
+    }
+
+    public void setTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) {
+        this.tecnicoPreventivi = tecnicoPreventivi;
+    }
 }

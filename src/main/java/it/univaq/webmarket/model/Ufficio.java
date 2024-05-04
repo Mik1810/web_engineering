@@ -4,11 +4,11 @@ public class Ufficio {
 
     private Integer id;
     private String sede;
-    private int numeroTelefono;
-    private int numeroUfficio;
-    private int piano;
+    private String numeroTelefono;
+    private Integer numeroUfficio;
+    private Integer piano;
 
-    public Ufficio(Integer id, String sede, int numeroTelefono, int piano) {
+    public Ufficio(Integer id, String sede, String numeroTelefono, Integer piano) {
         this.id = id;
         this.sede = sede;
         this.numeroTelefono = numeroTelefono;
@@ -23,16 +23,35 @@ public class Ufficio {
         return sede;
     }
 
-    public int getNumeroTelefono() {
+    public String getNumeroTelefono() {
         return numeroTelefono;
     }
 
-    public int getPiano() {
+    public Integer getPiano() {
         return piano;
     }
 
-    public int getNumeroUfficio() {
+    public Integer getNumeroUfficio() {
         return numeroUfficio;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setSede(String sede) {
+        this.sede = sede;
+    }
+
+    public void setNumeroTelefono(String numeroTelefono) {
+        this.numeroTelefono = numeroTelefono;
+    }
+
+    public void setNumeroUfficio(Integer numeroUfficio) {
+        this.numeroUfficio = numeroUfficio;
+    }
+
+    public void setPiano(Integer piano) {
+        this.piano = piano;
+    }
 }

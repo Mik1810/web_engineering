@@ -165,25 +165,16 @@ chiude: (ID, ID ordine, ID ordinante
         password VARCHAR(255) NOT NULL
     );
 
-    CREATE TABLE Feedback (
-        /* Default value: 1 => Feedback non disponibile */
-        ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(255) NOT NULL
-    );
-
     CREATE TABLE OrdineAcquisto (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         stato_consegna ENUM('Presa in carico', 'In consegna', 'Consegnato') NOT NULL,
-        ID_feedback INT UNSIGNED NOT NULL DEFAULT 1,
-        /* Default value: 1 => Feedback non disponibile */
+        feedback ENUM('Accettato', 'Respinto perché non conforme', 'Respinto perché non funzionante') NOT NULL,
         ID_tecnico_ordini INT UNSIGNED NULL,
         ID_proposta INT UNSIGNED NOT NULL,
         FOREIGN KEY (ID_tecnico_ordini) REFERENCES TecnicoOrdini(ID)
         ON DELETE SET NULL ON UPDATE CASCADE,
         FOREIGN KEY (ID_proposta) REFERENCES Proposta(ID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-        FOREIGN KEY (ID_feedback) REFERENCES Feedback(ID)
-        ON DELETE SET DEFAULT ON UPDATE CASCADE
+        ON DELETE RESTRICT ON UPDATE CASCADE
     );
 
     CREATE TABLE chiude (
