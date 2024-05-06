@@ -1,6 +1,6 @@
 package it.univaq.webmarket.model;
 
-import it.univaq.webmarket.model.Utenti.TecnicoOrdini;
+import it.univaq.webmarket.model.utenti.TecnicoOrdini;
 import it.univaq.webmarket.model.enums.Feedback;
 import it.univaq.webmarket.model.enums.StatoConsegna;
 

@@ -1,0 +1,17 @@
+package it.univaq.webmarket.data.DAO;
+
+import it.univaq.webmarket.framework.data.DataException;
+import it.univaq.webmarket.model.RichiestaAcquisto;
+
+import java.util.List;
+
+public interface RichiestaAcquistoDAO {
+
+    RichiestaAcquisto createRichiestaAcquisto();
+
+    RichiestaAcquisto getRichiestaAcquisto(int richiesta_key) throws DataException;
+
+    List<RichiestaAcquisto> getAllRichiesteAcquisto() throws DataException;
+
+
+}

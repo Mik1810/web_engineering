@@ -1,4 +1,4 @@
-package it.univaq.webmarket.model.Categorie;
+package it.univaq.webmarket.model.categorie;
 
 public class CategoriaFiglio extends Categoria{
 

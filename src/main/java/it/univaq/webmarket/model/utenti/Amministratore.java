@@ -1,4 +1,4 @@
-package it.univaq.webmarket.model.Utenti;
+package it.univaq.webmarket.model.utenti;
 
 public class Amministratore extends Utente{
 

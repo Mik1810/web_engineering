@@ -1,6 +1,6 @@
 package it.univaq.webmarket.model;
 
-import it.univaq.webmarket.model.Utenti.Ordinante;
+import it.univaq.webmarket.model.utenti.Ordinante;
 
 import java.util.List;
 

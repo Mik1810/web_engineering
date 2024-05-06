@@ -1,6 +1,6 @@
 package it.univaq.webmarket.model;
 
-import it.univaq.webmarket.model.Utenti.TecnicoPreventivi;
+import it.univaq.webmarket.model.utenti.TecnicoPreventivi;
 
 public class RichiestaPresaInCarico {
 

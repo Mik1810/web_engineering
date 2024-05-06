@@ -1,6 +1,6 @@
 package it.univaq.webmarket.model;
 
-import it.univaq.webmarket.model.Categorie.CategoriaNipote;
+import it.univaq.webmarket.model.categorie.CategoriaNipote;
 
 public class Caratteristica {
 
