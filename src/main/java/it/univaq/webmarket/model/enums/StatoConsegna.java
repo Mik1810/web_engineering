@@ -9,17 +9,17 @@ public class StatoConsegna {
 }*/
 
 public enum StatoConsegna {
-    PRESA_IN_CARICO("Presa in carico"),
-    IN_CONSEGNA("In consegna"),
-    CONSEGNATO("Consegnato");
+    PRESA_IN_CARICO(1),
+    IN_CONSEGNA(2),
+    CONSEGNATO(3);
 
-    private final String value;
+    private final Integer value;
 
-    StatoConsegna(String value) {
+    StatoConsegna(Integer value) {
         this.value = value;
     }
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 }

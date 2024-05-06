@@ -9,7 +9,18 @@ public class Feedback {
 
 
 public enum Feedback {
-    ACCETTATO,
-    NON_CONFORME,
-    NON_FUNZIONANTE
+
+    ACCETTATO(1),
+    NON_CONFORME(2),
+    NON_FUNZIONANTE(3);
+
+    private final Integer value;
+
+    Feedback(Integer value) {
+        this.value = value;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
 }

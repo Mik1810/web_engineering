@@ -176,7 +176,6 @@ chiude: (ID, ID ordine, ID ordinante
         password VARCHAR(255) NOT NULL
     );
 
-    -- ENUM('Accettato', 'Respinto perché non conforme', 'Respinto perché non funzionante') NOT NULL
     CREATE TABLE Feedback (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         nome VARCHAR(255) NOT NULL

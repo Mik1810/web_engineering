@@ -11,17 +11,17 @@ public class StatoProposta {
  */
 
 public enum StatoProposta {
-    IN_ATTESA("In Attesa"),
-    ACCETTATA("Accettata"),
-    RIFIUTATA("RIFIUTATA");
+    IN_ATTESA(1),
+    ACCETTATA(2),
+    RIFIUTATA(3);
 
-    private final String value;
+    private final Integer value;
 
-    StatoProposta(String value) {
+    StatoProposta(Integer value) {
         this.value = value;
     }
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 }
