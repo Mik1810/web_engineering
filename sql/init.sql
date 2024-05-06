@@ -26,9 +26,11 @@ chiude: (ID, ID ordine, ID ordinante
     DROP TABLE IF EXISTS chiude;
     DROP TABLE IF EXISTS OrdineAcquisto;
     DROP TABLE IF EXISTS Feedback;
+    DROP TABLE IF EXISTS StatoConsegna;
     DROP TABLE IF EXISTS TecnicoOrdini;
     DROP TABLE IF EXISTS Amministratore;
     DROP TABLE IF EXISTS Proposta;
+    DROP TABLE IF EXISTS StatoProposta;
     DROP TABLE IF EXISTS RichiestaPresaInCarico;
     DROP TABLE IF EXISTS TecnicoPreventivi;
     DROP TABLE IF EXISTS composta;
@@ -137,6 +139,13 @@ chiude: (ID, ID ordine, ID ordinante
         ON DELETE RESTRICT ON UPDATE CASCADE
     );
 
+    CREATE TABLE StatoProposta (
+        ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+        nome VARCHAR(255) NOT NULL
+    );
+
+    INSERT INTO StatoProposta (nome) VALUES ('In Attesa'), ('Accettata'), ('Rifiutata');
+
     CREATE TABLE Proposta (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         codice_prodotto VARCHAR(255) NOT NULL UNIQUE,
@@ -145,12 +154,14 @@ chiude: (ID, ID ordine, ID ordinante
         prezzo DECIMAL(10,2) NOT NULL,
         nome_prodotto VARCHAR(255) NOT NULL,
         URL VARCHAR(2048) NOT NULL,
-        stato ENUM('In Attesa', 'Accettata', 'Rifiutata') NOT NULL,
+        stato INT UNSIGNED NOT NULL,
         motivazione TEXT NULL,
         ID_tecnico_preventivi INT UNSIGNED NOT NULL,
         ID_richiesta_presa_in_carico INT UNSIGNED NOT NULL,
         FOREIGN KEY (ID_richiesta_presa_in_carico) REFERENCES RichiestaPresaInCarico(ID)
-        ON DELETE CASCADE ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE,
+        FOREIGN KEY (ID_tecnico_preventivi) REFERENCES TecnicoPreventivi(ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE
     );
 
     CREATE TABLE Amministratore (
@@ -165,16 +176,37 @@ chiude: (ID, ID ordine, ID ordinante
         password VARCHAR(255) NOT NULL
     );
 
+    -- ENUM('Accettato', 'Respinto perché non conforme', 'Respinto perché non funzionante') NOT NULL
+    CREATE TABLE Feedback (
+        ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+        nome VARCHAR(255) NOT NULL
+    );
+
+    INSERT INTO Feedback (nome) VALUES ('Accettato'), ('Respinto perché non conforme'), ('Respinto perché non funzionante');
+
+    CREATE TABLE StatoConsegna (
+        ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+        nome VARCHAR(255) NOT NULL
+    );
+
+    INSERT INTO StatoConsegna (nome) VALUES ('Presa in carico'), ('In consegna'), ('Consegnato');
+
     CREATE TABLE OrdineAcquisto (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        stato_consegna ENUM('Presa in carico', 'In consegna', 'Consegnato') NOT NULL,
-        feedback ENUM('Accettato', 'Respinto perché non conforme', 'Respinto perché non funzionante') NOT NULL,
+        stato_consegna INT UNSIGNED NOT NULL,
+        feedback INT UNSIGNED  NOT NULL,
         ID_tecnico_ordini INT UNSIGNED NULL,
         ID_proposta INT UNSIGNED NOT NULL,
         FOREIGN KEY (ID_tecnico_ordini) REFERENCES TecnicoOrdini(ID)
         ON DELETE SET NULL ON UPDATE CASCADE,
         FOREIGN KEY (ID_proposta) REFERENCES Proposta(ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+        FOREIGN KEY (stato_consegna) REFERENCES StatoConsegna(ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
+        FOREIGN KEY (feedback) REFERENCES Feedback(ID)
         ON DELETE RESTRICT ON UPDATE CASCADE
+        /* SI poteva mettere anche un default sull'ON DELETE ma InnoDB non accetta
+           questo tipo di sintassi */
     );
 
     CREATE TABLE chiude (
