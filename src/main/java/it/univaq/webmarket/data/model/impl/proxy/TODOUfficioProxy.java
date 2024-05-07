@@ -1,10 +1,11 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
-import it.univaq.webmarket.data.model.impl.RichiestaConCaratteristicaImpl;
+import it.univaq.webmarket.data.model.impl.UfficioImpl;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
-public class RichiestaConCaratteristica extends RichiestaConCaratteristicaImpl implements DataItemProxy {
+public class TODOUfficioProxy extends UfficioImpl implements DataItemProxy {
+
     protected boolean modified;
 
     protected DataLayer dataLayer;

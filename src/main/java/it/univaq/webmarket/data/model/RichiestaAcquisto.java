@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 
 public interface RichiestaAcquisto extends DataItem<Integer> {
 
+    Ordinante getOrdinante();
+
+    void setOrdinante(Ordinante ordinante);
+
     String getNote();
 
     void setNote(String note);

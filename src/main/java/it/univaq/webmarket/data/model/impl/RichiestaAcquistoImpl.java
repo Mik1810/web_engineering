@@ -1,5 +1,6 @@
 package it.univaq.webmarket.data.model.impl;
 
+import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.RichiestaAcquisto;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
@@ -10,13 +11,21 @@ public class RichiestaAcquistoImpl extends DataItemImpl<Integer> implements Rich
     private String note;
     private String codiceRichiesta;
     private LocalDateTime dataEOra;
+    private Ordinante ordinante;
 
     public RichiestaAcquistoImpl() {
         super();
         this.note = "";
         this.codiceRichiesta = "";
         this.dataEOra = null;
+        this.ordinante = null;
     }
+
+    @Override
+    public Ordinante getOrdinante() { return this.ordinante; }
+
+    @Override
+    public void setOrdinante(Ordinante ordinante) { this.ordinante = ordinante; }
 
     @Override
     public String getNote() {

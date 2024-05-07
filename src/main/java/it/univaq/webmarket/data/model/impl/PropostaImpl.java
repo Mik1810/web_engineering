@@ -1,6 +1,7 @@
 package it.univaq.webmarket.data.model.impl;
 
 import it.univaq.webmarket.data.model.Proposta;
+import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.data.model.impl.enums.StatoProposta;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
@@ -13,15 +14,17 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     private String nomeProdotto;
     private StatoProposta statoProposta;
     private String motivazione;
+    private TecnicoPreventivi tecnicoPreventivi;
 
     public PropostaImpl() {
         this.codiceProdotto = "";
         this.produttore = "";
         this.note = "";
-        this.prezzo = null;
+        this.prezzo = 0F;
         this.nomeProdotto = "";
         this.statoProposta = null;
         this.motivazione = "";
+        this.tecnicoPreventivi = null;
     }
 
     @Override
@@ -92,5 +95,13 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     @Override
     public void setMotivazione(String motivazione) {
         this.motivazione = motivazione;
+    }
+
+    @Override
+    public TecnicoPreventivi getTecnicoPreventivi() { return this.tecnicoPreventivi; }
+
+    @Override
+    public void setTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) {
+        this.tecnicoPreventivi = tecnicoPreventivi;
     }
 }

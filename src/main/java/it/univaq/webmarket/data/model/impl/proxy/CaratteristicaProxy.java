@@ -9,13 +9,13 @@ public class CaratteristicaProxy extends CaratteristicaImpl implements DataItemP
 
     protected boolean modified;
     protected DataLayer dataLayer;
-    protected Integer categoriaNipoteKey = 0;
+    protected Integer categoriaNipote_key;
 
     public CaratteristicaProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;
-        this.categoriaNipoteKey = 0;
+        this.categoriaNipote_key = 0;
     }
 
     @Override
@@ -33,6 +33,12 @@ public class CaratteristicaProxy extends CaratteristicaImpl implements DataItemP
     @Override
     public void setCategoriaNipote(CategoriaNipote categoriaNipote) {
         super.setCategoriaNipote(categoriaNipote);
+
+        if (categoriaNipote != null) {
+            this.categoriaNipote_key = categoriaNipote.getKey();
+        } else {
+            this.categoriaNipote_key = 0;
+        }
         this.modified = true;
     }
 
@@ -55,4 +61,9 @@ public class CaratteristicaProxy extends CaratteristicaImpl implements DataItemP
 
     @Override
     public void setModified(boolean dirty) { this.modified = dirty; }
+
+    public void setCategoriaNipote_key(Integer categoriaNipote_key) {
+        this.categoriaNipote_key = categoriaNipote_key;
+        super.setCategoriaNipote(null);
+    }
 }

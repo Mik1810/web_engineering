@@ -32,4 +32,8 @@ public interface Proposta extends DataItem<Integer> {
     String getMotivazione();
 
     void setMotivazione(String motivazione);
+
+    TecnicoPreventivi getTecnicoPreventivi();
+
+    void setTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi);
 }

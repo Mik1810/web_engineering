@@ -1,5 +1,6 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.impl.RichiestaAcquistoImpl;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
@@ -9,14 +10,14 @@ import java.time.LocalDateTime;
 public class RichiestaAcquistoProxy extends RichiestaAcquistoImpl implements DataItemProxy {
 
     protected boolean modified;
-
     protected DataLayer dataLayer;
+    protected Integer ordinante_key;
 
     public RichiestaAcquistoProxy(DataLayer d) {
         super();
-        //dependency injection
         this.dataLayer = d;
         this.modified = false;
+        this.ordinante_key = 0;
     }
 
     @Override
@@ -25,48 +26,47 @@ public class RichiestaAcquistoProxy extends RichiestaAcquistoImpl implements Dat
         this.modified = true;
     }
 
-    public RichiestaAcquistoProxy() {
-        super();
+    @Override
+    public Ordinante getOrdinante() {
+        //TODO: implementare il caricamento lazy
+        return null;
     }
 
     @Override
-    public String getNote() {
-        return super.getNote();
+    public void setOrdinante(Ordinante ordinante) {
+        super.setOrdinante(ordinante);
+        this.ordinante_key = ordinante.getKey();
+        this.modified = true;
     }
 
     @Override
     public void setNote(String note) {
         super.setNote(note);
-    }
-
-    @Override
-    public String getCodiceRichiesta() {
-        return super.getCodiceRichiesta();
+        this.modified = true;
     }
 
     @Override
     public void setCodiceRichiesta(String codiceRichiesta) {
         super.setCodiceRichiesta(codiceRichiesta);
-    }
-
-    @Override
-    public LocalDateTime getDataEOra() {
-        return super.getDataEOra();
+        this.modified = true;
     }
 
     @Override
     public void setDataEOra(LocalDateTime dataEOra) {
         super.setDataEOra(dataEOra);
+        this.modified = true;
     }
 
     @Override
-    public boolean isModified() {
-        return modified;
-    }
+    public boolean isModified() { return modified; }
 
     @Override
     public void setModified(boolean dirty) {
         this.modified = dirty;
     }
 
+    public void setOrdinante_key(Integer ordinante_key) {
+        this.ordinante_key = ordinante_key;
+        super.setOrdinante(null);
+    }
 }

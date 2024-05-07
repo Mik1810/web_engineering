@@ -5,7 +5,7 @@ import it.univaq.webmarket.data.model.impl.RichiestaPresaInCaricoImpl;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
-public class RichiestaPresaInCaricoProxy extends RichiestaPresaInCaricoImpl implements DataItemProxy {
+public class TODORichiestaPresaInCaricoProxy extends RichiestaPresaInCaricoImpl implements DataItemProxy {
 
     protected boolean modified;
 
