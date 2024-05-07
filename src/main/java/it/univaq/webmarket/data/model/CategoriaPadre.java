@@ -1,4 +1,10 @@
 package it.univaq.webmarket.data.model;
 
-public interface CategoriaPadre {
+import it.univaq.webmarket.framework.data.DataItem;
+
+public interface CategoriaPadre extends DataItem<Integer> {
+
+    String getNome();
+
+    void setNome(String nome);
 }

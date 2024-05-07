@@ -1,4 +1,5 @@
 package it.univaq.webmarket.data.model;
 
-public interface TecnicoPreventivi {
+//Utente estende già DataItem<Integer>
+public interface TecnicoPreventivi extends Utente {
 }

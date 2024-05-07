@@ -1,12 +1,8 @@
 package it.univaq.webmarket.data.model;
 
-import it.univaq.webmarket.data.model.impl.categorie.CategoriaNipoteImpl;
+import it.univaq.webmarket.framework.data.DataItem;
 
-public interface Caratteristica {
-
-    Integer getId();
-
-    String getNome();
+public interface Caratteristica extends DataItem<Integer> {
 
     String getUnitaMisura();
 

@@ -1,4 +1,4 @@
 package it.univaq.webmarket.data.model;
 
-public interface Amministratore {
+public interface Amministratore extends Utente {
 }

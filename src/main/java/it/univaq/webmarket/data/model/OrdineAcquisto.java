@@ -1,14 +1,10 @@
 package it.univaq.webmarket.data.model;
 
-import it.univaq.webmarket.data.model.impl.PropostaImpl;
 import it.univaq.webmarket.data.model.impl.enums.Feedback;
 import it.univaq.webmarket.data.model.impl.enums.StatoConsegna;
-import it.univaq.webmarket.data.model.impl.utenti.TecnicoOrdiniImpl;
+import it.univaq.webmarket.framework.data.DataItem;
 
-public interface OrdineAcquisto {
-    public Integer getId();
-
-    void setId(Integer id);
+public interface OrdineAcquisto extends DataItem<Integer> {
 
     StatoConsegna getStatoConsegna();
 

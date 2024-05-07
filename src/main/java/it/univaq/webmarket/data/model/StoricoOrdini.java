@@ -1,15 +1,11 @@
 package it.univaq.webmarket.data.model;
 
-import it.univaq.webmarket.data.model.impl.OrdineAcquistoimpl;
-import it.univaq.webmarket.data.model.impl.utenti.OrdinanteImpl;
+import it.univaq.webmarket.framework.data.DataItem;
 
 import java.util.List;
 
-public interface StoricoOrdini {
-
-    Integer getId();
-
-    void setId(Integer id);
+// Forse non serve, credo basti il DAO
+public interface StoricoOrdini extends DataItem<Integer> {
 
     Ordinante getOrdinante();
 

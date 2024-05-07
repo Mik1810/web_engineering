@@ -1,7 +1,8 @@
 package it.univaq.webmarket.data.model;
 
-public interface Ufficio {
-    Integer getId();
+import it.univaq.webmarket.framework.data.DataItem;
+
+public interface Ufficio extends DataItem<Integer> {
 
     String getSede();
 
@@ -10,8 +11,6 @@ public interface Ufficio {
     Integer getPiano();
 
     Integer getNumeroUfficio();
-
-    void setId(Integer id);
 
     void setSede(String sede);
 

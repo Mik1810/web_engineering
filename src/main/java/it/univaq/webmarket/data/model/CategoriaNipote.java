@@ -1,6 +1,12 @@
 package it.univaq.webmarket.data.model;
 
-public interface CategoriaNipote {
+import it.univaq.webmarket.framework.data.DataItem;
+
+public interface CategoriaNipote  extends DataItem<Integer> {
+
+    String getNome();
+
+    void setNome(String nome);
 
     CategoriaFiglio getCategoriaGenitore();
 

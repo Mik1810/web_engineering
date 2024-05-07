@@ -1,12 +1,8 @@
 package it.univaq.webmarket.data.model;
-import it.univaq.webmarket.data.model.impl.utenti.TecnicoPreventiviImpl;
 
-public interface RichiestaPresaInCarico {
+import it.univaq.webmarket.framework.data.DataItem;
 
-
-    Integer getId();
-
-    void setId(Integer id);
+public interface RichiestaPresaInCarico extends DataItem<Integer> {
 
     RichiestaAcquisto getRichiestaAcquisto();
 
