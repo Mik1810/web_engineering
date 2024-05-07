@@ -4,28 +4,16 @@ import it.univaq.webmarket.data.model.RichiestaAcquisto;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.framework.data.DataItemImpl;
-import it.univaq.webmarket.data.model.impl.utenti.TecnicoPreventiviImpl;
 
 public class RichiestaPresaInCaricoImpl extends DataItemImpl<Integer> implements RichiestaPresaInCarico {
 
-    private Integer id;
     private RichiestaAcquisto richiestaAcquisto;
     private TecnicoPreventivi tecnicoPreventivi;
 
     public RichiestaPresaInCaricoImpl() {
-        this.id = null;
+        super();
         this.richiestaAcquisto = null;
         this.tecnicoPreventivi = null;
-    }
-
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     @Override
@@ -38,10 +26,12 @@ public class RichiestaPresaInCaricoImpl extends DataItemImpl<Integer> implements
         this.richiestaAcquisto = richiestaAcquisto;
     }
 
+    @Override
     public TecnicoPreventivi getTecnicoPreventivi() {
         return tecnicoPreventivi;
     }
 
+    @Override
     public void setTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) {
         this.tecnicoPreventivi = tecnicoPreventivi;
     }

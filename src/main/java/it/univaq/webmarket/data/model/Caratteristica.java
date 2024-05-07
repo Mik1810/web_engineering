@@ -6,11 +6,11 @@ public interface Caratteristica extends DataItem<Integer> {
 
     String getUnitaMisura();
 
-    CategoriaNipote getCategoriaNipote() ;
+    CategoriaNipote getCategoriaNipote();
+
+    String getNome();
 
     void setNome(String nome);
-
-    void setId(Integer id) ;
 
     void setUnitaMisura(String unitaMisura);
 

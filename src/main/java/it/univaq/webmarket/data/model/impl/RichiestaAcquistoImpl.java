@@ -7,45 +7,38 @@ import java.time.LocalDateTime;
 
 public class RichiestaAcquistoImpl extends DataItemImpl<Integer> implements RichiestaAcquisto {
 
-    private Integer id;
     private String note;
-    private String codiceRichietsa;
+    private String codiceRichiesta;
     private LocalDateTime dataEOra;
 
     public RichiestaAcquistoImpl() {
         super();
         this.note = "";
-        this.codiceRichietsa = "";
+        this.codiceRichiesta = "";
         this.dataEOra = null;
     }
 
     @Override
     public String getNote() {
-        return "";
+        return this.note;
     }
 
     @Override
-    public void setNote(String note) {
-
-    }
+    public void setNote(String note) { this.note = note;}
 
     @Override
     public String getCodiceRichiesta() {
-        return "";
+        return this.codiceRichiesta;
     }
 
     @Override
-    public void setCodiceRichiesta(String codiceRichiesta) {
-
-    }
+    public void setCodiceRichiesta(String codiceRichiesta) { this.codiceRichiesta = codiceRichiesta; }
 
     @Override
     public LocalDateTime getDataEOra() {
-        return null;
+        return this.dataEOra;
     }
 
     @Override
-    public void setDataEOra(LocalDateTime dataEOra) {
-
-    }
+    public void setDataEOra(LocalDateTime dataEOra) { this.dataEOra = dataEOra; }
 }

@@ -5,56 +5,55 @@ import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class UfficioImpl extends DataItemImpl<Integer> implements Ufficio{
 
-    private Integer id;
     private String sede;
     private String numeroTelefono;
     private Integer numeroUfficio;
     private Integer piano;
 
     public UfficioImpl() {
-        this.id = null;
+        super();
         this.sede = "";
         this.numeroTelefono = "";
         this.numeroUfficio = null;
         this.piano = null;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
+    @Override
     public String getSede() {
         return sede;
     }
 
+    @Override
     public String getNumeroTelefono() {
         return numeroTelefono;
     }
 
+    @Override
     public Integer getPiano() {
         return piano;
     }
 
+    @Override
     public Integer getNumeroUfficio() {
         return numeroUfficio;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
+    @Override
     public void setSede(String sede) {
         this.sede = sede;
     }
 
+    @Override
     public void setNumeroTelefono(String numeroTelefono) {
         this.numeroTelefono = numeroTelefono;
     }
 
+    @Override
     public void setNumeroUfficio(Integer numeroUfficio) {
         this.numeroUfficio = numeroUfficio;
     }
 
+    @Override
     public void setPiano(Integer piano) {
         this.piano = piano;
     }

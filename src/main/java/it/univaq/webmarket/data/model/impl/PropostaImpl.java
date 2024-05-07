@@ -6,7 +6,6 @@ import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
 
-    private Integer id;
     private String codiceProdotto;
     private String produttore;
     private String note;
@@ -16,7 +15,6 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     private String motivazione;
 
     public PropostaImpl() {
-        this.id = null;
         this.codiceProdotto = "";
         this.produttore = "";
         this.note = "";
@@ -26,66 +24,72 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
         this.motivazione = "";
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
+    @Override
     public String getCodiceProdotto() {
         return codiceProdotto;
     }
 
+    @Override
     public void setCodiceProdotto(String codiceProdotto) {
         this.codiceProdotto = codiceProdotto;
     }
 
+    @Override
     public String getProduttore() {
         return produttore;
     }
 
+    @Override
     public void setProduttore(String produttore) {
         this.produttore = produttore;
     }
 
+    @Override
     public String getNote() {
         return note;
     }
 
+    @Override
     public void setNote(String note) {
         this.note = note;
     }
 
+    @Override
     public Float getPrezzo() {
         return prezzo;
     }
 
+    @Override
     public void setPrezzo(Float prezzo) {
         this.prezzo = prezzo;
     }
 
+    @Override
     public String getNomeProdotto() {
         return nomeProdotto;
     }
 
+    @Override
     public void setNomeProdotto(String nomeProdotto) {
         this.nomeProdotto = nomeProdotto;
     }
 
+    @Override
     public StatoProposta getStatoProposta() {
         return statoProposta;
     }
 
+    @Override
     public void setStatoProposta(StatoProposta statoProposta) {
         this.statoProposta = statoProposta;
     }
 
+    @Override
     public String getMotivazione() {
         return motivazione;
     }
 
+    @Override
     public void setMotivazione(String motivazione) {
         this.motivazione = motivazione;
     }

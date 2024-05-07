@@ -6,44 +6,39 @@ import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class CaratteristicaImpl extends DataItemImpl<Integer> implements Caratteristica {
 
-    private Integer id;
     private String nome;
     private String unitaMisura;
     private CategoriaNipote categoriaNipote;
 
     public CaratteristicaImpl() {
-        this.id = null;
+        super();
         this.nome = "";
         this.unitaMisura = "";
         this.categoriaNipote = null;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
+    @Override
     public String getNome() {
         return nome;
     }
 
+    @Override
     public String getUnitaMisura() {
         return unitaMisura;
     }
 
+    @Override
     public CategoriaNipote getCategoriaNipote() { return categoriaNipote; }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @Override
+    public void setNome(String nome) { this.nome = nome;}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
+    @Override
     public void setUnitaMisura(String unitaMisura) {
         this.unitaMisura = unitaMisura;
     }
 
+    @Override
     public void setCategoriaNipote(CategoriaNipote categoriaNipote) {
         this.categoriaNipote = categoriaNipote;
     }

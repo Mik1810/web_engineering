@@ -12,6 +12,7 @@ public class RichiestaConCaratteristicaImpl extends DataItemImpl<Integer> implem
     private String valore;
 
     public RichiestaConCaratteristicaImpl() {
+        super();
         this.richiestaAcquisto = null;
         this.caratteristica = null;
         this.valore = "";
@@ -23,9 +24,7 @@ public class RichiestaConCaratteristicaImpl extends DataItemImpl<Integer> implem
     }
 
     @Override
-    public void setRichiestaAcquisto(RichiestaAcquisto richiestaAcquisto) {
-        this.richiestaAcquisto = richiestaAcquisto;
-    }
+    public void setRichiestaAcquisto(RichiestaAcquisto richiestaAcquisto) { this.richiestaAcquisto = richiestaAcquisto; }
 
     @Override
     public Caratteristica getCaratteristica() {
