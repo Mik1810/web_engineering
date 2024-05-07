@@ -13,5 +13,4 @@ public interface RichiestaAcquistoDAO {
 
     List<RichiestaAcquisto> getAllRichiesteAcquisto() throws DataException;
 
-
 }

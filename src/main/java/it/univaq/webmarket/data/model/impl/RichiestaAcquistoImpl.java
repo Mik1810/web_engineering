@@ -50,4 +50,14 @@ public class RichiestaAcquistoImpl extends DataItemImpl<Integer> implements Rich
 
     @Override
     public void setDataEOra(LocalDateTime dataEOra) { this.dataEOra = dataEOra; }
+
+    @Override
+    public String toString() {
+        return "RichiestaAcquistoImpl{" +
+                "note='" + note + '\'' +
+                ", codiceRichiesta='" + codiceRichiesta + '\'' +
+                ", dataEOra=" + dataEOra +
+                ", ordinante=" + ordinante +
+                '}';
+    }
 }

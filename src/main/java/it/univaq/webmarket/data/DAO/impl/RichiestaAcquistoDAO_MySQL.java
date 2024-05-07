@@ -2,14 +2,22 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.RichiestaAcquistoDAO;
 import it.univaq.webmarket.data.model.RichiestaAcquisto;
+import it.univaq.webmarket.data.model.impl.proxy.RichiestaAcquistoProxy;
 import it.univaq.webmarket.framework.data.DAO;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquistoDAO {
 
+    private PreparedStatement sRichiestaByID;
+    private PreparedStatement sAllRichieste;
 
     public RichiestaAcquistoDAO_MySQL(DataLayer d) {
         super(d);
@@ -17,66 +25,95 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
 
     @Override
     public void init() throws DataException {
-        /*try {
+        try {
             super.init();
 
-            //precompiliamo tutte le query utilizzate nella classe
-            //precompile all the queries uses in this class
-            sArticleByID = connection.prepareStatement("SELECT * FROM article WHERE ID=?");
-            sArticlesByIssue = connection.prepareStatement("SELECT ID AS articleID FROM article WHERE issueID=?");
-            sArticles = connection.prepareStatement("SELECT ID AS articleID FROM article");
-            sUnassignedArticles = connection.prepareStatement("SELECT ID AS articleID FROM article WHERE issueID IS NULL");
 
-            //notare l'ultimo paametro extra di questa chiamata a
-            //prepareStatement: lo usiamo per assicurarci che il JDBC
-            //restituisca la chiave generata automaticamente per il
-            //record inserito
-            //note the last parameter in this call to prepareStatement:
-            //it is used to ensure that the JDBC will sotre and return
-            //the auto generated key for the inserted recors
-            iArticle = connection.prepareStatement("INSERT INTO article (title,text,authorID,issueID,page) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            uArticle = connection.prepareStatement("UPDATE article SET title=?,text=?,authorID=?,issueID=?, page=?, version=? WHERE ID=? and version=?");
-            dArticle = connection.prepareStatement("DELETE FROM article WHERE ID=?");
+            sAllRichieste = connection.prepareStatement("SELECT * FROM RichiestaAcquisto");
+            sRichiestaByID = connection.prepareStatement("SELECT * FROM RichiestaAcquisto WHERE ID=?");
 
         } catch (SQLException ex) {
             throw new DataException("Error initializing newspaper data layer", ex);
-        }*/
+        }
     }
 
     @Override
     public void destroy() throws DataException {
-        //anche chiudere i PreparedStamenent � una buona pratica...
+        //anche chiudere i PreparedStamenent è una buona pratica...
         //also closing PreparedStamenents is a good practice...
-         /*try {
+         try {
 
-           sArticleByID.close();
-
-            sArticlesByIssue.close();
-            sArticles.close();
-            sUnassignedArticles.close();
-
-            iArticle.close();
-            uArticle.close();
-            dArticle.close();
+           sAllRichieste.close();
 
         } catch (SQLException ex) {
             //
         }
-        super.destroy();*/
+        super.destroy();
     }
 
     @Override
     public RichiestaAcquisto createRichiestaAcquisto() {
-        return null;
+        return new RichiestaAcquistoProxy(getDataLayer());
+    }
+
+    private RichiestaAcquistoProxy createRichiestaAcquisto(ResultSet rs) throws DataException {
+        System.out.println("Parsando richieste di acquisto...");
+        RichiestaAcquistoProxy ra = (RichiestaAcquistoProxy) createRichiestaAcquisto();
+        try {
+            ra.setKey(rs.getInt("ID"));
+            ra.setCodiceRichiesta(rs.getString("codice_richiesta"));
+            ra.setNote(rs.getString("note"));
+            ra.setDataEOra(rs.getTimestamp("data").toLocalDateTime());
+            //ra.setOrdinante_key(rs.getInt("ID_ordinante"));
+            //TODO: Che ci dobbiamo fa co sto version?
+            //a.setVersion(rs.getLong("version"));
+        } catch (SQLException ex) {
+            throw new DataException("Unable to create article object form ResultSet", ex);
+        }
+        return ra;
     }
 
     @Override
     public RichiestaAcquisto getRichiestaAcquisto(int richiesta_key) throws DataException {
-        return null;
+        System.out.println("Richiedendo una richiesta di acquisto con ID");
+        RichiestaAcquisto ra = null;
+        //prima vediamo se l'oggetto è già stato caricato
+        //first look for this object in the cache
+        if (dataLayer.getCache().has(RichiestaAcquisto.class, richiesta_key)) {
+            ra = dataLayer.getCache().get(RichiestaAcquisto.class, richiesta_key);
+        } else {
+            //altrimenti lo carichiamo dal database
+            //otherwise load it from database
+            try {
+                sRichiestaByID.setInt(1, richiesta_key);
+                try (ResultSet rs = sRichiestaByID.executeQuery()) {
+                    if (rs.next()) {
+                        ra = createRichiestaAcquisto(rs);
+                        //e lo mettiamo anche nella cache
+                        //and put it also in the cache
+                        dataLayer.getCache().add(RichiestaAcquisto.class, ra);
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("Unable to load article by ID", ex);
+            }
+        }
+        return ra;
     }
 
     @Override
     public List<RichiestaAcquisto> getAllRichiesteAcquisto() throws DataException {
-        return List.of();
+        System.out.println("Richiededno tutte le richieste di acquisto...");
+        List<RichiestaAcquisto> result = new ArrayList<>();
+
+        try (ResultSet rs = sAllRichieste.executeQuery()) {
+            while (rs.next()) {
+                System.out.printf("ID: %d\n", rs.getInt("ID"));
+                result.add((RichiestaAcquisto) getRichiestaAcquisto(rs.getInt("ID")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load articles", ex);
+        }
+        return result;
     }
 }

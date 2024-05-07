@@ -69,4 +69,9 @@ public class RichiestaAcquistoProxy extends RichiestaAcquistoImpl implements Dat
         this.ordinante_key = ordinante_key;
         super.setOrdinante(null);
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
