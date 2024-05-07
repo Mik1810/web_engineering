@@ -1,7 +1,7 @@
 package it.univaq.webmarket.data.DAO;
 
+import it.univaq.webmarket.data.model.RichiestaAcquisto;
 import it.univaq.webmarket.framework.data.DataException;
-import it.univaq.webmarket.model.RichiestaAcquisto;
 
 import java.util.List;
 

@@ -10,7 +10,7 @@ public interface Caratteristica {
 
     String getUnitaMisura();
 
-    CategoriaNipoteImpl getCategoriaNipote() ;
+    CategoriaNipote getCategoriaNipote() ;
 
     void setNome(String nome);
 
@@ -18,6 +18,6 @@ public interface Caratteristica {
 
     void setUnitaMisura(String unitaMisura);
 
-    void setCategoriaNipote(CategoriaNipoteImpl categoriaNipoteImpl);
+    void setCategoriaNipote(CategoriaNipote categoriaNipote);
 
 }

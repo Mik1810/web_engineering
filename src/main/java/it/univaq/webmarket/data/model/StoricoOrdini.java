@@ -11,11 +11,11 @@ public interface StoricoOrdini {
 
     void setId(Integer id);
 
-    OrdinanteImpl getOrdinanteImpl();
+    Ordinante getOrdinante();
 
-    void setOrdinanteImpl(OrdinanteImpl ordinanteImpl);
+    void setOrdinante(Ordinante ordinante);
 
-    List<OrdineAcquistoimpl> getOrdini();
+    List<OrdineAcquisto> getOrdini();
 
-    void setOrdini(List<OrdineAcquistoimpl> ordini);
+    void setOrdini(List<OrdineAcquisto> ordini);
 }

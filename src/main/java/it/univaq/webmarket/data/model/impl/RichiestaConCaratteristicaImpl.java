@@ -1,14 +1,14 @@
 package it.univaq.webmarket.data.model.impl;
 
+import it.univaq.webmarket.data.model.Caratteristica;
+import it.univaq.webmarket.data.model.RichiestaAcquisto;
 import it.univaq.webmarket.data.model.RichiestaConCaratteristica;
-import it.univaq.webmarket.data.model.impl.CaratteristicaImpl;
 import it.univaq.webmarket.framework.data.DataItemImpl;
-import it.univaq.webmarket.model.RichiestaAcquisto;
 
 public class RichiestaConCaratteristicaImpl extends DataItemImpl<Integer> implements RichiestaConCaratteristica {
 
     private RichiestaAcquisto richiestaAcquisto;
-    private CaratteristicaImpl caratteristica;
+    private Caratteristica caratteristica;
     private String valore;
 
     public RichiestaConCaratteristicaImpl() {
@@ -28,12 +28,12 @@ public class RichiestaConCaratteristicaImpl extends DataItemImpl<Integer> implem
     }
 
     @Override
-    public CaratteristicaImpl getCaratteristica() {
+    public Caratteristica getCaratteristica() {
         return caratteristica;
     }
 
     @Override
-    public void setCaratteristica(CaratteristicaImpl caratteristica) {
+    public void setCaratteristica(Caratteristica caratteristica) {
         this.caratteristica = caratteristica;
     }
 

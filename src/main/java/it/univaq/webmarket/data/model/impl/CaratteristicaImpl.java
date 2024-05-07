@@ -1,7 +1,7 @@
 package it.univaq.webmarket.data.model.impl;
 
 import it.univaq.webmarket.data.model.Caratteristica;
-import it.univaq.webmarket.data.model.impl.categorie.CategoriaNipoteImpl;
+import it.univaq.webmarket.data.model.CategoriaNipote;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class CaratteristicaImpl extends DataItemImpl<Integer> implements Caratteristica {
@@ -9,13 +9,13 @@ public class CaratteristicaImpl extends DataItemImpl<Integer> implements Caratte
     private Integer id;
     private String nome;
     private String unitaMisura;
-    private CategoriaNipoteImpl categoriaNipoteImpl;
+    private CategoriaNipote categoriaNipote;
 
     public CaratteristicaImpl() {
         this.id = null;
         this.nome = "";
         this.unitaMisura = "";
-        this.categoriaNipoteImpl = null;
+        this.categoriaNipote = null;
     }
 
     public Integer getId() {
@@ -30,7 +30,7 @@ public class CaratteristicaImpl extends DataItemImpl<Integer> implements Caratte
         return unitaMisura;
     }
 
-    public CategoriaNipoteImpl getCategoriaNipote() { return categoriaNipoteImpl; }
+    public CategoriaNipote getCategoriaNipote() { return categoriaNipote; }
 
     public void setId(Integer id) {
         this.id = id;
@@ -44,7 +44,7 @@ public class CaratteristicaImpl extends DataItemImpl<Integer> implements Caratte
         this.unitaMisura = unitaMisura;
     }
 
-    public void setCategoriaNipote(CategoriaNipoteImpl categoriaNipoteImpl) {
-        this.categoriaNipoteImpl = categoriaNipoteImpl;
+    public void setCategoriaNipote(CategoriaNipote categoriaNipote) {
+        this.categoriaNipote = categoriaNipote;
     }
 }

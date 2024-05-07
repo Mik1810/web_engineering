@@ -3,6 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <context-param>
+        <param-name>data.source</param-name>
+        <param-value>jdbc/webmarket</param-value>
+    </context-param>
     <servlet>
         <servlet-name>login</servlet-name>
         <servlet-class>it.univaq.webmarket.Login</servlet-class>
@@ -52,4 +56,10 @@
     <welcome-file-list>
         <welcome-file>homepage</welcome-file>
     </welcome-file-list>
+    <resource-ref>
+        <res-ref-name>jdbc/webmarket</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+        <res-sharing-scope>Shareable</res-sharing-scope>
+    </resource-ref>
 </web-app>

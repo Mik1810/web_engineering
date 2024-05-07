@@ -3,7 +3,7 @@ package it.univaq.webmarket.data.model;
 import it.univaq.webmarket.data.model.impl.UfficioImpl;
 
 public interface Ordinante {
-    UfficioImpl getUfficio() ;
+    Ufficio getUfficio() ;
 
-    void setUfficio(UfficioImpl ufficioImpl) ;
+    void setUfficio(Ufficio ufficio) ;
 }

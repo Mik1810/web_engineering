@@ -1,19 +1,20 @@
 package it.univaq.webmarket.data.model.impl.categorie;
 
 import it.univaq.webmarket.data.model.CategoriaFiglio;
+import it.univaq.webmarket.data.model.CategoriaPadre;
 
 public class CategoriaFiglioImpl extends Categoria implements CategoriaFiglio {
 
-    private CategoriaPadreImpl categoriaPadreImpl;
+    private CategoriaPadre categoriaPadre;
 
     public CategoriaFiglioImpl() {
         super();
-        this.categoriaPadreImpl = null;
+        this.categoriaPadre = null;
     }
 
-    public CategoriaPadreImpl getCategoriaGenitore() { return this.categoriaPadreImpl; }
+    public CategoriaPadre getCategoriaGenitore() { return this.categoriaPadre; }
 
-    public void setCategoriaGenitore(CategoriaPadreImpl categoriaPadreImpl) {
-        this.categoriaPadreImpl = categoriaPadreImpl;
+    public void setCategoriaGenitore(CategoriaPadre categoriaPadre) {
+        this.categoriaPadre = categoriaPadre;
     }
 }

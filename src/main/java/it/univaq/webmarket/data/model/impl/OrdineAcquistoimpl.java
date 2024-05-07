@@ -1,6 +1,8 @@
 package it.univaq.webmarket.data.model.impl;
 
 import it.univaq.webmarket.data.model.OrdineAcquisto;
+import it.univaq.webmarket.data.model.Proposta;
+import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.utenti.TecnicoOrdiniImpl;
 import it.univaq.webmarket.data.model.impl.enums.Feedback;
 import it.univaq.webmarket.data.model.impl.enums.StatoConsegna;
@@ -11,15 +13,15 @@ public class OrdineAcquistoimpl extends DataItemImpl<Integer> implements OrdineA
     private Integer id;
     private StatoConsegna statoConsegna;
     private Feedback feedback;
-    private TecnicoOrdiniImpl tecnicoOrdiniImpl;
-    private PropostaImpl propostaImpl;
+    private TecnicoOrdini tecnicoOrdini;
+    private Proposta proposta;
 
     public OrdineAcquistoimpl() {
         this.id = null;
         this.statoConsegna = null;
         this.feedback = null;
-        this.tecnicoOrdiniImpl = null;
-        this.propostaImpl = null;
+        this.tecnicoOrdini = null;
+        this.proposta = null;
     }
 
     public Integer getId() {
@@ -46,19 +48,19 @@ public class OrdineAcquistoimpl extends DataItemImpl<Integer> implements OrdineA
         this.feedback = feedback;
     }
 
-    public TecnicoOrdiniImpl getTecnicoOrdini() {
-        return tecnicoOrdiniImpl;
+    public TecnicoOrdini getTecnicoOrdini() {
+        return tecnicoOrdini;
     }
 
-    public void setTecnicoOrdini(TecnicoOrdiniImpl tecnicoOrdiniImpl) {
-        this.tecnicoOrdiniImpl = tecnicoOrdiniImpl;
+    public void setTecnicoOrdini(TecnicoOrdini tecnicoOrdini) {
+        this.tecnicoOrdini = tecnicoOrdini;
     }
 
-    public PropostaImpl getProposta() {
-        return propostaImpl;
+    public Proposta getProposta() {
+        return proposta;
     }
 
-    public void setProposta(PropostaImpl propostaImpl) {
-        this.propostaImpl = propostaImpl;
+    public void setProposta(Proposta proposta) {
+        this.proposta = proposta;
     }
 }

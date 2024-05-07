@@ -1,10 +1,10 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.RichiestaAcquistoDAO;
+import it.univaq.webmarket.data.model.RichiestaAcquisto;
 import it.univaq.webmarket.framework.data.DAO;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;
-import it.univaq.webmarket.model.RichiestaAcquisto;
 
 import java.util.List;
 

@@ -1,7 +1,5 @@
 package it.univaq.webmarket.data.model;
 
-import it.univaq.webmarket.data.model.impl.CaratteristicaImpl;
-import it.univaq.webmarket.model.RichiestaAcquisto;
 
 public interface RichiestaConCaratteristica {
 
@@ -10,9 +8,9 @@ public interface RichiestaConCaratteristica {
 
     void setRichiestaAcquisto(RichiestaAcquisto richiestaAcquisto);
 
-    CaratteristicaImpl getCaratteristica();
+    Caratteristica getCaratteristica();
 
-    void setCaratteristica(CaratteristicaImpl caratteristica);
+    void setCaratteristica(Caratteristica caratteristica);
 
     String getValore();
 

@@ -18,13 +18,13 @@ public interface OrdineAcquisto {
 
     void setFeedback(Feedback feedback);
 
-    TecnicoOrdiniImpl getTecnicoOrdini();
+    TecnicoOrdini getTecnicoOrdini();
 
-    void setTecnicoOrdini(TecnicoOrdiniImpl tecnicoOrdiniImpl);
+    void setTecnicoOrdini(TecnicoOrdini tecnicoOrdini);
 
-    PropostaImpl getProposta();
+    Proposta getProposta();
 
-    void setProposta(PropostaImpl propostaImpl);
+    void setProposta(Proposta proposta);
 
 
 }
