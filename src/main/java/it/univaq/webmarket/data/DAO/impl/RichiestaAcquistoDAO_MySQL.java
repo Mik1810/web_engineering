@@ -10,9 +10,12 @@ import it.univaq.webmarket.framework.data.DataLayer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquistoDAO {
 
@@ -57,7 +60,6 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
     }
 
     private RichiestaAcquistoProxy createRichiestaAcquisto(ResultSet rs) throws DataException {
-        System.out.println("Parsando richieste di acquisto...");
         RichiestaAcquistoProxy ra = (RichiestaAcquistoProxy) createRichiestaAcquisto();
         try {
             ra.setKey(rs.getInt("ID"));
@@ -75,13 +77,15 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
 
     @Override
     public RichiestaAcquisto getRichiestaAcquisto(int richiesta_key) throws DataException {
-        System.out.println("Richiedendo una richiesta di acquisto con ID...");
         RichiestaAcquisto ra = null;
         //prima vediamo se l'oggetto è già stato caricato
-        //first look for this object in the cache
         if (dataLayer.getCache().has(RichiestaAcquisto.class, richiesta_key)) {
+            Logger.getLogger("RichiestaAcquistoDAO_MySQL")
+                    .log(Level.INFO, "Cache: Hit {0}", new Object[]{this.getClass()});
             ra = dataLayer.getCache().get(RichiestaAcquisto.class, richiesta_key);
         } else {
+            Logger.getLogger("RichiestaAcquistoDAO_MySQL")
+                    .log(Level.INFO, "Cache: Miss {0}", new Object[]{this.getClass()});
             //altrimenti lo carichiamo dal database
             //otherwise load it from database
             try {
@@ -90,7 +94,6 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
                     if (rs.next()) {
                         ra = createRichiestaAcquisto(rs);
                         //e lo mettiamo anche nella cache
-                        //and put it also in the cache
                         dataLayer.getCache().add(RichiestaAcquisto.class, ra);
                     }
                 }
@@ -103,12 +106,10 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
 
     @Override
     public List<RichiestaAcquisto> getAllRichiesteAcquisto() throws DataException {
-        System.out.println("Richiedendo tutte le richieste di acquisto...");
         List<RichiestaAcquisto> result = new ArrayList<>();
 
         try (ResultSet rs = sAllRichieste.executeQuery()) {
             while (rs.next()) {
-                System.out.printf("ID: %d\n", rs.getInt("ID"));
                 result.add(getRichiestaAcquisto(rs.getInt("ID")));
             }
         } catch (SQLException ex) {

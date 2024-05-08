@@ -7,6 +7,13 @@
         <param-name>data.source</param-name>
         <param-value>jdbc/webmarket</param-value>
     </context-param>
+    <listener>
+        <listener-class>it.univaq.webmarket.ApplicationInitializer</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <servlet-class>it.univaq.webmarket.IndexServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>frameworktest</servlet-name>
         <servlet-class>it.univaq.webmarket.TestMyDAO</servlet-class>
@@ -31,6 +38,10 @@
         <servlet-name>public</servlet-name>
         <servlet-class>it.univaq.webmarket.PublicPage</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>frameworktest</servlet-name>
         <url-pattern>/frameworktest</url-pattern>
