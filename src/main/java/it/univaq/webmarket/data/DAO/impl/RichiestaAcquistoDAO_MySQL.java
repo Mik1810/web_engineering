@@ -40,10 +40,10 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
     @Override
     public void destroy() throws DataException {
         //anche chiudere i PreparedStamenent è una buona pratica...
-        //also closing PreparedStamenents is a good practice...
          try {
 
            sAllRichieste.close();
+            sRichiestaByID.close();
 
         } catch (SQLException ex) {
             //
@@ -75,7 +75,7 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
 
     @Override
     public RichiestaAcquisto getRichiestaAcquisto(int richiesta_key) throws DataException {
-        System.out.println("Richiedendo una richiesta di acquisto con ID");
+        System.out.println("Richiedendo una richiesta di acquisto con ID...");
         RichiestaAcquisto ra = null;
         //prima vediamo se l'oggetto è già stato caricato
         //first look for this object in the cache
@@ -95,7 +95,7 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
                     }
                 }
             } catch (SQLException ex) {
-                throw new DataException("Unable to load article by ID", ex);
+                throw new DataException("Unable to load request by ID", ex);
             }
         }
         return ra;
@@ -103,13 +103,13 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
 
     @Override
     public List<RichiestaAcquisto> getAllRichiesteAcquisto() throws DataException {
-        System.out.println("Richiededno tutte le richieste di acquisto...");
+        System.out.println("Richiedendo tutte le richieste di acquisto...");
         List<RichiestaAcquisto> result = new ArrayList<>();
 
         try (ResultSet rs = sAllRichieste.executeQuery()) {
             while (rs.next()) {
                 System.out.printf("ID: %d\n", rs.getInt("ID"));
-                result.add((RichiestaAcquisto) getRichiestaAcquisto(rs.getInt("ID")));
+                result.add(getRichiestaAcquisto(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load articles", ex);

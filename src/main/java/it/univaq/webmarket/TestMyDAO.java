@@ -49,10 +49,8 @@ public class TestMyDAO extends HttpServlet {
         //manipulate the data using the interfaces exposed by the DAOs accessible from the data layer
 
         RichiestaAcquistoDAO richiestaAcquistoDAO = dl.getRichiestaAcquistoDAO();
-        System.out.println(richiestaAcquistoDAO);
-        /*
+
         List<RichiestaAcquisto> richieste = richiestaAcquistoDAO.getAllRichiesteAcquisto();
-        System.out.println("CIAO SONO QUI");
         HTMLResult result = new HTMLResult(getServletContext());
         result.setTitle("Test DAO");
         result.appendToBody("<ul>");
@@ -63,7 +61,7 @@ public class TestMyDAO extends HttpServlet {
         result.appendToBody("</ul>");
         result.activate(request, response);
 
-        */
+
     }
 
     /**
@@ -78,7 +76,6 @@ public class TestMyDAO extends HttpServlet {
             throws ServletException {
         try {
             //creiamo LOCALMENTE il data layer (da cui si accede ai DAO) e ci assicuriamo che venga chiuso alla fine della richiesta
-            System.out.println("Mi trovo dentro processRequest");
             try (DataLayer dl = new WebmarketDataLayer(ds)) {
                 dl.init();
                 request.setAttribute("datalayer", dl);
@@ -92,8 +89,6 @@ public class TestMyDAO extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Mi trovo dentro doGet");
-        System.out.printf(request.getQueryString());
         processRequest(request, response);
     }
 

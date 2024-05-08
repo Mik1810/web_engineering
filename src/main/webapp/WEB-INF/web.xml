@@ -61,9 +61,6 @@
             30
         </session-timeout>
     </session-config>
-    <welcome-file-list>
-        <welcome-file>frameworktest</welcome-file>
-    </welcome-file-list>
     <resource-ref>
         <res-ref-name>jdbc/webmarket</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
