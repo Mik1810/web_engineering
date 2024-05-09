@@ -7,11 +7,11 @@ import it.univaq.webmarket.framework.data.DataItemImpl;
 public class CategoriaFiglioImpl extends DataItemImpl<Integer> implements CategoriaFiglio {
 
     private String nome;
-    private CategoriaPadre categoriaPadre;
+    private CategoriaPadre categoriaGenitore;
 
     public CategoriaFiglioImpl() {
         super();
-        this.categoriaPadre = null;
+        this.categoriaGenitore = null;
         this.nome = "";
     }
 
@@ -22,10 +22,10 @@ public class CategoriaFiglioImpl extends DataItemImpl<Integer> implements Catego
     public void setNome(String nome) { this.nome = nome; }
 
     @Override
-    public CategoriaPadre getCategoriaGenitore() { return this.categoriaPadre; }
+    public CategoriaPadre getCategoriaGenitore() { return this.categoriaGenitore; }
 
     @Override
     public void setCategoriaGenitore(CategoriaPadre categoriaPadre) {
-        this.categoriaPadre = categoriaPadre;
+        this.categoriaGenitore = categoriaPadre;
     }
 }

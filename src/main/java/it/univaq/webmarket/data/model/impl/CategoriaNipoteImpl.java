@@ -5,12 +5,12 @@ import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class CategoriaNipoteImpl extends DataItemImpl<Integer> implements CategoriaNipote {
 
-    private CategoriaFiglio categoriaFiglio;
+    private CategoriaFiglio categoriaGenitore;
     private String nome;
 
     public CategoriaNipoteImpl() {
         super();
-        this.categoriaFiglio = null;
+        this.categoriaGenitore = null;
         this.nome = "";
     }
 
@@ -21,10 +21,10 @@ public class CategoriaNipoteImpl extends DataItemImpl<Integer> implements Catego
     public void setNome(String nome) { this.nome = nome; }
 
     @Override
-    public CategoriaFiglio getCategoriaGenitore() { return this.categoriaFiglio; }
+    public CategoriaFiglio getCategoriaGenitore() { return this.categoriaGenitore; }
 
     @Override
     public void setCategoriaGenitore(CategoriaFiglio categoriaFiglio) {
-        this.categoriaFiglio = categoriaFiglio;
+        this.categoriaGenitore = categoriaFiglio;
     }
 }
