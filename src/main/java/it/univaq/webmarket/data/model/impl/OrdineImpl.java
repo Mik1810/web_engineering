@@ -1,20 +1,20 @@
 package it.univaq.webmarket.data.model.impl;
 
-import it.univaq.webmarket.data.model.OrdineAcquisto;
+import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.enums.Feedback;
 import it.univaq.webmarket.data.model.impl.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
-public class OrdineAcquistoimpl extends DataItemImpl<Integer> implements OrdineAcquisto {
+public class OrdineImpl extends DataItemImpl<Integer> implements Ordine {
 
     private StatoConsegna statoConsegna;
     private Feedback feedback;
     private TecnicoOrdini tecnicoOrdini;
     private Proposta proposta;
 
-    public OrdineAcquistoimpl() {
+    public OrdineImpl() {
         super();
         this.statoConsegna = null;
         this.feedback = null;

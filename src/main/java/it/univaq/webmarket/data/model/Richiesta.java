@@ -4,7 +4,7 @@ import it.univaq.webmarket.framework.data.DataItem;
 
 import java.time.LocalDateTime;
 
-public interface RichiestaAcquisto extends DataItem<Integer> {
+public interface Richiesta extends DataItem<Integer> {
 
     Ordinante getOrdinante();
 

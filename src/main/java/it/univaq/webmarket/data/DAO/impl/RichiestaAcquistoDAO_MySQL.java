@@ -1,8 +1,8 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.RichiestaAcquistoDAO;
-import it.univaq.webmarket.data.model.RichiestaAcquisto;
-import it.univaq.webmarket.data.model.impl.proxy.RichiestaAcquistoProxy;
+import it.univaq.webmarket.data.model.Richiesta;
+import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
 import it.univaq.webmarket.framework.data.DAO;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;
@@ -10,8 +10,6 @@ import it.univaq.webmarket.framework.data.DataLayer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -55,12 +53,12 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
     }
 
     @Override
-    public RichiestaAcquisto createRichiestaAcquisto() {
-        return new RichiestaAcquistoProxy(getDataLayer());
+    public Richiesta createRichiestaAcquisto() {
+        return new RichiestaProxy(getDataLayer());
     }
 
-    private RichiestaAcquistoProxy createRichiestaAcquisto(ResultSet rs) throws DataException {
-        RichiestaAcquistoProxy ra = (RichiestaAcquistoProxy) createRichiestaAcquisto();
+    private RichiestaProxy createRichiestaAcquisto(ResultSet rs) throws DataException {
+        RichiestaProxy ra = (RichiestaProxy) createRichiestaAcquisto();
         try {
             ra.setKey(rs.getInt("ID"));
             ra.setCodiceRichiesta(rs.getString("codice_richiesta"));
@@ -76,13 +74,13 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
     }
 
     @Override
-    public RichiestaAcquisto getRichiestaAcquisto(int richiesta_key) throws DataException {
-        RichiestaAcquisto ra = null;
+    public Richiesta getRichiestaAcquisto(int richiesta_key) throws DataException {
+        Richiesta ra = null;
         //prima vediamo se l'oggetto è già stato caricato
-        if (dataLayer.getCache().has(RichiestaAcquisto.class, richiesta_key)) {
+        if (dataLayer.getCache().has(Richiesta.class, richiesta_key)) {
             Logger.getLogger("RichiestaAcquistoDAO_MySQL")
                     .log(Level.INFO, "Cache: Hit {0}", new Object[]{this.getClass()});
-            ra = dataLayer.getCache().get(RichiestaAcquisto.class, richiesta_key);
+            ra = dataLayer.getCache().get(Richiesta.class, richiesta_key);
         } else {
             Logger.getLogger("RichiestaAcquistoDAO_MySQL")
                     .log(Level.INFO, "Cache: Miss {0}", new Object[]{this.getClass()});
@@ -94,7 +92,7 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
                     if (rs.next()) {
                         ra = createRichiestaAcquisto(rs);
                         //e lo mettiamo anche nella cache
-                        dataLayer.getCache().add(RichiestaAcquisto.class, ra);
+                        dataLayer.getCache().add(Richiesta.class, ra);
                     }
                 }
             } catch (SQLException ex) {
@@ -105,8 +103,8 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
     }
 
     @Override
-    public List<RichiestaAcquisto> getAllRichiesteAcquisto() throws DataException {
-        List<RichiestaAcquisto> result = new ArrayList<>();
+    public List<Richiesta> getAllRichiesteAcquisto() throws DataException {
+        List<Richiesta> result = new ArrayList<>();
 
         try (ResultSet rs = sAllRichieste.executeQuery()) {
             while (rs.next()) {

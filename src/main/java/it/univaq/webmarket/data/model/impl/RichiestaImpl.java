@@ -1,19 +1,19 @@
 package it.univaq.webmarket.data.model.impl;
 
 import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.RichiestaAcquisto;
+import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 import java.time.LocalDateTime;
 
-public class RichiestaAcquistoImpl extends DataItemImpl<Integer> implements RichiestaAcquisto {
+public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
 
     private String note;
     private String codiceRichiesta;
     private LocalDateTime dataEOra;
     private Ordinante ordinante;
 
-    public RichiestaAcquistoImpl() {
+    public RichiestaImpl() {
         super();
         this.note = "";
         this.codiceRichiesta = "";

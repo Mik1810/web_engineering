@@ -1,20 +1,17 @@
 package it.univaq.webmarket.data.model.impl;
 
 import it.univaq.webmarket.data.model.Proposta;
+import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.data.model.impl.enums.StatoProposta;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
 
-    private String codiceProdotto;
-    private String produttore;
-    private String note;
+    private String nomeProdotto, codiceProdotto, produttore, note, motivazione, URL;
     private Float prezzo;
-    private String nomeProdotto;
     private StatoProposta statoProposta;
-    private String motivazione;
-    private TecnicoPreventivi tecnicoPreventivi;
+    private RichiestaPresaInCarico richiestaPresaInCarico;
 
     public PropostaImpl() {
         this.codiceProdotto = "";
@@ -22,9 +19,10 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
         this.note = "";
         this.prezzo = 0F;
         this.nomeProdotto = "";
+        this.URL = "";
         this.statoProposta = null;
         this.motivazione = "";
-        this.tecnicoPreventivi = null;
+        this.richiestaPresaInCarico = null;
     }
 
     @Override
@@ -98,10 +96,22 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     }
 
     @Override
-    public TecnicoPreventivi getTecnicoPreventivi() { return this.tecnicoPreventivi; }
+    public RichiestaPresaInCarico getRichiestaPresaInCarico() {
+        return this.richiestaPresaInCarico;
+    }
 
     @Override
-    public void setTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) {
-        this.tecnicoPreventivi = tecnicoPreventivi;
+    public void setRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico) {
+        this.richiestaPresaInCarico = richiestaPresaInCarico;
+    }
+
+    @Override
+    public String getURL() {
+        return this.URL;
+    }
+
+    @Override
+    public void setURL(String URL) {
+        this.URL = URL;
     }
 }

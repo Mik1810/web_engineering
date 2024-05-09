@@ -1,5 +1,6 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.data.model.impl.PropostaImpl;
 import it.univaq.webmarket.data.model.impl.enums.StatoProposta;
@@ -7,15 +8,16 @@ import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
 public class PropostaProxy extends PropostaImpl implements DataItemProxy {
+
     protected boolean modified;
     protected DataLayer dataLayer;
-    protected Integer tecnicoPreventivi_key;
+    protected Integer richiestaPresaInCarico_key;
 
     public PropostaProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;
-        this.tecnicoPreventivi_key = 0;
+        this.richiestaPresaInCarico_key = 0;
     }
 
     @Override
@@ -25,16 +27,21 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     }
 
     @Override
-    public TecnicoPreventivi getTecnicoPreventivi() {
-        //TODO: implementare il caricamento lazy di tecnicoPreventivi
-        return super.getTecnicoPreventivi();
+    public String getProduttore() {
+        return super.getProduttore();
     }
 
     @Override
-    public void setTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) {
-        super.setTecnicoPreventivi(tecnicoPreventivi);
-        this.tecnicoPreventivi_key = tecnicoPreventivi.getKey();
+    public void setRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico) {
+        super.setRichiestaPresaInCarico(richiestaPresaInCarico);
+        this.richiestaPresaInCarico_key = richiestaPresaInCarico.getKey();
         this.modified = true;
+    }
+
+    @Override
+    public RichiestaPresaInCarico getRichiestaPresaInCarico() {
+        //TODO: Implementare il lazy loading
+        return super.getRichiestaPresaInCarico();
     }
 
     @Override
@@ -52,6 +59,12 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     @Override
     public void setNote(String note) {
         super.setNote(note);
+        this.modified = true;
+    }
+
+    @Override
+    public void setURL(String URL) {
+        super.setURL(URL);
         this.modified = true;
     }
 
@@ -89,8 +102,8 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
         this.modified = dirty;
     }
 
-    public void setTecnicoPreventivi_key(Integer tecnicoPreventivi_key) {
-        this.tecnicoPreventivi_key = tecnicoPreventivi_key;
-        super.setTecnicoPreventivi(null);
+    public void setRichiestaPresaInCarico_key(Integer richiestaPresaInCarico_key) {
+        this.richiestaPresaInCarico_key = richiestaPresaInCarico_key;
+        super.setRichiestaPresaInCarico(null);
     }
 }

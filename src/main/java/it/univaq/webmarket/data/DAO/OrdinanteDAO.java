@@ -1,10 +1,9 @@
 package it.univaq.webmarket.data.DAO;
 
 import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.OrdineAcquisto;
+import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.framework.data.DataException;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 
 public interface OrdinanteDAO {
@@ -15,7 +14,7 @@ public interface OrdinanteDAO {
 
     List<Ordinante> getAllOrdinanti() throws DataException;
 
-    List<OrdineAcquisto> getOrderHistory(Ordinante ordinante) throws DataException;
+    List<Ordine> getOrderHistory(Ordinante ordinante) throws DataException;
 
     // email è dichiarato UNIQUE, abbiamo al certezza che ne esista solo uno
     Ordinante getOrdinanteByEmail(String email) throws DataException;

@@ -1,6 +1,5 @@
 package it.univaq.webmarket.data.model.impl;
 
-import it.univaq.webmarket.data.model.RichiestaAcquisto;
 import it.univaq.webmarket.data.model.RichiestaConCaratteristiche;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;

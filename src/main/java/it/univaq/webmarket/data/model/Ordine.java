@@ -4,7 +4,7 @@ import it.univaq.webmarket.data.model.impl.enums.Feedback;
 import it.univaq.webmarket.data.model.impl.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItem;
 
-public interface OrdineAcquisto extends DataItem<Integer> {
+public interface Ordine extends DataItem<Integer> {
 
     StatoConsegna getStatoConsegna();
 

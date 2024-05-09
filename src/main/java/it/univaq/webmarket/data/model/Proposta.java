@@ -17,6 +17,10 @@ public interface Proposta extends DataItem<Integer> {
 
     void setNote(String note);
 
+    String getURL();
+
+    void setURL(String URL);
+
     Float getPrezzo();
 
     void setPrezzo(Float prezzo);
@@ -33,7 +37,7 @@ public interface Proposta extends DataItem<Integer> {
 
     void setMotivazione(String motivazione);
 
-    TecnicoPreventivi getTecnicoPreventivi();
+    RichiestaPresaInCarico getRichiestaPresaInCarico();
 
-    void setTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi);
+    void setRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico);
 }

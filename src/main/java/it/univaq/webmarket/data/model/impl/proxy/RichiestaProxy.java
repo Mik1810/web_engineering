@@ -1,19 +1,19 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
 import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.impl.RichiestaAcquistoImpl;
+import it.univaq.webmarket.data.model.impl.RichiestaImpl;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
 import java.time.LocalDateTime;
 
-public class RichiestaAcquistoProxy extends RichiestaAcquistoImpl implements DataItemProxy {
+public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
 
     protected boolean modified;
     protected DataLayer dataLayer;
     protected Integer ordinante_key;
 
-    public RichiestaAcquistoProxy(DataLayer d) {
+    public RichiestaProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;

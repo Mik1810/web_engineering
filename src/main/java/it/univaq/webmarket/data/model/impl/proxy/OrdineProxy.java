@@ -2,13 +2,13 @@ package it.univaq.webmarket.data.model.impl.proxy;
 
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
-import it.univaq.webmarket.data.model.impl.OrdineAcquistoimpl;
+import it.univaq.webmarket.data.model.impl.OrdineImpl;
 import it.univaq.webmarket.data.model.impl.enums.Feedback;
 import it.univaq.webmarket.data.model.impl.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
-public class OrdineAcquistoProxy extends OrdineAcquistoimpl implements DataItemProxy {
+public class OrdineProxy extends OrdineImpl implements DataItemProxy {
 
     protected boolean modified;
     protected DataLayer dataLayer;
@@ -18,7 +18,7 @@ public class OrdineAcquistoProxy extends OrdineAcquistoimpl implements DataItemP
     protected Integer tecnicoOrdini_key;
     protected Integer proposta_key;
 
-    public OrdineAcquistoProxy(DataLayer d) {
+    public OrdineProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;

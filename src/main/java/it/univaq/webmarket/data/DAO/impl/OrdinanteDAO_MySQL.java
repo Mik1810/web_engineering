@@ -2,7 +2,7 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.OrdinanteDAO;
 import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.OrdineAcquisto;
+import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.impl.proxy.OrdinanteProxy;
 import it.univaq.webmarket.framework.data.*;
 
@@ -118,7 +118,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
     }
 
     @Override
-    public List<OrdineAcquisto> getOrderHistory(Ordinante ordinante) throws DataException {
+    public List<Ordine> getOrderHistory(Ordinante ordinante) throws DataException {
         //TODO: da implementare
         return List.of();
     }

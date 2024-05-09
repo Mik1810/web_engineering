@@ -5,9 +5,9 @@ import java.util.Map;
 
 public interface RichiestaConCaratteristiche {
 
-    RichiestaAcquisto getRichiestaAcquisto();
+    Richiesta getRichiestaAcquisto();
 
-    void setRichiestaAcquisto(RichiestaAcquisto richiestaAcquisto);
+    void setRichiestaAcquisto(Richiesta richiestaAcquisto);
 
     Map<Caratteristica, String> getCaratteristiche();
 

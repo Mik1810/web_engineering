@@ -1,7 +1,7 @@
 package it.univaq.webmarket.data.model.impl;
 
 import it.univaq.webmarket.data.model.Caratteristica;
-import it.univaq.webmarket.data.model.RichiestaAcquisto;
+import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.data.model.RichiestaConCaratteristiche;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class RichiestaConCaratteristicheImpl extends DataItemImpl<Integer> implements RichiestaConCaratteristiche {
 
-    private RichiestaAcquisto richiestaAcquisto;
+    private Richiesta richiestaAcquisto;
     private Map<Caratteristica, String> caratteristiche;
 
     public RichiestaConCaratteristicheImpl() {
@@ -19,12 +19,12 @@ public class RichiestaConCaratteristicheImpl extends DataItemImpl<Integer> imple
     }
 
     @Override
-    public RichiestaAcquisto getRichiestaAcquisto() {
+    public Richiesta getRichiestaAcquisto() {
         return richiestaAcquisto;
     }
 
     @Override
-    public void setRichiestaAcquisto(RichiestaAcquisto richiestaAcquisto) { this.richiestaAcquisto = richiestaAcquisto; }
+    public void setRichiestaAcquisto(Richiesta richiestaAcquisto) { this.richiestaAcquisto = richiestaAcquisto; }
 
     @Override
     public void setKey(Integer key) {
