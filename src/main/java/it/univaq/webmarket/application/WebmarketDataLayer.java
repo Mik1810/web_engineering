@@ -1,6 +1,7 @@
-package it.univaq.webmarket.data.DAO.impl;
+package it.univaq.webmarket.application;
 
 import it.univaq.webmarket.data.DAO.RichiestaAcquistoDAO;
+import it.univaq.webmarket.data.DAO.impl.RichiestaAcquistoDAO_MySQL;
 import it.univaq.webmarket.data.model.RichiestaAcquisto;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;

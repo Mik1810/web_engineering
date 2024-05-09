@@ -1,16 +1,20 @@
-package it.univaq.webmarket;
+package it.univaq.webmarket.framework.application;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.sql.DataSource;
 
+/**
+ *
+ * @author Giuseppe Della Penna
+ */
 public class ApplicationInitializer implements ServletContextListener {
 
     @Override
@@ -39,5 +43,5 @@ public class ApplicationInitializer implements ServletContextListener {
         event.getServletContext().setAttribute("protect", protect);
         event.getServletContext().setAttribute("datasource", ds);
     }
-}
 
+}
