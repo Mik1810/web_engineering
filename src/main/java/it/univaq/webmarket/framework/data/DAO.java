@@ -1,6 +1,7 @@
 package it.univaq.webmarket.framework.data;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  *
@@ -24,7 +25,7 @@ public class DAO {
         return connection;
     }
 
-    public void init() throws DataException {
+    public void init() throws DataException, SQLException {
 
     }
 

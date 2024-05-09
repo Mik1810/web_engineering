@@ -1,6 +1,5 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
-import it.univaq.webmarket.data.model.impl.StoricoOrdiniImpl;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
