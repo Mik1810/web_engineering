@@ -114,15 +114,15 @@ public class SecurityHelpers {
         }
     }
 
-    public static HttpSession createSession(HttpServletRequest request, String username, int userid) {
+    public static HttpSession createSession(HttpServletRequest request, String email, int userid) {
         //se una sessione è già attiva, rimuoviamola e creiamone una nuova
         //if a session already exists, remove it and recreate a new one
         disposeSession(request);
         HttpSession s = request.getSession(true);
-        s.setAttribute("username", username);
+        s.setAttribute("username", email);
         s.setAttribute("userid", userid);
         //
-        s.setAttribute("ip", request.getRemoteHost());
+        s.setAttribute("ip", request.getRemoteAddr());
         //
         s.setAttribute("session-start-ts", LocalDateTime.now());
         return s;

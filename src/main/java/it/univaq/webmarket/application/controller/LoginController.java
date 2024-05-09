@@ -34,8 +34,8 @@ public class LoginController extends ApplicationBaseController {
         }
         //
         result.appendToBody("<form method=\"post\" action=\"login\">");
-        result.appendToBody("<p>Username: <input name=\"email\" type=\"text\"/><br/><small>Hint: try &quot;a&quot;</small></p>");
-        result.appendToBody("<p>Password: <input name=\"password\" type=\"password\"/><br/><small>Hint: try &quot;p&quot;</small></p>");
+        result.appendToBody("<p>Username: <input name=\"email\" type=\"text\"/><br/><small>Hint: try &quot;michaelpiccirilli3@gmail.com&quot;</small></p>");
+        result.appendToBody("<p>Password: <input name=\"password\" type=\"password\"/><br/><small>Hint: try &quot;supersafepassword&quot;</small></p>");
         if (request.getParameter("referrer") != null) {
             result.appendToBody("<input name=\"referrer\" type=\"hidden\" value=\"" + request.getParameter("referrer") + "\"/></p>");
         }

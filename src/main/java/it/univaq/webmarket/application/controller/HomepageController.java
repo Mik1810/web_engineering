@@ -43,6 +43,7 @@ public class HomepageController extends ApplicationBaseController {
     private void action_logged(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HTMLResult result = new HTMLResult(getServletContext());
         result.setTitle("Welcome back");
+        System.out.println(HTMLResult.printRequest(request));
         Map<String, Object> li = (Map<String, Object>) request.getAttribute("logininfo");
         result.appendToBody("<h1>Welcome back, " +  li.get("username") + "</h1>");
         result.appendToBody("<p>You IP address is: " + li.get("ip") + "</p>");
