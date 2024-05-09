@@ -7,6 +7,7 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
+import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.HTMLResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
@@ -33,8 +34,8 @@ public class LoginController extends ApplicationBaseController {
         }
         //
         result.appendToBody("<form method=\"post\" action=\"login\">");
-        result.appendToBody("<p>Username: <input name=\"u\" type=\"text\"/><br/><small>Hint: try &quot;a&quot;</small></p>");
-        result.appendToBody("<p>Password: <input name=\"p\" type=\"password\"/><br/><small>Hint: try &quot;p&quot;</small></p>");
+        result.appendToBody("<p>Username: <input name=\"email\" type=\"text\"/><br/><small>Hint: try &quot;a&quot;</small></p>");
+        result.appendToBody("<p>Password: <input name=\"password\" type=\"password\"/><br/><small>Hint: try &quot;p&quot;</small></p>");
         if (request.getParameter("referrer") != null) {
             result.appendToBody("<input name=\"referrer\" type=\"hidden\" value=\"" + request.getParameter("referrer") + "\"/></p>");
         }
@@ -44,32 +45,26 @@ public class LoginController extends ApplicationBaseController {
     }
 
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
-        String username = request.getParameter("u");
-        String password = request.getParameter("p");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-        /*
-        if (!username.isEmpty() && !password.isEmpty()) {
-            User u = dl.getUserDAO().getUserByName(username);
-            try {
-                if (u != null && SecurityHelpers.checkPasswordHashPBKDF2(password, u.getPassword())) {
-                    //se la validazione ha successo
-                    //if the identity validation succeeds
-                    SecurityHelpers.createSession(request, username, u.getKey());
-                    //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
-                    //if an origin URL has been transmitted, return to it
-                    if (request.getParameter("referrer") != null) {
-                        response.sendRedirect(request.getParameter("referrer"));
-                    } else {
-                        response.sendRedirect("homepage");
-                    }
-                    return;
+
+        if (!email.isEmpty() && !password.isEmpty()) {
+            Ordinante o = dl.getOrdinanteDAO().getOrdinanteByEmail(email);
+            if (o != null && /*SecurityHelpers.checkPasswordHashPBKDF2(*/password.equals(o.getPassword())) {
+                //se la validazione ha successo
+                SecurityHelpers.createSession(request, email, o.getKey());
+                //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+                if (request.getParameter("referrer") != null) {
+                    response.sendRedirect(request.getParameter("referrer"));
+                } else {
+                    response.sendRedirect("homepage");
                 }
-            } catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }*/
-        handleError("Login failed", request, response);
+        } else {
+            handleError("Login failed", request, response);
+        }
     }
 
     @Override

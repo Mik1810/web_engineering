@@ -32,7 +32,7 @@ public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquisto
             super.init();
 
 
-            sAllRichieste = connection.prepareStatement("SELECT * FROM RichiestaAcquisto");
+            sAllRichieste = connection.prepareStatement("SELECT ID FROM RichiestaAcquisto");
             sRichiestaByID = connection.prepareStatement("SELECT * FROM RichiestaAcquisto WHERE ID=?");
 
         } catch (SQLException ex) {

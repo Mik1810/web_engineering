@@ -25,7 +25,7 @@ public class DAO {
         return connection;
     }
 
-    public void init() throws DataException, SQLException {
+    public void init() throws DataException{
 
     }
 

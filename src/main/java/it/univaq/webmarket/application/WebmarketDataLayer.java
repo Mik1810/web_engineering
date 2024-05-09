@@ -1,7 +1,10 @@
 package it.univaq.webmarket.application;
 
+import it.univaq.webmarket.data.DAO.OrdinanteDAO;
 import it.univaq.webmarket.data.DAO.RichiestaAcquistoDAO;
 import it.univaq.webmarket.data.DAO.impl.RichiestaAcquistoDAO_MySQL;
+import it.univaq.webmarket.data.DAO.impl.OrdinanteDAO_MySQL;
+import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.RichiestaAcquisto;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;
@@ -17,11 +20,16 @@ public class WebmarketDataLayer extends DataLayer {
 
     @Override
     public void init() throws DataException {
-        //registriamo i nostri dao
         registerDAO(RichiestaAcquisto.class, new RichiestaAcquistoDAO_MySQL(this));
+        registerDAO(Ordinante.class, new OrdinanteDAO_MySQL(this));
+
     }
 
     public RichiestaAcquistoDAO getRichiestaAcquistoDAO() {
         return (RichiestaAcquistoDAO) getDAO(RichiestaAcquisto.class);
+    }
+
+    public OrdinanteDAO getOrdinanteDAO() {
+        return (OrdinanteDAO) getDAO(Ordinante.class);
     }
 }
