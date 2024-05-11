@@ -14,8 +14,6 @@ public interface OrdinanteDAO {
 
     List<Ordinante> getAllOrdinanti() throws DataException;
 
-    List<Ordine> getOrderHistory(Ordinante ordinante) throws DataException;
-
     // email è dichiarato UNIQUE, abbiamo al certezza che ne esista solo uno
     Ordinante getOrdinanteByEmail(String email) throws DataException;
 

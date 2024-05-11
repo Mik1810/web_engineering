@@ -1,30 +1,9 @@
 CREATE DATABASE IF NOT EXISTS webmarket;
 
-USE webmarket;
+    USE webmarket;
 
-/*
-Categoria Padre: (ID, Nome)
-Categoria Figlio: (ID, Nome, ID categoria padre)
-Categoria Nipote: (ID, Nome, ID categoria figlio)
-Caratteristica: (ID, Nome, Unit`a di misura, ID categoria nipote)
-Ufficio: (ID, sede, numero, piano, telefono)
-Ordinante: (ID, email, password, ID ufficio)
-Richiesta di Acquisto: (ID, Codice richiesta, Note, Data, Ora, ID ordinante)
-composta: (ID, Valore, ID richiesta di acquisto, ID caratteristica)
-Tecnico dei Preventivi: (ID, email, password)
-Richiesta Presa in Carico: (ID, ID richiesta di acquisto, ID tecnico dei preventivi)
-Proposta: (ID, Codice prodotto, Produttore, Note, Prezzo, Nome prodotto, URL, Stato*, Motiva-
-zione, ID tecnico dei preventivi)
-Amministratore: (ID, email, password)
-Tecnico degli ordini: (ID, email, password)
-Feedback: (ID, nome)
-Ordine di Acquisto: (ID, Stato consegna**, ID feedback ID tecnico degli ordini, ID proposta)
-chiude: (ID, ID ordine, ID ordinante
-* Stato `e una ENUM(”In Attesa”, ”Accettata”, ”Rifiutata”)
-** Stato consegna `e una ENUM(”Presa in carico”,”In consegna”, ”Consegnato”)
-*/
     DROP TABLE IF EXISTS chiude;
-    DROP TABLE IF EXISTS OrdineAcquisto;
+    DROP TABLE IF EXISTS Ordine;
     DROP TABLE IF EXISTS Feedback;
     DROP TABLE IF EXISTS StatoConsegna;
     DROP TABLE IF EXISTS TecnicoOrdini;
@@ -34,7 +13,7 @@ chiude: (ID, ID ordine, ID ordinante
     DROP TABLE IF EXISTS RichiestaPresaInCarico;
     DROP TABLE IF EXISTS TecnicoPreventivi;
     DROP TABLE IF EXISTS composta;
-    DROP TABLE IF EXISTS RichiestaAcquisto;
+    DROP TABLE IF EXISTS Richiesta;
     DROP TABLE IF EXISTS Ordinante;
     DROP TABLE IF EXISTS Ufficio;
     DROP TABLE IF EXISTS Caratteristica;
@@ -100,7 +79,7 @@ chiude: (ID, ID ordine, ID ordinante
         ON DELETE CASCADE ON UPDATE CASCADE
     );
 
-     CREATE TABLE RichiestaAcquisto (
+     CREATE TABLE Richiesta (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         codice_richiesta VARCHAR(10) NOT NULL UNIQUE,
         note TEXT NULL,
@@ -117,7 +96,7 @@ chiude: (ID, ID ordine, ID ordinante
            qualcosa il cui valore è una stringa */
         ID_richiesta_acquisto INT UNSIGNED NOT NULL,
         ID_caratteristica INT UNSIGNED NOT NULL,
-        FOREIGN KEY (ID_richiesta_acquisto) REFERENCES RichiestaAcquisto(ID)
+        FOREIGN KEY (ID_richiesta_acquisto) REFERENCES Richiesta(ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (ID_caratteristica) REFERENCES Caratteristica(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
@@ -133,7 +112,7 @@ chiude: (ID, ID ordine, ID ordinante
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         ID_richiesta_acquisto INT UNSIGNED NOT NULL,
         ID_tecnico_preventivi INT UNSIGNED NOT NULL,
-        FOREIGN KEY (ID_richiesta_acquisto) REFERENCES RichiestaAcquisto(ID)
+        FOREIGN KEY (ID_richiesta_acquisto) REFERENCES Richiesta(ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (ID_tecnico_preventivi) REFERENCES TecnicoPreventivi(ID)
         ON DELETE RESTRICT ON UPDATE CASCADE
@@ -190,10 +169,11 @@ chiude: (ID, ID ordine, ID ordinante
 
     INSERT INTO StatoConsegna (nome) VALUES ('Presa in carico'), ('In consegna'), ('Consegnato');
 
-    CREATE TABLE OrdineAcquisto (
+    CREATE TABLE Ordine (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         stato_consegna INT UNSIGNED NOT NULL,
         feedback INT UNSIGNED  NOT NULL,
+        data_di_consegna TIMESTAMP NULL,
         ID_tecnico_ordini INT UNSIGNED NULL,
         ID_proposta INT UNSIGNED NOT NULL,
         FOREIGN KEY (ID_tecnico_ordini) REFERENCES TecnicoOrdini(ID)
@@ -212,7 +192,7 @@ chiude: (ID, ID ordine, ID ordinante
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         ID_ordine INT UNSIGNED NOT NULL,
         ID_ordinante INT UNSIGNED NOT NULL,
-        FOREIGN KEY (ID_ordine) REFERENCES OrdineAcquisto(ID)
+        FOREIGN KEY (ID_ordine) REFERENCES Ordine(ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (ID_ordinante) REFERENCES Ordinante(ID)
         ON DELETE CASCADE ON UPDATE CASCADE

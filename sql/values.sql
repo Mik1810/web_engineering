@@ -1,28 +1,6 @@
 /* Populate the init.sql tables */
 USE webmarket;
 
-/*
-Categoria Padre: (ID, Nome)
-Categoria Figlio: (ID, Nome, ID categoria padre)
-Categoria Nipote: (ID, Nome, ID categoria figlio)
-Caratteristica: (ID, Nome, Unit`a di misura, ID categoria nipote)
-Ufficio: (ID, sede, numero, piano, telefono)
-Ordinante: (ID, email, password, ID ufficio)
-Richiesta di Acquisto: (ID, Codice richiesta, Note, Data, Ora, ID ordinante)
-composta: (ID, Valore, ID richiesta di acquisto, ID caratteristica)
-Tecnico dei Preventivi: (ID, email, password)
-Richiesta Presa in Carico: (ID, ID richiesta di acquisto, ID tecnico dei preventivi)
-Proposta: (ID, Codice prodotto, Produttore, Note, Prezzo, Nome prodotto, URL, Stato*, Motiva-
-zione, ID tecnico dei preventivi)
-Amministratore: (ID, email, password)
-Tecnico degli ordini: (ID, email, password)
-Feedback: (ID, nome)
-Ordine di Acquisto: (ID, Stato consegna**, ID feedback ID tecnico degli ordini, ID proposta)
-chiude: (ID, ID ordine, ID ordinante
-* Stato `e una ENUM(”In Attesa”, ”Accettata”, ”Rifiutata”)
-** Stato consegna `e una ENUM(”Presa in carico”,”In consegna”, ”Consegnato”)
-*/
-
 -- Popolamento CategoriaPadre
 INSERT INTO CategoriaPadre (nome) VALUES ('Modulistica');
 INSERT INTO CategoriaPadre (nome) VALUES ('Informatica');
@@ -55,8 +33,8 @@ INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('michaelpiccirilli3@
 INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('paoloccigiacomo@gmail.com', 'miksoccombi', 1);
 
 -- Popolamento RichiestaAcquisto
-INSERT INTO RichiestaAcquisto (codice_richiesta, note, ID_ordinante) VALUES ('7592783840', 'Voglio un PC Desktop per poter giocare a WarThunder in ufficio', 2);
-INSERT INTO RichiestaAcquisto (codice_richiesta, note, ID_ordinante) VALUES ('7683845728', 'Voglio una scrivania più larga ', 1);
+INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES ('7592783840', 'Voglio un PC Desktop per poter giocare a WarThunder in ufficio', 2);
+INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES ('7683845728', 'Voglio una scrivania più larga ', 1);
 
 -- Popolamento composta
 INSERT INTO composta (valore, ID_richiesta_acquisto, ID_caratteristica) VALUES ('32', 1, 1);

@@ -57,10 +57,12 @@ public class LoginController extends ApplicationBaseController {
                 SecurityHelpers.createSession(request, email, o.getKey());
                 //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
                 if (request.getParameter("referrer") != null) {
+                    System.out.println("Redirecting to: " + request.getParameter("referrer"));
                     response.sendRedirect(request.getParameter("referrer"));
                 } else {
                     response.sendRedirect("homepage");
                 }
+            } else { // Se l'email o la password sono errate
             }
         } else {
             handleError("Login failed", request, response);

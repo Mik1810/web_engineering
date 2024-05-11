@@ -7,7 +7,9 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.framework.result.HTMLResult;
+import it.univaq.webmarket.framework.utils.ServletHelpers;
 
+import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -43,7 +45,7 @@ public class HomepageController extends ApplicationBaseController {
     private void action_logged(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HTMLResult result = new HTMLResult(getServletContext());
         result.setTitle("Welcome back");
-        System.out.println(HTMLResult.printRequest(request));
+        //ServletHelpers.printRequest(request);
         Map<String, Object> li = (Map<String, Object>) request.getAttribute("logininfo");
         result.appendToBody("<h1>Welcome back, " +  li.get("username") + "</h1>");
         result.appendToBody("<p>You IP address is: " + li.get("ip") + "</p>");

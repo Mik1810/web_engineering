@@ -197,35 +197,4 @@ public class HTMLResult {
                 .replaceAll("\"", "&#034;");
     }
 
-    public static String printRequest(HttpServletRequest request) {
-        System.out.println("Sto printando la request...");
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("Request Method = [" + request.getMethod() + "]\n ");
-        sb.append("Request URL Path = [" + request.getRequestURL() + "]\n");
-
-        String headers =
-                Collections.list(request.getHeaderNames()).stream()
-                        .map(headerName -> headerName + " : " + Collections.list(request.getHeaders(headerName)) )
-                        .collect(Collectors.joining("\n"));
-
-        if (headers.isEmpty()) {
-            sb.append("Request headers: NONE\n");
-        } else {
-            sb.append("Request headers: ["+headers+"]\n");
-        }
-
-        String parameters =
-                Collections.list(request.getParameterNames()).stream()
-                        .map(p -> p + " : " + Arrays.asList( request.getParameterValues(p)) )
-                        .collect(Collectors.joining("\n"));
-
-        if (parameters.isEmpty()) {
-            sb.append("Request parameters: NONE.");
-        } else {
-            sb.append("Request parameters: [" + parameters + "].");
-        }
-        return sb.toString();
-    }
-
 }
