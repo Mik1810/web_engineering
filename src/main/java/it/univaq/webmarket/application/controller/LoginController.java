@@ -11,6 +11,7 @@ import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.HTMLResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.utils.ServletHelpers;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +37,16 @@ public class LoginController extends ApplicationBaseController {
         result.appendToBody("<form method=\"post\" action=\"login\">");
         result.appendToBody("<p>Username: <input name=\"email\" type=\"text\"/><br/><small>Hint: try &quot;michaelpiccirilli3@gmail.com&quot;</small></p>");
         result.appendToBody("<p>Password: <input name=\"password\" type=\"password\"/><br/><small>Hint: try &quot;supersafepassword&quot;</small></p>");
+        result.appendToBody("<div class=\"radio-group\">" +
+                "  <input type=\"radio\" id=\"amministratore\" name=\"tipologiaUtente\" value=\"Amministratore\">" +
+                "  <label for=\"amministratore\">Amministratore</label></br>" +
+                "  <input type=\"radio\" id=\"ordinante\" name=\"tipologiaUtente\" value=\"Ordinante\">" +
+                "  <label for=\"ordinante\">Ordinante</label></br>" +
+                "  <input type=\"radio\" id=\"tecnico_ordini\" name=\"tipologiaUtente\" value=\"TecnicoOrdini\">" +
+                "  <label for=\"tecnico_ordini\">Tecnico Ordini</label></br>" +
+                "  <input type=\"radio\" id=\"tecnico_preventivi\" name=\"tipologiaUtente\" value=\"TecnicoPreventivi\">" +
+                "  <label for=\"tecnico_preventivi\">Tecnico dei Preventivi</label></br>" +
+                "</div>");
         if (request.getParameter("referrer") != null) {
             result.appendToBody("<input name=\"referrer\" type=\"hidden\" value=\"" + request.getParameter("referrer") + "\"/></p>");
         }
@@ -47,23 +58,34 @@ public class LoginController extends ApplicationBaseController {
     private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String tipologiaUtente = request.getParameter("tipologiaUtente");
 
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
 
         if (!email.isEmpty() && !password.isEmpty()) {
-            Ordinante o = dl.getOrdinanteDAO().getOrdinanteByEmail(email);
-            if (o != null && /*SecurityHelpers.checkPasswordHashPBKDF2(*/password.equals(o.getPassword())) {
-                //se la validazione ha successo
-                SecurityHelpers.createSession(request, email, o.getKey());
-                //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
-                if (request.getParameter("referrer") != null) {
-                    System.out.println("Redirecting to: " + request.getParameter("referrer"));
-                    response.sendRedirect(request.getParameter("referrer"));
-                } else {
-                    response.sendRedirect("homepage");
-                }
-            } else { // Se l'email o la password sono errate
+            switch (tipologiaUtente) {
+                case "Ordinante":
+                    Ordinante o = dl.getOrdinanteDAO().getOrdinanteByEmail(email);
+                    if (o != null && /*SecurityHelpers.checkPasswordHashPBKDF2(*/password.equals(o.getPassword())) {
+                        //se la validazione ha successo
+                        SecurityHelpers.createSession(request, email, o.getKey());
+                        //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+                        if (request.getParameter("referrer") != null) {
+                            System.out.println("Redirecting to: " + request.getParameter("referrer"));
+                            response.sendRedirect(request.getParameter("referrer"));
+                        } else {
+                            response.sendRedirect("homepage");
+                        }
+                    } else { // Se l'email o la password sono errate
+                    }
+                case "Amministratore":
+                case "TecnicoOrdini":
+                case "TecnicoPreventivi":
+                default:
+                    handleError("Login failed", request, response);
             }
+            Ordinante o = dl.getOrdinanteDAO().getOrdinanteByEmail(email);
+
         } else {
             handleError("Login failed", request, response);
         }
