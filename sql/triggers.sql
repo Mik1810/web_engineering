@@ -39,7 +39,6 @@ BEGIN
                         JOIN proposta p on r2.ID = p.ID_richiesta_presa_in_carico
                         JOIN ordine o2 ON p.ID = o2.ID_proposta
                         WHERE o2.ID = NEW.ID);
-
     IF NEW.stato_consegna = 3 THEN
         INSERT INTO chiude(ID_ordine,ID_ordinante)
         VALUES (NEW.ID,ID_ordinante);

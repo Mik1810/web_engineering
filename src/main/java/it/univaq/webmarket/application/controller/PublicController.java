@@ -7,7 +7,7 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
-import it.univaq.webmarket.data.DAO.RichiestaAcquistoDAO;
+import it.univaq.webmarket.data.DAO.RichiestaDAO;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.HTMLResult;
@@ -29,9 +29,9 @@ public class PublicController extends ApplicationBaseController {
         //preleviamo il data layer 
         //get the data layer
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-        RichiestaAcquistoDAO richiestaAcquistoDAO = dl.getRichiestaAcquistoDAO();
+        RichiestaDAO richiestaDAO = dl.getRichiestaAcquistoDAO();
 
-        List<Richiesta> richieste = richiestaAcquistoDAO.getAllRichiesteAcquisto();
+        List<Richiesta> richieste = richiestaDAO.getAllRichiesteAcquisto();
         HTMLResult result = new HTMLResult(getServletContext());
         result.setTitle("Test DAO");
         result.appendToBody("<ul>");
@@ -41,7 +41,7 @@ public class PublicController extends ApplicationBaseController {
         result.appendToBody("</ul>");
 
         // Lo faccio una seconda volta per vedere se la cache funziona
-        List<Richiesta> richieste2 = richiestaAcquistoDAO.getAllRichiesteAcquisto();
+        List<Richiesta> richieste2 = richiestaDAO.getAllRichiesteAcquisto();
         result.appendToBody("<b>Seconda richiesta per verificare la cache</b></br>");
         result.appendToBody("<ul>");
         for (Richiesta richiesta : richieste2) {

@@ -1,6 +1,6 @@
 package it.univaq.webmarket.data.DAO.impl;
 
-import it.univaq.webmarket.data.DAO.RichiestaAcquistoDAO;
+import it.univaq.webmarket.data.DAO.RichiestaDAO;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
 import it.univaq.webmarket.framework.data.DAO;
@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RichiestaAcquistoDAO_MySQL extends DAO implements RichiestaAcquistoDAO {
+public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
 
     private PreparedStatement sRichiestaByID;
     private PreparedStatement sAllRichieste;
 
-    public RichiestaAcquistoDAO_MySQL(DataLayer d) {
+    public RichiestaDAO_MySQL(DataLayer d) {
         super(d);
     }
 

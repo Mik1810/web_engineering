@@ -1,4 +1,4 @@
 package it.univaq.webmarket.data.DAO;
 
-public interface AmministratoreDAO {
+public interface OrdineDAO {
 }

@@ -5,7 +5,7 @@ import it.univaq.webmarket.framework.data.DataException;
 
 import java.util.List;
 
-public interface RichiestaAcquistoDAO {
+public interface RichiestaDAO {
 
     Richiesta createRichiestaAcquisto();
 

@@ -10,6 +10,14 @@ public class TODORichiestaPresaInCaricoProxy extends RichiestaPresaInCaricoImpl 
     protected boolean modified;
 
     protected DataLayer dataLayer;
+    protected Integer tecnico_preventivi_key;
+
+    public TODORichiestaPresaInCaricoProxy(DataLayer d) {
+        super();
+        this.dataLayer = d;
+        this.modified = false;
+        this.tecnico_preventivi_key = 0;
+    }
 
     @Override
     public boolean isModified() {
