@@ -2,7 +2,6 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.OrdinanteDAO;
 import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.impl.proxy.OrdinanteProxy;
 import it.univaq.webmarket.framework.data.*;
 
@@ -29,7 +28,6 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
         try {
             super.init();
             sOrdinanteByID = connection.prepareStatement("SELECT * FROM ordinante WHERE ID=?");
-            //sOrderHistoryByOrdinanteID = connection.prepareStatement();
             sOrdinanteByEmail = connection.prepareStatement("SELECT * FROM ordinante WHERE email=?");
             iOrdinante = connection.prepareStatement("INSERT INTO ordinante(email, password) VALUES (?, ?)");
             sOrdinanti = connection.prepareStatement("SELECT ID FROM ordinante");
@@ -65,7 +63,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             o.setKey(rs.getInt("ID"));
             o.setEmail(rs.getString("email"));
             o.setPassword(rs.getString("password"));
-            //o.setVersion(rs.getLong("version"));
+            o.setVersion(rs.getLong("version"));
             return o;
         } catch (SQLException ex) {
             throw new DataException("Unable to create Ordinante object form ResultSet", ex);
@@ -102,7 +100,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
                 result.add(getOrdinante(rs.getInt("ID")));
             }
         } catch (SQLException ex) {
-            throw new DataException("Unable to load ordinanti", ex);
+            throw new DataException("Unable to load Ordinante", ex);
         }
         return result;
     }

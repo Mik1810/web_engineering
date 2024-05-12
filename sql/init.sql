@@ -28,13 +28,15 @@ CREATE DATABASE IF NOT EXISTS webmarket;
 
     CREATE TABLE CategoriaPadre (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(255) NOT NULL
+        nome VARCHAR(255) NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
     CREATE TABLE CategoriaFiglio (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         nome VARCHAR(255) NOT NULL,
         ID_categoria_padre INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_categoria_padre) REFERENCES CategoriaPadre(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
     );
@@ -43,6 +45,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         nome VARCHAR(255) NOT NULL,
         ID_categoria_figlio INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_categoria_figlio) REFERENCES CategoriaFiglio(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
 
@@ -53,6 +56,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         nome VARCHAR(255) NOT NULL,
         unita_di_misura VARCHAR(255) NOT NULL,
         ID_categoria_nipote INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_categoria_nipote) REFERENCES CategoriaNipote(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
         /* Per RAM, dato che può essere associato sia a PC Desktop che a Notebook, queste costituiranno due
@@ -67,7 +71,8 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         sede VARCHAR(255) NOT NULL,
         numero INT NOT NULL,
         piano INT NOT NULL,
-        telefono VARCHAR(255) NOT NULL
+        telefono VARCHAR(255) NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
     CREATE TABLE Ordinante (
@@ -75,6 +80,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         email VARCHAR(255) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
         ID_ufficio INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_ufficio) REFERENCES Ufficio(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
     );
@@ -97,6 +103,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
            qualcosa il cui valore è una stringa */
         ID_richiesta INT UNSIGNED NOT NULL,
         ID_caratteristica INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_richiesta) REFERENCES Richiesta(ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (ID_caratteristica) REFERENCES Caratteristica(ID)
@@ -106,7 +113,8 @@ CREATE DATABASE IF NOT EXISTS webmarket;
     CREATE TABLE TecnicoPreventivi (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         email VARCHAR(255) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL
+        password VARCHAR(255) NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
     CREATE TABLE RichiestaPresaInCarico (
@@ -122,7 +130,8 @@ CREATE DATABASE IF NOT EXISTS webmarket;
 
     CREATE TABLE StatoProposta (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(255) NOT NULL
+        nome VARCHAR(255) NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
     CREATE TABLE Proposta (
@@ -147,23 +156,27 @@ CREATE DATABASE IF NOT EXISTS webmarket;
     CREATE TABLE Amministratore (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         email VARCHAR(255) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL
+        password VARCHAR(255) NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
     CREATE TABLE TecnicoOrdini (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         email VARCHAR(255) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL
+        password VARCHAR(255) NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
     CREATE TABLE Feedback (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(255) NOT NULL
+        nome VARCHAR(255) NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
     CREATE TABLE StatoConsegna (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(255) NOT NULL
+        nome VARCHAR(255) NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
     CREATE TABLE Ordine (
@@ -190,6 +203,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         ID_ordine INT UNSIGNED NOT NULL,
         ID_ordinante INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_ordine) REFERENCES Ordine(ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (ID_ordinante) REFERENCES Ordinante(ID)

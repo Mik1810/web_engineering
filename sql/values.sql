@@ -54,12 +54,11 @@ INSERT INTO TecnicoPreventivi (email, password) VALUES ('techprev1@gmail.com', '
 INSERT INTO TecnicoPreventivi (email, password) VALUES ('techprev2@gmail.com', 'password2');
 
 -- Popolamento RichiestaPresaInCarico
-INSERT INTO RichiestaPresaInCarico (ID_richiesta_acquisto, ID_tecnico_preventivi) VALUES (1, 1);
-INSERT INTO RichiestaPresaInCarico (ID_richiesta_acquisto, ID_tecnico_preventivi) VALUES (2, 2);
+INSERT INTO RichiestaPresaInCarico (ID_richiesta, ID_tecnico_preventivi) VALUES (1, 1);
+INSERT INTO RichiestaPresaInCarico (ID_richiesta, ID_tecnico_preventivi) VALUES (2, 2);
 
 -- Popolamento Amministratore
-INSERT INTO Amministratore (email, password) VALUES ('admin1@gmail.com', 'adminpassword1');
-INSERT INTO Amministratore (email, password) VALUES ('admin2@gmail.com', 'adminpassword2');
+INSERT INTO Amministratore (email, password) VALUES ('admin@gmail.com', '282db4a4425f50237e7df29d56988825f15dd8b34fa74af54e650ce0fd8897a82dff0b952017a3a88a62f5f1b0e0e467');
 
 -- Popolamento TecnicoOrdini
 INSERT INTO TecnicoOrdini (email, password) VALUES ('techord1@gmail.com', 'techpassword1');

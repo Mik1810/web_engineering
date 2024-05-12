@@ -7,6 +7,7 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
+import it.univaq.webmarket.data.model.Amministratore;
 import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.HTMLResult;
@@ -16,6 +17,8 @@ import it.univaq.webmarket.framework.utils.ServletHelpers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 /**
  *
@@ -52,10 +55,14 @@ public class LoginController extends ApplicationBaseController {
         }
         result.appendToBody("<p><input value=\"login\" name=\"login\" type=\"submit\"/></p>");
         result.appendToBody("</form>");
+        System.out.println(request.getParameter("error"));
+        if(request.getParameter("error") != null){
+            result.appendToBody("<script>alert('Invalid email or password!')</script>");
+        }
         result.activate(request, response);
     }
 
-    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException {
+    private void action_login(HttpServletRequest request, HttpServletResponse response) throws IOException, DataException, NoSuchAlgorithmException, InvalidKeySpecException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String tipologiaUtente = request.getParameter("tipologiaUtente");
@@ -77,15 +84,29 @@ public class LoginController extends ApplicationBaseController {
                             response.sendRedirect("homepage");
                         }
                     } else { // Se l'email o la password sono errate
+                        response.sendRedirect("login?error");
                     }
                 case "Amministratore":
+                    Amministratore a = dl.getAmministratoreDAO().getAmministratoreByEmail(email);
+                    if (a != null && SecurityHelpers.checkPasswordHashPBKDF2(password, a.getPassword())) {
+                        //se la validazione ha successo
+                        SecurityHelpers.createSession(request, email,a.getKey());
+                        //se è stato trasmesso un URL di origine, torniamo a quell'indirizzo
+                        if (request.getParameter("referrer") != null) {
+                            System.out.println("Redirecting to: " + request.getParameter("referrer"));
+                            response.sendRedirect(request.getParameter("referrer"));
+                        } else {
+                            response.sendRedirect("homepage");
+                        }
+                    } else { // Se l'email o la password sono errate
+
+                        response.sendRedirect("login?error");
+                    }
                 case "TecnicoOrdini":
                 case "TecnicoPreventivi":
                 default:
                     handleError("Login failed", request, response);
             }
-            Ordinante o = dl.getOrdinanteDAO().getOrdinanteByEmail(email);
-
         } else {
             handleError("Login failed", request, response);
         }
