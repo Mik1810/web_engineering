@@ -85,6 +85,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         note TEXT NULL,
         data TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         ID_ordinante INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_ordinante) REFERENCES Ordinante(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
     );
@@ -112,6 +113,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         ID_richiesta_acquisto INT UNSIGNED NOT NULL,
         ID_tecnico_preventivi INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_richiesta_acquisto) REFERENCES Richiesta(ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (ID_tecnico_preventivi) REFERENCES TecnicoPreventivi(ID)
@@ -123,8 +125,6 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         nome VARCHAR(255) NOT NULL
     );
 
-    INSERT INTO StatoProposta (nome) VALUES ('In Attesa'), ('Accettata'), ('Rifiutata');
-
     CREATE TABLE Proposta (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         codice_prodotto VARCHAR(255) NOT NULL UNIQUE,
@@ -135,6 +135,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         URL VARCHAR(2048) NOT NULL,
         stato INT UNSIGNED NOT NULL,
         motivazione TEXT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         ID_tecnico_preventivi INT UNSIGNED NOT NULL,
         ID_richiesta_presa_in_carico INT UNSIGNED NOT NULL,
         FOREIGN KEY (ID_richiesta_presa_in_carico) REFERENCES RichiestaPresaInCarico(ID)
@@ -160,14 +161,10 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         nome VARCHAR(255) NOT NULL
     );
 
-    INSERT INTO Feedback (nome) VALUES ('Accettato'), ('Respinto perché non conforme'), ('Respinto perché non funzionante');
-
     CREATE TABLE StatoConsegna (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         nome VARCHAR(255) NOT NULL
     );
-
-    INSERT INTO StatoConsegna (nome) VALUES ('Presa in carico'), ('In consegna'), ('Consegnato');
 
     CREATE TABLE Ordine (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -176,6 +173,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         data_di_consegna TIMESTAMP NULL,
         ID_tecnico_ordini INT UNSIGNED NULL,
         ID_proposta INT UNSIGNED NOT NULL,
+        version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_tecnico_ordini) REFERENCES TecnicoOrdini(ID)
         ON DELETE SET NULL ON UPDATE CASCADE,
         FOREIGN KEY (ID_proposta) REFERENCES Proposta(ID)
@@ -184,7 +182,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         ON DELETE RESTRICT ON UPDATE CASCADE,
         FOREIGN KEY (feedback) REFERENCES Feedback(ID)
         ON DELETE RESTRICT ON UPDATE CASCADE
-        /* SI poteva mettere anche un default sull'ON DELETE ma InnoDB non accetta
+        /* Si poteva mettere anche un default sull'ON DELETE ma InnoDB non accetta
            questo tipo di sintassi */
     );
 

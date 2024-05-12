@@ -1,4 +1,4 @@
--- da fare
+USE webmarket;
 
 DROP TRIGGER IF EXISTS controlla_inserimento_feedback;
 DROP TRIGGER IF EXISTS aggiorna_data_consegna;

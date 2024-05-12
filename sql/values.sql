@@ -1,6 +1,15 @@
 /* Populate the init.sql tables */
 USE webmarket;
 
+-- Popolamento StatoConsegna
+INSERT INTO StatoConsegna (nome) VALUES ('Presa in carico'), ('In consegna'), ('Consegnato');
+
+-- Popolamento Feedback
+INSERT INTO Feedback (nome) VALUES ('Accettato'), ('Respinto perché non conforme'), ('Respinto perché non funzionante');
+
+-- Popolamento StatoProposta
+INSERT INTO StatoProposta (nome) VALUES ('In Attesa'), ('Accettata'), ('Rifiutata');
+
 -- Popolamento CategoriaPadre
 INSERT INTO CategoriaPadre (nome) VALUES ('Modulistica');
 INSERT INTO CategoriaPadre (nome) VALUES ('Informatica');
