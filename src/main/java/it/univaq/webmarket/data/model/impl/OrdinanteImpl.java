@@ -36,4 +36,13 @@ public class OrdinanteImpl extends DataItemImpl<Integer> implements Ordinante {
 
     @Override
     public void setPassword(String password) { this.password = password; }
+
+    @Override
+    public String toString() {
+        return "OrdinanteImpl{" +
+                "ufficio=" + ufficio +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
