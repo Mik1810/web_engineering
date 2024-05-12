@@ -46,8 +46,8 @@ INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES ('7592783840
 INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES ('7683845728', 'Voglio una scrivania più larga ', 1);
 
 -- Popolamento composta
-INSERT INTO composta (valore, ID_richiesta_acquisto, ID_caratteristica) VALUES ('32', 1, 1);
-INSERT INTO composta (valore, ID_richiesta_acquisto, ID_caratteristica) VALUES ('100', 2, 5);
+INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES ('32', 1, 1);
+INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES ('100', 2, 5);
 
 -- Popolamento TecnicoPreventivi
 INSERT INTO TecnicoPreventivi (email, password) VALUES ('techprev1@gmail.com', 'password1');

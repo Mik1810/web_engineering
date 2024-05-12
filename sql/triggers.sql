@@ -25,5 +25,27 @@ BEGIN
     END IF;
 END;
 
+
+CREATE TRIGGER inserisci_ordine_chiuso
+    AFTER UPDATE ON Ordine
+    FOR EACH ROW
+BEGIN
+    DECLARE ID_ordinante INT UNSIGNED;
+
+    SET ID_ordinante = (SELECT o.ID FROM ordinante o
+                                            JOIN richiesta r
+                                            ON o.ID = r.ID_ordinante
+                                            JOIN richiestapresaincarico r2 ON r.ID = r2.ID_richiesta
+                                            JOIN ordine o2 ON r2.ID = o2.ID_proposta
+                                            WHERE o2.ID = NEW.ID);
+
+    IF NEW.stato_consegna = 3 THEN
+        INSERT INTO chiude(ID_ordine,ID_ordinante)
+        VALUES (NEW.ID,ID_ordinante);
+    END IF;
+
+END;
+
+
 $$
 DELIMITER ;

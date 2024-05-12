@@ -95,9 +95,9 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         valore VARCHAR(255) NOT NULL,
         /* non per forza il valore è un intero, magari sto ordinando
            qualcosa il cui valore è una stringa */
-        ID_richiesta_acquisto INT UNSIGNED NOT NULL,
+        ID_richiesta INT UNSIGNED NOT NULL,
         ID_caratteristica INT UNSIGNED NOT NULL,
-        FOREIGN KEY (ID_richiesta_acquisto) REFERENCES Richiesta(ID)
+        FOREIGN KEY (ID_richiesta) REFERENCES Richiesta(ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (ID_caratteristica) REFERENCES Caratteristica(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
@@ -111,10 +111,10 @@ CREATE DATABASE IF NOT EXISTS webmarket;
 
     CREATE TABLE RichiestaPresaInCarico (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        ID_richiesta_acquisto INT UNSIGNED NOT NULL,
+        ID_richiesta INT UNSIGNED NOT NULL,
         ID_tecnico_preventivi INT UNSIGNED NOT NULL,
         version BIGINT UNSIGNED NOT NULL DEFAULT 1,
-        FOREIGN KEY (ID_richiesta_acquisto) REFERENCES Richiesta(ID)
+        FOREIGN KEY (ID_richiesta) REFERENCES Richiesta(ID)
         ON DELETE CASCADE ON UPDATE CASCADE,
         FOREIGN KEY (ID_tecnico_preventivi) REFERENCES TecnicoPreventivi(ID)
         ON DELETE RESTRICT ON UPDATE CASCADE
