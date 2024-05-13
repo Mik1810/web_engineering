@@ -24,9 +24,4 @@ public class TODOTecnicoPreventiviProxy extends TecnicoPreventiviImpl implements
     public void setModified(boolean dirty) {
 
     }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }
