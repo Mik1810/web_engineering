@@ -25,4 +25,12 @@ public class TecnicoPreventiviImpl extends DataItemImpl<Integer> implements Tecn
 
     @Override
     public void setPassword(String password) { this.password = password; }
+
+    @Override
+    public String toString() {
+        return "TecnicoPreventiviImpl{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

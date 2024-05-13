@@ -13,32 +13,32 @@ import java.sql.SQLException;
 
 public class AmministratoreDAO_MySQL extends DAO implements AmministratoreDAO {
 
-        private PreparedStatement sAmministratoreByEmail;
+    private PreparedStatement sAmministratoreByEmail;
 
-        public AmministratoreDAO_MySQL(DataLayer d) {
-            super(d);
+    public AmministratoreDAO_MySQL(DataLayer d) {
+        super(d);
+    }
+
+    @Override
+    public void init() throws DataException {
+        try {
+            super.init();
+
+            sAmministratoreByEmail = connection.prepareStatement("SELECT * FROM amministratore WHERE email=?");
+        } catch (SQLException ex) {
+            throw new DataException("Error initializing webmarket data layer", ex);
         }
+    }
 
-        @Override
-        public void init() throws DataException {
-            try {
-                super.init();
-
-                sAmministratoreByEmail = connection.prepareStatement("SELECT * FROM amministratore WHERE email=?");
-            } catch (SQLException ex) {
-                throw new DataException("Error initializing webmarket data layer", ex);
-            }
+    @Override
+    public void destroy() throws DataException {
+        try {
+            sAmministratoreByEmail.close();
+        } catch (SQLException ex) {
+            //
         }
-
-        @Override
-        public void destroy() throws DataException {
-            try {
-                sAmministratoreByEmail.close();
-            } catch (SQLException ex) {
-                //
-            }
-            super.destroy();
-        }
+        super.destroy();
+    }
 
     @Override
     public Amministratore createAmministratore() {

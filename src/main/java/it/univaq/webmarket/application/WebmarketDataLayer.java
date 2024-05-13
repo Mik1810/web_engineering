@@ -1,11 +1,8 @@
 package it.univaq.webmarket.application;
 
-import it.univaq.webmarket.data.DAO.OrdinanteDAO;
-import it.univaq.webmarket.data.DAO.RichiestaDAO;
-import it.univaq.webmarket.data.DAO.impl.RichiestaDAO_MySQL;
-import it.univaq.webmarket.data.DAO.impl.OrdinanteDAO_MySQL;
-import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.Richiesta;
+import it.univaq.webmarket.data.DAO.*;
+import it.univaq.webmarket.data.DAO.impl.*;
+import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;
 
@@ -20,8 +17,11 @@ public class WebmarketDataLayer extends DataLayer {
 
     @Override
     public void init() throws DataException {
-        registerDAO(Richiesta.class, new RichiestaDAO_MySQL(this));
+        registerDAO(Richiesta.class, new RichiestaAcquistoDAO_MySQL(this));
         registerDAO(Ordinante.class, new OrdinanteDAO_MySQL(this));
+        registerDAO(Amministratore.class, new AmministratoreDAO_MySQL(this));
+        registerDAO(TecnicoOrdini.class, new TecnicoOrdiniDAO_MySQL(this));
+        registerDAO(TecnicoPreventivi.class, new TecnicoPreventiviDAO_MySQL(this));
 
     }
 
@@ -32,4 +32,17 @@ public class WebmarketDataLayer extends DataLayer {
     public OrdinanteDAO getOrdinanteDAO() {
         return (OrdinanteDAO) getDAO(Ordinante.class);
     }
+
+    public AmministratoreDAO getAmministratoreDAO() {
+        return (AmministratoreDAO) getDAO(Amministratore.class);
+    }
+
+    public TecnicoPreventiviDAO getTecnicoPreventiviDAO() {
+        return (TecnicoPreventiviDAO) getDAO(TecnicoPreventivi.class);
+    }
+
+    public TecnicoOrdiniDAO getTecnicoOrdiniDAO() {
+        return (TecnicoOrdiniDAO) getDAO(TecnicoOrdini.class);
+    }
+
 }
