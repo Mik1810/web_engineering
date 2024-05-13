@@ -17,7 +17,7 @@ public class WebmarketDataLayer extends DataLayer {
 
     @Override
     public void init() throws DataException {
-        registerDAO(Richiesta.class, new RichiestaAcquistoDAO_MySQL(this));
+        registerDAO(Richiesta.class, new RichiestaDAO_MySQL(this));
         registerDAO(Ordinante.class, new OrdinanteDAO_MySQL(this));
         registerDAO(Amministratore.class, new AmministratoreDAO_MySQL(this));
         registerDAO(TecnicoOrdini.class, new TecnicoOrdiniDAO_MySQL(this));
