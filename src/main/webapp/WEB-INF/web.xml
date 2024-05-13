@@ -59,6 +59,7 @@
         <url-pattern>/public</url-pattern>
     </servlet-mapping>
     <session-config>
+        <!--//Fix giacomo-->
         <session-timeout>
             <!-- 30 minuti-->
             30

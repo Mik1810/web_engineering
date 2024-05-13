@@ -5,8 +5,8 @@ import it.univaq.webmarket.application.WebmarketDataLayer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+//Fix giacomo
 public class TestController extends ApplicationBaseController {
 
     @Override

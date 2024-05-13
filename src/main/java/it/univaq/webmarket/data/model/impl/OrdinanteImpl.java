@@ -4,6 +4,7 @@ import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Ufficio;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
+//Fix giacomo
 public class OrdinanteImpl extends DataItemImpl<Integer> implements Ordinante {
 
     private Ufficio ufficio;

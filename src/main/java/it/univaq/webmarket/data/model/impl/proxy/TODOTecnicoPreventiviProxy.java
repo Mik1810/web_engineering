@@ -4,6 +4,8 @@ import it.univaq.webmarket.data.model.impl.TecnicoPreventiviImpl;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
+
+//Fix giacomo
 public class TODOTecnicoPreventiviProxy extends TecnicoPreventiviImpl implements DataItemProxy {
 
     protected boolean modified;

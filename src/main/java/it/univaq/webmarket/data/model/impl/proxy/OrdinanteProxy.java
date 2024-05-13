@@ -5,6 +5,7 @@ import it.univaq.webmarket.data.model.impl.OrdinanteImpl;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
+//Fix giacomo
 public class OrdinanteProxy extends OrdinanteImpl implements DataItemProxy {
 
     protected boolean modified;

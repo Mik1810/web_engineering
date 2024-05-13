@@ -3,6 +3,7 @@ package it.univaq.webmarket.data.model.impl;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
+//Fix giacomo
 public class TecnicoPreventiviImpl extends DataItemImpl<Integer> implements TecnicoPreventivi {
 
     private String email;
