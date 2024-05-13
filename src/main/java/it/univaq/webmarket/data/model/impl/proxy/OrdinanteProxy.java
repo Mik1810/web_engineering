@@ -64,9 +64,4 @@ public class OrdinanteProxy extends OrdinanteImpl implements DataItemProxy {
         this.ufficio_key = ufficio_key;
         super.setUfficio(null);
     }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }
