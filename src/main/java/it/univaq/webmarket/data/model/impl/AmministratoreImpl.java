@@ -25,4 +25,12 @@ public class AmministratoreImpl extends DataItemImpl<Integer> implements Amminis
 
     @Override
     public void setPassword(String password) { this.password = password; }
+
+    @Override
+    public String toString() {
+        return "AmministratoreImpl{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

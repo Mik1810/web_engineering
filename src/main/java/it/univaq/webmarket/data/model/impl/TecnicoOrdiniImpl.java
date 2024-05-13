@@ -25,4 +25,12 @@ public class TecnicoOrdiniImpl extends DataItemImpl<Integer> implements TecnicoO
 
     @Override
     public void setPassword(String password) { this.password = password; }
+
+    @Override
+    public String toString() {
+        return "TecnicoOrdiniImpl{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
