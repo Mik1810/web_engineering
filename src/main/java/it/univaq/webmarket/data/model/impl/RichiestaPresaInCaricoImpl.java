@@ -17,12 +17,12 @@ public class RichiestaPresaInCaricoImpl extends DataItemImpl<Integer> implements
     }
 
     @Override
-    public RichiestaConCaratteristiche getRichiestaAcquisto() {
+    public RichiestaConCaratteristiche getRichiestaConCaratteristiche() {
         return richiestaConCaratteristiche;
     }
 
     @Override
-    public void setRichiestaAcquisto(RichiestaConCaratteristiche richiestaConCaratteristiche) {
+    public void setRichiestaConCaratteristiche(RichiestaConCaratteristiche richiestaConCaratteristiche) {
         this.richiestaConCaratteristiche = richiestaConCaratteristiche;
     }
 

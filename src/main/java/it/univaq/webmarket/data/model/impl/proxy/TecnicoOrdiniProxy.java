@@ -9,7 +9,6 @@ public class TecnicoOrdiniProxy extends TecnicoOrdiniImpl implements DataItemPro
     protected boolean modified;
     protected DataLayer dataLayer;
 
-
     public TecnicoOrdiniProxy(DataLayer dataLayer) {
         super();
         this.dataLayer = dataLayer;
@@ -17,30 +16,24 @@ public class TecnicoOrdiniProxy extends TecnicoOrdiniImpl implements DataItemPro
     }
 
     @Override
-    public boolean isModified() {
-        return false;
-    }
-
-    @Override
-    public void setModified(boolean dirty) {
-        this.modified = dirty;
-    }
-
     public void setEmail(String email) {
         super.setEmail(email);
         this.modified = true;
     }
 
+    @Override
     public void setPassword(String password) {
         super.setPassword(password);
         this.modified = true;
     }
 
-    public String getEmail(){
-        return super.getEmail();
+    @Override
+    public boolean isModified() {
+        return modified;
     }
 
-    public String getPassword(){
-        return super.getPassword();
+    @Override
+    public void setModified(boolean dirty) {
+        this.modified = dirty;
     }
 }

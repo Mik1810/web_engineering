@@ -4,9 +4,9 @@ import it.univaq.webmarket.framework.data.DataItem;
 
 public interface RichiestaPresaInCarico extends DataItem<Integer> {
 
-    RichiestaConCaratteristiche getRichiestaAcquisto();
+    RichiestaConCaratteristiche getRichiestaConCaratteristiche();
 
-    void setRichiestaAcquisto(RichiestaConCaratteristiche richiestaAcquisto);
+    void setRichiestaConCaratteristiche(RichiestaConCaratteristiche richiestaConCaratteristiche);
 
     TecnicoPreventivi getTecnicoPreventivi();
 

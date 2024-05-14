@@ -18,4 +18,6 @@ public interface OrdinanteDAO {
     Ordinante getOrdinanteByEmail(String email) throws DataException;
 
     void storeOrdinante(Ordinante ordinante) throws DataException;
+
+    void deleteOrdinante(Ordinante ordinante) throws DataException;
 }

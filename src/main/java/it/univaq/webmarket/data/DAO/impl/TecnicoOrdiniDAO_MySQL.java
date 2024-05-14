@@ -22,6 +22,7 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
     private PreparedStatement iTecnicoOrdini;
     private PreparedStatement sTecniciOrdini;
     private PreparedStatement uTecnicoOrdini;
+    private PreparedStatement dTecnicoOrdini;
 
     //TODO: all
     public TecnicoOrdiniDAO_MySQL(DataLayer d) {
@@ -37,6 +38,7 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
             iTecnicoOrdini = connection.prepareStatement("INSERT INTO tecnicoordini(email, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             sTecniciOrdini = connection.prepareStatement("SELECT ID FROM tecnicoordini");
             uTecnicoOrdini = connection.prepareStatement("UPDATE tecnicoordini SET email=?,password=?,version=? WHERE ID=? and version=?");
+            dTecnicoOrdini = connection.prepareStatement("DELETE FROM tecnicoordini WHERE ID=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -50,6 +52,7 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
             iTecnicoOrdini.close();
             sTecniciOrdini.close();
             uTecnicoOrdini.close();
+            dTecnicoOrdini.close();
         } catch (SQLException ex) {
             //
         }
@@ -169,5 +172,21 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void deleteTecnicoOrdini(TecnicoOrdini tecnicoOrdini) throws DataException {
+        try {
+
+            //Lo cancello prima dalla cache
+            dataLayer.getCache().delete(TecnicoOrdini.class, tecnicoOrdini);
+
+            dTecnicoOrdini.setInt(1, tecnicoOrdini.getKey());
+            dTecnicoOrdini.executeUpdate();
+
+        } catch(SQLException e) {
+            throw new DataException("Unable to delete TecnicoOrdini", e);
+        }
+
     }
 }

@@ -17,4 +17,6 @@ public interface TecnicoOrdiniDAO {
     TecnicoOrdini getTecnicoOrdiniByEmail(String email) throws DataException;
 
     void storeTecnicoOrdini(TecnicoOrdini tecnicoOrdini) throws DataException;
+
+    void deleteTecnicoOrdini(TecnicoOrdini tecnicoOrdini) throws DataException;
 }

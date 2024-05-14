@@ -1,13 +1,15 @@
 package it.univaq.webmarket.data.model;
 
 
+import it.univaq.webmarket.framework.data.DataItem;
+
 import java.util.Map;
 
-public interface RichiestaConCaratteristiche {
+public interface RichiestaConCaratteristiche extends DataItem<Integer> {
 
-    Richiesta getRichiestaAcquisto();
+    Richiesta getRichiesta();
 
-    void setRichiestaAcquisto(Richiesta richiestaAcquisto);
+    void setRichiesta(Richiesta richiesta);
 
     Map<Caratteristica, String> getCaratteristiche();
 

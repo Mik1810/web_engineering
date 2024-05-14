@@ -16,6 +16,24 @@ public class TecnicoPreventiviProxy extends TecnicoPreventiviImpl implements Dat
     }
 
     @Override
+    public void setKey(Integer key) {
+        super.setKey(key);
+        this.modified = true;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        super.setEmail(email);
+        this.modified = true;
+    }
+
+    @Override
+    public void setPassword(String password) {
+        super.setPassword(password);
+        this.modified = true;
+    }
+
+    @Override
     public boolean isModified() {
         return false;
     }
@@ -24,25 +42,5 @@ public class TecnicoPreventiviProxy extends TecnicoPreventiviImpl implements Dat
     public void setModified(boolean dirty) {
         this.modified = dirty;
     }
-
-    public String getEmail() {
-        return super.getEmail();
-    }
-
-    public String getPassword() {
-        return super.getPassword();
-    }
-
-    public void setEmail(String email) {
-        super.setEmail(email);
-        this.modified = true;
-    }
-
-
-    public void setPassword(String password) {
-        super.setPassword(password);
-        this.modified = true;
-    }
-
 
 }

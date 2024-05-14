@@ -9,22 +9,22 @@ import java.util.Map;
 
 public class RichiestaConCaratteristicheImpl extends DataItemImpl<Integer> implements RichiestaConCaratteristiche {
 
-    private Richiesta richiestaAcquisto;
+    private Richiesta richiesta;
     private Map<Caratteristica, String> caratteristiche;
 
     public RichiestaConCaratteristicheImpl() {
         super();
-        this.richiestaAcquisto = null;
+        this.richiesta = null;
         this.caratteristiche = null;
     }
 
     @Override
-    public Richiesta getRichiestaAcquisto() {
-        return richiestaAcquisto;
+    public Richiesta getRichiesta() {
+        return richiesta;
     }
 
     @Override
-    public void setRichiestaAcquisto(Richiesta richiestaAcquisto) { this.richiestaAcquisto = richiestaAcquisto; }
+    public void setRichiesta(Richiesta richiesta) { this.richiesta = richiesta; }
 
     @Override
     public void setKey(Integer key) {

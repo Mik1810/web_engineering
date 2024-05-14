@@ -57,6 +57,8 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
         this.modified = true;
     }
 
+
+
     @Override
     public boolean isModified() { return modified; }
 
@@ -68,10 +70,5 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
     public void setOrdinante_key(Integer ordinante_key) {
         this.ordinante_key = ordinante_key;
         super.setOrdinante(null);
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
     }
 }

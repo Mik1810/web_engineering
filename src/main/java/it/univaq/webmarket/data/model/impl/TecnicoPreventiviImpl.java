@@ -29,6 +29,7 @@ public class TecnicoPreventiviImpl extends DataItemImpl<Integer> implements Tecn
     @Override
     public String toString() {
         return "TecnicoPreventiviImpl{" +
+                "id=" + this.getKey() + ", " +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';

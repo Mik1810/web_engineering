@@ -49,6 +49,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
             iTecnicoPreventivi.close();
             sTecnicoPreventivi.close();
             uTecnicoPreventivi.close();
+            dTecnicoPreventivi.close();
         } catch (SQLException ex) {
             //
         }
@@ -147,6 +148,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
                     tecnicoPreventivi.setVersion(next_version);
                 }
             } else { //insert
+                System.out.println("Inserting");
                 iTecnicoPreventivi.setString(1, tecnicoPreventivi.getEmail());
                 iTecnicoPreventivi.setString(2, SecurityHelpers.getPasswordHashPBKDF2(tecnicoPreventivi.getPassword()));
 
@@ -191,9 +193,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
             dataLayer.getCache().delete(TecnicoPreventivi.class, tecnicoPreventivi);
 
             dTecnicoPreventivi.setInt(1, tecnicoPreventivi.getKey());
-            if(iTecnicoPreventivi.executeUpdate() == 0) {
-                throw new SQLException();
-            }
+            dTecnicoPreventivi.executeUpdate();
 
         } catch(SQLException e) {
             throw new DataException("Unable to delete TecnicoPreventivi", e);

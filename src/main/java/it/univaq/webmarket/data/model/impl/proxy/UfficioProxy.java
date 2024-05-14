@@ -7,7 +7,6 @@ import it.univaq.webmarket.framework.data.DataLayer;
 public class UfficioProxy extends UfficioImpl implements DataItemProxy {
 
     protected boolean modified;
-
     protected DataLayer dataLayer;
 
     public UfficioProxy(DataLayer d) {
@@ -17,53 +16,36 @@ public class UfficioProxy extends UfficioImpl implements DataItemProxy {
     }
 
     @Override
+    public void setSede(String sede) {
+        super.setSede(sede);
+        this.modified = true;
+    }
+
+     @Override
+    public void setNumeroTelefono(String telefono) {
+        super.setNumeroTelefono(telefono);
+        this.modified = true;
+    }
+
+    @Override
+    public void setNumeroUfficio(Integer numeroUfficio) {
+        super.setNumeroUfficio(numeroUfficio);
+        this.modified = true;
+    }
+
+    @Override
+    public void setPiano(Integer piano) {
+        super.setPiano(piano);
+        this.modified = true;
+    }
+
+    @Override
     public boolean isModified() {
-        return false;
+        return modified;
     }
 
     @Override
     public void setModified(boolean dirty) {
         this.modified = dirty;
     }
-
-    public void setSede(String sede) {
-        super.setSede(sede);
-        this.modified = true;
-    }
-
-    public void setNumeroTelefono(String telefono) {
-        super.setNumeroTelefono(telefono);
-        this.modified = true;
-    }
-
-    public void setNumeroUfficio(Integer numeroUfficio) {
-        super.setNumeroUfficio(numeroUfficio);
-        this.modified = true;
-    }
-
-    public void setPiano(Integer piano) {
-        super.setPiano(piano);
-        this.modified = true;
-    }
-
-
-    public String getSede() {
-        return super.getSede();
-    }
-
-
-    public String getNumeroTelefono() {
-        return super.getNumeroTelefono();
-    }
-
-
-    public Integer getPiano() {
-        return super.getPiano();
-    }
-
-
-    public Integer getNumeroUfficio() {
-        return super.getNumeroUfficio();
-    }
-
 }

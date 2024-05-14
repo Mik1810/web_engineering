@@ -2,6 +2,7 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.OrdinanteDAO;
 import it.univaq.webmarket.data.model.Ordinante;
+import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.proxy.OrdinanteProxy;
 import it.univaq.webmarket.framework.data.*;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
@@ -22,6 +23,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
     private PreparedStatement iOrdinante;
     private PreparedStatement sOrdinanti;
     private PreparedStatement uOrdinante;
+    private PreparedStatement dOrdinante;
 
     public OrdinanteDAO_MySQL(DataLayer d) {
         super(d);
@@ -36,6 +38,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             iOrdinante = connection.prepareStatement("INSERT INTO ordinante(email, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             sOrdinanti = connection.prepareStatement("SELECT ID FROM ordinante");
             uOrdinante = connection.prepareStatement("UPDATE ordinante SET email=?,password=?,version=? WHERE ID=? AND version=?");
+            dOrdinante = connection.prepareStatement("DELETE FROM ordinante WHERE ID=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -49,7 +52,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             sOrdinanteByEmail.close();
             sOrdinanti.close();
             uOrdinante.close();
-
+            dOrdinante.close();
         } catch (SQLException ex) {
             //
         }
@@ -182,5 +185,21 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void deleteOrdinante(Ordinante ordinante) throws DataException {
+        try {
+
+            //Lo cancello prima dalla cache
+            dataLayer.getCache().delete(Ordinante.class, ordinante);
+
+            dOrdinante.setInt(1, ordinante.getKey());
+            dOrdinante.executeUpdate();
+
+        } catch(SQLException e) {
+            throw new DataException("Unable to delete Ordinante", e);
+        }
+
     }
 }
