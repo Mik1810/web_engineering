@@ -4,16 +4,13 @@ import it.univaq.webmarket.data.DAO.CategoriaDAO;
 import it.univaq.webmarket.data.model.CategoriaFiglio;
 import it.univaq.webmarket.data.model.CategoriaNipote;
 import it.univaq.webmarket.data.model.CategoriaPadre;
-import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.impl.proxy.CategoriaFiglioProxy;
 import it.univaq.webmarket.data.model.impl.proxy.CategoriaPadreProxy;
-import it.univaq.webmarket.data.model.impl.proxy.OrdinanteProxy;
-import it.univaq.webmarket.data.model.impl.proxy.TODOCategoriaNipoteProxy;
+import it.univaq.webmarket.data.model.impl.proxy.CategoriaNipoteProxy;
 import it.univaq.webmarket.framework.data.DAO;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;
 
-import javax.xml.crypto.Data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -111,7 +108,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
     @Override
     public CategoriaNipote createCategoriaNipote() {
-        return new TODOCategoriaNipoteProxy(getDataLayer());
+        return new CategoriaNipoteProxy(getDataLayer());
     }
 
     private CategoriaPadre createCategoriaPadre(ResultSet rs) throws DataException {
@@ -141,7 +138,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
     private CategoriaNipote createCategoriaNipote(ResultSet rs) throws DataException {
         try {
-            TODOCategoriaNipoteProxy cn = (TODOCategoriaNipoteProxy) createCategoriaNipote();
+            CategoriaNipoteProxy cn = (CategoriaNipoteProxy) createCategoriaNipote();
             cn.setKey(rs.getInt("ID"));
             cn.setNome(rs.getString("nome"));
             cn.setCategoriaFiglio_key(rs.getInt("ID_categoria_figlio"));

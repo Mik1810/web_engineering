@@ -2,7 +2,7 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.TecnicoPreventiviDAO;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
-import it.univaq.webmarket.data.model.impl.proxy.TODOTecnicoPreventiviProxy;
+import it.univaq.webmarket.data.model.impl.proxy.TecnicoPreventiviProxy;
 import it.univaq.webmarket.framework.data.*;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
 
@@ -58,12 +58,12 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
 
     @Override
     public TecnicoPreventivi createTecnicoPreventivi() {
-        return new TODOTecnicoPreventiviProxy(getDataLayer());
+        return new TecnicoPreventiviProxy(getDataLayer());
     }
 
-    private TODOTecnicoPreventiviProxy createTecnicoPreventivi(ResultSet rs) throws DataException {
+    private TecnicoPreventiviProxy createTecnicoPreventivi(ResultSet rs) throws DataException {
         try {
-            TODOTecnicoPreventiviProxy o = (TODOTecnicoPreventiviProxy) createTecnicoPreventivi();
+            TecnicoPreventiviProxy o = (TecnicoPreventiviProxy) createTecnicoPreventivi();
             o.setKey(rs.getInt("ID"));
             o.setEmail(rs.getString("email"));
             o.setPassword(rs.getString("password"));

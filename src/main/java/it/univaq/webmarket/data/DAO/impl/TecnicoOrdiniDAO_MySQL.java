@@ -2,7 +2,7 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.TecnicoOrdiniDAO;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
-import it.univaq.webmarket.data.model.impl.proxy.TODOTecnicoOrdiniProxy;
+import it.univaq.webmarket.data.model.impl.proxy.TecnicoOrdiniProxy;
 import it.univaq.webmarket.framework.data.*;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
 
@@ -58,12 +58,12 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
 
     @Override
     public TecnicoOrdini createTecnicoOrdini() {
-        return new TODOTecnicoOrdiniProxy(getDataLayer());
+        return new TecnicoOrdiniProxy(getDataLayer());
     }
 
-    private TODOTecnicoOrdiniProxy createTecnicoOrdini(ResultSet rs) throws DataException {
+    private TecnicoOrdiniProxy createTecnicoOrdini(ResultSet rs) throws DataException {
         try {
-            TODOTecnicoOrdiniProxy to = (TODOTecnicoOrdiniProxy) createTecnicoOrdini();
+            TecnicoOrdiniProxy to = (TecnicoOrdiniProxy) createTecnicoOrdini();
             to.setKey(rs.getInt("ID"));
             to.setEmail(rs.getString("email"));
             to.setPassword(rs.getString("password"));

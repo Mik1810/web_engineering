@@ -9,6 +9,12 @@ public class TODORichiestaConCaratteristicaProxy extends RichiestaConCaratterist
 
     protected DataLayer dataLayer;
 
+    public TODORichiestaConCaratteristicaProxy(DataLayer dataLayer) {
+        super();
+        this.dataLayer = dataLayer;
+        this.modified = false;
+    }
+
     @Override
     public boolean isModified() {
         return false;
@@ -16,6 +22,6 @@ public class TODORichiestaConCaratteristicaProxy extends RichiestaConCaratterist
 
     @Override
     public void setModified(boolean dirty) {
-
+        this.modified = dirty;
     }
 }
