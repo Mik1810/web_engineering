@@ -26,4 +26,8 @@ public class TODOCategoriaNipoteProxy extends CategoriaNipoteImpl implements Dat
     public void setModified(boolean dirty) {
         this.modified = dirty;
     }
+
+    public void setCategoriaFiglio_key(int idCategoriaFiglio) {
+
+    }
 }
