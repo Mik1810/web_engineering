@@ -12,23 +12,20 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     protected boolean modified;
     protected DataLayer dataLayer;
     protected Integer richiestaPresaInCarico_key;
+    protected Integer statoProposta_key;
 
     public PropostaProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;
         this.richiestaPresaInCarico_key = 0;
+        this.statoProposta_key = 0;
     }
 
     @Override
     public void setKey(Integer key) {
         super.setKey(key);
         this.modified = true;
-    }
-
-    @Override
-    public String getProduttore() {
-        return super.getProduttore();
     }
 
     @Override
@@ -83,6 +80,7 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     @Override
     public void setStatoProposta(StatoProposta statoProposta) {
         super.setStatoProposta(statoProposta);
+        this.statoProposta_key = statoProposta.getValue();
         this.modified = true;
     }
 
@@ -90,6 +88,13 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     public void setMotivazione(String motivazione) {
         super.setMotivazione(motivazione);
         this.modified = true;
+    }
+
+    @Override
+    public StatoProposta getStatoProposta() {
+        //TODO: Implementare il lazy loading
+        return super.getStatoProposta();
+
     }
 
     @Override

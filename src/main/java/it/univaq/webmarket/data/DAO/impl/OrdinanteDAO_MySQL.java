@@ -2,7 +2,6 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.OrdinanteDAO;
 import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.proxy.OrdinanteProxy;
 import it.univaq.webmarket.framework.data.*;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
@@ -35,9 +34,9 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             super.init();
             sOrdinanteByID = connection.prepareStatement("SELECT * FROM ordinante WHERE ID=?");
             sOrdinanteByEmail = connection.prepareStatement("SELECT * FROM ordinante WHERE email=?");
-            iOrdinante = connection.prepareStatement("INSERT INTO ordinante(email, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+            iOrdinante = connection.prepareStatement("INSERT INTO ordinante(email, password, ID_ufficio) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             sOrdinanti = connection.prepareStatement("SELECT ID FROM ordinante");
-            uOrdinante = connection.prepareStatement("UPDATE ordinante SET email=?,password=?,version=? WHERE ID=? AND version=?");
+            uOrdinante = connection.prepareStatement("UPDATE ordinante SET email=?, password=?, ID_ufficio=?, version=? WHERE ID=? AND version=?");
             dOrdinante = connection.prepareStatement("DELETE FROM ordinante WHERE ID=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
@@ -71,6 +70,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             o.setEmail(rs.getString("email"));
             o.setPassword(rs.getString("password"));
             o.setVersion(rs.getLong("version"));
+            o.setUfficio_key(rs.getInt("ID_ufficio"));
             return o;
         } catch (SQLException ex) {
             throw new DataException("Unable to create Ordinante object form ResultSet", ex);
@@ -131,19 +131,19 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
     public void storeOrdinante(Ordinante ordinante) throws DataException {
         try {
             if (ordinante.getKey() != null && ordinante.getKey() > 0) { //update
-                //non facciamo nulla se l'oggetto è un proxy e indica di non aver subito modifiche
                 if (ordinante instanceof DataItemProxy && !((DataItemProxy) ordinante).isModified()) {
                     return;
                 }
                 uOrdinante.setString(1, ordinante.getEmail());
                 uOrdinante.setString(2, ordinante.getPassword());
+                uOrdinante.setInt(3, ordinante.getUfficio().getKey());
 
                 long current_version = ordinante.getVersion();
                 long next_version = current_version + 1;
 
-                uOrdinante.setLong(3, next_version);
-                uOrdinante.setInt(4, ordinante.getKey());
-                uOrdinante.setLong(5, current_version);
+                uOrdinante.setLong(4, next_version);
+                uOrdinante.setInt(5, ordinante.getKey());
+                uOrdinante.setLong(6, current_version);
 
                 if (uOrdinante.executeUpdate() == 0) {
                     throw new OptimisticLockException(ordinante);
@@ -153,25 +153,13 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             } else { //insert
                 iOrdinante.setString(1, ordinante.getEmail());
                 iOrdinante.setString(2, SecurityHelpers.getPasswordHashPBKDF2(ordinante.getPassword()));
+                iOrdinante.setInt(3, ordinante.getUfficio().getKey());
 
                 if (iOrdinante.executeUpdate() == 1) {
-                    //per leggere la chiave generata dal database
-                    //per il record appena inserito, usiamo il metodo
-                    //getGeneratedKeys sullo statement.
                     try (ResultSet keys = iOrdinante.getGeneratedKeys()) {
-                        //il valore restituito è un ResultSet con un record
-                        //per ciascuna chiave generata (uno solo nel nostro caso)
                         if (keys.next()) {
-                            //i campi del record sono le componenti della chiave
-                            //(nel nostro caso, un solo intero)
-                            //the record fields are the key componenets
-                            //(a single integer in our case)
                             int key = keys.getInt(1);
-                            //aggiornaimo la chiave in caso di inserimento
-                            //after an insert, uopdate the object key
                             ordinante.setKey(key);
-                            //inseriamo il nuovo oggetto nella cache
-                            //add the new object to the cache
                             dataLayer.getCache().add(Ordinante.class, ordinante);
                         }
                     }

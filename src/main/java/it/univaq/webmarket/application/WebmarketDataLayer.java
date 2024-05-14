@@ -22,7 +22,7 @@ public class WebmarketDataLayer extends DataLayer {
         registerDAO(Amministratore.class, new AmministratoreDAO_MySQL(this));
         registerDAO(TecnicoOrdini.class, new TecnicoOrdiniDAO_MySQL(this));
         registerDAO(TecnicoPreventivi.class, new TecnicoPreventiviDAO_MySQL(this));
-
+        registerDAO(Ufficio.class, new UfficioDAO_MySQL(this));
     }
 
     public RichiestaDAO getRichiestaAcquistoDAO() {
@@ -43,6 +43,10 @@ public class WebmarketDataLayer extends DataLayer {
 
     public TecnicoOrdiniDAO getTecnicoOrdiniDAO() {
         return (TecnicoOrdiniDAO) getDAO(TecnicoOrdini.class);
+    }
+
+    public UfficioDAO getUfficioDAO() {
+        return (UfficioDAO) getDAO(Ufficio.class);
     }
 
 }

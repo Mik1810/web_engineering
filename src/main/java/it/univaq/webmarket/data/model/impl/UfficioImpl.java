@@ -9,6 +9,7 @@ public class UfficioImpl extends DataItemImpl<Integer> implements Ufficio{
     private String numeroTelefono;
     private Integer numeroUfficio;
     private Integer piano;
+    private String citta;
 
     public UfficioImpl() {
         super();
@@ -16,6 +17,7 @@ public class UfficioImpl extends DataItemImpl<Integer> implements Ufficio{
         this.numeroTelefono = "";
         this.numeroUfficio = null;
         this.piano = null;
+        this.citta = "";
     }
 
     @Override
@@ -39,6 +41,9 @@ public class UfficioImpl extends DataItemImpl<Integer> implements Ufficio{
     }
 
     @Override
+    public String getCitta() { return this.citta; }
+
+    @Override
     public void setSede(String sede) {
         this.sede = sede;
     }
@@ -56,5 +61,20 @@ public class UfficioImpl extends DataItemImpl<Integer> implements Ufficio{
     @Override
     public void setPiano(Integer piano) {
         this.piano = piano;
+    }
+
+    @Override
+    public void setCitta(String citta) { this.citta = citta; }
+
+    @Override
+    public String toString() {
+        return "UfficioImpl{" +
+                "id=" + getKey() + ", " +
+                "sede='" + sede + '\'' +
+                ", numeroTelefono='" + numeroTelefono + '\'' +
+                ", numeroUfficio=" + numeroUfficio +
+                ", piano=" + piano +
+                ", citta='" + citta + '\'' +
+                '}';
     }
 }

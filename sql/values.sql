@@ -33,9 +33,9 @@ INSERT INTO caratteristica (nome, unita_di_misura, ID_categoria_nipote) VALUES (
 INSERT INTO caratteristica (nome, unita_di_misura, ID_categoria_nipote) VALUES ('Lunghezza', 'cm', 3);
 
 -- Popolamento Ufficio
-INSERT INTO Ufficio (sede, numero, piano, telefono) VALUES ('Via Roma', 12, 1, '0746229912');
-INSERT INTO Ufficio (sede, numero, piano, telefono) VALUES ('Via Roma', 23, 2, '0746758396');
-INSERT INTO Ufficio (sede, numero, piano, telefono) VALUES ('Via Castello', 11, 1, '0861997534');
+INSERT INTO Ufficio (sede, numero, piano, telefono, citta) VALUES ('Via Roma', 12, 1, '0746229912', 'Milano');
+INSERT INTO Ufficio (sede, numero, piano, telefono, citta) VALUES ('Via Roma', 23, 2, '0746758396', 'Roma');
+INSERT INTO Ufficio (sede, numero, piano, telefono, citta) VALUES ('Via Castello', 11, 1, '0861997534', 'L\'aquila');
 
 -- Popolamento Ordinante
 INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('michaelpiccirilli3@gmail.com', 'supersafepassword', 3);

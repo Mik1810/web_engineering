@@ -49,8 +49,6 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
         // il feedback è null
         if (feedback != null) {
             this.feedback_key = feedback.getValue();
-        } else {
-            this.feedback_key = 0;
         }
         this.modified = true;
     }
@@ -62,6 +60,8 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
         this.statoConsegna_key = statoConsegna.getValue();
         this.modified = true;
     }
+
+
 
     @Override
     public void setTecnicoOrdini(TecnicoOrdini tecnicoOrdini) {
@@ -79,13 +79,13 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
 
     @Override
     public StatoConsegna getStatoConsegna() {
-        // Credo che per le ENUM basti semplicemente ritornare il valore
-        // Difatti, non rappresentano un oggetto in sè e per sè, ma solo un valore
+        //TODO: Implementare il lazy loading
         return super.getStatoConsegna();
     }
 
     @Override
     public Feedback getFeedback() {
+        //TODO: Implementare il lazy loading
         return super.getFeedback();
     }
 

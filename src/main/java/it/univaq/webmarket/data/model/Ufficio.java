@@ -12,6 +12,8 @@ public interface Ufficio extends DataItem<Integer> {
 
     Integer getNumeroUfficio();
 
+    String getCitta();
+
     void setSede(String sede);
 
     void setNumeroTelefono(String numeroTelefono);
@@ -19,4 +21,6 @@ public interface Ufficio extends DataItem<Integer> {
     void setNumeroUfficio(Integer numeroUfficio);
 
     void setPiano(Integer piano);
+
+    void setCitta(String citta);
 }

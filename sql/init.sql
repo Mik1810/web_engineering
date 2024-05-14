@@ -72,6 +72,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         numero INT NOT NULL,
         piano INT NOT NULL,
         telefono VARCHAR(255) NOT NULL,
+        citta VARCHAR(255) NOT NULL,
         version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 

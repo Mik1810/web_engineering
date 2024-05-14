@@ -40,6 +40,12 @@ public class UfficioProxy extends UfficioImpl implements DataItemProxy {
     }
 
     @Override
+    public void setCitta(String citta) {
+        super.setCitta(citta);
+        this.modified = true;
+    }
+
+    @Override
     public boolean isModified() {
         return modified;
     }
