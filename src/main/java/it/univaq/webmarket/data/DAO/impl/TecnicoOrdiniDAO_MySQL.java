@@ -4,10 +4,14 @@ import it.univaq.webmarket.data.DAO.TecnicoOrdiniDAO;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.proxy.TODOTecnicoOrdiniProxy;
 import it.univaq.webmarket.framework.data.*;
+import it.univaq.webmarket.framework.security.SecurityHelpers;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +34,7 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
             super.init();
             sTecnicoOrdiniByID = connection.prepareStatement("SELECT * FROM tecnicoordini WHERE ID=?");
             sTecnicoOrdiniByEmail = connection.prepareStatement("SELECT * FROM tecnicoordini WHERE email=?");
-            iTecnicoOrdini = connection.prepareStatement("INSERT INTO tecnicoordini(email, password) VALUES (?, ?)");
+            iTecnicoOrdini = connection.prepareStatement("INSERT INTO tecnicoordini(email, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             sTecniciOrdini = connection.prepareStatement("SELECT ID FROM tecnicoordini");
             uTecnicoOrdini = connection.prepareStatement("UPDATE tecnicoordini SET email=?,password=?,version=? WHERE ID=? and version=?");
         } catch (SQLException ex) {
@@ -145,7 +149,7 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
                 }
             } else {
                 iTecnicoOrdini.setString(1, tecnicoOrdini.getEmail());
-                iTecnicoOrdini.setString(2, tecnicoOrdini.getPassword());
+                iTecnicoOrdini.setString(2, SecurityHelpers.getPasswordHashPBKDF2(tecnicoOrdini.getPassword()));
 
                 if (iTecnicoOrdini.executeUpdate() == 1) {
                     try (ResultSet keys = iTecnicoOrdini.getGeneratedKeys()) {
@@ -162,6 +166,8 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
             }
         } catch (SQLException | OptimisticLockException ex) {
             throw new DataException("Unable to store TecnicoOrdini", ex);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 }

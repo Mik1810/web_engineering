@@ -17,5 +17,7 @@ public interface TecnicoPreventiviDAO {
     TecnicoPreventivi getTecnicoPreventiviByEmail(String email) throws DataException;
 
     void storeTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) throws DataException;
+
+    void deleteTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) throws DataException;
 }
 

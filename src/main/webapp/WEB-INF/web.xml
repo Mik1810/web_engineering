@@ -36,7 +36,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/test</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>login</servlet-name>

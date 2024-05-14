@@ -4,10 +4,14 @@ import it.univaq.webmarket.data.DAO.OrdinanteDAO;
 import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.impl.proxy.OrdinanteProxy;
 import it.univaq.webmarket.framework.data.*;
+import it.univaq.webmarket.framework.security.SecurityHelpers;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +33,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             super.init();
             sOrdinanteByID = connection.prepareStatement("SELECT * FROM ordinante WHERE ID=?");
             sOrdinanteByEmail = connection.prepareStatement("SELECT * FROM ordinante WHERE email=?");
-            iOrdinante = connection.prepareStatement("INSERT INTO ordinante(email, password) VALUES (?, ?)");
+            iOrdinante = connection.prepareStatement("INSERT INTO ordinante(email, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             sOrdinanti = connection.prepareStatement("SELECT ID FROM ordinante");
             uOrdinante = connection.prepareStatement("UPDATE ordinante SET email=?,password=?,version=? WHERE ID=? AND version=?");
         } catch (SQLException ex) {
@@ -145,7 +149,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
                 }
             } else { //insert
                 iOrdinante.setString(1, ordinante.getEmail());
-                iOrdinante.setString(2, ordinante.getPassword());
+                iOrdinante.setString(2, SecurityHelpers.getPasswordHashPBKDF2(ordinante.getPassword()));
 
                 if (iOrdinante.executeUpdate() == 1) {
                     //per leggere la chiave generata dal database
@@ -175,6 +179,8 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             }
         } catch (SQLException | OptimisticLockException ex) {
             throw new DataException("Unable to store Ordinante", ex);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -4,10 +4,14 @@ import it.univaq.webmarket.data.DAO.TecnicoPreventiviDAO;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.data.model.impl.proxy.TODOTecnicoPreventiviProxy;
 import it.univaq.webmarket.framework.data.*;
+import it.univaq.webmarket.framework.security.SecurityHelpers;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +22,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
     private PreparedStatement iTecnicoPreventivi;
     private PreparedStatement sTecnicoPreventivi;
     private PreparedStatement uTecnicoPreventivi;
+    private PreparedStatement dTecnicoPreventivi;
 
     public TecnicoPreventiviDAO_MySQL(DataLayer d) { super(d); }
 
@@ -27,9 +32,10 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
             super.init();
             sTecnicoPreventivoByID = connection.prepareStatement("SELECT * FROM tecnicopreventivi WHERE ID=?");
             sTecnicoPreventivoByEmail = connection.prepareStatement("SELECT * FROM tecnicopreventivi WHERE email=?");
-            iTecnicoPreventivi = connection.prepareStatement("INSERT INTO tecnicopreventivi(email, password) VALUES (?, ?)");
+            iTecnicoPreventivi = connection.prepareStatement("INSERT INTO tecnicopreventivi(email, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             sTecnicoPreventivi = connection.prepareStatement("SELECT ID FROM tecnicopreventivi");
             uTecnicoPreventivi = connection.prepareStatement("UPDATE tecnicopreventivi SET email=?,password=?,version=? WHERE ID=? and version=?");
+            dTecnicoPreventivi = connection.prepareStatement("DELETE FROM tecnicopreventivi WHERE ID=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -142,7 +148,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
                 }
             } else { //insert
                 iTecnicoPreventivi.setString(1, tecnicoPreventivi.getEmail());
-                iTecnicoPreventivi.setString(2, tecnicoPreventivi.getPassword());
+                iTecnicoPreventivi.setString(2, SecurityHelpers.getPasswordHashPBKDF2(tecnicoPreventivi.getPassword()));
 
                 if (iTecnicoPreventivi.executeUpdate() == 1) {
                     //per leggere la chiave generata dal database
@@ -172,6 +178,26 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
             }
         } catch (SQLException | OptimisticLockException ex) {
             throw new DataException("Unable to store Tecnico Preventivi", ex);
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void deleteTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) throws DataException {
+        try {
+
+            //Lo cancello prima dalla cache
+            dataLayer.getCache().delete(TecnicoPreventivi.class, tecnicoPreventivi);
+
+            dTecnicoPreventivi.setInt(1, tecnicoPreventivi.getKey());
+            if(iTecnicoPreventivi.executeUpdate() == 0) {
+                throw new SQLException();
+            }
+
+        } catch(SQLException e) {
+            throw new DataException("Unable to delete TecnicoPreventivi", e);
+        }
+
     }
 }
