@@ -3,6 +3,7 @@ package it.univaq.webmarket.application;
 import it.univaq.webmarket.data.DAO.*;
 import it.univaq.webmarket.data.DAO.impl.*;
 import it.univaq.webmarket.data.model.*;
+import it.univaq.webmarket.data.model.enums.StatoEnum;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;
 
@@ -23,6 +24,7 @@ public class WebmarketDataLayer extends DataLayer {
         registerDAO(TecnicoOrdini.class, new TecnicoOrdiniDAO_MySQL(this));
         registerDAO(TecnicoPreventivi.class, new TecnicoPreventiviDAO_MySQL(this));
         registerDAO(Ufficio.class, new UfficioDAO_MySQL(this));
+        registerDAO(StatoEnum.class, new StatiEnumDAO_MySQL(this));
     }
 
     public RichiestaDAO getRichiestaAcquistoDAO() {
@@ -47,6 +49,10 @@ public class WebmarketDataLayer extends DataLayer {
 
     public UfficioDAO getUfficioDAO() {
         return (UfficioDAO) getDAO(Ufficio.class);
+    }
+
+    public StatiEnumDAO getStatiEnumDAO() {
+        return (StatiEnumDAO) getDAO(StatoEnum.class);
     }
 
 }

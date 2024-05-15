@@ -1,9 +1,8 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
-import it.univaq.webmarket.data.model.TecnicoPreventivi;
+import it.univaq.webmarket.data.model.enums.StatoProposta;
 import it.univaq.webmarket.data.model.impl.PropostaImpl;
-import it.univaq.webmarket.data.model.impl.enums.StatoProposta;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
@@ -80,7 +79,7 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     @Override
     public void setStatoProposta(StatoProposta statoProposta) {
         super.setStatoProposta(statoProposta);
-        this.statoProposta_key = statoProposta.getValue();
+        this.statoProposta_key = statoProposta.getKey();
         this.modified = true;
     }
 

@@ -1,7 +1,7 @@
 package it.univaq.webmarket.data.model;
 
-import it.univaq.webmarket.data.model.impl.enums.Feedback;
-import it.univaq.webmarket.data.model.impl.enums.StatoConsegna;
+import it.univaq.webmarket.data.model.enums.Feedback;
+import it.univaq.webmarket.data.model.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItem;
 
 import java.time.LocalDateTime;

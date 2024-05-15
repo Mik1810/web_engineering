@@ -1,6 +1,6 @@
 package it.univaq.webmarket.data.model;
 
-import it.univaq.webmarket.data.model.impl.enums.StatoProposta;
+import it.univaq.webmarket.data.model.enums.StatoProposta;
 import it.univaq.webmarket.framework.data.DataItem;
 
 public interface Proposta extends DataItem<Integer> {

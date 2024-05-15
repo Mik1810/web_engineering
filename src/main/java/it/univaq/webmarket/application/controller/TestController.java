@@ -2,6 +2,7 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
+import it.univaq.webmarket.data.DAO.StatiEnumDAO;
 import it.univaq.webmarket.data.DAO.UfficioDAO;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.data.model.Ufficio;
@@ -16,7 +17,21 @@ import java.util.List;
 
 public class TestController extends ApplicationBaseController {
 
-    private void testUfficio(UfficioDAO ufficioDAO, WebmarketDataLayer dl) throws DataException {
+    private void testEnums(WebmarketDataLayer dl) throws DataException {
+        StatiEnumDAO statiEnumDAO = dl.getStatiEnumDAO();
+        statiEnumDAO.getAllStatiConsegna().forEach(System.out::println);
+        statiEnumDAO.getAllFeedback().forEach(System.out::println);
+        statiEnumDAO.getAllStatiProposta().forEach(System.out::println);
+
+        List.of(statiEnumDAO.getFeedback(1)).forEach(System.out::println);
+        List.of(statiEnumDAO.getStatoConsegna(1)).forEach(System.out::println);
+        List.of(statiEnumDAO.getStatoProposta(1)).forEach(System.out::println);
+
+        System.out.println(dl.getCache().cache);
+    }
+
+    private void testUfficio(WebmarketDataLayer dl) throws DataException {
+        UfficioDAO ufficioDAO = dl.getUfficioDAO();
         System.out.println("UfficioDAO testing: ");
         ufficioDAO.getAllUffici().forEach(System.out::println);
         System.out.println(ufficioDAO.getUfficio(1));
@@ -29,7 +44,6 @@ public class TestController extends ApplicationBaseController {
         ufficioDAO.storeUfficio(ufficio);
 
         dl.getCache().delete(Ufficio.class, ufficio.getKey());
-
         Ufficio u2 = ufficioDAO.getAllUffici()
                 .stream()
                 .filter(e -> e.getSede().equalsIgnoreCase("Via Sturzo"))
@@ -48,7 +62,7 @@ public class TestController extends ApplicationBaseController {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
         HTMLResult result = new HTMLResult(getServletContext());
         result.setTitle("Test");
-        List.of(dl.getAmministratoreDAO().getAmministratoreByEmail("admin@gmail.com")).forEach(e -> result.appendToBody(e.toString() + "<br>"));
+        /*List.of(dl.getAmministratoreDAO().getAmministratoreByEmail("admin@gmail.com")).forEach(e -> result.appendToBody(e.toString() + "<br>"));
         dl.getOrdinanteDAO().getAllOrdinanti().forEach(e -> result.appendToBody(e.toString() + "<br>"));
 
         dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini().forEach(e -> result.appendToBody(e.toString()+ "<br>"));
@@ -63,12 +77,13 @@ public class TestController extends ApplicationBaseController {
 
         dl.getTecnicoPreventiviDAO().deleteTecnicoPreventivi(tp);
         result.appendToBody("<br>");
-        dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi().forEach(e -> result.appendToBody(e.toString()+ "<br>"));
+        dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi().forEach(e -> result.appendToBody(e.toString()+ "<br>"));*/
 
         //Testing ufficioDAO
-        testUfficio(dl.getUfficioDAO(), dl);
+        //testUfficio(dl);
 
-
+        //Testing enums
+        testEnums(dl);
 
         result.activate(request, response);
     }

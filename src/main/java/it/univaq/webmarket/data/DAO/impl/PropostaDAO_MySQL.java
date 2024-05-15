@@ -2,7 +2,6 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.PropostaDAO;
 import it.univaq.webmarket.data.model.Proposta;
-import it.univaq.webmarket.data.model.impl.enums.StatoProposta;
 import it.univaq.webmarket.data.model.impl.proxy.PropostaProxy;
 import it.univaq.webmarket.framework.data.DAO;
 import it.univaq.webmarket.framework.data.DataException;
@@ -12,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
@@ -21,9 +21,11 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     private PreparedStatement iProposta;
     private PreparedStatement dProposta;
     private PreparedStatement uProposta;
+
     public PropostaDAO_MySQL(DataLayer d) {
         super(d);
     }
+
     @Override
     public void init() throws DataException {
         try {
@@ -107,7 +109,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
 
     @Override
     public List<Proposta> getAllProposta() throws DataException {
-        List<Proposta> result = null;
+        List<Proposta> result = new ArrayList<>();
         try {
             try (ResultSet rs = sProposte.executeQuery()){
                 while (rs.next()){

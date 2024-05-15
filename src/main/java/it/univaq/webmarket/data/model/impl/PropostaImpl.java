@@ -2,8 +2,7 @@ package it.univaq.webmarket.data.model.impl;
 
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
-import it.univaq.webmarket.data.model.TecnicoPreventivi;
-import it.univaq.webmarket.data.model.impl.enums.StatoProposta;
+import it.univaq.webmarket.data.model.enums.StatoProposta;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {

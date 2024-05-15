@@ -3,8 +3,8 @@ package it.univaq.webmarket.data.model.impl;
 import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
-import it.univaq.webmarket.data.model.impl.enums.Feedback;
-import it.univaq.webmarket.data.model.impl.enums.StatoConsegna;
+import it.univaq.webmarket.data.model.enums.Feedback;
+import it.univaq.webmarket.data.model.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 import java.time.LocalDateTime;

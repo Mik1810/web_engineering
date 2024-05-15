@@ -3,8 +3,8 @@ package it.univaq.webmarket.data.model.impl.proxy;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.OrdineImpl;
-import it.univaq.webmarket.data.model.impl.enums.Feedback;
-import it.univaq.webmarket.data.model.impl.enums.StatoConsegna;
+import it.univaq.webmarket.data.model.enums.Feedback;
+import it.univaq.webmarket.data.model.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
@@ -45,19 +45,14 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
     @Override
     public void setFeedback(Feedback feedback) {
         super.setFeedback(feedback);
-        // Se lo StatoConsegna è diverso da "Consegnato" (3), allora
-        // il feedback è null
-        if (feedback != null) {
-            this.feedback_key = feedback.getValue();
-        }
+        this.feedback_key = feedback.getKey();
         this.modified = true;
     }
 
     @Override
     public void setStatoConsegna(StatoConsegna statoConsegna) {
         super.setStatoConsegna(statoConsegna);
-        // StatoConsegna è una ENUM, pertanto la sua chiave è il suo valore
-        this.statoConsegna_key = statoConsegna.getValue();
+        this.statoConsegna_key = statoConsegna.getKey();
         this.modified = true;
     }
 
