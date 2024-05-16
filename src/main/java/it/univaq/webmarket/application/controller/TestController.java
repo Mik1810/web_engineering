@@ -1,5 +1,6 @@
 package it.univaq.webmarket.application.controller;
 
+import freemarker.template.Configuration;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.DAO.StatiEnumDAO;
@@ -14,6 +15,7 @@ import it.univaq.webmarket.framework.utils.EmailSender;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 public class TestController extends ApplicationBaseController {
@@ -59,10 +61,14 @@ public class TestController extends ApplicationBaseController {
         ufficioDAO.getAllUffici().forEach(System.out::println);
     }
 
-    private void sendEmail() {
-        EmailSender sender = new EmailSender();
-        sender.sendEmail(getServletContext(), "paoloccigiacomo@gmail.com", "Ciao sono michael");
+    private void testEmail() throws IOException {
+        EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+
+        //sender.sendEmail("michaelpiccirilli3@gmail.com", "Ciao sono michael");
+        sender.sendPDFWithEmail();
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
     }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
@@ -91,7 +97,8 @@ public class TestController extends ApplicationBaseController {
         //Testing enums
         //testEnums(dl);
 
-        sendEmail();
+        testEmail();
+
         result.activate(request, response);
     }
 }

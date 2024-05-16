@@ -1,6 +1,9 @@
 package it.univaq.webmarket.framework.application;
 
+import it.univaq.webmarket.framework.utils.EmailSender;
+
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -22,8 +25,7 @@ public class ApplicationInitializer implements ServletContextListener {
 
         DataSource ds = null;
         Pattern protect = null;
-        String email = "";
-        String password = "";
+        EmailSender sender = null;
 
         //init protection pattern
         String p = event.getServletContext().getInitParameter("security.protect.patterns");
@@ -39,16 +41,24 @@ public class ApplicationInitializer implements ServletContextListener {
             InitialContext ctx = new InitialContext();
             ds = (DataSource) ctx.lookup("java:comp/env/" + event.getServletContext().getInitParameter("data.source"));
 
-            email = (String) new InitialContext().lookup("java:comp/env/email");
-            password = (String) new InitialContext().lookup("java:comp/env/password");
+            String emailSender = (String) ctx.lookup("java:comp/env/email");
+            String passwordSender = (String) ctx.lookup("java:comp/env/password");
+
+            Properties properties = System.getProperties();
+            properties.put("mail.smtp.host", "smtp-mail.outlook.com");
+            properties.put("mail.smtp.port", "587");
+            properties.put("mail.smtp.starttls.enable", "true");
+            properties.put("mail.smtp.auth", "true");
+            properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+            sender = new EmailSender(emailSender, passwordSender, properties);
         } catch (NamingException ex) {
             Logger.getLogger(ApplicationInitializer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        event.getServletContext().setAttribute("email", email);
-        event.getServletContext().setAttribute("password", password);
         event.getServletContext().setAttribute("protect", protect);
         event.getServletContext().setAttribute("datasource", ds);
+        event.getServletContext().setAttribute("emailsender", sender);
     }
 
 }
