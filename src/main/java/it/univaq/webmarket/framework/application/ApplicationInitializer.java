@@ -22,6 +22,8 @@ public class ApplicationInitializer implements ServletContextListener {
 
         DataSource ds = null;
         Pattern protect = null;
+        String email = "";
+        String password = "";
 
         //init protection pattern
         String p = event.getServletContext().getInitParameter("security.protect.patterns");
@@ -36,10 +38,15 @@ public class ApplicationInitializer implements ServletContextListener {
         try {
             InitialContext ctx = new InitialContext();
             ds = (DataSource) ctx.lookup("java:comp/env/" + event.getServletContext().getInitParameter("data.source"));
+
+            email = (String) new InitialContext().lookup("java:comp/env/email");
+            password = (String) new InitialContext().lookup("java:comp/env/password");
         } catch (NamingException ex) {
             Logger.getLogger(ApplicationInitializer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        event.getServletContext().setAttribute("email", email);
+        event.getServletContext().setAttribute("password", password);
         event.getServletContext().setAttribute("protect", protect);
         event.getServletContext().setAttribute("datasource", ds);
     }

@@ -10,6 +10,7 @@ import it.univaq.webmarket.data.model.impl.proxy.TecnicoPreventiviProxy;
 import it.univaq.webmarket.data.model.impl.proxy.UfficioProxy;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.HTMLResult;
+import it.univaq.webmarket.framework.utils.EmailSender;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,6 +58,11 @@ public class TestController extends ApplicationBaseController {
 
         ufficioDAO.getAllUffici().forEach(System.out::println);
     }
+
+    private void sendEmail() {
+        EmailSender sender = new EmailSender();
+        sender.sendEmail(getServletContext(), "paoloccigiacomo@gmail.com", "Ciao sono michael");
+    }
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
@@ -83,8 +89,9 @@ public class TestController extends ApplicationBaseController {
         //testUfficio(dl);
 
         //Testing enums
-        testEnums(dl);
+        //testEnums(dl);
 
+        sendEmail();
         result.activate(request, response);
     }
 }
