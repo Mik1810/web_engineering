@@ -12,7 +12,7 @@ public interface PropostaDAO {
 
     List<Proposta> getAllProposta() throws DataException;
 
-    void deleteProposta(int key) throws DataException;
+    void deleteProposta(Proposta proposta) throws DataException;
 
     void storeProposta(Proposta proposta) throws DataException;
 

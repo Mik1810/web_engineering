@@ -1,6 +1,7 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.PropostaDAO;
+import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.impl.proxy.PropostaProxy;
 import it.univaq.webmarket.framework.data.DAO;
@@ -124,7 +125,14 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     }
 
     @Override
-    public void deleteProposta(int key) {
+    public void deleteProposta(Proposta proposta) throws DataException {
+        try {
+            dataLayer.getCache().delete(Proposta.class, proposta);
+            dProposta.setInt(1,proposta.getKey());
+            dProposta.executeUpdate();
+        }catch (SQLException ex){
+            throw new DataException("Unable to delete Proposta", ex);
+        }
 
     }
 
