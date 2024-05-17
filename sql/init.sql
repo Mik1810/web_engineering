@@ -183,8 +183,8 @@ CREATE DATABASE IF NOT EXISTS webmarket;
     CREATE TABLE Ordine (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         stato_consegna INT UNSIGNED NOT NULL,
-        feedback INT UNSIGNED  NOT NULL,
-        data_di_consegna TIMESTAMP NULL,
+        feedback INT UNSIGNED NULL DEFAULT NULL,
+        data_di_consegna TIMESTAMP NULL DEFAULT NULL,
         ID_tecnico_ordini INT UNSIGNED NULL,
         ID_proposta INT UNSIGNED NOT NULL,
         version BIGINT UNSIGNED NOT NULL DEFAULT 1,

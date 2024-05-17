@@ -6,7 +6,7 @@ SELECT
     o.id AS ID_ordine,
     c.id AS ID_ordinante,
     f.nome AS feedback,
-    p.codice_prodotto AS prodotto,
+    p.nome_prodotto AS prodotto,
     o.data_di_consegna AS data_di_consegna
 
 FROM chiude AS c
