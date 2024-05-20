@@ -10,4 +10,7 @@ public interface CaratteristicaDAO {
     Caratteristica getCaratteristica(int key);
 
     List<Caratteristica> getAllCaratteristiche();
+
+    void storeCaratteristica(Caratteristica caratteristica);
+
 }

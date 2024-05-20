@@ -59,7 +59,7 @@ public class StatiEnumDAO_MySQL extends DAO implements StatiEnumDAO {
             sFeedbackByID.close();
             sFeedback.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy connections", ex);
         }
         super.destroy();
     }

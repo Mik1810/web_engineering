@@ -7,6 +7,7 @@ import it.univaq.webmarket.data.model.impl.proxy.PropostaProxy;
 import it.univaq.webmarket.framework.data.DAO;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataLayer;
+import it.univaq.webmarket.framework.data.OptimisticLockException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,8 +44,6 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
 
     @Override
     public void destroy() throws DataException {
-        //anche chiudere i PreparedStamenent è una buona pratica...
-        //also closing PreparedStamenents is a good practice...
         try {
             sPropostaByID.close();
             sProposte.close();
@@ -76,6 +75,8 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
 
             //usare il DAO per ottenere lo stato proposta
             //proposta.setStatoProposta(stato);
+
+
 
             proposta.setMotivazione(rs.getString("motivazione"));
             proposta.setVersion(rs.getLong("version"));
@@ -137,11 +138,58 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     }
 
     @Override
-    public void storeProposta(Proposta proposta) {
+    public void storeProposta(Proposta proposta) throws DataException {
+        try{
+            if(proposta.getKey()!= null && proposta.getKey()>0){
+               if(proposta instanceof PropostaProxy && !((PropostaProxy) proposta).isModified()){
+                   return;
+               }
+                uProposta.setString(1, proposta.getCodiceProdotto());
+                uProposta.setString(2, proposta.getProduttore());
+                uProposta.setString(3, proposta.getNote());
+                uProposta.setFloat(4, proposta.getPrezzo());
+                uProposta.setString(5, proposta.getNomeProdotto());
+                uProposta.setString(6, proposta.getURL());
+                uProposta.setInt(7, proposta.getStatoProposta().getKey());
 
-    }
-    @Override
-    public void updateProposta(Proposta proposta) {
+                long current_version = proposta.getVersion();
+                long next_version = current_version + 1;
 
+                uProposta.setLong(11, next_version);
+                uProposta.setInt(12, proposta.getKey());
+                uProposta.setLong(13, current_version);
+
+                if(uProposta.executeUpdate() == 0){
+                    throw new OptimisticLockException(proposta);
+                }else {
+                    proposta.setVersion(next_version);
+                }
+            }else {
+                iProposta.setString(1, proposta.getCodiceProdotto());
+                iProposta.setString(2, proposta.getProduttore());
+                iProposta.setString(3, proposta.getNote());
+                iProposta.setFloat(4, proposta.getPrezzo());
+                iProposta.setString(5, proposta.getNomeProdotto());
+                iProposta.setString(6, proposta.getURL());
+                iProposta.setString(7, proposta.getStatoProposta().getNome());
+                iProposta.setString(8, proposta.getMotivazione());
+                iProposta.setInt(9, proposta.getRichiestaPresaInCarico().getKey());
+                //iProposta.setInt(10, proposta.getTecnicoPreventivi_key());
+
+                if(iProposta.executeUpdate() == 1){
+                    try(ResultSet keys = iProposta.getGeneratedKeys()){
+                        if(keys.next()){
+                            int key = keys.getInt(1);
+                            proposta.setKey(key);
+                            dataLayer.getCache().add(Proposta.class, proposta);
+                        }
+                    }
+                }
+
+
+            }
+        }catch (SQLException ex){
+            throw new DataException("Unable to store Proposta", ex);
+        }
     }
 }
