@@ -14,4 +14,6 @@ public interface CaratteristicaDAO {
 
     void storeCaratteristica(Caratteristica caratteristica) throws DataException;
 
+    void deleteCaratteristica(Caratteristica caratteristica) throws DataException;
+
 }
