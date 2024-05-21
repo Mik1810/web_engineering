@@ -103,16 +103,12 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     }
 
     @Override
-    public List<Richiesta> getAllRichiesteAcquisto() throws DataException {
-        List<Richiesta> result = new ArrayList<>();
+    public void storeRichiestaAcquisto(Richiesta richiesta) throws DataException {
+        //TODO: Implementare storeRichiestaAcquisto
+    }
 
-        try (ResultSet rs = sAllRichieste.executeQuery()) {
-            while (rs.next()) {
-                result.add(getRichiestaAcquisto(rs.getInt("ID")));
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Unable to load articles", ex);
-        }
-        return result;
+    @Override
+    public void deleteRichiestaAcquisto(Richiesta richiesta) throws DataException {
+        //TODO
     }
 }

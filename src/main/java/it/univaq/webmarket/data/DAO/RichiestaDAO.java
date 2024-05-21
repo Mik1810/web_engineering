@@ -11,6 +11,7 @@ public interface RichiestaDAO {
 
     Richiesta getRichiestaAcquisto(int richiesta_key) throws DataException;
 
-    List<Richiesta> getAllRichiesteAcquisto() throws DataException;
+    void storeRichiestaAcquisto(Richiesta richiesta) throws DataException;
 
+    void deleteRichiestaAcquisto(Richiesta richiesta) throws DataException;
 }

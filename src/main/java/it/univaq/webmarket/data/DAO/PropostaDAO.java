@@ -16,6 +16,4 @@ public interface PropostaDAO {
 
     void storeProposta(Proposta proposta) throws DataException;
 
-    //void updateProposta(Proposta proposta) throws DataException;
-    // basta fare lo store, se la chiave è già presente fa l'update
 }

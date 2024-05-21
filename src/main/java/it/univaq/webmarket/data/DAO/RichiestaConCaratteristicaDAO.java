@@ -2,18 +2,21 @@ package it.univaq.webmarket.data.DAO;
 
 import it.univaq.webmarket.data.model.Caratteristica;
 import it.univaq.webmarket.data.model.RichiestaConCaratteristiche;
+import it.univaq.webmarket.framework.data.DataException;
 
+import java.util.List;
 import java.util.Map;
 
 public interface RichiestaConCaratteristicaDAO {
 
     RichiestaConCaratteristiche createRichiestaConCaratteristica();
 
-    // avevamo detto che la mappa sarebbe stata creata dal DAO con i dati dal DB e poi propagata nel resto della struttura
-    Map<Caratteristica, String> getRichiestaConCaratteristica(int richiesta_key);
+    RichiestaConCaratteristiche getRichiestaConCaratteristica(int richiesta_key) throws DataException;
 
-    void storeRichiestaConCaratteristica(RichiestaConCaratteristiche richiestaConCaratteristiche);
+    List<RichiestaConCaratteristiche> getRichiesteConCaratteristica() throws DataException;
 
-    void deleteRichiestaConCaratteristica(int richiesta_key);
+    void storeRichiestaConCaratteristica(RichiestaConCaratteristiche richiestaConCaratteristiche) throws DataException;
+
+    void deleteRichiestaConCaratteristica(RichiestaConCaratteristiche richiestaConCaratteristiche) throws DataException;
 
 }
