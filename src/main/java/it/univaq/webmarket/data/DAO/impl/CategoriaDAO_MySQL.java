@@ -37,6 +37,10 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     private PreparedStatement sCategoriaPadreFromFiglio;
     private PreparedStatement sCategoriaFiglioFromNipote;
 
+    private PreparedStatement dCategoriaPadre;
+    private PreparedStatement dCategoriaFiglio;
+    private PreparedStatement dCategoriaNipote;
+
     public CategoriaDAO_MySQL(DataLayer d) {
         super(d);
     }
@@ -53,9 +57,9 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             sCategorieFiglio = connection.prepareStatement("SELECT ID FROM categoriaFiglio");
             sCategorieNipote = connection.prepareStatement("SELECT ID FROM categoriaNipote");
 
-            iCategoriaPadre = connection.prepareStatement("INSERT INTO categoriapadre(nome) VALUES (?)");
-            iCategoriaFiglio = connection.prepareStatement("INSERT INTO categoriafiglio(nome, ID_categoria_padre) VALUES (?, ?)");
-            iCategoriaNipote = connection.prepareStatement("INSERT INTO categorianipote(nome, ID_categoria_figlio) VALUES (?, ?)");
+            iCategoriaPadre = connection.prepareStatement("INSERT INTO categoriapadre(nome) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            iCategoriaFiglio = connection.prepareStatement("INSERT INTO categoriafiglio(nome, ID_categoria_padre) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            iCategoriaNipote = connection.prepareStatement("INSERT INTO categorianipote(nome, ID_categoria_figlio) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
             uCategoriaPadre = connection.prepareStatement("UPDATE categoriapadre SET nome=? WHERE ID=? AND version=?");
             uCategoriaFiglio = connection.prepareStatement("UPDATE categoriafiglio SET nome=?, ID_categoria_padre=? WHERE ID=? AND version=?");
@@ -63,6 +67,10 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
             sCategoriaPadreFromFiglio = connection.prepareStatement("SELECT * FROM categoriapadre JOIN categoriafiglio ON categoriapadre.ID = categoriafiglio.ID_categoria_padre WHERE categoriafiglio.ID = ?");
             sCategoriaFiglioFromNipote = connection.prepareStatement("SELECT * FROM categoriafiglio JOIN categorianipote ON categoriafiglio.ID = categorianipote.ID_categoria_figlio WHERE categorianipote.ID = ?");
+
+            dCategoriaPadre = connection.prepareStatement("DELETE FROM categoriapadre WHERE ID=?");
+            dCategoriaFiglio = connection.prepareStatement("DELETE FROM categoriafiglio WHERE ID=?");
+            dCategoriaNipote = connection.prepareStatement("DELETE FROM categorianipote WHERE ID=?");
 
         } catch(SQLException e) {
             throw new DataException("Error initializing webmarket data layer", e);

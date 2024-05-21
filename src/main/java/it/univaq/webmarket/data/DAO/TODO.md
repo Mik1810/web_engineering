@@ -7,7 +7,7 @@
 - [x] RichiestaDAO
 - [x] OrdinanteDAO
 - [x] UfficioDAO
-- [ ] RichiestaPresaInCaricoDAO
+- [x] RichiestaPresaInCaricoDAO
 - [x] TecnicoPreventiviDAO
 - [x] PropostaDAO
 - [x] OrdineDAO

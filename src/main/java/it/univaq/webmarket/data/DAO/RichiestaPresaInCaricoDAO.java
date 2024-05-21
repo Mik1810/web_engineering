@@ -1,9 +1,16 @@
 package it.univaq.webmarket.data.DAO;
 
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
+import it.univaq.webmarket.framework.data.DataException;
 
 public interface RichiestaPresaInCaricoDAO {
 
     RichiestaPresaInCarico createRichiestaPresaInCarico();
+
+    RichiestaPresaInCarico getRichiestaPresaInCarico(Integer key) throws DataException;
+
+    void storeRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico) throws DataException;
+
+    void deleteRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico) throws DataException;
 
 }
