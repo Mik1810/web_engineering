@@ -146,12 +146,9 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         stato INT UNSIGNED NOT NULL,
         motivazione TEXT NULL,
         version BIGINT UNSIGNED NOT NULL DEFAULT 1,
-        ID_tecnico_preventivi INT UNSIGNED NOT NULL,
         ID_richiesta_presa_in_carico INT UNSIGNED NOT NULL,
         FOREIGN KEY (ID_richiesta_presa_in_carico) REFERENCES RichiestaPresaInCarico(ID)
-        ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (ID_tecnico_preventivi) REFERENCES TecnicoPreventivi(ID)
-        ON DELETE RESTRICT ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE
     );
 
     CREATE TABLE Amministratore (
