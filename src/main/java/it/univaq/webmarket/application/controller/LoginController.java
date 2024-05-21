@@ -95,6 +95,6 @@ public class LoginController extends ApplicationBaseController {
             datamodel.put("message_error", "Email o password errate!");
         }
         datamodel.put("referrer", request.getParameter("referrer"));
-        result.activate("login.ftl.html", datamodel, response);
+        result.activate("login.ftl", datamodel, response);
     }
 }
