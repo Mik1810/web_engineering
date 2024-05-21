@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,13 +80,21 @@ public class LoginController extends ApplicationBaseController {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            handleError("Login failed", request, response);
+            try {
+                response.sendRedirect("login?error");
+            } catch (IOException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     private void renderLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
-        request.setAttribute("referrer", request.getParameter("referrer"));
-        result.activate("login.ftl.html", request, response);
+        Map<String, Object> datamodel = new HashMap<>();
+        if(request.getParameter("error") != null) {
+            datamodel.put("message_error", "Email o password errate!");
+        }
+        datamodel.put("referrer", request.getParameter("referrer"));
+        result.activate("login.ftl.html", datamodel, response);
     }
 }

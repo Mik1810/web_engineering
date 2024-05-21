@@ -11,6 +11,14 @@
 <div class="container">
     <h1>Accedi</h1>
     <form action="login" method="POST">
+        <#if (referrer??)>
+            <input name="referrer" type="hidden" value="${referrer}"/>
+        </#if>
+        <#if (message_error??)>
+            <p id="alert-visibile">${message_error}</p>
+        <#else>
+            <p id="alert-hidden"></p>
+        </#if>
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
             <label for="email">Email address</label>
