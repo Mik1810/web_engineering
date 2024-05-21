@@ -74,7 +74,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             proposta.setURL(rs.getString("URL"));
 
             //usare il DAO per ottenere lo stato proposta
-            //proposta.setStatoProposta(stato);
+            proposta.setStatoProposta_key(rs.getInt("ID_stato_proposta"));
 
 
 

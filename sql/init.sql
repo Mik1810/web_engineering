@@ -143,10 +143,12 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         prezzo DECIMAL(10,2) NOT NULL,
         nome_prodotto VARCHAR(255) NOT NULL,
         URL VARCHAR(2048) NOT NULL,
-        stato INT UNSIGNED NOT NULL,
+        ID_stato_proposta INT UNSIGNED NOT NULL,
         motivazione TEXT NULL,
         version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         ID_richiesta_presa_in_carico INT UNSIGNED NOT NULL,
+        FOREIGN KEY (ID_stato_proposta) REFERENCES StatoProposta(ID)
+        ON DELETE RESTRICT ON UPDATE CASCADE,
         FOREIGN KEY (ID_richiesta_presa_in_carico) REFERENCES RichiestaPresaInCarico(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
     );

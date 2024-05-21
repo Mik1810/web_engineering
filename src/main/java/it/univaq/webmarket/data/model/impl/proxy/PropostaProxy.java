@@ -1,10 +1,17 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.DAO.RichiestaPresaInCaricoDAO;
+import it.univaq.webmarket.data.DAO.StatiEnumDAO;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
+import it.univaq.webmarket.data.model.enums.StatoEnum;
 import it.univaq.webmarket.data.model.enums.StatoProposta;
 import it.univaq.webmarket.data.model.impl.PropostaImpl;
+import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PropostaProxy extends PropostaImpl implements DataItemProxy {
 
@@ -36,7 +43,13 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
 
     @Override
     public RichiestaPresaInCarico getRichiestaPresaInCarico() {
-        //TODO: Implementare il lazy loading
+        if (super.getRichiestaPresaInCarico() == null && richiestaPresaInCarico_key > 0) {
+            try {
+                super.setRichiestaPresaInCarico(((RichiestaPresaInCaricoDAO) dataLayer.getDAO(RichiestaPresaInCarico.class)).getRichiestaPresaInCarico(richiestaPresaInCarico_key));
+            } catch (DataException ex) {
+                Logger.getLogger(PropostaProxy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return super.getRichiestaPresaInCarico();
     }
 
@@ -91,7 +104,14 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
 
     @Override
     public StatoProposta getStatoProposta() {
-        //TODO: Implementare il lazy loading
+        if (super.getStatoProposta() == null && statoProposta_key > 0) {
+            try {
+                super.setStatoProposta(((StatiEnumDAO) dataLayer.getDAO(StatoEnum.class)).getStatoProposta(statoProposta_key));
+            } catch (DataException ex) {
+                Logger.getLogger(PropostaProxy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
         return super.getStatoProposta();
 
     }
@@ -109,5 +129,10 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     public void setRichiestaPresaInCarico_key(Integer richiestaPresaInCarico_key) {
         this.richiestaPresaInCarico_key = richiestaPresaInCarico_key;
         super.setRichiestaPresaInCarico(null);
+    }
+
+    public void setStatoProposta_key(Integer statoProposta_key) {
+        this.statoProposta_key = statoProposta_key;
+        super.setStatoProposta(null);
     }
 }

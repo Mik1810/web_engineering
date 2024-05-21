@@ -1,12 +1,18 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.DAO.PropostaDAO;
+import it.univaq.webmarket.data.DAO.StatiEnumDAO;
+import it.univaq.webmarket.data.DAO.TecnicoOrdiniDAO;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.OrdineImpl;
 import it.univaq.webmarket.data.model.enums.Feedback;
 import it.univaq.webmarket.data.model.enums.StatoConsegna;
+import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
+
+import java.util.logging.Logger;
 
 public class OrdineProxy extends OrdineImpl implements DataItemProxy {
 
@@ -40,7 +46,9 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
     }
 
     @Override
-    public void setModified(boolean dirty) { this.modified = dirty; }
+    public void setModified(boolean dirty) {
+        this.modified = dirty;
+    }
 
     @Override
     public void setFeedback(Feedback feedback) {
@@ -55,7 +63,6 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
         this.statoConsegna_key = statoConsegna.getKey();
         this.modified = true;
     }
-
 
 
     @Override
@@ -74,29 +81,57 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
 
     @Override
     public StatoConsegna getStatoConsegna() {
-        //TODO: Implementare il lazy loading
+        if (super.getStatoConsegna() == null && statoConsegna_key > 0) {
+            try {
+                super.setStatoConsegna(((StatiEnumDAO) dataLayer.getDAO(StatoConsegna.class)).getStatoConsegna(statoConsegna_key));
+            } catch (DataException ex) {
+                Logger.getLogger(OrdineProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+
+
         return super.getStatoConsegna();
     }
 
     @Override
     public Feedback getFeedback() {
-        //TODO: Implementare il lazy loading
+        if (super.getFeedback() == null && feedback_key > 0) {
+            try {
+                super.setFeedback(((StatiEnumDAO) dataLayer.getDAO(Feedback.class)).getFeedback(feedback_key));
+            } catch (DataException ex) {
+                Logger.getLogger(OrdineProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+
         return super.getFeedback();
     }
 
     @Override
     public TecnicoOrdini getTecnicoOrdini() {
-        //TODO: Implementare il lazy loading
+        if (super.getTecnicoOrdini() == null && tecnicoOrdini_key > 0) {
+            try {
+                super.setTecnicoOrdini(((TecnicoOrdiniDAO) dataLayer.getDAO(TecnicoOrdini.class)).getTecnicoOrdini(tecnicoOrdini_key));
+            } catch (DataException ex) {
+                Logger.getLogger(OrdineProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+
         return super.getTecnicoOrdini();
     }
 
     @Override
     public Proposta getProposta() {
-        //TODO: Implementare il lazy loading
+        if (super.getProposta() == null && proposta_key > 0) {
+            try {
+                super.setProposta(((PropostaDAO) dataLayer.getDAO(Proposta.class)).getProposta(proposta_key));
+            } catch (DataException ex) {
+                Logger.getLogger(OrdineProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
+        }
+
         return super.getProposta();
     }
 
-    // Per resettare la cache
     public void setStatoConsegnaKey(Integer key) {
         this.statoConsegna_key = key;
         super.setStatoConsegna(null);

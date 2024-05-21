@@ -1,11 +1,16 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.DAO.OrdinanteDAO;
+import it.univaq.webmarket.data.DAO.UfficioDAO;
 import it.univaq.webmarket.data.model.Ordinante;
+import it.univaq.webmarket.data.model.Ufficio;
 import it.univaq.webmarket.data.model.impl.RichiestaImpl;
+import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
 import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
 
@@ -28,7 +33,15 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
 
     @Override
     public Ordinante getOrdinante() {
-        //TODO: implementare il caricamento lazy
+        if (super.getOrdinante() == null && ordinante_key > 0) {
+            try {
+                super.setOrdinante(((OrdinanteDAO) dataLayer.getDAO(Ordinante.class)).getOrdinante(ordinante_key));
+            } catch (DataException e) {
+                Logger.getLogger(RichiestaProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
+            }
+        }
+
+
         return null;
     }
 
@@ -58,9 +71,10 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
     }
 
 
-
     @Override
-    public boolean isModified() { return modified; }
+    public boolean isModified() {
+        return modified;
+    }
 
     @Override
     public void setModified(boolean dirty) {
