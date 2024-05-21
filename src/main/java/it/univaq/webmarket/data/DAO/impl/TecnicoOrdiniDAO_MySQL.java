@@ -24,7 +24,6 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
     private PreparedStatement uTecnicoOrdini;
     private PreparedStatement dTecnicoOrdini;
 
-    //TODO: all
     public TecnicoOrdiniDAO_MySQL(DataLayer d) {
         super(d);
     }

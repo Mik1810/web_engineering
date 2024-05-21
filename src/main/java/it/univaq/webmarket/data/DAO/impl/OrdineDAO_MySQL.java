@@ -1,14 +1,10 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.OrdineDAO;
-import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.impl.proxy.OrdineProxy;
 import it.univaq.webmarket.framework.data.*;
-import it.univaq.webmarket.framework.security.SecurityHelpers;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
