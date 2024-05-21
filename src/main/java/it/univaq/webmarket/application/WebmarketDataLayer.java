@@ -25,6 +25,7 @@ public class WebmarketDataLayer extends DataLayer {
         registerDAO(TecnicoPreventivi.class, new TecnicoPreventiviDAO_MySQL(this));
         registerDAO(Ufficio.class, new UfficioDAO_MySQL(this));
         registerDAO(StatoEnum.class, new StatiEnumDAO_MySQL(this));
+
     }
 
     public RichiestaDAO getRichiestaAcquistoDAO() {

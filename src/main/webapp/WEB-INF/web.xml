@@ -7,6 +7,10 @@
         <param-name>data.source</param-name>
         <param-value>jdbc/webmarket</param-value>
     </context-param>
+    <context-param>
+        <param-name>view.template_directory</param-name>
+        <param-value>templates</param-value>
+    </context-param>
     <listener>
         <listener-class>it.univaq.webmarket.framework.application.ApplicationInitializer</listener-class>
     </listener>
@@ -64,6 +68,9 @@
             30
         </session-timeout>
     </session-config>
+    <welcome-file-list>
+        <welcome-file>login</welcome-file>
+    </welcome-file-list>
     <resource-ref>
         <res-ref-name>jdbc/webmarket</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
