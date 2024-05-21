@@ -1,9 +1,13 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.DAO.CategoriaDAO;
+import it.univaq.webmarket.data.model.Categoria;
 import it.univaq.webmarket.data.model.CategoriaFiglio;
 import it.univaq.webmarket.data.model.impl.CategoriaNipoteImpl;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
+
+import java.util.logging.Logger;
 
 public class CategoriaNipoteProxy extends CategoriaNipoteImpl implements DataItemProxy {
 
@@ -39,7 +43,15 @@ public class CategoriaNipoteProxy extends CategoriaNipoteImpl implements DataIte
 
     @Override
     public CategoriaFiglio getCategoriaGenitore() {
-        //TODO: implementare il caricamento lazy
+        if (super.getCategoriaGenitore() == null && categoriaFiglio_key > 0) {
+            try {
+                super.setCategoriaGenitore(((CategoriaDAO) dataLayer.getDAO(Categoria.class)).getCategoriaFiglio(categoriaFiglio_key));
+            } catch (Exception ex) {
+                Logger.getLogger(CategoriaNipoteProxy.class.getName()).severe(ex.getMessage());
+            }
+        }
+
+
         return super.getCategoriaGenitore();
     }
 
@@ -57,7 +69,6 @@ public class CategoriaNipoteProxy extends CategoriaNipoteImpl implements DataIte
         this.categoriaFiglio_key = idCategoriaFiglio;
         super.setCategoriaGenitore(null);
     }
-
 
 
 }

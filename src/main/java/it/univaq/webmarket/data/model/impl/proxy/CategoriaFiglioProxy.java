@@ -1,9 +1,15 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.DAO.CategoriaDAO;
+import it.univaq.webmarket.data.model.Categoria;
 import it.univaq.webmarket.data.model.CategoriaPadre;
 import it.univaq.webmarket.data.model.impl.CategoriaFiglioImpl;
+import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CategoriaFiglioProxy extends CategoriaFiglioImpl implements DataItemProxy {
 
@@ -39,12 +45,20 @@ public class CategoriaFiglioProxy extends CategoriaFiglioImpl implements DataIte
 
     @Override
     public CategoriaPadre getCategoriaGenitore() {
-        // TODO: implementare lazy loading
+        if (super.getCategoriaGenitore() == null && categoriaPadre_key > 0) {
+            try {
+                super.setCategoriaGenitore(((CategoriaDAO) dataLayer.getDAO(Categoria.class)).getCategoriaPadre(categoriaPadre_key));
+            } catch (DataException e) {
+                Logger.getLogger(CategoriaFiglioProxy.class.getName()).log(Level.SEVERE, null, e);
+            }
+        }
         return super.getCategoriaGenitore();
     }
 
     @Override
-    public boolean isModified() { return modified; }
+    public boolean isModified() {
+        return modified;
+    }
 
     @Override
     public void setModified(boolean dirty) {

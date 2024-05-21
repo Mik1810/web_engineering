@@ -1,9 +1,14 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.DAO.CategoriaDAO;
 import it.univaq.webmarket.data.model.CategoriaNipote;
 import it.univaq.webmarket.data.model.impl.CaratteristicaImpl;
+import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CaratteristicaProxy extends CaratteristicaImpl implements DataItemProxy {
 
@@ -50,8 +55,15 @@ public class CaratteristicaProxy extends CaratteristicaImpl implements DataItemP
 
     @Override
     public CategoriaNipote getCategoriaNipote() {
-        //TODO: implementare il caricamento lazy di categoriaNipote
-        return null;
+        if (super.getCategoriaNipote() == null && categoriaNipote_key > 0) {
+            try {
+                super.setCategoriaNipote((((CategoriaDAO) dataLayer.getDAO(CategoriaNipote.class)).getCategoriaNipote(categoriaNipote_key)));
+            } catch (DataException ex) {
+                Logger.getLogger(PropostaProxy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return super.getCategoriaNipote();
     }
 
     @Override
@@ -60,7 +72,9 @@ public class CaratteristicaProxy extends CaratteristicaImpl implements DataItemP
     }
 
     @Override
-    public void setModified(boolean dirty) { this.modified = dirty; }
+    public void setModified(boolean dirty) {
+        this.modified = dirty;
+    }
 
     public void setCategoriaNipote_key(Integer categoriaNipote_key) {
         this.categoriaNipote_key = categoriaNipote_key;
