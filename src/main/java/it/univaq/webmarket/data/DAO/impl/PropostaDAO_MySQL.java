@@ -34,9 +34,9 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             super.init();
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE ID=?");
             sProposte = connection.prepareStatement("SELECT ID FROM proposta");
-            iProposta = connection.prepareStatement("INSERT INTO proposta(codice_prodotto, produttore, note, prezzo,nome_prodotto,URL,stato,motivazione, ID_richiesta_presa_in_carico, ID_tecnico_preventivi) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            iProposta = connection.prepareStatement("INSERT INTO proposta(codice_prodotto, produttore, note, prezzo,nome_prodotto,URL,stato,motivazione, ID_richiesta_presa_in_carico) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dProposta = connection.prepareStatement("DELETE FROM proposta WHERE ID=?");
-            uProposta = connection.prepareStatement("UPDATE proposta SET codice_prodotto=?, produttore=?, note=?, prezzo=?, nome_prodotto=?, URL=?, stato=?, motivazione=?, ID_richiesta_presa_in_carico=?, ID_tecnico_preventivi=?, version=? WHERE ID=? AND version=?");
+            uProposta = connection.prepareStatement("UPDATE proposta SET codice_prodotto=?, produttore=?, note=?, prezzo=?, nome_prodotto=?, URL=?, stato=?, motivazione=?, ID_richiesta_presa_in_carico=?, version=? WHERE ID=? AND version=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -81,6 +81,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             proposta.setMotivazione(rs.getString("motivazione"));
             proposta.setVersion(rs.getLong("version"));
             proposta.setRichiestaPresaInCarico_key(rs.getInt("ID_richiesta_presa_in_carico"));
+            proposta.setVersion(rs.getLong("version"));
             return proposta;
 
         } catch (SQLException ex) {
@@ -174,7 +175,6 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                 iProposta.setString(7, proposta.getStatoProposta().getNome());
                 iProposta.setString(8, proposta.getMotivazione());
                 iProposta.setInt(9, proposta.getRichiestaPresaInCarico().getKey());
-                //iProposta.setInt(10, proposta.getTecnicoPreventivi_key());
 
                 if(iProposta.executeUpdate() == 1){
                     try(ResultSet keys = iProposta.getGeneratedKeys()){
@@ -185,8 +185,6 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                         }
                     }
                 }
-
-
             }
         }catch (SQLException ex){
             throw new DataException("Unable to store Proposta", ex);
