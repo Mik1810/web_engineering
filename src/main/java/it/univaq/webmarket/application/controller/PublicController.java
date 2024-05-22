@@ -31,25 +31,6 @@ public class PublicController extends ApplicationBaseController {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
         RichiestaDAO richiestaDAO = dl.getRichiestaAcquistoDAO();
 
-        List<Richiesta> richieste = richiestaDAO.getAllRichiesteAcquisto();
-        HTMLResult result = new HTMLResult(getServletContext());
-        result.setTitle("Test DAO");
-        result.appendToBody("<ul>");
-        for (Richiesta richiesta : richieste) {
-            result.appendToBody("<li>" + HTMLResult.sanitizeHTMLOutput(richiesta.toString()) + "</li>");
-        }
-        result.appendToBody("</ul>");
-
-        // Lo faccio una seconda volta per vedere se la cache funziona
-        List<Richiesta> richieste2 = richiestaDAO.getAllRichiesteAcquisto();
-        result.appendToBody("<b>Seconda richiesta per verificare la cache</b></br>");
-        result.appendToBody("<ul>");
-        for (Richiesta richiesta : richieste2) {
-            result.appendToBody("<li>" + HTMLResult.sanitizeHTMLOutput(richiesta.toString()) + "</li>");
-        }
-        result.appendToBody("</ul>");
-
-        result.activate(request, response);
         /*
         List<Article> articles = dl.getArticleDAO().getArticles();
         HTMLResult result = new HTMLResult(getServletContext());

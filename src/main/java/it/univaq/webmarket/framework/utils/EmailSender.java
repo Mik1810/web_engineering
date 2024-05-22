@@ -61,7 +61,7 @@ public class EmailSender {
                 message.setSubject("This is the Subject Line!");
 
                 // Now set the actual message
-                message.setText("This is actual message");
+                message.setText(messageText);
 
                 // Send message
                 Transport.send(message);
@@ -83,7 +83,7 @@ public class EmailSender {
                     contentStream.beginText();
                     contentStream.newLineAtOffset(100, 700);
                     contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 12);
-                    contentStream.showText("Ammazzati frocio!");
+                    contentStream.showText("Ciao sono michael");
                     contentStream.endText();
                 }
                 document.save( "hello_world.pdf");
@@ -99,12 +99,12 @@ public class EmailSender {
                 });
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(this.emailFrom)); // Inserire il proprio indirizzo email
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("paoloccigiacomo@gmail.com")); // Inserire il destinatario
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("elisabetta.mecozzi0@gmail.com")); // Inserire il destinatario
                 message.setSubject("File PDF con Hello World");
 
                 // Creazione del corpo del messaggio
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
-                messageBodyPart.setText("Ciao, allego il file PDF con Hello World.");
+                messageBodyPart.setText("Ciao, sono michael");
 
                 // Creazione della parte dell'allegato
                 MimeBodyPart attachmentPart = new MimeBodyPart();

@@ -64,8 +64,8 @@ public class TestController extends ApplicationBaseController {
     private void testEmail() throws IOException {
         EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
 
-        sender.sendEmail("paoloccigiacomo@gmail.com", "Ciao sono michael");
-        //sender.sendPDFWithEmail();
+        sender.sendEmail("elisabetta.mecozzi0@gmail.com", "Ciao sono michael");
+        sender.sendPDFWithEmail();
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
     }
 
