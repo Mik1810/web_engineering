@@ -74,7 +74,7 @@ public class LoginController extends ApplicationBaseController {
                 if (request.getParameter("referrer") != null) {
                     response.sendRedirect(request.getParameter("referrer"));
                 }
-                response.sendRedirect("test");
+                response.sendRedirect("admin");
                 System.out.println(u.getClass()+ ", " + u.getEmail()+ ", " + u.getPassword());
             } catch (NoSuchAlgorithmException | InvalidKeySpecException | DataException | IOException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

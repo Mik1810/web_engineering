@@ -8,4 +8,6 @@ public interface AmministratoreDAO {
     Amministratore createAmministratore();
 
     Amministratore getAmministratoreByEmail(String email) throws DataException;
+
+    Amministratore getAmministratoreByID(Integer id) throws DataException;
 }

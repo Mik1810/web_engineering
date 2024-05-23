@@ -2,6 +2,7 @@ package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.AmministratoreDAO;
 import it.univaq.webmarket.data.model.Amministratore;
+import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.impl.proxy.AmministratoreProxy;
 import it.univaq.webmarket.framework.data.DAO;
 import it.univaq.webmarket.framework.data.DataException;
@@ -14,6 +15,7 @@ import java.sql.SQLException;
 public class AmministratoreDAO_MySQL extends DAO implements AmministratoreDAO {
 
     private PreparedStatement sAmministratoreByEmail;
+    private PreparedStatement sAmministratoreByID;
 
     public AmministratoreDAO_MySQL(DataLayer d) {
         super(d);
@@ -23,7 +25,7 @@ public class AmministratoreDAO_MySQL extends DAO implements AmministratoreDAO {
     public void init() throws DataException {
         try {
             super.init();
-
+            sAmministratoreByID = connection.prepareStatement("SELECT * FROM amministratore WHERE ID=?");
             sAmministratoreByEmail = connection.prepareStatement("SELECT * FROM amministratore WHERE email=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
@@ -34,6 +36,7 @@ public class AmministratoreDAO_MySQL extends DAO implements AmministratoreDAO {
     public void destroy() throws DataException {
         try {
             sAmministratoreByEmail.close();
+            sAmministratoreByID.close();
         } catch (SQLException ex) {
             //
         }
@@ -71,5 +74,26 @@ public class AmministratoreDAO_MySQL extends DAO implements AmministratoreDAO {
             throw new DataException("Unable to find user", ex);
         }
         return null;
+    }
+
+    @Override
+    public Amministratore getAmministratoreByID(Integer id) throws DataException {
+        Amministratore a = null;
+        if (dataLayer.getCache().has(Amministratore.class, id)) {
+            a = dataLayer.getCache().get(Amministratore.class, id);
+        } else {
+            try {
+                sAmministratoreByID.setInt(1, id);
+                try (ResultSet rs = sAmministratoreByID.executeQuery()) {
+                    if (rs.next()) {
+                        a = createAmministratore(rs);
+                        dataLayer.getCache().add(Amministratore.class, a);
+                    }
+                }
+            } catch (SQLException ex) {
+                throw new DataException("Unable to load Amministratore by ID", ex);
+            }
+        }
+        return a;
     }
 }

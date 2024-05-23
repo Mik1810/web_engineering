@@ -23,20 +23,12 @@
         <servlet-class>it.univaq.webmarket.application.controller.LoginController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>admin</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.AdminController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>logout</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.LogoutController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>homepage</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.HomepageController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>secured</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.SecureController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>public</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.PublicController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -51,16 +43,8 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>secured</servlet-name>
-        <url-pattern>/secured</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>homepage</servlet-name>
-        <url-pattern>/homepage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>public</servlet-name>
-        <url-pattern>/public</url-pattern>
+        <servlet-name>admin</servlet-name>
+        <url-pattern>/admin</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
