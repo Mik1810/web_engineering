@@ -13,6 +13,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.HTMLResult;
 import it.univaq.webmarket.framework.utils.EmailSender;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -64,13 +65,13 @@ public class TestController extends ApplicationBaseController {
     private void testEmail() throws IOException {
         EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
 
-        sender.sendEmail("elisabetta.mecozzi0@gmail.com", "Ciao sono michael");
+        sender.sendEmail("michaelpiccirilli3@gmail.com", "Ciao sono michael");
         sender.sendPDFWithEmail();
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_26);
     }
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
         HTMLResult result = new HTMLResult(getServletContext());
         result.setTitle("Test");
@@ -97,8 +98,13 @@ public class TestController extends ApplicationBaseController {
         //Testing enums
         //testEnums(dl);
 
-        testEmail();
+        try {
+            testEmail();
+            result.activate(request, response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        result.activate(request, response);
+
     }
 }

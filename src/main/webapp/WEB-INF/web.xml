@@ -30,6 +30,11 @@
         <servlet-name>logout</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.LogoutController</servlet-class>
     </servlet>
+    <context-param>
+        <param-name>security.protect.patterns</param-name>
+        <!-- qui configuriamo i pattern delle URL da proteggere -->
+        <param-value>/admin</param-value>
+    </context-param>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>

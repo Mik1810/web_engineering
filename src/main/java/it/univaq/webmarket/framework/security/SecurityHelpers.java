@@ -19,7 +19,7 @@ public class SecurityHelpers {
 
     //--------- SESSION SECURITY ------------    
     //dopo tre secondi la sessione scade (Mik sta testando)
-    public static final int MAX_SESSION_DURATION = 30; //3 * 60 * 60;
+    public static final int MAX_SESSION_DURATION = 5; //3 * 60 * 60;
 
     //dopo trenta minuti dall'ultima operazione la sessione è invalidata
     public static final int MAX_IDLE_TIME = 30 * 60;
@@ -65,7 +65,7 @@ public class SecurityHelpers {
             refresh_ts = start_ts;
         }
         //secondi trascorsi dall'inizio della sessione
-        //seconds from the session start           
+        //seconds from the session start
         long seconds_from_start = start_ts != null ? Duration.between(start_ts, now_ts).abs().getSeconds() : 0;
         //secondi trascorsi dall'ultima azione
         //seconds from the last valid action
@@ -77,10 +77,10 @@ public class SecurityHelpers {
         if (s.getAttribute("userid") == null || start_ts == null) {
             //check sulla validità della sessione
             //second, check is the session contains valid data
-            //nota: oltre a controllare se la sessione contiene un userid, 
-            //dovremmo anche controllere che lo userid sia valido, probabilmente 
+            //nota: oltre a controllare se la sessione contiene un userid,
+            //dovremmo anche controllere che lo userid sia valido, probabilmente
             //consultando il database utenti
-            //note: besides checking if the session contains an userid, we should 
+            //note: besides checking if the session contains an userid, we should
             //check if the userid is valid, possibly querying the user database
             check = false;
         } else if ((s.getAttribute("ip") == null) || !((String) s.getAttribute("ip")).equals(r.getRemoteHost())) {
@@ -93,12 +93,12 @@ public class SecurityHelpers {
             check = false;
         } else if (seconds_from_action > MAX_IDLE_TIME) {
             //dopo trenta minuti dall'ultima operazione la sessione è invalidata
-            //after 30 minutes since the last action the session is invalidated                    
+            //after 30 minutes since the last action the session is invalidated
             check = false;
         }
         //
         if (!check) {
-            s.invalidate();
+            //s.invalidate();
             return null;
         } else {
             //ogni 120 secondi, rigeneriamo la sessione per cambiarne l'ID
@@ -139,7 +139,7 @@ public class SecurityHelpers {
     }
 
     //questo metodo rigenera la sessione invalidando quella corrente e
-    //creandone una nuova con gli stessi attributi. Può essere utile per 
+    //creandone una nuova con gli stessi attributi. Può essere utile per
     //prevenire il session hijacking, perchè modifica il session identifier
     //this method regenerates the session by invalidating the current one
     //and creating a new one with the same attributes. It may be useful
@@ -169,7 +169,7 @@ public class SecurityHelpers {
         //possiamo usare questa tecnica per controllare se la richiesta è
         //stata effettuata in https e, in caso contrario, costruire la URL
         //necessaria a ridirezionare il browser verso l'https
-        //we can use this technique to check if the request was made in https 
+        //we can use this technique to check if the request was made in https
         //and, if not, build the URL needed to redirect the browser to https
         if (request.getScheme().equals("http")) {
             String url = "https://" + request.getServerName()
@@ -216,7 +216,7 @@ public class SecurityHelpers {
     }
 
     //--------- PASSWORD SECURITY ------------
-    
+
     //support functions for the password hashing functions
     private static String bytesToHexString(byte[] byteArray) {
         StringBuilder hexStringBuffer = new StringBuilder();

@@ -38,7 +38,7 @@ INSERT INTO Ufficio (sede, numero, piano, telefono, citta) VALUES ('Via Roma', 2
 INSERT INTO Ufficio (sede, numero, piano, telefono, citta) VALUES ('Via Castello', 11, 1, '0861997534', 'L\'aquila');
 
 -- Popolamento Ordinante
-INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('michaelpiccirilli3@gmail.com', 'supersafepassword', 3);
+INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('michaelpiccirilli3@gmail.com', '78bcd4a8fdf004fbc369061a84b5cd31312da76008934816ebeb74ea3afd23f66375dffde3b91b8872ca20ed36a7b071', 3);
 INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('paoloccigiacomo@gmail.com', 'miksoccombi', 1);
 
 -- Popolamento RichiestaAcquisto
