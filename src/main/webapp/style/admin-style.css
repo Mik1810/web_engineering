@@ -1,18 +1,21 @@
-body,html {
+body, html {
     margin: 0;
     font-family: Arial, sans-serif;
     min-height: 100vh;
     box-sizing: border-box;
 }
-body{
+
+body {
     display: flex;
     flex-direction: column;
     padding: 1rem;
 }
+
 header {
     font-size: 3ch;
     font-family: Roboto, sans-serif;
 }
+
 .container {
     display: flex;
     flex-wrap: wrap;
@@ -22,48 +25,58 @@ header {
     box-sizing: border-box;
     border-top: solid 0.05rem black;
 }
+
 .card {
     flex: 1 1 calc(25% - 2.4rem);
     box-sizing: border-box;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+
+
     border: 1px solid #ddd;
     background-color: #fff;
 }
+
 .icon {
     font-size: 100px;
     margin-bottom: 10px;
 }
+
 .separator {
     width: 100%;
     height: 1px;
     background-color: #ddd;
     margin: 10px 0;
 }
+
 .title {
     font-size: 20px;
     margin-bottom: 10px;
 }
+
 .text {
     text-align: center;
 }
+
 @media (max-width: 1200px) {
     .card {
         flex: 1 1 calc(50% - 40px);
     }
 }
+
 @media (max-width: 600px) {
     .card {
         flex: 1 1 calc(100% - 40px);
     }
 }
+
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
 #logout {
     font-size: 2.5rem;
     cursor: pointer;
