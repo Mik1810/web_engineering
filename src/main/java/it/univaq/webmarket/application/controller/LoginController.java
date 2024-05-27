@@ -7,7 +7,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
-import it.univaq.webmarket.framework.utils.ServletHelpers;
+import it.univaq.webmarket.framework.utils.Ruolo;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +26,6 @@ public class LoginController extends ApplicationBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        //ServletHelpers.printRequest(request);
         try {
             if (request.getParameter("login") != null) {
                 handleLogin(request, response);
@@ -40,101 +39,118 @@ public class LoginController extends ApplicationBaseController {
         }
     }
 
-    private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        String role = request.getParameter("role");
-
-
-        System.out.println("Role: " + role);
+        Ruolo role = Ruolo.valueOf(request.getParameter("role"));
 
         // Mi prendo la sessione in caso esista già
-        HttpSession s = request.getSession(false);
-        // Se mi ero loggato con un ruolo, è scaduta la sessione ed ho cambiato ruolo
+        HttpSession s = SecurityHelpers.checkSession(request);
+
+        // Se mi ero loggato con un ruolo, è scaduta la sessione e sto cambiando ruolo,
+        // redireziono verso la dashboard corretta per il nuovo ruolo
         if(s != null &&  s.getAttribute("role") != null && !s.getAttribute("role").equals(role)) {
-            System.out.println("HERE");
             s.invalidate();
-            response.sendRedirect("login?error=1");
+            handleRedirect(role, request, response);
             return;
         }
 
-        if (!email.isEmpty() && !password.isEmpty()) {
-            try {
-                Utente u = null;
-                WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-                // Selezione del giusto utente
-                switch (role) {
-                    case "ordinante":
-                        u = dl.getOrdinanteDAO().getOrdinanteByEmail(email);
-                        break;
-                    case "tecnicoprev":
-                        u = dl.getTecnicoPreventiviDAO().getTecnicoPreventiviByEmail(email);
-                        break;
-                    case "tecnicoord":
-                        u = dl.getTecnicoOrdiniDAO().getTecnicoOrdiniByEmail(email);
-                        break;
-                    case "amministratore":
-                        u = dl.getAmministratoreDAO().getAmministratoreByEmail(email);
-                        break;
-                    default:
-                        handleError("Login failed", request, response);
-                }
-
-                // Se la password è errata
-                if (u == null || ! SecurityHelpers.checkPasswordHashPBKDF2(password, u.getPassword())) {
-                    response.sendRedirect("login?error=2");
-                    return;
-                }
-
-                // Creo la sessione
-                SecurityHelpers.createSession(request, email, u.getKey(), role);
-
-                // Se ha un referrer, lo reindirizzo lì
-                if (request.getParameter("referrer") != null) {
-                    response.sendRedirect(request.getParameter("referrer"));
-                    return;
-                }
-
-                // Reindirizzo in base al ruolo
-                switch (role) {
-                    case "ordinante":
-                        response.sendRedirect("ordinante");
-                        break;
-                    case "tecnicoprev":
-                        response.sendRedirect("tecnicoprev");
-                        break;
-                    case "tecnicoord":
-                        response.sendRedirect("tecnicoord");
-                        break;
-                    case "amministratore":
-                        response.sendRedirect("admin");
-                        break;
-                }
-            } catch (NoSuchAlgorithmException | InvalidKeySpecException | DataException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            //Se non sono presenti email o password
+        // Se non ha inserito email e password redireziono con errore
+        if (email.isEmpty() || password.isEmpty()){
             response.sendRedirect("login?error=3");
+        }
+
+        try {
+            Utente u = null;
+            WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+            // Selezione del giusto utente
+            switch (role) {
+                case ORDINANTE:
+                    u = dl.getOrdinanteDAO().getOrdinanteByEmail(email);
+                    break;
+                case TECNICO_PREVENTIVI:
+                    u = dl.getTecnicoPreventiviDAO().getTecnicoPreventiviByEmail(email);
+                    break;
+                case TECNICO_ORDINI:
+                    u = dl.getTecnicoOrdiniDAO().getTecnicoOrdiniByEmail(email);
+                    break;
+                case AMMINISTRATORE:
+                    u = dl.getAmministratoreDAO().getAmministratoreByEmail(email);
+                    break;
+                default:
+                    handleError("Login fallito!", request, response);
+            }
+
+            // Se la password è errata
+            if (u == null || ! SecurityHelpers.checkPasswordHashPBKDF2(password, u.getPassword())) {
+                response.sendRedirect("login?error=2");
+                return;
+            }
+
+            // Creo la sessione
+            SecurityHelpers.createSession(request, email, u.getKey(), role);
+
+            // Se ha un referrer, lo reindirizzo lì
+            if (request.getParameter("referrer") != null) {
+                response.sendRedirect(request.getParameter("referrer"));
+                return;
+            }
+
+            // Reindirizzo in base al ruolo
+            handleRedirect(role, request, response);
+
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException | DataException e) {
+            //Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            handleError(e, request, response);
         }
     }
 
-    private void renderLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
+    private void handleRedirect(Ruolo role, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        switch (role) {
+            case ORDINANTE:
+                response.sendRedirect("ordinante");
+                break;
+            case TECNICO_PREVENTIVI:
+                response.sendRedirect("tecnicoprev");
+                break;
+            case TECNICO_ORDINI:
+                response.sendRedirect("tecnicoord");
+                break;
+            case AMMINISTRATORE:
+                response.sendRedirect("admin");
+                break;
+            default:
+                handleError("Login fallito!", request, response);
+        }
+    }
+
+    private void displayError(Map<String, Object> datamodel, String errorCode) {
+        switch (errorCode) {
+            case "1":
+                datamodel.put("message_error", "Sessione scaduta, effettuare nuovamente il login!");
+                break;
+            case "2":
+                datamodel.put("message_error", "Email o password errate!");
+                break;
+            case "3":
+                datamodel.put("message_error", "Inserire email e password!");
+                break;
+            default:
+                break;
+        }
+    }
+    private void renderLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException  {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
-        if(request.getParameter("error") != null) {
-            switch (request.getParameter("error")) {
-                case "1":
-                    datamodel.put("message_error", "Sessione scaduta, effettuare nuovamente il login!");
-                    break;
-                case "2":
-                    datamodel.put("message_error", "Email o password errate!");
-                    break;
-                case "3":
-                    datamodel.put("message_error", "Inserire email e password!");
-                    break;
-            }
-        }
+        datamodel.put("AMMINISTRATORE", Ruolo.AMMINISTRATORE);
+        datamodel.put("TECNICO_PREVENTIVI", Ruolo.TECNICO_PREVENTIVI);
+        datamodel.put("TECNICO_ORDINI", Ruolo.TECNICO_ORDINI);
+        datamodel.put("ORDINANTE", Ruolo.ORDINANTE);
+
+        // Per questi errori preferisco avere una gestione con messaggio direttamente
+        // nella pagina di login in modo tale da poter far loggare l'utente più velocemente
+        if(request.getParameter("error") != null)  displayError(datamodel, request.getParameter("error"));
+
         datamodel.put("referrer", request.getParameter("referrer"));
         result.activate("login.ftl", datamodel, response);
     }

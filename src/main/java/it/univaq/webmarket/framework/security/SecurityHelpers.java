@@ -1,5 +1,7 @@
 package it.univaq.webmarket.framework.security;
 
+import it.univaq.webmarket.framework.utils.Ruolo;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -19,7 +21,7 @@ public class SecurityHelpers {
 
     //--------- SESSION SECURITY ------------    
     //dopo tre secondi la sessione scade (Mik sta testando)
-    public static final int MAX_SESSION_DURATION = 5; //3 * 60 * 60;
+    public static final int MAX_SESSION_DURATION = 60; //3 * 60 * 60;
 
     //dopo trenta minuti dall'ultima operazione la sessione è invalidata
     public static final int MAX_IDLE_TIME = 30 * 60;
@@ -31,7 +33,9 @@ public class SecurityHelpers {
     //sulla sessione corrente. Se la sessione non è valida, la cancella
     //e ritorna null, altrimenti la aggiorna e la restituisce
     public static HttpSession checkSession(HttpServletRequest r) {
-        return checkSession(r, false);
+        HttpSession b = checkSession(r, false);
+        System.out.println("Sessione: " + b);
+        return b;
     }
 
     public static HttpSession checkSession(HttpServletRequest r, boolean loginAgeCheck) {
@@ -74,7 +78,7 @@ public class SecurityHelpers {
         //seconds from the last session refresh
         long seconds_from_refresh = Duration.between(refresh_ts, now_ts).abs().getSeconds();
         //
-        if (s.getAttribute("userid") == null || start_ts == null) {
+        if (s.getAttribute("id") == null || start_ts == null) {
             //check sulla validità della sessione
             //second, check is the session contains valid data
             //nota: oltre a controllare se la sessione contiene un userid,
@@ -114,20 +118,17 @@ public class SecurityHelpers {
         }
     }
 
-    public static HttpSession createSession(HttpServletRequest request, String email, int userid, String role) {
+    public static HttpSession createSession(HttpServletRequest request, String email, Integer id, Ruolo role) {
+
         //se una sessione è già attiva, rimuoviamola e creiamone una nuova
-        //if a session already exists, remove it and recreate a new one
         disposeSession(request);
         HttpSession s = request.getSession(true);
-        s.setAttribute("username", email);
-        s.setAttribute("userid", userid);
 
-        //TODO: continuare la gestione del ruolo in caso di sessione scaduta
-        s.setAttribute("role", role);
-        //
-        s.setAttribute("ip", request.getRemoteAddr());
-        //
+        s.setAttribute("email", email);
+        s.setAttribute("id", id);
+        s.setAttribute("role", role.toString());
         s.setAttribute("session-start-ts", LocalDateTime.now());
+        s.setAttribute("ip", request.getRemoteHost());
         return s;
     }
 
@@ -147,6 +148,7 @@ public class SecurityHelpers {
     public static HttpSession regenerateSession(HttpServletRequest request) {
         Map<String, Object> attributes = new HashMap<>();
         HttpSession s = request.getSession(false);
+
         if (s != null) {
             Enumeration<String> attributeNames = s.getAttributeNames();
             while (attributeNames.hasMoreElements()) {
@@ -156,12 +158,29 @@ public class SecurityHelpers {
             }
             s.invalidate();
         }
+
         s = request.getSession(true);
         for (String key : attributes.keySet()) {
             Object value = attributes.get(key);
             s.setAttribute(key, value);
         }
+
         return s;
+    }
+
+    public static void printSession(HttpServletRequest request) {
+        HttpSession s = request.getSession(false);
+
+        if (s != null) {
+            System.out.println("HttpSession {");
+            Enumeration<String> attributeNames = s.getAttributeNames();
+            while (attributeNames.hasMoreElements()) {
+                String key = attributeNames.nextElement();
+                Object value = s.getAttribute(key);
+                System.out.println(key + " = " + value);
+            }
+            System.out.println("}");
+        }
     }
 
     //--------- CONNECTION SECURITY ------------

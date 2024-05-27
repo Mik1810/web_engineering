@@ -1,35 +1,47 @@
 /*
  * TemplateResult.java
- * 
+ *
  * Questa classe permette di generare facilmente output a partire da template
  * Freemarker. Gestisce vari modelli di dati, passati direttamente o attraverso
- * la request, l'uso di outline automatici, e si configura automaticamente 
- * in base a una serie di init parameters del contesto (si veda il codice e 
+ * la request, l'uso di outline automatici, e si configura automaticamente
+ * in base a una serie di init parameters del contesto (si veda il codice e
  * il file web.xml per informazioni)
- * 
+ *
  * This class supports the output generation using the Freemarkr template
  * engine. It handles data models passed explicitly or through the request,
  * automatic page outline, and automatically configures using the context
  * init parameters (see web.xml).
- * 
+ *
  */
 package it.univaq.webmarket.framework.result;
 
 import freemarker.core.HTMLOutputFormat;
 import freemarker.core.JSONOutputFormat;
 import freemarker.core.XMLOutputFormat;
-import freemarker.template.*;
-import no.api.freemarker.java8.Java8ObjectWrapper;
-
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateDateModel;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import no.api.freemarker.java8.Java8ObjectWrapper;
 
 /**
  *
@@ -111,7 +123,7 @@ public class TemplateResult {
         }
     }
 
-//questo metodo restituisce un data model (hash) di base,
+    //questo metodo restituisce un data model (hash) di base,
 //(qui inizializzato anche con informazioni di base utili alla gestione dell'outline)
 //this method returns a base data model (hash), initialized with
 //some useful information
@@ -137,11 +149,6 @@ public class TemplateResult {
             }
         }
 
-        //se sono state specificate delle classi filler, facciamo loro riempire il default data model
-        //if filler classes have been specified, let them fill the default data model
-        for (DataModelFiller f : fillers) {
-            f.fillDataModel(default_data_model, request, context);
-        }
 
         return default_data_model;
     }

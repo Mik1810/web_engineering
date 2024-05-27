@@ -1,26 +1,27 @@
 /*
  * FailureResult.java
- * 
+ *
  * Si tratta di una semplice classe che incapsula un TemplateResult per offrire
  * un comodo sistema di visualizzazione degli errori. Si basa su un template
- * il cui nome deve essere presente nella configurazione dell'applicazione 
+ * il cui nome deve essere presente nella configurazione dell'applicazione
  * (web.xml, parametro view.error_template). In mancanza di questo, degrada
  * a un errore http.
- * 
+ *
  * This simple class wraps TemplateResult to provide an easy error displaying
  * system. It uses a template whose name must be configured as a context
  * parameter (web.xml, view.error_template parameter). If no template is found,
  * the class uses simple http errors.
- * 
+ *
  */
 package it.univaq.webmarket.framework.result;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *

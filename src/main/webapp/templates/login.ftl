@@ -29,19 +29,19 @@
         <p id="access-as-string">Accedi come:</p>
         <div class="d-flex justify-content-between">
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="role" id="radio-ordinante" value="ordinante" checked>
+                <input class="form-check-input" type="radio" name="role" id="radio-ordinante" value="${ORDINANTE}" checked>
                 <label class="form-check-label" for="radio-ordinante">Ordinante</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="role" id="radio-tech-prev" value="tecnicoprev">
+                <input class="form-check-input" type="radio" name="role" id="radio-tech-prev" value="${TECNICO_PREVENTIVI}">
                 <label class="form-check-label" for="radio-tech-prev">Tecnico Preventivi</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="role" id="radio-tech-ord" value="tecnicoord">
+                <input class="form-check-input" type="radio" name="role" id="radio-tech-ord" value="${TECNICO_ORDINI}">
                 <label class="form-check-label" for="radio-tech-ord">Tecnico Ordini</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="role" id="radio-admin" value="amministratore">
+                <input class="form-check-input" type="radio" name="role" id="radio-admin" value="${AMMINISTRATORE}">
                 <label class="form-check-label" for="radio-admin">Amministratore</label>
             </div>
         </div>
