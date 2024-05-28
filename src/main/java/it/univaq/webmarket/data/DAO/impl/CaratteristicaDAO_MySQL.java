@@ -14,6 +14,7 @@ import it.univaq.webmarket.framework.data.OptimisticLockException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
@@ -100,7 +101,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
 
     @Override
     public List<Caratteristica> getAllCaratteristiche() throws DataException {
-        List<Caratteristica> result = null;
+        List<Caratteristica> result = new ArrayList<>();
         try {
             try (ResultSet rs = sAllCaratteristiche.executeQuery()){
                 while (rs.next()){

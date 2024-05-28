@@ -18,8 +18,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class LoginController extends ApplicationBaseController {
 
@@ -30,8 +28,6 @@ public class LoginController extends ApplicationBaseController {
             if (request.getParameter("login") != null) {
                 handleLogin(request, response);
             } else {
-                String https_redirect_url = SecurityHelpers.checkHttps(request);
-                request.setAttribute("https-redirect", https_redirect_url);
                 renderLoginPage(request, response);
             }
         } catch (IOException | TemplateManagerException ex) {
@@ -39,7 +35,7 @@ public class LoginController extends ApplicationBaseController {
         }
     }
 
-    private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Ruolo role = Ruolo.valueOf(request.getParameter("role"));

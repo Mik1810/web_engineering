@@ -15,6 +15,24 @@
         <param-name>view.error_template</param-name>
         <param-value>error.ftl</param-value>
     </context-param>
+    <context-param>
+        <param-name>view.debug</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.date_format</param-name>
+        <param-value>dd/MM/yyyy hh:mm:ss</param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.frame</param-name>
+        <param-value>
+            <!-- qui configuriamo il frame (cornice per le pagine di base) da usare per la visualizzazione -->
+        </param-value>
+    </context-param>
+    <context-param>
+        <param-name>view.encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </context-param>
     <listener>
         <listener-class>it.univaq.webmarket.framework.application.ApplicationInitializer</listener-class>
     </listener>
@@ -34,10 +52,14 @@
         <servlet-name>logout</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.LogoutController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>categoria_padre</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.CategoriaPadreController</servlet-class>
+    </servlet>
     <context-param>
         <param-name>security.protect.patterns</param-name>
         <!-- qui configuriamo i pattern delle URL da proteggere -->
-        <param-value>/admin</param-value>
+        <param-value>/admin, /categoria_padre</param-value>
     </context-param>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -54,6 +76,10 @@
     <servlet-mapping>
         <servlet-name>admin</servlet-name>
         <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>categoria_padre</servlet-name>
+        <url-pattern>/categoria_padre</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

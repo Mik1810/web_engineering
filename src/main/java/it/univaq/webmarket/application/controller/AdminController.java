@@ -11,15 +11,23 @@ import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
 import it.univaq.webmarket.framework.utils.Ruolo;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AdminController extends ApplicationBaseController {
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.ruoliAutorizzati = List.of(Ruolo.AMMINISTRATORE);
+    }
 
     protected void renderAdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateManagerException {
         try {
@@ -28,12 +36,6 @@ public class AdminController extends ApplicationBaseController {
             HttpSession session = SecurityHelpers.checkSession(request);
 
             if (session == null) throw new ServletException("Sessione invalida");
-
-            // Controllo per verificare che nessun utente che non sia amministratore possa
-            // accedere alla pagina
-            if (!Ruolo.AMMINISTRATORE.equals(Ruolo.valueOf((String) session.getAttribute("role")))) {
-                throw new ServletException("Utente non autorizzato");
-            }
 
             String amministratoreEmail = (String) session.getAttribute("email");
 

@@ -2,12 +2,15 @@ package it.univaq.webmarket.framework.utils;
 
 import it.univaq.webmarket.framework.result.HTMLResult;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -95,4 +98,17 @@ public class ServletHelpers {
         }
         System.out.println(sb.toString());
     }
+
+    public static String getPreviousPagePath(HttpServletRequest request) {
+        String referrer = request.getHeader("Referer");
+        try {
+            if (referrer == null)  throw new ServletException("No referrer found");
+            URL referrerURL = new URL(referrer);
+            return referrerURL.getPath();
+        } catch (ServletException | MalformedURLException e) {
+            // nel caso in cui ci sia un'eccezione ulteriore diamo un path di default
+            return "/login";
+        }
+    }
+
 }

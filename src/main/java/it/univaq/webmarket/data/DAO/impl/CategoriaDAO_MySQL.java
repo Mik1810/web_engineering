@@ -1,6 +1,7 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.CategoriaDAO;
+import it.univaq.webmarket.data.model.Caratteristica;
 import it.univaq.webmarket.data.model.CategoriaFiglio;
 import it.univaq.webmarket.data.model.CategoriaNipote;
 import it.univaq.webmarket.data.model.CategoriaPadre;
@@ -14,6 +15,7 @@ import it.univaq.webmarket.framework.data.DataLayer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
@@ -222,7 +224,17 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
     @Override
     public List<CategoriaPadre> getAllCategoriePadre() throws DataException {
-        return List.of();
+        List<CategoriaPadre> result = new ArrayList<>();
+        try {
+            try (ResultSet rs = sCategoriePadre.executeQuery()){
+                while (rs.next()){
+                    result.add(getCategoriaPadre(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all CategoriaPadre", ex);
+        }
     }
 
     @Override

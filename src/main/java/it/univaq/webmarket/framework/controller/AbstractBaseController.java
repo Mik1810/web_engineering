@@ -6,6 +6,7 @@ import it.univaq.webmarket.framework.security.SecurityHelpers;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +44,7 @@ public abstract class AbstractBaseController extends HttpServlet {
     //override to enforce your policy and/or change the login url
     protected void accessCheckFailed(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, IOException {
         String completeRequestURL = request.getRequestURL() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
-        response.sendRedirect("login?referrer=" + URLEncoder.encode(completeRequestURL, "UTF-8"));
+        response.sendRedirect("login?referrer=" + URLEncoder.encode(completeRequestURL, StandardCharsets.UTF_8));
     }
 
     //override to provide your login information in the request
@@ -60,12 +61,7 @@ public abstract class AbstractBaseController extends HttpServlet {
         }
     }
 
-    private void processBaseRequest(HttpServletRequest request, HttpServletResponse response) {
-        //WARNING: never declare DB-related objects including references to Connection and Statement (as our data layer)
-        //as class variables of a servlet. Since servlet instances are reused, concurrent requests may conflict on such
-        //variables leading to unexpected results. To always have different connections and statements on a per-request
-        //(i.e., per-thread) basis, declare them in the doGet, doPost etc. (or in methods called by them) and
-        //(possibly) pass such variables through the request.
+    protected void processBaseRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try (DataLayer datalayer = createDataLayer(ds)) {
             datalayer.init();
             initRequest(request, datalayer);
@@ -80,12 +76,11 @@ public abstract class AbstractBaseController extends HttpServlet {
                 accessCheckFailed(request, response);
             }
         } catch (Exception ex) {
-            ex.printStackTrace(); //for debugging only
             handleError(ex, request, response);
         }
     }
 
-    protected boolean checkAccess(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, IOException {
+    protected boolean checkAccess(HttpServletRequest request, HttpServletResponse response)  {
         HttpSession s = SecurityHelpers.checkSession(request);
         String uri = request.getRequestURI();
         //non ridirezioniamo verso la login se richiediamo risorse da non proteggere

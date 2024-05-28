@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="../style/admin-style.css">
+    <link rel="stylesheet" href="/style/admin-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -14,11 +14,11 @@
 </header>
 <div class="container">
 
-    <a class="card" href="#1">
+    <a class="card" href="categoria_padre">
         <div class="icon">🏠</div>
         <div class="separator"></div>
-        <div class="title">Titolo 1</div>
-        <div class="text">Questo è il testo della prima card.</div>
+        <div class="title">Categoria Padre</div>
+        <div class="text">Inserisci, modifica o cancella una categoria padre.</div>
     </a>
     <a class="card" href="#2">
         <div class="icon">🌟</div>

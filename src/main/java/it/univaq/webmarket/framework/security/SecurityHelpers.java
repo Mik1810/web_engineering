@@ -34,7 +34,6 @@ public class SecurityHelpers {
     //e ritorna null, altrimenti la aggiorna e la restituisce
     public static HttpSession checkSession(HttpServletRequest r) {
         HttpSession b = checkSession(r, false);
-        System.out.println("Sessione: " + b);
         return b;
     }
 
