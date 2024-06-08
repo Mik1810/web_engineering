@@ -21,7 +21,7 @@ public class SecurityHelpers {
 
     //--------- SESSION SECURITY ------------    
     //dopo tre secondi la sessione scade (Mik sta testando)
-    public static final int MAX_SESSION_DURATION = 60; //3 * 60 * 60;
+    public static final int MAX_SESSION_DURATION = 3 * 60 * 60;
 
     //dopo trenta minuti dall'ultima operazione la sessione è invalidata
     public static final int MAX_IDLE_TIME = 30 * 60;

@@ -1,3 +1,14 @@
+<h1>Templating</h1>
+
+- [ ] Template di outline (Giacomo)
+- [ ] Rivedere Login (Michael)
+- [ ] Template per le modifiche dell'amministratore (Giacomo). Cioè mettere a destra della tabella la parte per la modifica 
+in modo tale che sia inizialmente invisibile, e poi se clicchi modifica viene fatto apparire
+alla destra
+- [ ] Creare tutti gli altri controller
+- [ ] Creare i componenti
+
+
 <h1>DAO interfaces</h1>
 
 - [x] CategoriaDAO

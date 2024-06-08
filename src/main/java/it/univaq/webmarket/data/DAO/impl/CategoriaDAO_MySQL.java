@@ -1,17 +1,15 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.CategoriaDAO;
-import it.univaq.webmarket.data.model.Caratteristica;
-import it.univaq.webmarket.data.model.CategoriaFiglio;
-import it.univaq.webmarket.data.model.CategoriaNipote;
-import it.univaq.webmarket.data.model.CategoriaPadre;
+import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.data.model.impl.proxy.CategoriaFiglioProxy;
 import it.univaq.webmarket.data.model.impl.proxy.CategoriaPadreProxy;
 import it.univaq.webmarket.data.model.impl.proxy.CategoriaNipoteProxy;
-import it.univaq.webmarket.framework.data.DAO;
-import it.univaq.webmarket.framework.data.DataException;
-import it.univaq.webmarket.framework.data.DataLayer;
+import it.univaq.webmarket.framework.data.*;
+import it.univaq.webmarket.framework.security.SecurityHelpers;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -63,9 +61,9 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             iCategoriaFiglio = connection.prepareStatement("INSERT INTO categoriafiglio(nome, ID_categoria_padre) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
             iCategoriaNipote = connection.prepareStatement("INSERT INTO categorianipote(nome, ID_categoria_figlio) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
 
-            uCategoriaPadre = connection.prepareStatement("UPDATE categoriapadre SET nome=? WHERE ID=? AND version=?");
-            uCategoriaFiglio = connection.prepareStatement("UPDATE categoriafiglio SET nome=?, ID_categoria_padre=? WHERE ID=? AND version=?");
-            uCategoriaNipote = connection.prepareStatement("UPDATE categorianipote SET nome=?, ID_categoria_figlio=? WHERE ID=? AND version=?");
+            uCategoriaPadre = connection.prepareStatement("UPDATE categoriapadre SET nome=?, version=? WHERE ID=? AND version=?");
+            uCategoriaFiglio = connection.prepareStatement("UPDATE categoriafiglio SET nome=?, ID_categoria_padre=?, version=? WHERE ID=? AND version=?");
+            uCategoriaNipote = connection.prepareStatement("UPDATE categorianipote SET nome=?, ID_categoria_figlio=?, version=? WHERE ID=? AND version=?");
 
             sCategoriaPadreFromFiglio = connection.prepareStatement("SELECT * FROM categoriapadre JOIN categoriafiglio ON categoriapadre.ID = categoriafiglio.ID_categoria_padre WHERE categoriafiglio.ID = ?");
             sCategoriaFiglioFromNipote = connection.prepareStatement("SELECT * FROM categoriafiglio JOIN categorianipote ON categoriafiglio.ID = categorianipote.ID_categoria_figlio WHERE categorianipote.ID = ?");
@@ -259,7 +257,43 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
     @Override
     public void storeCategoriaPadre(CategoriaPadre categoriaPadre) throws DataException {
+        try {
+            if (categoriaPadre.getKey() != null && categoriaPadre.getKey() > 0) { //update
+                if (categoriaPadre instanceof DataItemProxy && !((DataItemProxy) categoriaPadre).isModified()) {
+                    return;
+                }
+                uCategoriaPadre.setString(1, categoriaPadre.getNome());
 
+                long current_version = categoriaPadre.getVersion();
+                long next_version = current_version + 1;
+
+                uCategoriaPadre.setLong(2, next_version);
+                uCategoriaPadre.setInt(3, categoriaPadre.getKey());
+                uCategoriaPadre.setLong(4, current_version);
+
+                if (uCategoriaPadre.executeUpdate() == 0) {
+                    throw new OptimisticLockException(categoriaPadre);
+                } else {
+                    categoriaPadre.setVersion(next_version);
+                }
+            } else { //insert
+                iCategoriaPadre.setString(1, categoriaPadre.getNome());
+                if (iCategoriaPadre.executeUpdate() == 1) {
+                    try (ResultSet keys = iCategoriaPadre.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            categoriaPadre.setKey(key);
+                            dataLayer.getCache().add(CategoriaPadre.class, categoriaPadre);
+                        }
+                    }
+                }
+            }
+            if (categoriaPadre instanceof DataItemProxy) {
+                ((DataItemProxy) categoriaPadre).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Unable to store CategoriaPadre", ex);
+        }
     }
 
     @Override
@@ -274,7 +308,15 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
     @Override
     public void deleteCategoriaPadre(CategoriaPadre categoriaPadre) throws DataException {
+        try {
+            //Lo cancello prima dalla cache
+            dataLayer.getCache().delete(CategoriaPadre.class, categoriaPadre);
+            dCategoriaPadre.setInt(1, categoriaPadre.getKey());
+            dCategoriaPadre.executeUpdate();
 
+        } catch(SQLException e) {
+            throw new DataException("Unable to delete Ordinante", e);
+        }
     }
 
     @Override

@@ -7,6 +7,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+
+        .container{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row{
+            display: flex;
+
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -47,35 +58,12 @@
 <body>
 
 <div class="container">
-    <h1>Categorie</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Modifica</th>
-            <th>Elimina</th>
-        </tr>
-        </thead>
-        <tbody>
-        <#list categorie as categoria>
-            <tr>
-                <td><a href="categoria_figlio">${categoria.nome}</a></td>
-                <td>
-                    <form method="POST" action="categoria_padre">
-                        <input type="hidden" name="id" value="${categoria.key}">
-                        <input type="submit" id="action" name="action" value="Modifica">
-                    </form>
-                </td>
-                <td>
-                    <form method="POST" action="categoria_padre">
-                        <input type="hidden" name="id" value="${categoria.key}">
-                        <input type="submit" id="action" name="action" value="Elimina">
-                    </form>
-                </td>
-            </tr>
-        </#list>
-        </tbody>
-    </table>
+    <form method="POST" action="categoria_padre">
+        <label for="id"></label><input type="text" id="id" name="id" style="display: none" value="${categoria.key}">
+        <input id="nome" name="nome" type="text" value="${categoria.nome}">
+        <label for="nome">Inserisci nuovo nome:</label>
+        <input type="submit" id="action" name="action" value="Modificato">
+    </form>
 </div>
 </body>
 </html>
