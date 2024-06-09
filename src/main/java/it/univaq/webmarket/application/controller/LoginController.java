@@ -57,14 +57,14 @@ public class LoginController extends ApplicationBaseController {
 
         // Se mi ero loggato con un ruolo, è scaduta la sessione e sto cambiando ruolo,
         // redireziono verso la dashboard corretta per il nuovo ruolo
-        if(s != null &&  s.getAttribute("role") != null && !s.getAttribute("role").equals(role)) {
+        if (s != null && s.getAttribute("role") != null && !s.getAttribute("role").equals(role)) {
             s.invalidate();
             handleRedirect(role, request, response);
             return;
         }
 
         // Se non ha inserito email e password redireziono con errore
-        if (email.isEmpty() || password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             response.sendRedirect("login?error=3");
         }
 
@@ -90,7 +90,7 @@ public class LoginController extends ApplicationBaseController {
             }
 
             // Se la password è errata
-            if (u == null || ! SecurityHelpers.checkPasswordHashPBKDF2(password, u.getPassword())) {
+            if (u == null || !SecurityHelpers.checkPasswordHashPBKDF2(password, u.getPassword())) {
                 response.sendRedirect("login?error=2");
                 return;
             }
@@ -132,6 +132,7 @@ public class LoginController extends ApplicationBaseController {
         }
     }
 
+    /*
     private void displayError(Map<String, Object> datamodel, String errorCode) {
         switch (errorCode) {
             case "1":
@@ -146,8 +147,8 @@ public class LoginController extends ApplicationBaseController {
             default:
                 break;
         }
-    }
-    private void renderLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException  {
+    }*/
+    private void renderLoginPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
         datamodel.put("AMMINISTRATORE", Ruolo.AMMINISTRATORE);
@@ -157,7 +158,7 @@ public class LoginController extends ApplicationBaseController {
 
         // Per questi errori preferisco avere una gestione con messaggio direttamente
         // nella pagina di login in modo tale da poter far loggare l'utente più velocemente
-        if(request.getParameter("error") != null)  displayError(datamodel, request.getParameter("error"));
+        //if (request.getParameter("error") != null) displayError(datamodel, request.getParameter("error"));
 
         datamodel.put("referrer", request.getParameter("referrer"));
         result.activate("login.ftl", datamodel, request, response);

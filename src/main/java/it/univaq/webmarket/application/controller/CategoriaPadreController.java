@@ -1,5 +1,6 @@
 package it.univaq.webmarket.application.controller;
 
+import freemarker.template.TemplateException;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.DAO.impl.CategoriaDAO_MySQL;
@@ -34,20 +35,22 @@ public class CategoriaPadreController extends ApplicationBaseController {
         result.activate("categorie_padre.ftl", datamodel, request, response);
     }
 
-    private void renderModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaPadre_key) throws TemplateManagerException, IOException{
+    private void renderModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaPadre_key) throws TemplateManagerException, IOException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key);
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
             try {
-                datamodel.put("categoria", dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key));
+                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key));
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
+                datamodel.put("visibility", "block");
             } catch (DataException e) {
                 handleError(e, request, response);
             }
 
-            result.activate("categoria_padre_modifica.ftl", datamodel, request, response);
-        } catch(DataException ex){
+            result.activate("categorie_padre.ftl", datamodel, request, response);
+        } catch (DataException ex) {
             handleError(ex, request, response);
         }
 
@@ -55,24 +58,35 @@ public class CategoriaPadreController extends ApplicationBaseController {
 
     private void handleDelete(HttpServletRequest request, HttpServletResponse response, Integer categoriaPadre_key) {
         try {
-            WebmarketDataLayer dl =  (WebmarketDataLayer) request.getAttribute("datalayer");
+            WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key);
             dl.getCategoriaDAO().deleteCategoriaPadre(categoriaPadre);
-            response.sendRedirect("categoria_padre");
-        }catch (IOException | DataException ex){
+            response.sendRedirect("categorie_padre");
+        } catch (IOException | DataException ex) {
             handleError(ex, request, response);
         }
-
     }
 
-    private void handleModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaPadre_key) {
+    private void handleModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaPadre_key) throws TemplateManagerException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key);
             categoriaPadre.setNome(request.getParameter("nome"));
             dl.getCategoriaDAO().storeCategoriaPadre(categoriaPadre);
-            response.sendRedirect("categoria_padre");
-        } catch (IOException | DataException ex) {
+
+            TemplateResult result = new TemplateResult(getServletContext());
+            Map<String, Object> datamodel = new HashMap<>();
+            try {
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
+                datamodel.put("success", "true");
+
+            } catch (DataException e) {
+                handleError(e, request, response);
+            }
+
+            result.activate("categorie_padre.ftl", datamodel, request, response);
+
+        } catch (DataException ex) {
             handleError(ex, request, response);
         }
     }
@@ -80,12 +94,12 @@ public class CategoriaPadreController extends ApplicationBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            if(request.getParameter("action") != null) {
-                if(request.getParameter("id") == null) handleError("ID not allowed", request, response);
-
-                if("Modifica".equals(request.getParameter("action"))) {
+            if (request.getParameter("action") != null || request.getParameter("actionModify") != null) {
+                if (request.getParameter("id") == null) handleError("ID not allowed", request, response);
+                ServletHelpers.printRequest(request);
+                if ("Modifica".equals(request.getParameter("action"))) {
                     renderModify(request, response, Integer.parseInt(request.getParameter("id")));
-                } else if("Modificato".equals(request.getParameter("action"))) {
+                } else if ("Modifica".equals(request.getParameter("actionModify"))) {
                     handleModify(request, response, Integer.parseInt(request.getParameter("id")));
                 } else if ("Elimina".equals(request.getParameter("action"))) {
                     System.out.println("Ciao");
