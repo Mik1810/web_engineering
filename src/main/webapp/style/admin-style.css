@@ -21,6 +21,8 @@ header {
     padding-top: 1rem;
     box-sizing: border-box;
     border-top: solid 0.05rem black;
+    height: 400px;
+    min-height: 400px;
 }
 .card {
     flex: 1 1 calc(25% - 2.4rem);

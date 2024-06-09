@@ -1,0 +1,27 @@
+:root {
+    --black-footer: #262525;
+}
+
+.footer {
+    background-color: var(--black-footer);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 2rem;
+}
+.footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
+.footer .github-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
