@@ -7,7 +7,9 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Categoria Padre</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/categoria-padre.css">
     <link rel="stylesheet" href="/style/default.css">
 
@@ -20,12 +22,12 @@
     <div class="row">
 
         <div class="list">
-            <table>
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                 <tr>
-                    <th>Nome</th>
-                    <th>Modifica</th>
-                    <th>Elimina</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Modifica</th>
+                    <th scope="col">Elimina</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,13 +37,18 @@
                         <td>
                             <form method="POST" action="categoria_padre">
                                 <input type="hidden" name="id" value="${categoria.key}">
-                                <input type="submit" id="action" name="action" value="Modifica">
+                                <input class="btn btn-primary" type="submit" id="action" name="action"
+                                       value="Modifica">
                             </form>
                         </td>
                         <td>
                             <form method="POST" action="categoria_padre">
-                                <input type="hidden" name="id" value="${categoria.key}">
-                                <input type="submit" id="action" name="action" value="Elimina">
+                                <input type="hidden" name="id"
+                                       value="${categoria.key}">
+                                <input class="btn btn-danger" type="submit" id="action" name="action"
+                                       value="Elimina">
+
+
                             </form>
                         </td>
                     </tr>
@@ -56,8 +63,10 @@
                 <label for="nome">Inserisci nuovo nome:</label>
                 <label for="id"></label><input type="text" id="id" name="id" style="display: none"
                                                value="${(categoriaModifica.key)!"0"}">
-                <input id="nome" name="nome" type="text" value="${(categoriaModifica.nome)!""}">
-                <input type="submit" id="actionModify" name="actionModify" value="Modifica">
+                <input class="form-control modifica-input" id="nome" name="nome" type="text"
+                       value="${(categoriaModifica.nome)!""}">
+                <input class="btn btn-primary" type="submit" id="actionModify" name="actionModify"
+                       value="Modifica">
 
             </form>
         </div>

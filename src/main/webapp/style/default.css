@@ -9,14 +9,17 @@
     text-align: center;
     margin-top: 2rem;
 }
+
 .footer a {
     color: white;
     text-decoration: none;
     margin: 0 10px;
 }
+
 .footer a:hover {
     text-decoration: underline;
 }
+
 .footer .github-icon {
     width: 24px;
     height: 24px;
@@ -25,3 +28,38 @@
     border-radius: 50%;
 }
 
+header {
+    font-size: 3ch;
+    font-family: Roboto, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: solid 0.05rem black;
+}
+
+#logout {
+    font-size: 2.5rem;
+    cursor: pointer;
+    color: black;
+}
+
+.footer-container {
+    display: flex;
+    flex: 1;
+    justify-content: end;
+    flex-direction: column;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1rem;
+}
+
+html {
+    height: 97%;
+}
