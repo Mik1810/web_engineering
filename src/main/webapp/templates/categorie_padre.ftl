@@ -8,6 +8,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+
+        .container{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .row{
+            display: flex;
+
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
