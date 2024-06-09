@@ -31,7 +31,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
             handleError(e, request, response);
         }
 
-        result.activate("categorie_padre.ftl", datamodel, response);
+        result.activate("categorie_padre.ftl", datamodel, request, response);
     }
 
     private void renderModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaPadre_key) throws TemplateManagerException, IOException{
@@ -46,7 +46,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
                 handleError(e, request, response);
             }
 
-            result.activate("categoria_padre_modifica.ftl", datamodel, response);
+            result.activate("categoria_padre_modifica.ftl", datamodel, request, response);
         } catch(DataException ex){
             handleError(ex, request, response);
         }

@@ -8,12 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<header>
-    Benvenuto, ${email}.
-    <a href="logout"><i id="logout" class="fa fa-sign-out" aria-hidden="true"></i></a>
-</header>
-<div class="container">
+<#include "modules/header.ftl">
 
+<div class="container">
     <a class="card" href="categoria_padre">
         <div class="icon">🏠</div>
         <div class="separator"></div>
@@ -70,5 +67,6 @@
     </a>
 
 </div>
+
 </body>
 </html>

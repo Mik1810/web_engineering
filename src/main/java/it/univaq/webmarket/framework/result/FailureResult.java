@@ -18,8 +18,6 @@ package it.univaq.webmarket.framework.result;
 import it.univaq.webmarket.framework.utils.ServletHelpers;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,10 +74,15 @@ public class FailureResult {
                     String attrname = attrs.nextElement();
                     datamodel.put(attrname, request.getAttribute(attrname));
                 }
-                datamodel.put("error_message", message);
+                if(Boolean.parseBoolean(context.getInitParameter("debug"))) {
+                    datamodel.put("error_message", message);
+                } else {
+                    datamodel.put("error_message", "An error occurred while processing your request. Please try again later.");
+                }
+
                 datamodel.put("error_code", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 datamodel.put("referrer", ServletHelpers.getPreviousPagePath(request));
-                template.activate(context.getInitParameter("view.error_template"), datamodel, response);
+                template.activate(context.getInitParameter("view.error_template"), datamodel, request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message);
             }

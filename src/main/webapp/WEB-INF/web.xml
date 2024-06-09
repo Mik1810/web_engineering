@@ -12,6 +12,10 @@
         <param-value>templates</param-value>
     </context-param>
     <context-param>
+        <param-name>view.modules_directory</param-name>
+        <param-value>modules/</param-value>
+    </context-param>
+    <context-param>
         <param-name>view.error_template</param-name>
         <param-value>error.ftl</param-value>
     </context-param>
@@ -24,14 +28,12 @@
         <param-value>dd/MM/yyyy hh:mm:ss</param-value>
     </context-param>
     <context-param>
-        <param-name>view.frame</param-name>
-        <param-value>
-            <!-- qui configuriamo il frame (cornice per le pagine di base) da usare per la visualizzazione -->
-        </param-value>
-    </context-param>
-    <context-param>
         <param-name>view.encoding</param-name>
         <param-value>UTF-8</param-value>
+    </context-param>
+    <context-param>
+        <param-name>debug</param-name>
+        <param-value>true</param-value>
     </context-param>
     <listener>
         <listener-class>it.univaq.webmarket.framework.application.ApplicationInitializer</listener-class>

@@ -25,14 +25,26 @@ public class LoginController extends ApplicationBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
+
             if (request.getParameter("login") != null) {
-                handleLogin(request, response);
+                if (Boolean.parseBoolean(getServletContext().getInitParameter("debug"))) {
+                    // Se sono in modalità debug, faccio il login automatico
+                    handleAutoLogin(request, response);
+                } else {
+                    handleLogin(request, response);
+                }
             } else {
                 renderLoginPage(request, response);
             }
         } catch (IOException | TemplateManagerException ex) {
             handleError(ex, request, response);
         }
+    }
+
+    private void handleAutoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        SecurityHelpers.createSession(request, "admin@gmail.com", 1, Ruolo.AMMINISTRATORE);
+        // Reindirizzo in base al ruolo
+        handleRedirect(Ruolo.AMMINISTRATORE, request, response);
     }
 
     private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -148,6 +160,6 @@ public class LoginController extends ApplicationBaseController {
         if(request.getParameter("error") != null)  displayError(datamodel, request.getParameter("error"));
 
         datamodel.put("referrer", request.getParameter("referrer"));
-        result.activate("login.ftl", datamodel, response);
+        result.activate("login.ftl", datamodel, request, response);
     }
 }

@@ -19,12 +19,14 @@ import freemarker.core.HTMLOutputFormat;
 import freemarker.core.JSONOutputFormat;
 import freemarker.core.XMLOutputFormat;
 import freemarker.template.*;
+import it.univaq.webmarket.framework.utils.ServletHelpers;
 import no.api.freemarker.java8.Java8ObjectWrapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,29 +92,20 @@ public class TemplateResult {
         Map<String, Object> default_data_model = new HashMap<>();
 
         //default_data_model.put("compiled_on", LocalDateTime.now()); //data di compilazione del template
-        default_data_model.put("frame", context.getInitParameter("view.frame")); //eventuale template di outline
 
         return default_data_model;
     }
 
     protected void process(String tplname, Map<String, Object> datamodel, HttpServletRequest request, Writer out) throws TemplateManagerException {
         Template t;
-
         Map<String, Object> localdatamodel = getDefaultDataModel(request);
 
         if (datamodel != null) {
             localdatamodel.putAll(datamodel);
         }
-        String frame_template_name = (String) localdatamodel.get("frame");
-        try {
-            if (frame_template_name == null || frame_template_name.isEmpty()) {
-                t = cfg.getTemplate(tplname);
-            } else {
 
-                t = cfg.getTemplate(frame_template_name);
-                localdatamodel.put("content_template", tplname);
-                //IMPORTANTE: si suppone che l'outline includa questo secondo template
-            }
+        try {
+            t = cfg.getTemplate(tplname);
             t.process(localdatamodel, out);
         } catch (IOException | TemplateException e) {
             throw new TemplateManagerException("Template error: " + e.getMessage(), e);
@@ -121,13 +114,28 @@ public class TemplateResult {
 
     //questa versione di activate accetta un modello dati esplicito
     //this activate method gets an explicit data model
-    public void activate(String tplname, Map<String, Object> datamodel, HttpServletResponse response) throws TemplateManagerException {
-        setupServletResponse(datamodel, response);
+    public void activate(String tplname, Map<String, Object> datamodel, HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
+        Map<String, Object> localdatamodel = getRequestDataModel(request);
+        localdatamodel.putAll(datamodel);
+        setupServletResponse(localdatamodel, response);
         try {
-            process(tplname, datamodel, null, response.getWriter());
+            process(tplname, localdatamodel, request, response.getWriter());
         } catch (IOException ex) {
             throw new TemplateManagerException("Template error: " + ex.getMessage(), ex);
         }
+    }
+
+    protected Map<String,Object> getRequestDataModel(HttpServletRequest request) {
+        // Questo è utile per riprendere "logininfo", cioè i dati salvati dell'utente
+        // nella sessione in automatico. L'aggiunta di login info alla request viene
+        // fatta nell'AbstractBaseController
+        Map<String, Object> datamodel = new HashMap<>();
+        Enumeration<String> attrs = request.getAttributeNames();
+        while (attrs.hasMoreElements()) {
+            String attrname = attrs.nextElement();
+            datamodel.put(attrname, request.getAttribute(attrname));
+        }
+        return datamodel;
     }
 
     //metodo interno per il setup della response

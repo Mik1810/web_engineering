@@ -30,26 +30,9 @@ public class AdminController extends ApplicationBaseController {
     }
 
     protected void renderAdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateManagerException {
-        try {
-            TemplateResult result = new TemplateResult(getServletContext());
-            Map<String, Object> datamodel = new HashMap<>();
-            HttpSession session = SecurityHelpers.checkSession(request);
-
-            if (session == null) throw new ServletException("Sessione invalida");
-
-            String amministratoreEmail = (String) session.getAttribute("email");
-
-            if (amministratoreEmail == null) throw new ServletException("Email non valida");
-
-            WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            AmministratoreDAO amministratoreDAO = dl.getAmministratoreDAO();
-            Amministratore amministratore = amministratoreDAO.getAmministratoreByEmail(amministratoreEmail);
-            datamodel.put("email", amministratore.getEmail());
-            result.activate("admin.ftl", datamodel, response);
-
-        } catch (DataException e) {
-            handleError(e, request, response);
-        }
+        TemplateResult result = new TemplateResult(getServletContext());
+        Map<String, Object> datamodel = new HashMap<>();
+        result.activate("admin.ftl", datamodel, request, response);
     }
 
     @Override
