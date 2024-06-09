@@ -27,11 +27,11 @@ alla destra
 
 <h1>DAO implementations</h1>
 
-- [ ] CategoriaDAO_MySQL (Partial)
+- [x] CategoriaDAO_MySQL
 - [x] AmministratoreDAO_MySQL
 - [x] CaratteristicaDAO_MySQL
 - [ ] RichiestaConCaratteristicheDAO_MySQL
-- [ ] RichiestaDAO_MySQL (Partial)
+- [x] RichiestaDAO_MySQL
 - [x] OrdinanteDAO_MySQL
 - [x] UfficioDAO_MySQL
 - [ ] RichiestaPresaInCaricoDAO_MySQL

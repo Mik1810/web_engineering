@@ -6,10 +6,7 @@ import it.univaq.webmarket.data.model.impl.proxy.CategoriaFiglioProxy;
 import it.univaq.webmarket.data.model.impl.proxy.CategoriaPadreProxy;
 import it.univaq.webmarket.data.model.impl.proxy.CategoriaNipoteProxy;
 import it.univaq.webmarket.framework.data.*;
-import it.univaq.webmarket.framework.security.SecurityHelpers;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,8 +31,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     private PreparedStatement uCategoriaFiglio;
     private PreparedStatement uCategoriaNipote;
 
-    private PreparedStatement sCategoriaPadreFromFiglio;
-    private PreparedStatement sCategoriaFiglioFromNipote;
+    private PreparedStatement sCategorieFiglioFromPadre;
+    private PreparedStatement sCategorieNipoteFromFiglio;
 
     private PreparedStatement dCategoriaPadre;
     private PreparedStatement dCategoriaFiglio;
@@ -65,8 +62,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             uCategoriaFiglio = connection.prepareStatement("UPDATE categoriafiglio SET nome=?, ID_categoria_padre=?, version=? WHERE ID=? AND version=?");
             uCategoriaNipote = connection.prepareStatement("UPDATE categorianipote SET nome=?, ID_categoria_figlio=?, version=? WHERE ID=? AND version=?");
 
-            sCategoriaPadreFromFiglio = connection.prepareStatement("SELECT * FROM categoriapadre JOIN categoriafiglio ON categoriapadre.ID = categoriafiglio.ID_categoria_padre WHERE categoriafiglio.ID = ?");
-            sCategoriaFiglioFromNipote = connection.prepareStatement("SELECT * FROM categoriafiglio JOIN categorianipote ON categoriafiglio.ID = categorianipote.ID_categoria_figlio WHERE categorianipote.ID = ?");
+            sCategorieFiglioFromPadre = connection.prepareStatement("SELECT * FROM categoriafiglio WHERE ID_categoria_padre = ?");
+            sCategorieNipoteFromFiglio = connection.prepareStatement("SELECT * FROM categorianipote WHERE ID_categoria_figlio = ?");
 
             dCategoriaPadre = connection.prepareStatement("DELETE FROM categoriapadre WHERE ID=?");
             dCategoriaFiglio = connection.prepareStatement("DELETE FROM categoriafiglio WHERE ID=?");
@@ -96,8 +93,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             uCategoriaFiglio.close();
             uCategoriaNipote.close();
 
-            sCategoriaPadreFromFiglio.close();
-            sCategoriaFiglioFromNipote.close();
+            sCategorieFiglioFromPadre.close();
+            sCategorieNipoteFromFiglio.close();
         } catch (SQLException ex) {
             //
         }
@@ -237,22 +234,64 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
     @Override
     public List<CategoriaFiglio> getAllCategorieFiglio() throws DataException {
-        return List.of();
+        List<CategoriaFiglio> result = new ArrayList<>();
+        try {
+            try (ResultSet rs = sCategorieFiglio.executeQuery()){
+                while (rs.next()){
+                    result.add(getCategoriaFiglio(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all CategoriaFiglio", ex);
+        }
     }
 
     @Override
     public List<CategoriaNipote> getAllCategorieNipote() throws DataException {
-        return List.of();
+        List<CategoriaNipote> result = new ArrayList<>();
+        try {
+            try (ResultSet rs = sCategorieNipote.executeQuery()){
+                while (rs.next()){
+                    result.add(getCategoriaNipote(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all CategoriaNipote", ex);
+        }
     }
 
     @Override
     public List<CategoriaFiglio> getCategorieFiglioByPadre(CategoriaPadre categoriaPadre) throws DataException {
-        return List.of();
+        List<CategoriaFiglio> result = new ArrayList<>();
+        try {
+            sCategorieFiglioFromPadre.setInt(1, categoriaPadre.getKey());
+            try (ResultSet rs = sCategorieFiglioFromPadre.executeQuery()){
+                while (rs.next()){
+                    result.add(getCategoriaFiglio(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading CategorieFiglio from CategoriaPadre", ex);
+        }
     }
 
     @Override
     public List<CategoriaNipote> getCategorieNipoteByFiglio(CategoriaFiglio categoriaFiglio) throws DataException {
-        return List.of();
+        List<CategoriaNipote> result = new ArrayList<>();
+        try {
+            sCategorieFiglioFromPadre.setInt(1, categoriaFiglio.getKey());
+            try (ResultSet rs = sCategorieFiglioFromPadre.executeQuery()){
+                while (rs.next()){
+                    result.add(getCategoriaNipote(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading CategorieFiglio from CategoriaPadre", ex);
+        }
     }
 
     @Override
@@ -263,7 +302,6 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
                     return;
                 }
                 uCategoriaPadre.setString(1, categoriaPadre.getNome());
-
                 long current_version = categoriaPadre.getVersion();
                 long next_version = current_version + 1;
 
@@ -298,12 +336,90 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
     @Override
     public void storeCategoriaFiglio(CategoriaFiglio categoriaFiglio) throws DataException {
+        // UPDATE categoriafiglio SET nome=?, ID_categoria_padre=?, version=? WHERE ID=? AND version=?
+        try {
+            if (categoriaFiglio.getKey() != null && categoriaFiglio.getKey() > 0) {
+                if (categoriaFiglio instanceof DataItemProxy && !((DataItemProxy) categoriaFiglio).isModified()) {
+                    return;
+                }
+                uCategoriaFiglio.setString(1, categoriaFiglio.getNome());
+                long current_version = categoriaFiglio.getVersion();
+                long next_version = current_version + 1;
 
+                uCategoriaFiglio.setInt(2, categoriaFiglio.getCategoriaGenitore().getKey());
+                uCategoriaFiglio.setLong(3, next_version);
+                uCategoriaFiglio.setInt(4, categoriaFiglio.getKey());
+                uCategoriaFiglio.setLong(4, current_version);
+
+                if (uCategoriaFiglio.executeUpdate() == 0) {
+                    throw new OptimisticLockException(categoriaFiglio);
+                } else {
+                    categoriaFiglio.setVersion(next_version);
+                }
+            } else {
+                // INSERT INTO categoriafiglio(nome, ID_categoria_padre) VALUES (?, ?)
+                iCategoriaFiglio.setString(1, categoriaFiglio.getNome());
+                iCategoriaFiglio.setInt(2, categoriaFiglio.getCategoriaGenitore().getKey());
+                if (iCategoriaFiglio.executeUpdate() == 1) {
+                    try (ResultSet keys = iCategoriaFiglio.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            categoriaFiglio.setKey(key);
+                            dataLayer.getCache().add(CategoriaFiglio.class, categoriaFiglio);
+                        }
+                    }
+                }
+            }
+            if (categoriaFiglio instanceof DataItemProxy) {
+                ((DataItemProxy) categoriaFiglio).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Unable to store CategoriaFiglio", ex);
+        }
     }
 
     @Override
     public void storeCategoriaNipote(CategoriaNipote categoriaNipote) throws DataException {
+        // UPDATE categorianipote SET nome=?, ID_categoria_figlio=?, version=? WHERE ID=? AND version=?
+        try {
+            if (categoriaNipote.getKey() != null && categoriaNipote.getKey() > 0) {
+                if (categoriaNipote instanceof DataItemProxy && !((DataItemProxy) categoriaNipote).isModified()) {
+                    return;
+                }
+                uCategoriaNipote.setString(1, categoriaNipote.getNome());
+                long current_version = categoriaNipote.getVersion();
+                long next_version = current_version + 1;
 
+                uCategoriaNipote.setInt(2, categoriaNipote.getCategoriaGenitore().getKey());
+                uCategoriaNipote.setLong(3, next_version);
+                uCategoriaNipote.setInt(4, categoriaNipote.getKey());
+                uCategoriaNipote.setLong(4, current_version);
+
+                if (uCategoriaNipote.executeUpdate() == 0) {
+                    throw new OptimisticLockException(categoriaNipote);
+                } else {
+                    categoriaNipote.setVersion(next_version);
+                }
+            } else {
+                // INSERT INTO categorianipote(nome, ID_categoria_figlio) VALUES (?, ?)
+                iCategoriaNipote.setString(1, categoriaNipote.getNome());
+                iCategoriaNipote.setInt(2, categoriaNipote.getCategoriaGenitore().getKey());
+                if (iCategoriaNipote.executeUpdate() == 1) {
+                    try (ResultSet keys = iCategoriaNipote.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            categoriaNipote.setKey(key);
+                            dataLayer.getCache().add(CategoriaNipote.class, categoriaNipote);
+                        }
+                    }
+                }
+            }
+            if (categoriaNipote instanceof DataItemProxy) {
+                ((DataItemProxy) categoriaNipote).setModified(false);
+            }
+        } catch (SQLException | OptimisticLockException ex) {
+            throw new DataException("Unable to store CategoriaNipote", ex);
+        }
     }
 
     @Override
@@ -315,17 +431,31 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             dCategoriaPadre.executeUpdate();
 
         } catch(SQLException e) {
-            throw new DataException("Unable to delete Ordinante", e);
+            throw new DataException("Unable to delete CategoriaPadre", e);
         }
     }
 
     @Override
     public void deleteCategoriaFiglio(CategoriaFiglio categoriaFiglio) throws DataException {
+        try {
+            dataLayer.getCache().delete(CategoriaFiglio.class, categoriaFiglio);
+            dCategoriaFiglio.setInt(1, categoriaFiglio.getKey());
+            dCategoriaFiglio.executeUpdate();
 
+        } catch(SQLException e) {
+            throw new DataException("Unable to delete CategoriaFiglio", e);
+        }
     }
 
     @Override
     public void deleteCategoriaNipote(CategoriaNipote categoriaNipote) throws DataException {
+        try {
+            dataLayer.getCache().delete(CategoriaNipote.class, categoriaNipote);
+            dCategoriaNipote.setInt(1, categoriaNipote.getKey());
+            dCategoriaNipote.executeUpdate();
 
+        } catch(SQLException e) {
+            throw new DataException("Unable to delete CategoriaNipote", e);
+        }
     }
 }

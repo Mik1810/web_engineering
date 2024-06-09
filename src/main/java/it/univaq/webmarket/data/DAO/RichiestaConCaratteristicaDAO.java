@@ -13,7 +13,7 @@ public interface RichiestaConCaratteristicaDAO {
 
     RichiestaConCaratteristiche getRichiestaConCaratteristica(int richiesta_key) throws DataException;
 
-    List<RichiestaConCaratteristiche> getRichiesteConCaratteristica() throws DataException;
+    List<RichiestaConCaratteristiche> getRichiesteConCaratteristicaByOrdinante() throws DataException;
 
     void storeRichiestaConCaratteristica(RichiestaConCaratteristiche richiestaConCaratteristiche) throws DataException;
 
