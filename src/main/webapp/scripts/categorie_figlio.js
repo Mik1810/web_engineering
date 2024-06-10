@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = window.location.pathname
             }
         });
-    } else if (span.innerText === "-1") {
+    } else if (span.innerText === "-2") {
         Swal.fire({
             icon: "error",
             title: "Attenzione",
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = window.location.pathname
             }
         });
-    } else if (span.innerText === "-2") {
+    } else if (span.innerText === "-1") {
         Swal.fire({
             icon: "error",
             title: "Attenzione",

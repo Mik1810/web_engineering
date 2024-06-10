@@ -118,7 +118,16 @@ public class CategoriaFiglioController extends ApplicationBaseController {
 
             CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO().createCategoriaFiglio();
 
-            if (request.getParameter("sceltaCategoriaPadre") != null || request.getParameter("sceltaCategoriaPadre") != "") {
+            if (request.getParameter("nome") != null && !request.getParameter("nome").equals("")) {
+                categoriaFiglio.setNome(request.getParameter("nome"));
+            } else {
+                datamodel.put("success", "-2");
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
+                result.activate("categorie_figlio.ftl", datamodel, request, response);
+                return;
+            }
+
+            if (request.getParameter("sceltaCategoriaPadre") != null && !request.getParameter("sceltaCategoriaPadre").isEmpty()) {
                 categoriaFiglio.setCategoriaGenitore(dl.getCategoriaDAO().getCategoriaPadre(Integer.parseInt(request.getParameter("sceltaCategoriaPadre"))));
             } else {
                 datamodel.put("success", "-1");
@@ -127,14 +136,6 @@ public class CategoriaFiglioController extends ApplicationBaseController {
                 return;
             }
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
-                categoriaFiglio.setNome(request.getParameter("nome"));
-            } else {
-                datamodel.put("success", "-2");
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                result.activate("categorie_figlio.ftl", datamodel, request, response);
-                return;
-            }
 
             dl.getCategoriaDAO().storeCategoriaFiglio(categoriaFiglio);
 
