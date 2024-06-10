@@ -51,15 +51,57 @@ h1 {
     flex-direction: row;
     gap: 3rem;
     justify-content: center;
-    align-items: center;
 }
 
-.modify_screen .update_screen {
+.modify-screen, .update-screen {
+    margin-top: 4rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .modifica-input {
     margin-bottom: 10px;
+}
+
+.buttons-choose {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.aggiungi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+
+.dropdownContainer {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.scelta-dropdown {
+    display: flex;
+    gap: 1rem;
+    background: #0069d9;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+
+}
+
+.dropdown-scelta-item {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
 }

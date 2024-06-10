@@ -17,13 +17,13 @@
         <div class="icon">🏠</div>
         <div class="separator"></div>
         <div class="title">Categoria Padre</div>
-        <div class="text">Inserisci, modifica o cancella una categoria padre.</div>
+        <div class="text">Inserisci, modifica o cancella una categoria <b>padre</b></div>
     </a>
     <a class="card" href="categoria_figlio">
         <div class="icon">🌟</div>
         <div class="separator"></div>
-        <div class="title">Titolo 2</div>
-        <div class="text">Questo è il testo della seconda card.</div>
+        <div class="title">Categoria Figlio</div>
+        <div class="text">Inserisci, modifica o cancella una categoria <b>figlio</b></div>
     </a>
 
     <a class="card" href="#3">

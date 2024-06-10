@@ -49,7 +49,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
 
             datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key));
             datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
-            datamodel.put("visibilityUpdate", "block");
+            datamodel.put("visibilityUpdate", "flex");
 
             result.activate("categorie_padre.ftl", datamodel, request, response);
         } catch (DataException ex) {
@@ -93,14 +93,14 @@ public class CategoriaPadreController extends ApplicationBaseController {
         }
     }
 
-    private void renderInsert(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException{
+    private void renderInsert(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
             datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
-            datamodel.put("visibilityInsert", "block");
+            datamodel.put("visibilityInsert", "flex");
 
             result.activate("categorie_padre.ftl", datamodel, request, response);
         } catch (DataException ex) {
@@ -108,7 +108,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
         }
     }
 
-    private void handleInsert(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException{
+    private void handleInsert(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             TemplateResult result = new TemplateResult(getServletContext());
@@ -134,14 +134,14 @@ public class CategoriaPadreController extends ApplicationBaseController {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
 
-            if(request.getParameter("render") != null) {
+            if (request.getParameter("render") != null) {
                 //Se l'utente richiede qualche elemento non renderizzato
 
-                if("Modifica".equals(request.getParameter("render"))) {
+                if ("Modifica".equals(request.getParameter("render"))) {
                     //Se devo renderizzare il menù per la modifica
                     renderModify(request, response, Integer.parseInt(request.getParameter("id")));
 
-                } else if("Aggiungi".equals(request.getParameter("render"))) {
+                } else if ("Aggiungi".equals(request.getParameter("render"))) {
                     //Se devo renderizzare il menù per l'aggiunta
                     renderInsert(request, response);
                 } else renderCategoriePage(request, response);
@@ -149,18 +149,21 @@ public class CategoriaPadreController extends ApplicationBaseController {
             } else if (request.getParameter("action") != null) {
                 // Se l'utente richiede un'azione
 
-                if("Modifica".equals(request.getParameter("action"))) {
+                if ("Modifica".equals(request.getParameter("action"))) {
 
                     // Se devo effettuare la modifica
                     handleModify(request, response, Integer.parseInt(request.getParameter("id")));
-                } else if("Elimina".equals(request.getParameter("action"))) {
+                } else if ("Elimina".equals(request.getParameter("action"))) {
 
                     // Se devo effettuare l'eliminazione
                     handleDelete(request, response, Integer.parseInt(request.getParameter("id")));
-                } else if("Aggiungi".equals(request.getParameter("action"))){
+                } else if ("Aggiungi".equals(request.getParameter("action"))) {
 
                     // Se devo effettuare l'aggiunta
                     handleInsert(request, response);
+                } else if ("Annulla".equals(request.getParameter("action"))) {
+                    // Se voglio annullare l'azione
+                    response.sendRedirect("categoria_padre");
                 } else renderCategoriePage(request, response);
             } else {
                 renderCategoriePage(request, response);

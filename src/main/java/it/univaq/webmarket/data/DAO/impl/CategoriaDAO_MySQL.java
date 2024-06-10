@@ -44,7 +44,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
     @Override
     public void init() throws DataException {
-        try{
+        try {
             super.init();
             sCategoriaPadreByID = connection.prepareStatement("SELECT * FROM categoriaPadre WHERE ID=?");
             sCategoriaFiglioByID = connection.prepareStatement("SELECT * FROM categoriaFiglio WHERE ID=?");
@@ -69,7 +69,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             dCategoriaFiglio = connection.prepareStatement("DELETE FROM categoriafiglio WHERE ID=?");
             dCategoriaNipote = connection.prepareStatement("DELETE FROM categorianipote WHERE ID=?");
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DataException("Error initializing webmarket data layer", e);
         }
     }
@@ -221,8 +221,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     public List<CategoriaPadre> getAllCategoriePadre() throws DataException {
         List<CategoriaPadre> result = new ArrayList<>();
         try {
-            try (ResultSet rs = sCategoriePadre.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = sCategoriePadre.executeQuery()) {
+                while (rs.next()) {
                     result.add(getCategoriaPadre(rs.getInt("ID")));
                 }
             }
@@ -236,8 +236,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     public List<CategoriaFiglio> getAllCategorieFiglio() throws DataException {
         List<CategoriaFiglio> result = new ArrayList<>();
         try {
-            try (ResultSet rs = sCategorieFiglio.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = sCategorieFiglio.executeQuery()) {
+                while (rs.next()) {
                     result.add(getCategoriaFiglio(rs.getInt("ID")));
                 }
             }
@@ -251,8 +251,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     public List<CategoriaNipote> getAllCategorieNipote() throws DataException {
         List<CategoriaNipote> result = new ArrayList<>();
         try {
-            try (ResultSet rs = sCategorieNipote.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = sCategorieNipote.executeQuery()) {
+                while (rs.next()) {
                     result.add(getCategoriaNipote(rs.getInt("ID")));
                 }
             }
@@ -267,8 +267,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
         List<CategoriaFiglio> result = new ArrayList<>();
         try {
             sCategorieFiglioFromPadre.setInt(1, categoriaPadre.getKey());
-            try (ResultSet rs = sCategorieFiglioFromPadre.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = sCategorieFiglioFromPadre.executeQuery()) {
+                while (rs.next()) {
                     result.add(getCategoriaFiglio(rs.getInt("ID")));
                 }
             }
@@ -283,8 +283,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
         List<CategoriaNipote> result = new ArrayList<>();
         try {
             sCategorieFiglioFromPadre.setInt(1, categoriaFiglio.getKey());
-            try (ResultSet rs = sCategorieFiglioFromPadre.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = sCategorieFiglioFromPadre.executeQuery()) {
+                while (rs.next()) {
                     result.add(getCategoriaNipote(rs.getInt("ID")));
                 }
             }
@@ -349,7 +349,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
                 uCategoriaFiglio.setInt(2, categoriaFiglio.getCategoriaGenitore().getKey());
                 uCategoriaFiglio.setLong(3, next_version);
                 uCategoriaFiglio.setInt(4, categoriaFiglio.getKey());
-                uCategoriaFiglio.setLong(4, current_version);
+                uCategoriaFiglio.setLong(5, current_version);
 
                 if (uCategoriaFiglio.executeUpdate() == 0) {
                     throw new OptimisticLockException(categoriaFiglio);
@@ -430,7 +430,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             dCategoriaPadre.setInt(1, categoriaPadre.getKey());
             dCategoriaPadre.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DataException("Unable to delete CategoriaPadre", e);
         }
     }
@@ -442,7 +442,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             dCategoriaFiglio.setInt(1, categoriaFiglio.getKey());
             dCategoriaFiglio.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DataException("Unable to delete CategoriaFiglio", e);
         }
     }
@@ -454,7 +454,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             dCategoriaNipote.setInt(1, categoriaNipote.getKey());
             dCategoriaNipote.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DataException("Unable to delete CategoriaNipote", e);
         }
     }
