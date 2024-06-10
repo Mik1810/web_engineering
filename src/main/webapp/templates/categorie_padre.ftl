@@ -20,7 +20,7 @@
     <h1>Categorie</h1>
     <div id="aggiungi">
         <form method="POST" action="categoria_padre">
-            <input type="submit" name="action" id="action" value="Aggiungi"/>
+            <input type="submit" name="render" id="render" value="Aggiungi"/>
         </form>
     </div>
 
@@ -42,7 +42,7 @@
                         <td>
                             <form method="POST" action="categoria_padre">
                                 <input type="hidden" name="id" value="${categoria.key}">
-                                <input class="btn btn-primary" type="submit" id="action" name="action"
+                                <input class="btn btn-primary" type="submit" id="render" name="render"
                                        value="Modifica">
                             </form>
                         </td>
@@ -70,7 +70,7 @@
                                                value="${(categoriaModifica.key)!"0"}">
                 <input class="form-control modifica-input" id="nome" name="nome" type="text"
                        value="${(categoriaModifica.nome)!""}">
-                <input class="btn btn-primary" type="submit" id="actionModify" name="actionModify"
+                <input class="btn btn-primary" type="submit" id="action" name="action"
                        value="Modifica">
 
             </form>
@@ -80,7 +80,7 @@
             <form method="POST" action="categoria_padre" class="update_screen">
                 <label for="nome">Inserisci nome:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="text">
-                <input class="btn btn-primary" type="submit" id="actionInsert" name="actionInsert" value="Aggiungi">
+                <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
             </form>
         </div>
     </div>

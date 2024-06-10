@@ -63,7 +63,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key);
             dl.getCategoriaDAO().deleteCategoriaPadre(categoriaPadre);
-            response.sendRedirect("categorie_padre");
+            response.sendRedirect("categoria_padre");
         } catch (IOException | DataException ex) {
             handleError(ex, request, response);
         }
@@ -80,7 +80,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
             Map<String, Object> datamodel = new HashMap<>();
             try {
                 datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
-                datamodel.put("success", "true");
+                datamodel.put("success", "1");
 
             } catch (DataException e) {
                 handleError(e, request, response);
@@ -121,7 +121,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
             dl.getCategoriaDAO().storeCategoriaPadre(categoriaPadre);
 
             datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
-            datamodel.put("success", "true");
+            datamodel.put("success", "2");
 
             result.activate("categorie_padre.ftl", datamodel, request, response);
         } catch (DataException ex) {
@@ -133,22 +133,35 @@ public class CategoriaPadreController extends ApplicationBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            if (request.getParameter("action") != null ||
-                request.getParameter("actionModify") != null ||
-                request.getParameter("actionInsert") != null) {
-                if ("Modifica".equals(request.getParameter("action"))) {
-                    if (request.getParameter("id") == null) handleError("ID not allowed", request, response);
+
+            if(request.getParameter("render") != null) {
+                //Se l'utente richiede qualche elemento non renderizzato
+
+                if("Modifica".equals(request.getParameter("render"))) {
+                    //Se devo renderizzare il menù per la modifica
                     renderModify(request, response, Integer.parseInt(request.getParameter("id")));
-                }  else if ("Elimina".equals(request.getParameter("action"))) {
-                    if (request.getParameter("id") == null) handleError("ID not allowed", request, response);
-                    handleDelete(request, response, Integer.parseInt(request.getParameter("id")));
-                } else if("Aggiungi".equals(request.getParameter("action"))) {
+
+                } else if("Aggiungi".equals(request.getParameter("render"))) {
+                    //Se devo renderizzare il menù per l'aggiunta
                     renderInsert(request, response);
-                } else if (request.getParameter("actionModify") != null) {
+                } else renderCategoriePage(request, response);
+
+            } else if (request.getParameter("action") != null) {
+                // Se l'utente richiede un'azione
+
+                if("Modifica".equals(request.getParameter("action"))) {
+
+                    // Se devo effettuare la modifica
                     handleModify(request, response, Integer.parseInt(request.getParameter("id")));
-                }else if(request.getParameter("actionInsert") != null){
+                } else if("Elimina".equals(request.getParameter("action"))) {
+
+                    // Se devo effettuare l'eliminazione
+                    handleDelete(request, response, Integer.parseInt(request.getParameter("id")));
+                } else if("Aggiungi".equals(request.getParameter("action"))){
+
+                    // Se devo effettuare l'aggiunta
                     handleInsert(request, response);
-                } else handleError("Action not allowed", request, response);
+                } else renderCategoriePage(request, response);
             } else {
                 renderCategoriePage(request, response);
             }
