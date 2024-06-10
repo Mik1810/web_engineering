@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/style/categoria.css">
     <link rel="stylesheet" href="/style/default.css">
+    <link rel="stylesheet" href="/style/categoria.css">
+
 
 </head>
 <body>
@@ -45,9 +46,9 @@
                             <a href="categoria_padre?id=${categoria.categoriaGenitore.key}">${categoria.categoriaGenitore.nome}</a>
                         </td>
                         <td>
-                            <form method="POST" action="categoria_padre">
+                            <form method="POST" action="categoria_figlio">
                                 <input type="hidden" name="id" value="${categoria.key}">
-                                <input class="btn btn-primary" type="submit" id="action" name="action"
+                                <input class="btn btn-primary" type="submit" id="render" name="render"
                                        value="Modifica">
                             </form>
                         </td>
@@ -68,29 +69,70 @@
         </div>
 
 
-        <div id="modify-screen" style="display: ${visibility!"none"}">
-            <form method="POST" action="categoria_figlio" class="modify_screen">
+        <div style="display: ${visibilityUpdate!"none"}" class="modify-screen">
+            <form method="POST" action="categoria_figlio">
                 <label for="nome">Inserisci nuovo nome:</label>
                 <label for="id"></label><input type="text" id="id" name="id" style="display: none"
                                                value="${(categoriaModifica.key)!"0"}">
                 <input class="form-control modifica-input" id="nome" name="nome" type="text"
                        value="${(categoriaModifica.nome)!""}">
-                <input class="btn btn-primary" type="submit" id="actionModify" name="actionModify"
-                       value="Modifica">
 
+                <div class="dropdownContainer">
+                    <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown">
+                        <option class="dropdown-scelta-item" value="${(categoriaGenitoreEsistente.key)!"0"}" selected
+                                disabled
+                                hidden>${(categoriaGenitoreEsistente.nome)!"Categoria Padre"}</option>
+                        <#if (categoriePadre)??>
+                            <#list categoriePadre as categoriaPadre>
+                                <option class="dropdown-scelta-item"
+                                        value="${categoriaPadre.key}">${categoriaPadre.nome}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
+
+
+                <div class="buttons-choose">
+                    <input class="btn btn-primary" type="submit" id="action" name="action"
+                           value="Modifica">
+                    <input class="btn btn-danger" type="submit" id="action" name="action"
+                           value="Annulla">
+                </div>
+
+            </form>
+        </div>
+
+        <div style="display: ${visibilityInsert!"none"}" class="update-screen">
+            <form method="POST" action="categoria_figlio">
+                <label for="nome">Inserisci nome:</label>
+                <input class="form-control modifica-input" id="nome" name="nome" type="text">
+                <div class="dropdownContainer">
+                    <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown">
+                        <#if (categoriePadre)??>
+                            <#list categoriePadre as categoriaPadre>
+                                <option class="dropdown-scelta-item"
+                                        value="${categoriaPadre.key}">${categoriaPadre.nome}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
+                <div class="buttons-choose">
+                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
+                    <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
+                </div>
             </form>
         </div>
     </div>
 </div>
 
 
-<span class="invisible" id="success">${success!"false"}</span>
+<span class="invisible" id="success">${success!"0"}</span>
 
 <#include "modules/footer.ftl">
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/scripts/categorie_padre.js"></script>
+<script src="/scripts/categorie_figlio.js"></script>
 
 </body>
 </html>

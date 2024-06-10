@@ -78,3 +78,30 @@ h1 {
     align-items: center;
     margin-top: 1rem;
 }
+
+
+.dropdownContainer {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.scelta-dropdown {
+    display: flex;
+    gap: 1rem;
+    background: #0069d9;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+
+}
+
+.dropdown-scelta-item {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
