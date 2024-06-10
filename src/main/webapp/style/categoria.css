@@ -51,15 +51,30 @@ h1 {
     flex-direction: row;
     gap: 3rem;
     justify-content: center;
-    align-items: center;
 }
 
-.modify_screen .update_screen {
+.modify-screen, .update-screen {
+    margin-top: 4rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .modifica-input {
     margin-bottom: 10px;
+}
+
+.buttons-choose {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.aggiungi {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
 }
