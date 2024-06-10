@@ -46,13 +46,10 @@ public class CategoriaPadreController extends ApplicationBaseController {
             CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key);
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
-            try {
-                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key));
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
-                datamodel.put("visibility", "block");
-            } catch (DataException e) {
-                handleError(e, request, response);
-            }
+
+            datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key));
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
+            datamodel.put("visibilityUpdate", "block");
 
             result.activate("categorie_padre.ftl", datamodel, request, response);
         } catch (DataException ex) {
@@ -96,19 +93,61 @@ public class CategoriaPadreController extends ApplicationBaseController {
         }
     }
 
+    private void renderInsert(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException{
+        try {
+            WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+            TemplateResult result = new TemplateResult(getServletContext());
+            Map<String, Object> datamodel = new HashMap<>();
+
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
+            datamodel.put("visibilityInsert", "block");
+
+            result.activate("categorie_padre.ftl", datamodel, request, response);
+        } catch (DataException ex) {
+            handleError(ex, request, response);
+        }
+    }
+
+    private void handleInsert(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException{
+        try {
+            WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+            TemplateResult result = new TemplateResult(getServletContext());
+            Map<String, Object> datamodel = new HashMap<>();
+
+            CategoriaPadre categoriaPadre = dl.getCategoriaDAO().createCategoriaPadre();
+            if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
+                categoriaPadre.setNome(request.getParameter("nome"));
+            }
+            dl.getCategoriaDAO().storeCategoriaPadre(categoriaPadre);
+
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
+            datamodel.put("success", "true");
+
+            result.activate("categorie_padre.ftl", datamodel, request, response);
+        } catch (DataException ex) {
+            handleError(ex, request, response);
+        }
+    }
+
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            if (request.getParameter("action") != null || request.getParameter("actionModify") != null) {
-                if (request.getParameter("id") == null) handleError("ID not allowed", request, response);
-                ServletHelpers.printRequest(request);
+            if (request.getParameter("action") != null ||
+                request.getParameter("actionModify") != null ||
+                request.getParameter("actionInsert") != null) {
                 if ("Modifica".equals(request.getParameter("action"))) {
+                    if (request.getParameter("id") == null) handleError("ID not allowed", request, response);
                     renderModify(request, response, Integer.parseInt(request.getParameter("id")));
-                } else if ("Modifica".equals(request.getParameter("actionModify"))) {
-                    handleModify(request, response, Integer.parseInt(request.getParameter("id")));
-                } else if ("Elimina".equals(request.getParameter("action"))) {
-                    System.out.println("Ciao");
+                }  else if ("Elimina".equals(request.getParameter("action"))) {
+                    if (request.getParameter("id") == null) handleError("ID not allowed", request, response);
                     handleDelete(request, response, Integer.parseInt(request.getParameter("id")));
+                } else if("Aggiungi".equals(request.getParameter("action"))) {
+                    renderInsert(request, response);
+                } else if (request.getParameter("actionModify") != null) {
+                    handleModify(request, response, Integer.parseInt(request.getParameter("id")));
+                }else if(request.getParameter("actionInsert") != null){
+                    handleInsert(request, response);
                 } else handleError("Action not allowed", request, response);
             } else {
                 renderCategoriePage(request, response);

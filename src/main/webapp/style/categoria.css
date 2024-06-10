@@ -54,7 +54,7 @@ h1 {
     align-items: center;
 }
 
-.modify_screen {
+.modify_screen .update_screen {
     display: flex;
     flex-direction: column;
     align-items: center;

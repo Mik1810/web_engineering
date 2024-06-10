@@ -18,6 +18,11 @@
 <#include "modules/header.ftl">
 <div class="container">
     <h1>Categorie</h1>
+    <div id="aggiungi">
+        <form method="POST" action="categoria_padre">
+            <input type="submit" name="action" id="action" value="Aggiungi"/>
+        </form>
+    </div>
 
     <div class="row">
 
@@ -58,7 +63,7 @@
         </div>
 
 
-        <div id="modify-screen" style="display: ${visibility!"none"}">
+        <div id="modify-screen" style="display: ${visibilityUpdate!"none"}">
             <form method="POST" action="categoria_padre" class="modify_screen">
                 <label for="nome">Inserisci nuovo nome:</label>
                 <label for="id"></label><input type="text" id="id" name="id" style="display: none"
@@ -70,11 +75,19 @@
 
             </form>
         </div>
+
+        <div id="update-screen" style="display: ${visibilityInsert!"none"}">
+            <form method="POST" action="categoria_padre" class="update_screen">
+                <label for="nome">Inserisci nome:</label>
+                <input class="form-control modifica-input" id="nome" name="nome" type="text">
+                <input class="btn btn-primary" type="submit" id="actionInsert" name="actionInsert" value="Aggiungi">
+            </form>
+        </div>
     </div>
 </div>
 
 
-<span class="invisible" id="success">${success!"false"}</span>
+<span class="invisible" id="success">${success!"0"}</span>
 
 <#include "modules/footer.ftl">
 
