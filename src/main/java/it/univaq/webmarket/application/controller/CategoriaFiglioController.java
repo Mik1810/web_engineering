@@ -5,6 +5,7 @@ import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.DAO.impl.CategoriaDAO_MySQL;
 import it.univaq.webmarket.data.model.Categoria;
+import it.univaq.webmarket.data.model.CategoriaFiglio;
 import it.univaq.webmarket.data.model.CategoriaPadre;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
@@ -15,13 +16,12 @@ import it.univaq.webmarket.framework.utils.ServletHelpers;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CategoriaPadreController extends ApplicationBaseController {
+public class CategoriaFiglioController extends ApplicationBaseController {
 
     private void renderCategoriePage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
@@ -29,15 +29,20 @@ public class CategoriaPadreController extends ApplicationBaseController {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
         try {
             if (request.getParameter("id") != null) {
-                datamodel.put("categorie", List.of(dl.getCategoriaDAO().getCategoriaPadre(Integer.parseInt(request.getParameter("id")))));
+                CategoriaPadre categoriaPadre = dl.getCategoriaDAO()
+                        .getCategoriaPadre(Integer.parseInt(request.getParameter("id")));
+                System.out.println(categoriaPadre.getNome());
+                List<CategoriaFiglio> categorieFiglio = dl.getCategoriaDAO().getCategorieFiglioByPadre(categoriaPadre);
+                categorieFiglio.forEach(c -> System.out.println(c.getNome()));
+                datamodel.put("categorie", categorieFiglio);
             } else {
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre());
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
             }
         } catch (DataException e) {
             handleError(e, request, response);
         }
 
-        result.activate("categorie_padre.ftl", datamodel, request, response);
+        result.activate("categorie_figlio.ftl", datamodel, request, response);
     }
 
     private void renderModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaPadre_key) throws TemplateManagerException, IOException {
@@ -101,7 +106,6 @@ public class CategoriaPadreController extends ApplicationBaseController {
         try {
             if (request.getParameter("action") != null || request.getParameter("actionModify") != null) {
                 if (request.getParameter("id") == null) handleError("ID not allowed", request, response);
-                ServletHelpers.printRequest(request);
                 if ("Modifica".equals(request.getParameter("action"))) {
                     renderModify(request, response, Integer.parseInt(request.getParameter("id")));
                 } else if ("Modifica".equals(request.getParameter("actionModify"))) {

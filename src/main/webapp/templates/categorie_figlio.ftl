@@ -26,6 +26,7 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">Nome</th>
+                    <th scope="col">Categoria Padre</th>
                     <th scope="col">Modifica</th>
                     <th scope="col">Elimina</th>
                 </tr>
@@ -33,7 +34,8 @@
                 <tbody>
                 <#list categorie as categoria>
                     <tr>
-                        <td><a href="categoria_figlio?id=${categoria.key}">${categoria.nome}</a></td>
+                        <td><a href="#">${categoria.nome}</a></td>
+                        <td><a href="categoria_padre?id=${categoria.categoriaGenitore.key}">${categoria.categoriaGenitore.nome}</a></td>
                         <td>
                             <form method="POST" action="categoria_padre">
                                 <input type="hidden" name="id" value="${categoria.key}">
@@ -42,7 +44,7 @@
                             </form>
                         </td>
                         <td>
-                            <form method="POST" action="categoria_padre">
+                            <form method="POST" action="categoria_figlio">
                                 <input type="hidden" name="id"
                                        value="${categoria.key}">
                                 <input class="btn btn-danger" type="submit" id="action" name="action"
@@ -59,7 +61,7 @@
 
 
         <div id="modify-screen" style="display: ${visibility!"none"}">
-            <form method="POST" action="categoria_padre" class="modify_screen">
+            <form method="POST" action="categoria_figlio" class="modify_screen">
                 <label for="nome">Inserisci nuovo nome:</label>
                 <label for="id"></label><input type="text" id="id" name="id" style="display: none"
                                                value="${(categoriaModifica.key)!"0"}">

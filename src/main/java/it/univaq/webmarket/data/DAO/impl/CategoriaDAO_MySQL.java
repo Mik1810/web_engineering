@@ -172,6 +172,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
                 throw new DataException("Unable to load CategoriaPadre by ID", ex);
             }
         }
+        System.out.println("Nome categoria padre: "+cp.getNome());
         return cp;
     }
 

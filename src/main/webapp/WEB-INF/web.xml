@@ -58,10 +58,14 @@
         <servlet-name>categoria_padre</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.CategoriaPadreController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>categoria_figlio</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.CategoriaFiglioController</servlet-class>
+    </servlet>
     <context-param>
         <param-name>security.protect.patterns</param-name>
         <!-- qui configuriamo i pattern delle URL da proteggere -->
-        <param-value>/admin, /categoria_padre</param-value>
+        <param-value>/admin, /categoria_padre, /categoria_figlio</param-value>
     </context-param>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
@@ -82,6 +86,10 @@
     <servlet-mapping>
         <servlet-name>categoria_padre</servlet-name>
         <url-pattern>/categoria_padre</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>categoria_figlio</servlet-name>
+        <url-pattern>/categoria_figlio</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
