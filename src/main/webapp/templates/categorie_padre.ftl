@@ -38,7 +38,7 @@
                 <tbody>
                 <#list categorie as categoria>
                     <tr>
-                        <td><a href="categoria_figlio?id=${categoria.key}">${categoria.nome}</a></td>
+                        <td><a href="categoria_figlio?id_categoria_genitore=${categoria.key}">${categoria.nome}</a></td>
                         <td>
                             <form method="POST" action="categoria_padre">
                                 <input type="hidden" name="id" value="${categoria.key}">

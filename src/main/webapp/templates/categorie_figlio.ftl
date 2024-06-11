@@ -43,11 +43,13 @@
                     <tr>
                         <td><a href="#">${categoria.nome}</a></td>
                         <td>
-                            <a href="categoria_padre?id=${categoria.categoriaGenitore.key}">${categoria.categoriaGenitore.nome}</a>
+                            <a href="categoria_padre?id_categoria_genitore=${categoria.categoriaGenitore.key}">${categoria.categoriaGenitore.nome}</a>
                         </td>
                         <td>
                             <form method="POST" action="categoria_figlio">
                                 <input type="hidden" name="id" value="${categoria.key}">
+                                <input type="hidden" name="id_categoria_genitore"
+                                       value="${id_categoria_genitore!"null"}">
                                 <input class="btn btn-primary" type="submit" id="render" name="render"
                                        value="Modifica">
                             </form>
@@ -56,10 +58,10 @@
                             <form method="POST" action="categoria_figlio">
                                 <input type="hidden" name="id"
                                        value="${categoria.key}">
+                                <input type="hidden" name="id_categoria_genitore"
+                                       value="${id_categoria_genitore!"null"}">
                                 <input class="btn btn-danger" type="submit" id="action" name="action"
                                        value="Elimina">
-
-
                             </form>
                         </td>
                     </tr>
@@ -71,6 +73,8 @@
 
         <div style="display: ${visibilityUpdate!"none"}" class="modify-screen">
             <form method="POST" action="categoria_figlio">
+                <input type="hidden" name="id_categoria_genitore"
+                       value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nuovo nome:</label>
                 <label for="id"></label><input type="text" id="id" name="id" style="display: none"
                                                value="${(categoriaModifica.key)!"0"}">
@@ -104,6 +108,8 @@
 
         <div style="display: ${visibilityInsert!"none"}" class="update-screen">
             <form method="POST" action="categoria_figlio">
+                <input type="hidden" name="id_categoria_genitore"
+                       value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nome:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="text">
                 <div class="dropdownContainer">
