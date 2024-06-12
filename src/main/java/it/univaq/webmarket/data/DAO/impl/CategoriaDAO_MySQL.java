@@ -203,7 +203,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             cn = dataLayer.getCache().get(CategoriaNipote.class, categoriaNipote_key);
         } else {
             try {
-                sCategoriaPadreByID.setInt(1, categoriaNipote_key);
+                sCategoriaNipoteByID.setInt(1, categoriaNipote_key);
                 try (ResultSet rs = sCategoriaNipoteByID.executeQuery()) {
                     if (rs.next()) {
                         cn = createCategoriaNipote(rs);

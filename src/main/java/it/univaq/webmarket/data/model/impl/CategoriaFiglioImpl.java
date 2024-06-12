@@ -28,4 +28,13 @@ public class CategoriaFiglioImpl extends DataItemImpl<Integer> implements Catego
     public void setCategoriaGenitore(CategoriaPadre categoriaPadre) {
         this.categoriaGenitore = categoriaPadre;
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " {" +
+                "key = " + getKey() +
+                ", nome = " + getNome() +
+                ", categoriaGenitore = " + getCategoriaGenitore() +
+                "}";
+    }
 }

@@ -17,4 +17,12 @@ public class CategoriaPadreImpl extends DataItemImpl<Integer> implements Categor
 
     @Override
     public void setNome(String nome) { this.nome = nome; }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " {" +
+                "key = " + getKey() +
+                ", nome = " + getNome() +
+                "}";
+    }
 }

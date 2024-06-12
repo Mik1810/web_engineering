@@ -25,7 +25,6 @@ public class LoginController extends ApplicationBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-
             if (request.getParameter("login") != null) {
                 if (Boolean.parseBoolean(getServletContext().getInitParameter("debug"))) {
                     // Se sono in modalità debug, faccio il login automatico
