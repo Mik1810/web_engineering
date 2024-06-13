@@ -18,15 +18,18 @@
 <#include "modules/header.ftl">
 <div class="container">
     <h1>Categorie Padre</h1>
-    <div id="aggiungi" class="aggiungi">
-        <form method="POST" action="categoria_padre">
-            <input class="btn btn-success" type="submit" name="render" id="render" value="Aggiungi"/>
-        </form>
-    </div>
-
+    <span class="buttons">
+        <div id="aggiungi">
+            <form method="POST" action="categoria_padre">
+                <input class="btn btn-success" type="submit" name="render" id="render" value="Aggiungi"/>
+            </form>
+        </div>
+        <button class="btn btn-primary" id="fetchCategories">Carica altro</button>
+    </span>
     <div class="row">
 
         <div class="list">
+            <span class="invisible" id="page">1</span>
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
@@ -35,7 +38,7 @@
                     <th scope="col">Elimina</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbody">
                 <#list categorie as categoria>
                     <tr>
                         <td><a href="categoria_figlio?id_categoria_genitore=${categoria.key}">${categoria.nome}</a></td>
@@ -93,16 +96,14 @@
     </div>
 </div>
 
-<a id="previous-page" href="categoria_padre?page=">Pagina Precedente</a>
-<a id="next-page" href="categoria_padre?page=">Pagina Successiva</a>
-
-
 <span class="invisible" id="success">${success!"0"}</span>
 <#include "modules/footer.ftl">
 
 
+
 <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="application/javascript" src="/scripts/categorie_padre.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="application/javascript" src="/scripts/pager.js"></script>
 
 </body>

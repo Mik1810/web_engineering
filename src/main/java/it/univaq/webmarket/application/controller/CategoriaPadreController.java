@@ -1,5 +1,6 @@
 package it.univaq.webmarket.application.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.CategoriaPadre;
@@ -7,6 +8,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.utils.Ruolo;
+import it.univaq.webmarket.framework.utils.ServletHelpers;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -49,10 +51,10 @@ public class CategoriaPadreController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
+            System.out.println("Page:"+request.getParameter("page"));
             datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key));
             datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
             datamodel.put("visibilityUpdate", "flex");
-
             result.activate("categorie_padre.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
@@ -131,14 +133,34 @@ public class CategoriaPadreController extends ApplicationBaseController {
         }
     }
 
-    private CategoriaPadre loadCategoriePadre(HttpServletRequest request, HttpServletResponse response) throws DataException {
+    private List<CategoriaPadre> loadCategoriePadre(HttpServletRequest request, HttpServletResponse response, Integer page) throws DataException {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-        return dl.getCategoriaDAO().getCategoriaPadre(1);
+        return dl.getCategoriaDAO().getAllCategoriePadre(page);
     }
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
+
+            ServletHelpers.printRequest(request);
+            if(request.getParameter("page") != null) {
+                try {
+                    Integer page = Integer.parseInt(request.getParameter("page"));
+                    System.out.println("Page:"+page);
+                    ObjectMapper mapper = new ObjectMapper();
+
+                    String json = mapper.writeValueAsString(loadCategoriePadre(request, response, page));
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+
+                    response.getWriter().print(json);
+                    response.getWriter().flush();
+                    return;
+                } catch(DataException e){
+                    e.printStackTrace();
+                }
+            }
 
             if (request.getParameter("render") != null) {
                 //Se l'utente richiede qualche elemento non renderizzato
@@ -172,10 +194,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
                     response.sendRedirect("categoria_padre");
                 } else renderCategoriePage(request, response, 0);
             } else {
-                if(request.getParameter("page") != null) {
-                    Integer page = Integer.parseInt(request.getParameter("page"));
-                    renderCategoriePage(request, response, page);
-                } else renderCategoriePage(request, response, 0);
+                 renderCategoriePage(request, response, 0);
             }
         } catch (IOException | TemplateManagerException ex) {
             handleError(ex, request, response);
