@@ -93,6 +93,9 @@
     </div>
 </div>
 
+<a id="previous-page" href="categoria_padre?page=">Pagina Precedente</a>
+<a id="next-page" href="categoria_padre?page=">Pagina Successiva</a>
+
 
 <span class="invisible" id="success">${success!"0"}</span>
 <#include "modules/footer.ftl">
@@ -100,7 +103,7 @@
 
 <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="application/javascript" src="/scripts/categorie_padre.js"></script>
-
+<script type="application/javascript" src="/scripts/pager.js"></script>
 
 </body>
 </html>
