@@ -1,28 +1,30 @@
 package it.univaq.webmarket.application.controller;
 
-import freemarker.template.TemplateException;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
-import it.univaq.webmarket.data.DAO.impl.CategoriaDAO_MySQL;
-import it.univaq.webmarket.data.model.Categoria;
 import it.univaq.webmarket.data.model.CategoriaFiglio;
 import it.univaq.webmarket.data.model.CategoriaPadre;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.utils.Ruolo;
-import it.univaq.webmarket.framework.utils.ServletHelpers;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CategoriaFiglioController extends ApplicationBaseController {
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.ruoliAutorizzati = List.of(Ruolo.AMMINISTRATORE);
+    }
 
     private void renderCategoriePage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {   //all'avvio della pagina
         TemplateResult result = new TemplateResult(getServletContext());
@@ -75,7 +77,7 @@ public class CategoriaFiglioController extends ApplicationBaseController {
                 List<CategoriaFiglio> categorieFiglio = dl.getCategoriaDAO().getCategorieFiglioByPadre(categoriaPadre);
                 datamodel.put("id_categoria_genitore", request.getParameter("id_categoria_genitore"));
                 datamodel.put("categorie", categorieFiglio);
-                datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
+                datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre(0));
                 datamodel.put("categoriaGenitoreEsistente", categoriaFiglio.getCategoriaGenitore());
                 datamodel.put("visibilityUpdate", "flex");
                 datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
@@ -86,7 +88,7 @@ public class CategoriaFiglioController extends ApplicationBaseController {
                 try {
                     datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
                     datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                    datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
+                    datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre(0));
                     datamodel.put("categoriaGenitoreEsistente", categoriaFiglio.getCategoriaGenitore());
                     datamodel.put("visibilityUpdate", "flex");
                 } catch (DataException e) {
@@ -212,7 +214,7 @@ public class CategoriaFiglioController extends ApplicationBaseController {
             Map<String, Object> datamodel = new HashMap<>();
 
             datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-            datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
+            datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre(0));
             datamodel.put("visibilityInsert", "flex");
 
             result.activate("categorie_figlio.ftl", datamodel, request, response);

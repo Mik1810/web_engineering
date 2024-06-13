@@ -30,6 +30,19 @@ public abstract class ApplicationBaseController extends AbstractBaseController {
         }
     }
 
+
+    /*
+    * Tengo traccia dei ruoli autorizzati per accedere alla pagina perchè un utente potrebbe
+    * potenzialmente far scadere la sessione, verrebbe quindi messo un referrer nell'url della pagina,
+    * se modificasse il referrer per poter accedere a pagine protette per altri ruoli, allora potrebbe
+    * loggarsi con le sue credenziali e accedere a contenuti sensibili di altri ruoli. In questo modo,
+    * anche se il login viene effettuato correttamente, se il ruolo non è autorizzato, l'utente verrà
+    * reindirizzato ad una pagina di errore.
+    *
+    * Per riprodurre l' "attacco", loggarsi con un ruolo diverso dall'admin, far scadere la sessione,
+    * modificare l'url insernedo admin al posto del nome della servlet a cui eravamo collegati primi
+    * e riloggarsi con le proprie crendenziali. Ovviamente bisogna commentare il metodo sottostante.
+    */
     @Override
     protected void processBaseRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         HttpSession session = request.getSession(false);

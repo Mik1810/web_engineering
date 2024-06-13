@@ -50,7 +50,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             sCategoriaFiglioByID = connection.prepareStatement("SELECT * FROM categoriaFiglio WHERE ID=?");
             sCategoriaNipoteByID = connection.prepareStatement("SELECT * FROM categoriaNipote WHERE ID=?");
 
-            sCategoriePadre = connection.prepareStatement("SELECT ID FROM categoriaPadre");
+            sCategoriePadre = connection.prepareStatement("SELECT ID FROM categoriaPadre LIMIT ?, ?");
             sCategorieFiglio = connection.prepareStatement("SELECT ID FROM categoriaFiglio");
             sCategorieNipote = connection.prepareStatement("SELECT ID FROM categoriaNipote");
 
@@ -218,9 +218,11 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     }
 
     @Override
-    public List<CategoriaPadre> getAllCategoriePadre() throws DataException {
+    public List<CategoriaPadre> getAllCategoriePadre(Integer page) throws DataException {
         List<CategoriaPadre> result = new ArrayList<>();
         try {
+            sCategoriePadre.setInt(1, page*2);
+            sCategoriePadre.setInt(2, 2);
             try (ResultSet rs = sCategoriePadre.executeQuery()) {
                 while (rs.next()) {
                     result.add(getCategoriaPadre(rs.getInt("ID")));

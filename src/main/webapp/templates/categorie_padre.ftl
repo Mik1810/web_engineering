@@ -95,12 +95,12 @@
 
 
 <span class="invisible" id="success">${success!"0"}</span>
-
 <#include "modules/footer.ftl">
 
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/scripts/categorie_padre.js"></script>
+<script type="application/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="application/javascript" src="/scripts/categorie_padre.js"></script>
+
 
 </body>
 </html>
