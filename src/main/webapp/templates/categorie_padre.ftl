@@ -19,17 +19,25 @@
 <div class="container">
     <h1>Categorie Padre</h1>
     <span class="buttons">
+        <#if page == 0>
+            <a class="btn btn-secondary disabled">Pagina Precedente</a>
+        <#else>
+            <a class="btn btn-primary" href="categoria_padre?page=${page-1}">Pagina precedente</a>
+        </#if>
+        <a class="btn btn-primary" href="categoria_padre?page=${page+   1}">Pagina successiva</a>
         <div id="aggiungi">
-            <form method="POST" action="categoria_padre">
+            <form method="POST" action="categoria_padre?page=${page}">
                 <input class="btn btn-success" type="submit" name="render" id="render" value="Aggiungi"/>
             </form>
         </div>
+        <!--
         <button class="btn btn-primary" id="fetchCategories">Carica altro</button>
+        -->
     </span>
     <div class="row">
 
         <div class="list">
-            <span class="invisible" id="page">1</span>
+            <span class="invisible" id="page">${page!"0"}</span>
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
@@ -43,14 +51,14 @@
                     <tr>
                         <td><a href="categoria_figlio?id_categoria_genitore=${categoria.key}">${categoria.nome}</a></td>
                         <td>
-                            <form method="POST" action="categoria_padre">
+                            <form method="POST" action="categoria_padre?page=${page}">
                                 <input type="hidden" name="id" value="${categoria.key}">
                                 <input class="btn btn-primary" type="submit" id="render" name="render"
                                        value="Modifica">
                             </form>
                         </td>
                         <td>
-                            <form method="POST" action="categoria_padre">
+                            <form method="POST" action="categoria_padre?page=${page}">
                                 <input type="hidden" name="id"
                                        value="${categoria.key}">
                                 <input class="btn btn-danger" type="submit" id="action" name="action"
@@ -67,24 +75,21 @@
 
 
         <div style="display: ${visibilityUpdate!"none"}" class="modify-screen">
-            <form method="POST" action="categoria_padre">
+            <form method="POST" action="categoria_padre?page=${page}">
                 <label for="nome">Inserisci nuovo nome:</label>
-                <label for="id"></label><input type="text" id="id" name="id" style="display: none"
-                                               value="${(categoriaModifica.key)!"0"}">
-                <input class="form-control modifica-input" id="nome" name="nome" type="text"
-                       value="${(categoriaModifica.nome)!""}">
+                <label for="id"></label>
+                <input type="text" id="id" name="id" style="display: none" value="${(categoriaModifica.key)!"0"}">
+                <input class="form-control modifica-input" id="nome" name="nome" type="text" value="${(categoriaModifica.nome)!""}">
                 <div class="buttons-choose">
-                    <input class="btn btn-primary" type="submit" id="action" name="action"
-                           value="Modifica">
-                    <input class="btn btn-danger" type="submit" id="action" name="action"
-                           value="Annulla">
+                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
+                    <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
                 </div>
 
             </form>
         </div>
 
         <div style="display: ${visibilityInsert!"none"}" class="update-screen">
-            <form method="POST" action="categoria_padre">
+            <form method="POST" action="categoria_padre?page=${page}">
                 <label for="nome">Inserisci nome:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="text">
                 <div class="buttons-choose">
@@ -103,8 +108,9 @@
 
 <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="application/javascript" src="/scripts/categorie_padre.js"></script>
+<!--
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="application/javascript" src="/scripts/pager.js"></script>
-
+-->
 </body>
 </html>

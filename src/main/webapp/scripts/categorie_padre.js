@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
             text: "CategoriaPadre modificata con successo.",
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = window.location.pathname
+                // This is done to avoid the resubmission of the form
+                window.location.href = window.location.pathname + window.location.search
             }
         });
     } else if(span.innerText === "2") {
@@ -17,11 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
             text: "CategoriaPadre aggiunta con successo.",
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = window.location.pathname
+                // This is done to avoid the resubmission of the form
+                window.location.href = window.location.pathname + window.location.search
             }
         });
     }
-
-
 });
 

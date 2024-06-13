@@ -1,6 +1,5 @@
 package it.univaq.webmarket.application.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.CategoriaPadre;
@@ -8,7 +7,6 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.utils.Ruolo;
-import it.univaq.webmarket.framework.utils.ServletHelpers;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -27,7 +25,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
         this.ruoliAutorizzati = List.of(Ruolo.AMMINISTRATORE);
     }
 
-    private void renderCategoriePage(HttpServletRequest request, HttpServletResponse response, Integer page) throws TemplateManagerException, IOException {
+    private void renderCategoriePage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
@@ -35,7 +33,15 @@ public class CategoriaPadreController extends ApplicationBaseController {
             if (request.getParameter("id") != null) {
                 datamodel.put("categorie", List.of(dl.getCategoriaDAO().getCategoriaPadre(Integer.parseInt(request.getParameter("id")))));
             } else {
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(page));
+                if(request.getParameter("page")!= null) {
+                    Integer page = Integer.parseInt(request.getParameter("page"));
+                    datamodel.put("categorie", dl.getCategoriaDAO()
+                            .getAllCategoriePadre(page));
+                    datamodel.put("page", page);
+                } else {
+                    datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+                    datamodel.put("page", 0);
+                }
             }
         } catch (DataException e) {
             handleError(e, request, response);
@@ -53,7 +59,16 @@ public class CategoriaPadreController extends ApplicationBaseController {
 
             System.out.println("Page:"+request.getParameter("page"));
             datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key));
-            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+            if(request.getParameter("page")!= null) {
+                Integer page = Integer.parseInt(request.getParameter("page"));
+                datamodel.put("categorie", dl.getCategoriaDAO()
+                        .getAllCategoriePadre(page));
+                datamodel.put("page", page);
+            } else {
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+                datamodel.put("page", 0);
+            }
+            // TODO: da chiedere a giacomo ahahhahah
             datamodel.put("visibilityUpdate", "flex");
             result.activate("categorie_padre.ftl", datamodel, request, response);
         } catch (DataException ex) {
@@ -67,7 +82,10 @@ public class CategoriaPadreController extends ApplicationBaseController {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key);
             dl.getCategoriaDAO().deleteCategoriaPadre(categoriaPadre);
-            response.sendRedirect("categoria_padre");
+            if(request.getParameter("page")!= null) {
+                Integer page = Integer.parseInt(request.getParameter("page"));
+                response.sendRedirect("categoria_padre?page="+page);
+            } else response.sendRedirect("categoria_padre?page=0");
         } catch (IOException | DataException ex) {
             handleError(ex, request, response);
         }
@@ -83,7 +101,15 @@ public class CategoriaPadreController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
             try {
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+                if(request.getParameter("page")!= null) {
+                    Integer page = Integer.parseInt(request.getParameter("page"));
+                    datamodel.put("categorie", dl.getCategoriaDAO()
+                            .getAllCategoriePadre(page));
+                    datamodel.put("page", page);
+                } else {
+                    datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+                    datamodel.put("page", 0);
+                }
                 datamodel.put("success", "1");
 
             } catch (DataException e) {
@@ -103,7 +129,17 @@ public class CategoriaPadreController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+            if(request.getParameter("page")!= null) {
+                Integer page = Integer.parseInt(request.getParameter("page"));
+                datamodel.put("categorie", dl.getCategoriaDAO()
+                        .getAllCategoriePadre(page));
+                datamodel.put("page", page);
+            } else {
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+                datamodel.put("page", 0);
+            }
+
+            //TODO: da chiedere a giacomo ahahhahah
             datamodel.put("visibilityInsert", "flex");
 
             result.activate("categorie_padre.ftl", datamodel, request, response);
@@ -124,7 +160,15 @@ public class CategoriaPadreController extends ApplicationBaseController {
             }
             dl.getCategoriaDAO().storeCategoriaPadre(categoriaPadre);
 
-            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+            if(request.getParameter("page")!= null) {
+                Integer page = Integer.parseInt(request.getParameter("page"));
+                datamodel.put("categorie", dl.getCategoriaDAO()
+                        .getAllCategoriePadre(page));
+                datamodel.put("page", page);
+            } else {
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
+                datamodel.put("page", 0);
+            }
             datamodel.put("success", "2");
 
             result.activate("categorie_padre.ftl", datamodel, request, response);
@@ -133,15 +177,17 @@ public class CategoriaPadreController extends ApplicationBaseController {
         }
     }
 
+    /*
     private List<CategoriaPadre> loadCategoriePadre(HttpServletRequest request, HttpServletResponse response, Integer page) throws DataException {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
         return dl.getCategoriaDAO().getAllCategoriePadre(page);
-    }
+    }*/
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
 
+            /*
             ServletHelpers.printRequest(request);
             if(request.getParameter("page") != null) {
                 try {
@@ -160,7 +206,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
                 } catch(DataException e){
                     e.printStackTrace();
                 }
-            }
+            }*/
 
             if (request.getParameter("render") != null) {
                 //Se l'utente richiede qualche elemento non renderizzato
@@ -172,7 +218,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
                 } else if ("Aggiungi".equals(request.getParameter("render"))) {
                     //Se devo renderizzare il menù per l'aggiunta
                     renderInsert(request, response);
-                } else renderCategoriePage(request, response, 0);
+                } else renderCategoriePage(request, response);
 
             } else if (request.getParameter("action") != null) {
                 // Se l'utente richiede un'azione
@@ -192,9 +238,9 @@ public class CategoriaPadreController extends ApplicationBaseController {
                 } else if ("Annulla".equals(request.getParameter("action"))) {
                     // Se voglio annullare l'azione
                     response.sendRedirect("categoria_padre");
-                } else renderCategoriePage(request, response, 0);
+                } else renderCategoriePage(request, response);
             } else {
-                 renderCategoriePage(request, response, 0);
+                 renderCategoriePage(request, response);
             }
         } catch (IOException | TemplateManagerException ex) {
             handleError(ex, request, response);

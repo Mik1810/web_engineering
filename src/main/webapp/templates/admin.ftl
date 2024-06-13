@@ -13,7 +13,7 @@
 <#include "modules/header.ftl">
 
 <div class="container">
-    <a class="card" href="categoria_padre">
+    <a class="card" href="categoria_padre?page=0">
         <div class="icon">🏠</div>
         <div class="separator"></div>
         <div class="title">Categoria Padre</div>
