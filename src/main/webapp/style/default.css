@@ -49,7 +49,7 @@ header {
 .footer-container {
     display: flex;
     flex: 1;
-    justify-content: end;
+    justify-content: flex-end;
     flex-direction: column;
 }
 
@@ -61,5 +61,5 @@ body {
 }
 
 html {
-    height: 97%;
+    height: 100%;
 }
