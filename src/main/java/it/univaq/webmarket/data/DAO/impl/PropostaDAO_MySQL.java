@@ -18,6 +18,8 @@ import java.util.List;
 
 public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
 
+    private Integer offset = 5;
+
     private PreparedStatement sPropostaByID;
     private PreparedStatement sProposte;
     private PreparedStatement iProposta;
@@ -33,7 +35,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
         try {
             super.init();
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE ID=?");
-            sProposte = connection.prepareStatement("SELECT ID FROM proposta");
+            sProposte = connection.prepareStatement("SELECT ID FROM proposta LIMIT ?, ?");
             iProposta = connection.prepareStatement("INSERT INTO proposta(codice_prodotto, produttore, note, prezzo,nome_prodotto,URL,stato,motivazione, ID_richiesta_presa_in_carico) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dProposta = connection.prepareStatement("DELETE FROM proposta WHERE ID=?");
             uProposta = connection.prepareStatement("UPDATE proposta SET codice_prodotto=?, produttore=?, note=?, prezzo=?, nome_prodotto=?, URL=?, stato=?, motivazione=?, ID_richiesta_presa_in_carico=?, version=? WHERE ID=? AND version=?");
@@ -111,18 +113,20 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     }
 
     @Override
-    public List<Proposta> getAllProposta() throws DataException {
+    public List<Proposta> getAllProposta(Integer page) throws DataException {
+
         List<Proposta> result = new ArrayList<>();
         try {
+            sProposte.setInt(1, page*offset);
+            sProposte.setInt(2, offset);
             try (ResultSet rs = sProposte.executeQuery()){
                 while (rs.next()){
                     result.add(getProposta(rs.getInt("ID")));
                 }
             }
             return result;
-
         }catch (SQLException ex){
-            throw new DataException("Unable to get all proposta", ex);
+            throw new DataException("Unable to get all Proposta", ex);
         }
     }
 

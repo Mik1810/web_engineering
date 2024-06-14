@@ -17,6 +17,8 @@ import java.util.List;
 
 public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
 
+    private Integer offset = 5;
+
     private PreparedStatement sTecnicoOrdiniByID;
     private PreparedStatement sTecnicoOrdiniByEmail;
     private PreparedStatement iTecnicoOrdini;
@@ -35,7 +37,7 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
             sTecnicoOrdiniByID = connection.prepareStatement("SELECT * FROM tecnicoordini WHERE ID=?");
             sTecnicoOrdiniByEmail = connection.prepareStatement("SELECT * FROM tecnicoordini WHERE email=?");
             iTecnicoOrdini = connection.prepareStatement("INSERT INTO tecnicoordini(email, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-            sTecniciOrdini = connection.prepareStatement("SELECT ID FROM tecnicoordini");
+            sTecniciOrdini = connection.prepareStatement("SELECT ID FROM tecnicoordini LIMIT ?, ?");
             uTecnicoOrdini = connection.prepareStatement("UPDATE tecnicoordini SET email=?,password=?,version=? WHERE ID=? and version=?");
             dTecnicoOrdini = connection.prepareStatement("DELETE FROM tecnicoordini WHERE ID=?");
         } catch (SQLException ex) {
@@ -98,17 +100,20 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
     }
 
     @Override
-    public List<TecnicoOrdini> getAllTecnicoOrdini() throws DataException {
+    public List<TecnicoOrdini> getAllTecnicoOrdini(Integer page) throws DataException {
         List<TecnicoOrdini> result = new ArrayList<>();
-
-        try (ResultSet rs = sTecniciOrdini.executeQuery()) {
-            while (rs.next()) {
-                result.add(getTecnicoOrdini(rs.getInt("ID")));
+        try {
+            sTecniciOrdini.setInt(1, page  * offset);
+            sTecniciOrdini.setInt(2, offset);
+            try (ResultSet rs = sTecniciOrdini.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getTecnicoOrdini(rs.getInt("ID")));
+                }
             }
+            return result;
         } catch (SQLException ex) {
             throw new DataException("Unable to load TecnicoOrdini", ex);
         }
-        return result;
     }
 
     @Override

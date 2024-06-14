@@ -17,6 +17,8 @@ import java.util.List;
 
 public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
 
+    private Integer offset;
+
     private PreparedStatement sOrdinanteByID;
     private PreparedStatement sOrdinanteByEmail;
     private PreparedStatement iOrdinante;
@@ -35,7 +37,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             sOrdinanteByID = connection.prepareStatement("SELECT * FROM ordinante WHERE ID=?");
             sOrdinanteByEmail = connection.prepareStatement("SELECT * FROM ordinante WHERE email=?");
             iOrdinante = connection.prepareStatement("INSERT INTO ordinante(email, password, ID_ufficio) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            sOrdinanti = connection.prepareStatement("SELECT ID FROM ordinante");
+            sOrdinanti = connection.prepareStatement("SELECT ID FROM ordinante LIMIT ?, ?");
             uOrdinante = connection.prepareStatement("UPDATE ordinante SET email=?, password=?, ID_ufficio=?, version=? WHERE ID=? AND version=?");
             dOrdinante = connection.prepareStatement("DELETE FROM ordinante WHERE ID=?");
         } catch (SQLException ex) {
@@ -99,17 +101,20 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
     }
 
     @Override
-    public List<Ordinante> getAllOrdinanti() throws DataException {
+    public List<Ordinante> getAllOrdinanti(Integer page) throws DataException {
         List<Ordinante> result = new ArrayList<>();
-
-        try (ResultSet rs = sOrdinanti.executeQuery()) {
-            while (rs.next()) {
-                result.add(getOrdinante(rs.getInt("ID")));
+        try {
+            sOrdinanti.setInt(1, page * offset);
+            sOrdinanti.setInt(2, offset);
+            try (ResultSet rs = sOrdinanti.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getOrdinante(rs.getInt("ID")));
+                }
             }
+            return result;
         } catch (SQLException ex) {
             throw new DataException("Unable to load Ordinante", ex);
         }
-        return result;
     }
 
     @Override

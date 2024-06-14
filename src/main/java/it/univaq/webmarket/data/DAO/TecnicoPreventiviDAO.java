@@ -11,7 +11,7 @@ public interface TecnicoPreventiviDAO {
 
     TecnicoPreventivi getTecnicoPreventivi(int tecnicoPreventivi_key) throws DataException;
 
-    List<TecnicoPreventivi> getAllTecnicoPreventivi() throws DataException;
+    List<TecnicoPreventivi> getAllTecnicoPreventivi(Integer page) throws DataException;
 
     // email è dichiarato UNIQUE, abbiamo al certezza che ne esista solo uno
     TecnicoPreventivi getTecnicoPreventiviByEmail(String email) throws DataException;

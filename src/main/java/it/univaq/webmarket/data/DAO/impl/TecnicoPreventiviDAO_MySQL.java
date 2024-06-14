@@ -17,6 +17,8 @@ import java.util.List;
 
 public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventiviDAO {
 
+    private Integer offset = 5;
+
     private PreparedStatement sTecnicoPreventivoByID;
     private PreparedStatement sTecnicoPreventivoByEmail;
     private PreparedStatement iTecnicoPreventivi;
@@ -33,7 +35,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
             sTecnicoPreventivoByID = connection.prepareStatement("SELECT * FROM tecnicopreventivi WHERE ID=?");
             sTecnicoPreventivoByEmail = connection.prepareStatement("SELECT * FROM tecnicopreventivi WHERE email=?");
             iTecnicoPreventivi = connection.prepareStatement("INSERT INTO tecnicopreventivi(email, password) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
-            sTecnicoPreventivi = connection.prepareStatement("SELECT ID FROM tecnicopreventivi");
+            sTecnicoPreventivi = connection.prepareStatement("SELECT ID FROM tecnicopreventivi LIMIT ?, ?");
             uTecnicoPreventivi = connection.prepareStatement("UPDATE tecnicopreventivi SET email=?,password=?,version=? WHERE ID=? and version=?");
             dTecnicoPreventivi = connection.prepareStatement("DELETE FROM tecnicopreventivi WHERE ID=?");
         } catch (SQLException ex) {
@@ -71,7 +73,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
             o.setVersion(rs.getLong("version"));
             return o;
         } catch (SQLException ex) {
-            throw new DataException("Unable to create tecnicoPreventivi object form ResultSet", ex);
+            throw new DataException("Unable to create TecnicoPreventivi object form ResultSet", ex);
         }
     }
 
@@ -97,17 +99,20 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
     }
 
     @Override
-    public List<TecnicoPreventivi> getAllTecnicoPreventivi() throws DataException {
+    public List<TecnicoPreventivi> getAllTecnicoPreventivi(Integer page) throws DataException {
         List<TecnicoPreventivi> result = new ArrayList<>();
-
-        try (ResultSet rs = sTecnicoPreventivi.executeQuery()) {
-            while (rs.next()) {
-                result.add(getTecnicoPreventivi(rs.getInt("ID")));
+        try {
+            sTecnicoPreventivi.setInt(1, page  * offset);
+            sTecnicoPreventivi.setInt(2, offset);
+            try (ResultSet rs = sTecnicoPreventivi.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getTecnicoPreventivi(rs.getInt("ID")));
+                }
+                return result;
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load Tecnico Preventivi", ex);
         }
-        return result;
     }
 
     @Override

@@ -14,6 +14,8 @@ import java.util.List;
 
 public class UfficioDAO_MySQL extends DAO implements UfficioDAO {
 
+    private Integer offset = 5;
+
     private PreparedStatement sUfficioByID;
     private PreparedStatement sUffici;
     private PreparedStatement iUfficio;
@@ -27,7 +29,7 @@ public class UfficioDAO_MySQL extends DAO implements UfficioDAO {
         try {
             super.init();
             sUfficioByID = connection.prepareStatement("SELECT * FROM ufficio WHERE ID=?");
-            sUffici = connection.prepareStatement("SELECT ID FROM ufficio");
+            sUffici = connection.prepareStatement("SELECT ID FROM ufficio LIMIT ?, ?");
             iUfficio = connection.prepareStatement("INSERT INTO ufficio(sede, numero, piano, telefono, citta) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uUfficio = connection.prepareStatement("UPDATE ufficio SET sede=?, numero=?, piano=?, telefono=?, citta=?, version=? WHERE ID=? AND version=?");
             dUfficio = connection.prepareStatement("DELETE FROM ufficio WHERE ID=?");
@@ -167,16 +169,19 @@ public class UfficioDAO_MySQL extends DAO implements UfficioDAO {
     }
 
     @Override
-    public List<Ufficio> getAllUffici() throws DataException {
+    public List<Ufficio> getAllUffici(Integer page) throws DataException {
         List<Ufficio> result = new ArrayList<>();
-
-        try (ResultSet rs = sUffici.executeQuery()) {
-            while (rs.next()) {
-                result.add(getUfficio(rs.getInt("ID")));
+        try {
+            sUffici.setInt(1, page * offset);
+            sUffici.setInt(2, offset);
+            try (ResultSet rs = sUffici.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getUfficio(rs.getInt("ID")));
+                }
+                return result;
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to load Ufficio", ex);
         }
-        return result;
     }
 }

@@ -11,7 +11,7 @@ public interface TecnicoOrdiniDAO {
 
     TecnicoOrdini getTecnicoOrdini(int tecnicoOrdini_key) throws DataException;
 
-    List<TecnicoOrdini> getAllTecnicoOrdini() throws DataException;
+    List<TecnicoOrdini> getAllTecnicoOrdini(Integer page) throws DataException;
 
     // email è dichiarato UNIQUE, abbiamo al certezza che ne esista solo uno
     TecnicoOrdini getTecnicoOrdiniByEmail(String email) throws DataException;

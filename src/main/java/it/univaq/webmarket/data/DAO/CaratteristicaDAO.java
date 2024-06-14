@@ -6,11 +6,12 @@ import it.univaq.webmarket.framework.data.DataException;
 import java.util.List;
 
 public interface CaratteristicaDAO {
+
     Caratteristica createCaratteristica();
 
     Caratteristica getCaratteristica(int key) throws DataException;
 
-    List<Caratteristica> getAllCaratteristiche() throws DataException;
+    List<Caratteristica> getAllCaratteristiche(Integer page) throws DataException;
 
     void storeCaratteristica(Caratteristica caratteristica) throws DataException;
 

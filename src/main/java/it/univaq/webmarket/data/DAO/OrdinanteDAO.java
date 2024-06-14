@@ -12,7 +12,7 @@ public interface OrdinanteDAO {
 
     Ordinante getOrdinante(int ordinante_key) throws DataException;
 
-    List<Ordinante> getAllOrdinanti() throws DataException;
+    List<Ordinante> getAllOrdinanti(Integer offset) throws DataException;
 
     // email è dichiarato UNIQUE, abbiamo al certezza che ne esista solo uno
     Ordinante getOrdinanteByEmail(String email) throws DataException;

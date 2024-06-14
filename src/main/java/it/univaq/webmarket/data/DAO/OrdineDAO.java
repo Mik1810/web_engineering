@@ -11,7 +11,7 @@ public interface OrdineDAO {
 
     Ordine getOrdine(int key) throws DataException;
 
-    List<Ordine> getAllOrdini() throws DataException;
+    List<Ordine> getAllOrdini(Integer page) throws DataException;
 
     void storeOrdine(Ordine ordine) throws DataException;
 

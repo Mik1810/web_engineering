@@ -15,6 +15,8 @@ import java.util.List;
 
 public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
 
+    private Integer offset = 5;
+
     private PreparedStatement sCategoriaPadreByID;
     private PreparedStatement sCategoriaFiglioByID;
     private PreparedStatement sCategoriaNipoteByID;
@@ -221,8 +223,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     public List<CategoriaPadre> getAllCategoriePadre(Integer page) throws DataException {
         List<CategoriaPadre> result = new ArrayList<>();
         try {
-            sCategoriePadre.setInt(1, page*2);
-            sCategoriePadre.setInt(2, 2);
+            sCategoriePadre.setInt(1, page*offset);
+            sCategoriePadre.setInt(2, offset);
             try (ResultSet rs = sCategoriePadre.executeQuery()) {
                 while (rs.next()) {
                     result.add(getCategoriaPadre(rs.getInt("ID")));

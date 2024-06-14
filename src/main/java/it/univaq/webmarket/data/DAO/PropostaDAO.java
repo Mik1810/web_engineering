@@ -10,7 +10,7 @@ public interface PropostaDAO {
 
     Proposta getProposta(int key) throws DataException;
 
-    List<Proposta> getAllProposta() throws DataException;
+    List<Proposta> getAllProposta(Integer page) throws DataException;
 
     void deleteProposta(Proposta proposta) throws DataException;
 

@@ -22,9 +22,11 @@ public interface StatiEnumDAO {
 
     Feedback getFeedback(int feedback_key) throws DataException;
 
+    // Qui posso anche evitare di passare il parametro page, dal momento che saranno sempre di una
+    // quantità limitata
     List<StatoProposta> getAllStatiProposta() throws DataException;
 
     List<StatoConsegna> getAllStatiConsegna() throws DataException;;
 
-    List<Feedback> getAllFeedback() throws DataException;;
+    List<Feedback> getAllFeedback() throws DataException;
 }

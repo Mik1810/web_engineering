@@ -11,6 +11,8 @@ import java.util.List;
 
 public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
 
+    private Integer offset = 5;
+
     private PreparedStatement sOrdineByID;
     private PreparedStatement iOrdine;
     private PreparedStatement uOrdine;
@@ -29,7 +31,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
             sOrdineByID = connection.prepareStatement("SELECT * FROM ordine WHERE ID=?");
             iOrdine = connection.prepareStatement("INSERT INTO ordine(stato_consegna, ID_tecnico_ordini, ID_proposta) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uOrdine = connection.prepareStatement("UPDATE ordine SET stato_consegna=?,feedback=?, ID_tecnico_ordini=?, ID_proposta=?, version=? WHERE ID=? AND version=?");
-            sOrdini = connection.prepareStatement("SELECT ID FROM ordine");
+            sOrdini = connection.prepareStatement("SELECT ID FROM ordine LIMIT ?, ?");
             dOrdine = connection.prepareStatement("DELETE FROM ordine WHERE ID=?");
             sStoricoByID = connection.prepareStatement("SELECT ID_ordine FROM chiude WHERE ID_ordinante=?");
         } catch (SQLException e) {
@@ -96,17 +98,21 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
     }
 
     @Override
-    public List<Ordine> getAllOrdini() throws DataException {
-        List<Ordine> result = new ArrayList<>();
+    public List<Ordine> getAllOrdini(Integer page) throws DataException {
 
-        try (ResultSet rs = sOrdini.executeQuery()) {
-            while (rs.next()) {
-                result.add(getOrdine(rs.getInt("ID")));
+        List<Ordine> result = new ArrayList<>();
+        try {
+            sOrdini.setInt(1, page*offset);
+            sOrdini.setInt(2, offset);
+            try (ResultSet rs = sOrdini.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getOrdine(rs.getInt("ID")));
+                }
             }
+            return result;
         } catch (SQLException ex) {
             throw new DataException("Unable to load Ordine", ex);
         }
-        return result;
     }
 
     @Override

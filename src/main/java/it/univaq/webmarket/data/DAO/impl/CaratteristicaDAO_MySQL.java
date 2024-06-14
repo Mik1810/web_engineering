@@ -19,6 +19,8 @@ import java.util.List;
 
 public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
 
+    private Integer offset;
+
     private PreparedStatement iCaratteristica;
     private PreparedStatement sCaratteristicaByID;
     private PreparedStatement sAllCaratteristiche;
@@ -35,7 +37,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             super.init();
             iCaratteristica = connection.prepareStatement("INSERT INTO Caratteristica(nome, unita_di_misura, ID_categoria_nipote) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
             sCaratteristicaByID = connection.prepareStatement("SELECT * FROM Caratteristica WHERE ID=?");
-            sAllCaratteristiche = connection.prepareStatement("SELECT ID FROM Caratteristica");
+            sAllCaratteristiche = connection.prepareStatement("SELECT ID FROM Caratteristica LIMIT ?, ?");
             uCaratteristica = connection.prepareStatement("UPDATE Caratteristica SET nome=?, unita_di_misura=?, ID_categoria_nipote=?, version=? WHERE ID=? AND version=?");
             dCaratteristica = connection.prepareStatement("DELETE FROM Caratteristica WHERE ID=?");
         } catch (Exception e) {
@@ -100,9 +102,11 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
 
 
     @Override
-    public List<Caratteristica> getAllCaratteristiche() throws DataException {
+    public List<Caratteristica> getAllCaratteristiche(Integer page) throws DataException {
         List<Caratteristica> result = new ArrayList<>();
         try {
+            sAllCaratteristiche.setInt(1, page*offset);
+            sAllCaratteristiche.setInt(2, offset);
             try (ResultSet rs = sAllCaratteristiche.executeQuery()){
                 while (rs.next()){
                     result.add(getCaratteristica(rs.getInt("ID")));

@@ -16,5 +16,5 @@ public interface UfficioDAO {
 
     void deleteUfficio(Ufficio ufficio) throws DataException;
 
-    List<Ufficio> getAllUffici() throws DataException;
+    List<Ufficio> getAllUffici(Integer page) throws DataException;
 }
