@@ -8,15 +8,11 @@ alla destra
 - [ ] Creare tutti gli altri controller
 - [ ] Creare i componenti
 
-la relazione "composta" ha la version ma non ha senso
-
-
 <h1>DAO interfaces</h1>
 
 - [x] CategoriaDAO
 - [x] AmministratoreDAO
 - [x] CaratteristicaDAO
-- [x] RichiestaConCaratteristicheDAO
 - [x] RichiestaDAO
 - [x] OrdinanteDAO
 - [x] UfficioDAO
@@ -32,7 +28,6 @@ la relazione "composta" ha la version ma non ha senso
 - [x] CategoriaDAO_MySQL
 - [x] AmministratoreDAO_MySQL
 - [x] CaratteristicaDAO_MySQL
-- [ ] RichiestaConCaratteristicheDAO_MySQL
 - [x] RichiestaDAO_MySQL
 - [x] OrdinanteDAO_MySQL
 - [x] UfficioDAO_MySQL

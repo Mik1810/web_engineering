@@ -1,15 +1,12 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.CaratteristicaDAO;
-import it.univaq.webmarket.data.model.Caratteristica;
-import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.Proposta;
+import it.univaq.webmarket.data.model.*;
+import it.univaq.webmarket.data.model.impl.CaratteristicaConValoreImpl;
+import it.univaq.webmarket.data.model.impl.proxy.CaratteristicaConValoreProxy;
 import it.univaq.webmarket.data.model.impl.proxy.CaratteristicaProxy;
 import it.univaq.webmarket.data.model.impl.proxy.PropostaProxy;
-import it.univaq.webmarket.framework.data.DAO;
-import it.univaq.webmarket.framework.data.DataException;
-import it.univaq.webmarket.framework.data.DataLayer;
-import it.univaq.webmarket.framework.data.OptimisticLockException;
+import it.univaq.webmarket.framework.data.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,6 +24,12 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
     private PreparedStatement uCaratteristica;
     private PreparedStatement dCaratteristica;
 
+    private PreparedStatement sCaratteristicaConValoreByID;
+    private PreparedStatement sCaratteristicheConValore;
+    private PreparedStatement iCaratteristicaConValore;
+    private PreparedStatement uCaratteristicaConValore;
+    private PreparedStatement dCaratteristicaConValore;
+
     public CaratteristicaDAO_MySQL(DataLayer d) {
         super(d);
     }
@@ -40,6 +43,12 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             sAllCaratteristiche = connection.prepareStatement("SELECT ID FROM Caratteristica LIMIT ?, ?");
             uCaratteristica = connection.prepareStatement("UPDATE Caratteristica SET nome=?, unita_di_misura=?, ID_categoria_nipote=?, version=? WHERE ID=? AND version=?");
             dCaratteristica = connection.prepareStatement("DELETE FROM Caratteristica WHERE ID=?");
+
+            sCaratteristicaConValoreByID = connection.prepareStatement("SELECT * FROM composta WHERE ID=?");
+            sCaratteristicheConValore = connection.prepareStatement("SELECT * FROM composta WHERE ID_richiesta = ?");
+            iCaratteristicaConValore = connection.prepareStatement("INSERT INTO composta(ID_caratteristica, ID_richiesta, valore) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            uCaratteristicaConValore = connection.prepareStatement("UPDATE composta SET ID_caratteristica=?, ID_richiesta=?, valore=?, version=? WHERE ID=? AND version=?");
+            dCaratteristicaConValore = connection.prepareStatement("DELETE FROM composta WHERE ID=?");
         } catch (Exception e) {
             throw new DataException("Errore inizializzazione data layer", e);
         }
@@ -51,7 +60,14 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             iCaratteristica.close();
             sCaratteristicaByID.close();
             sAllCaratteristiche.close();
+            uCaratteristica.close();
+            dCaratteristica.close();
 
+            sCaratteristicaConValoreByID.close();
+            sCaratteristicheConValore.close();
+            iCaratteristicaConValore.close();
+            uCaratteristicaConValore.close();
+            dCaratteristicaConValore.close();
         } catch (SQLException ex) {
             throw new DataException("Can't destroy connections", ex);
         }
@@ -62,6 +78,12 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
     public Caratteristica createCaratteristica() {
         return new CaratteristicaProxy(getDataLayer());
     }
+
+    @Override
+    public CaratteristicaConValore createCaratteristicaConValore() {
+        return new CaratteristicaConValoreProxy(getDataLayer());
+    }
+
 
     public CaratteristicaProxy createCaratteristica(ResultSet rs)throws DataException {
         try {
@@ -75,6 +97,19 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             return caratteristica;
         } catch (SQLException ex) {
             throw new DataException("Unable to create Caratteristica object form ResultSet", ex);
+        }
+    }
+
+    public CaratteristicaConValoreProxy createCaratteristicaConValore(ResultSet rs)throws DataException {
+        try {
+            CaratteristicaConValoreProxy caratteristicaConValore = new CaratteristicaConValoreProxy(getDataLayer());
+            caratteristicaConValore.setKey(rs.getInt("ID"));
+            caratteristicaConValore.setValore(rs.getString("valore"));
+            caratteristicaConValore.setCaratteristica_key(rs.getInt("ID_caratteristica"));
+            caratteristicaConValore.setVersion(rs.getLong("version"));
+            return caratteristicaConValore;
+        } catch (SQLException ex) {
+            throw new DataException("Unable to create CaratteristicaConValore object form ResultSet", ex);
         }
     }
 
@@ -147,7 +182,6 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
                 iCaratteristica.setString(1, caratteristica.getNome());
                 iCaratteristica.setString(2, caratteristica.getUnitaMisura());
                 iCaratteristica.setInt(3, caratteristica.getCategoriaNipote().getKey());
-                iCaratteristica.executeUpdate();
 
                 if(iCaratteristica.executeUpdate() == 1){
                     try(ResultSet keys = iCaratteristica.getGeneratedKeys()){
@@ -175,6 +209,124 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
 
         } catch(SQLException e) {
             throw new DataException("Unable to delete Caratteristica", e);
+        }
+    }
+
+    @Override
+    public CaratteristicaConValore getCaratteristicaConValore(int key) throws DataException {
+        CaratteristicaConValore caratteristicaConValore = null;
+        if(dataLayer.getCache().has(CaratteristicaConValore.class, key)){
+            caratteristicaConValore = dataLayer.getCache().get(CaratteristicaConValore.class, key);
+        } else {
+            try {
+                sCaratteristicaConValoreByID.setInt(1, key);
+                try (ResultSet rs = sCaratteristicaByID.executeQuery()){
+                    if(rs.next()){
+                        caratteristicaConValore = createCaratteristicaConValore(rs);
+                        dataLayer.getCache().add(CaratteristicaConValore.class, caratteristicaConValore);
+                    }
+                }
+            }catch (SQLException ex){
+                throw new DataException("Unable to get CaratteristicaConValore by ID", ex);
+            }
+        }
+        return caratteristicaConValore;
+    }
+
+    @Override
+    public void storeCaratteristicaConValore(CaratteristicaConValore caratteristicaConValore, Integer richiesta_key) throws DataException {
+        try {
+            System.out.println("storeCaratteristicaConValore chiamata");
+            if (caratteristicaConValore.getKey() != null && caratteristicaConValore.getKey() > 0) {
+                if (caratteristicaConValore instanceof CaratteristicaConValoreProxy && !((CaratteristicaConValoreProxy) caratteristicaConValore).isModified()) {
+                    return;
+                }
+                /*
+                ID_caratteristica=1,
+                 ID_richiesta=2,
+                 valore=3,
+                 version=4
+                 ID=5
+                 version=6
+                 */
+                uCaratteristicaConValore.setInt(1, caratteristicaConValore.getCaratteristica().getKey());
+                uCaratteristicaConValore.setInt(2, richiesta_key);
+                uCaratteristicaConValore.setString(3, caratteristicaConValore.getValore());
+
+                long current_version = caratteristicaConValore.getVersion();
+                long next_version = current_version + 1;
+
+                uCaratteristicaConValore.setLong(4, next_version);
+                uCaratteristicaConValore.setInt(5, caratteristicaConValore.getKey());
+                uCaratteristicaConValore.setLong(6, current_version);
+
+                if (uCaratteristicaConValore.executeUpdate() == 0) {
+                    throw new OptimisticLockException(caratteristicaConValore);
+                } else {
+                    caratteristicaConValore.setVersion(next_version);
+                }
+
+
+            } else {
+                /*
+                * ID_caratteristica=1
+                * ID_richiesta=2
+                * valore=3
+                */
+                iCaratteristicaConValore.setInt(1, caratteristicaConValore.getCaratteristica().getKey());
+                iCaratteristicaConValore.setInt(2, richiesta_key);
+                iCaratteristicaConValore.setString(3, caratteristicaConValore.getValore());
+
+                if (iCaratteristicaConValore.executeUpdate() == 1) {
+                    try (ResultSet keys = iCaratteristicaConValore.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            caratteristicaConValore.setKey(key);
+                            dataLayer.getCache().add(CaratteristicaConValore.class, caratteristicaConValore);
+                        }
+                    }
+                }
+
+            }
+            if (caratteristicaConValore instanceof DataItemProxy) {
+                ((DataItemProxy) caratteristicaConValore).setModified(false);
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to store CaratteristicaConValore", ex);
+        }
+    }
+
+    @Override
+    public void deleteCaratteristicaConValore(CaratteristicaConValore caratteristicaConValore) throws DataException {
+        try {
+            dataLayer.getCache().delete(CaratteristicaConValore.class, caratteristicaConValore);
+            dCaratteristicaConValore.setInt(1, caratteristicaConValore.getKey());
+            dCaratteristicaConValore.executeUpdate();
+        } catch(SQLException e) {
+            throw new DataException("Unable to delete CaratteristicaConValore", e);
+        }
+    }
+
+
+    @Override
+    public List<CaratteristicaConValore> getCaratteristicheConValore(Richiesta richiesta) throws DataException {
+        List<CaratteristicaConValore> caratteristicheConValore = new ArrayList<>();
+
+        try {
+            sCaratteristicheConValore.setInt(1, richiesta.getKey());
+            try (ResultSet rs = sCaratteristicheConValore.executeQuery()){
+                while (rs.next()){
+                    CaratteristicaConValore caratteristicaConValore = createCaratteristicaConValore();
+                    caratteristicaConValore.setKey(rs.getInt("ID"));
+                    caratteristicaConValore.setVersion(rs.getLong("version"));
+                    caratteristicaConValore.setCaratteristica(getCaratteristica(rs.getInt("ID_caratteristica")));
+                    caratteristicaConValore.setValore(rs.getString("valore"));
+                    caratteristicheConValore.add(caratteristicaConValore);
+                }
+            }
+            return caratteristicheConValore;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all CaratteristicaConValore from Richiesta", ex);
         }
     }
 }

@@ -19,5 +19,4 @@ public interface RichiestaDAO {
 
     void deleteRichiesta(Richiesta richiesta) throws DataException;
 
-    List<CaratteristicaConValore> getCaratteristicheConValore(Richiesta richiesta) throws DataException;
 }

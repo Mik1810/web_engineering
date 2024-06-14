@@ -74,6 +74,7 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
                 ", codiceRichiesta='" + codiceRichiesta + '\'' +
                 ", dataEOra=" + dataEOra +
                 ", ordinante=" + ordinante +
+                ", caratteristicaConValore=" + caratteristicaConValore +
                 '}';
     }
 }

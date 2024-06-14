@@ -49,6 +49,9 @@
         <div class="d-flex justify-content-center">
             <button id="login" name="login" type="submit" class="btn btn-primary w-50 mt-2 submit-button">Entra</button>
         </div>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary w-50 mt-2 submit-button" href="test">Test</a>
+        </div>
 
     </form>
 </div>

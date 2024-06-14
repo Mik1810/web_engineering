@@ -24,12 +24,6 @@ public class LoginController extends ApplicationBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        /*WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-        try {
-            System.out.println(dl.getRichiestaConCaratteristicaDAO().getRichiestaConCaratteristica(1));
-        } catch (DataException e) {
-            e.printStackTrace();
-        }*/
 
         try {
             if (request.getParameter("login") != null) {
@@ -162,7 +156,6 @@ public class LoginController extends ApplicationBaseController {
         datamodel.put("TECNICO_PREVENTIVI", Ruolo.TECNICO_PREVENTIVI);
         datamodel.put("TECNICO_ORDINI", Ruolo.TECNICO_ORDINI);
         datamodel.put("ORDINANTE", Ruolo.ORDINANTE);
-
 
         // Per questi errori preferisco avere una gestione con messaggio direttamente
         // nella pagina di login in modo tale da poter far loggare l'utente più velocemente

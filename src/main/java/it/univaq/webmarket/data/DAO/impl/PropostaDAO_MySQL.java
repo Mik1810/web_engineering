@@ -74,12 +74,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             proposta.setPrezzo(rs.getFloat("prezzo"));
             proposta.setNomeProdotto(rs.getString("nome_prodotto"));
             proposta.setURL(rs.getString("URL"));
-
-            //usare il DAO per ottenere lo stato proposta
             proposta.setStatoProposta_key(rs.getInt("ID_stato_proposta"));
-
-
-
             proposta.setMotivazione(rs.getString("motivazione"));
             proposta.setVersion(rs.getLong("version"));
             proposta.setRichiestaPresaInCarico_key(rs.getInt("ID_richiesta_presa_in_carico"));

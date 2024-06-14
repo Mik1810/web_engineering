@@ -155,11 +155,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
         }
     }
 
-    @Override
-    public List<CaratteristicaConValore> getCaratteristicheConValore(Richiesta richiesta) throws DataException {
-        return List.of();
-        //TODO
-    }
+
 
     private String getRandomCodiceRichiesta(int n) {
         Random r = new Random();

@@ -34,4 +34,12 @@ public class CaratteristicaConValoreImpl extends DataItemImpl<Integer> implement
     public void setValore(String valore) {
         this.valore = valore;
     }
+
+    @Override
+    public String toString() {
+        return "CaratteristicaConValoreImpl{" +
+                "caratteristica=" + caratteristica +
+                ", valore='" + valore + '\'' +
+                '}';
+    }
 }

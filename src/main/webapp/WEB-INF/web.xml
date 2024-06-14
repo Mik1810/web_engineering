@@ -62,6 +62,10 @@
         <servlet-name>ordinante</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.OrdinanteController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.TestController</servlet-class>
+    </servlet>
     <context-param>
         <param-name>security.protect.patterns</param-name>
         <!-- qui configuriamo i pattern delle URL da proteggere -->
@@ -90,6 +94,10 @@
     <servlet-mapping>
         <servlet-name>ordinante</servlet-name>
         <url-pattern>/ordinante</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

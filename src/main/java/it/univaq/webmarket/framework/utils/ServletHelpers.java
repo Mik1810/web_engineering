@@ -74,6 +74,7 @@ public class ServletHelpers {
 
         sb.append("Request Method = [" + request.getMethod() + "]\n ");
         sb.append("Request URL Path = [" + request.getRequestURL() + "]\n");
+        sb.append("Request URI = [" + request.getRequestURI() + "]\n");
 
         String headers =
                 Collections.list(request.getHeaderNames()).stream()
@@ -96,7 +97,7 @@ public class ServletHelpers {
         } else {
             sb.append("Request parameters: [" + parameters + "].");
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     public static String getPreviousPagePath(HttpServletRequest request) {
