@@ -89,7 +89,6 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
             }
         }
 
-
         return super.getStatoConsegna();
     }
 

@@ -24,12 +24,12 @@ public class LoginController extends ApplicationBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+        /*WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
         try {
             System.out.println(dl.getRichiestaConCaratteristicaDAO().getRichiestaConCaratteristica(1));
         } catch (DataException e) {
             e.printStackTrace();
-        }
+        }*/
 
         try {
             if (request.getParameter("login") != null) {

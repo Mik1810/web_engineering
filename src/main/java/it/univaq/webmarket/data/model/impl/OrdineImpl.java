@@ -76,4 +76,15 @@ public class OrdineImpl extends DataItemImpl<Integer> implements Ordine {
     public void setDataConsegna(LocalDateTime dataConsegna) {
         this.dataConsegna = dataConsegna;
     }
+
+    @Override
+    public String toString() {
+        return "OrdineImpl{" +
+                "statoConsegna=" + statoConsegna +
+                ", feedback=" + feedback +
+                ", dataConsegna=" + dataConsegna +
+                ", tecnicoOrdini=" + tecnicoOrdini +
+                ", proposta=" + proposta +
+                '}';
+    }
 }

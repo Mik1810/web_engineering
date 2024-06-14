@@ -34,12 +34,6 @@ public class RichiestaConCaratteristicaProxy extends RichiestaConCaratteristiche
     }
 
     @Override
-    public Map<Caratteristica, String> getCaratteristiche() {
-        //TODO: Implementare il lazy loading
-        return super.getCaratteristiche();
-    }
-
-    @Override
     public void setRichiesta(Richiesta richiesta) {
         super.setRichiesta(richiesta);
         this.richiesta_key = richiesta.getKey();

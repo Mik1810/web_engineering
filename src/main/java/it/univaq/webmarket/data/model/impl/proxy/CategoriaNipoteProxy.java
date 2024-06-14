@@ -51,7 +51,6 @@ public class CategoriaNipoteProxy extends CategoriaNipoteImpl implements DataIte
             }
         }
 
-
         return super.getCategoriaGenitore();
     }
 

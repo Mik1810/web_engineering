@@ -38,12 +38,7 @@ public class CaratteristicaProxy extends CaratteristicaImpl implements DataItemP
     @Override
     public void setCategoriaNipote(CategoriaNipote categoriaNipote) {
         super.setCategoriaNipote(categoriaNipote);
-
-        if (categoriaNipote != null) {
-            this.categoriaNipote_key = categoriaNipote.getKey();
-        } else {
-            this.categoriaNipote_key = 0;
-        }
+        this.categoriaNipote_key = categoriaNipote.getKey();
         this.modified = true;
     }
 

@@ -35,14 +35,14 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
     public Ordinante getOrdinante() {
         if (super.getOrdinante() == null && ordinante_key > 0) {
             try {
-                super.setOrdinante(((OrdinanteDAO) dataLayer.getDAO(Ordinante.class)).getOrdinante(ordinante_key));
+                Ordinante ordinante = ((OrdinanteDAO) dataLayer.getDAO(Ordinante.class)).getOrdinante(ordinante_key);
+                super.setOrdinante(ordinante);
             } catch (DataException e) {
                 Logger.getLogger(RichiestaProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, e);
             }
         }
 
-
-        return null;
+        return super.getOrdinante();
     }
 
     @Override

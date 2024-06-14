@@ -25,7 +25,9 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
     public Ordinante getOrdinante() { return this.ordinante; }
 
     @Override
-    public void setOrdinante(Ordinante ordinante) { this.ordinante = ordinante; }
+    public void setOrdinante(Ordinante ordinante) {
+        this.ordinante = ordinante;
+    }
 
     @Override
     public String getNote() {
@@ -53,7 +55,7 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
 
     @Override
     public String toString() {
-        return "RichiestaAcquistoImpl{" +
+        return "RichiestaImpl{" +
                 "note='" + note + '\'' +
                 ", codiceRichiesta='" + codiceRichiesta + '\'' +
                 ", dataEOra=" + dataEOra +
