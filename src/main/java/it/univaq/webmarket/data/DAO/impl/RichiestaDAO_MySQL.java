@@ -1,14 +1,13 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.RichiestaDAO;
+import it.univaq.webmarket.data.model.Caratteristica;
+import it.univaq.webmarket.data.model.CaratteristicaConValore;
 import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
 import it.univaq.webmarket.framework.data.*;
-import it.univaq.webmarket.framework.security.SecurityHelpers;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,14 +15,13 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
 
     private PreparedStatement sRichiestaByID;
     private PreparedStatement iRichiesta;
     private PreparedStatement dRichiesta;
+    private PreparedStatement sRichiesteByIDOrdinante;
 
     public RichiestaDAO_MySQL(DataLayer d) {
         super(d);
@@ -37,9 +35,9 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             iRichiesta = connection.prepareStatement("INSERT INTO richiesta (codice_richiesta, note, data, ID_ordinante) VALUES(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
             dRichiesta = connection.prepareStatement("DELETE FROM richiesta WHERE ID=?");
             sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID=?");
-
+            sRichiesteByIDOrdinante = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=?");
         } catch (SQLException ex) {
-            throw new DataException("Error initializing newspaper data layer", ex);
+            throw new DataException("Error initializing webmarket data layer", ex);
         }
     }
 
@@ -49,6 +47,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
              iRichiesta.close();
              dRichiesta.close();
              sRichiestaByID.close();
+                sRichiesteByIDOrdinante.close();
         } catch (SQLException ex) {
             //
         }
@@ -56,12 +55,12 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     }
 
     @Override
-    public Richiesta createRichiestaAcquisto() {
+    public Richiesta createRichiesta() {
         return new RichiestaProxy(getDataLayer());
     }
 
     private RichiestaProxy createRichiestaAcquisto(ResultSet rs) throws DataException {
-        RichiestaProxy ra = (RichiestaProxy) createRichiestaAcquisto();
+        RichiestaProxy ra = (RichiestaProxy) createRichiesta();
         try {
             ra.setKey(rs.getInt("ID"));
             ra.setCodiceRichiesta(rs.getString("codice_richiesta"));
@@ -76,7 +75,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     }
 
     @Override
-    public Richiesta getRichiestaAcquisto(int richiesta_key) throws DataException {
+    public Richiesta getRichiesta(int richiesta_key) throws DataException {
         Richiesta ra = null;
         //prima vediamo se l'oggetto è già stato caricato
         if (dataLayer.getCache().has(Richiesta.class, richiesta_key)) {
@@ -99,7 +98,23 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     }
 
     @Override
-    public void storeRichiestaAcquisto(Richiesta richiesta) throws DataException {
+    public List<Richiesta> getRichiesteByOrdinante(Ordinante ordinante) throws DataException {
+        List<Richiesta> result = new ArrayList<>();
+        try {
+            sRichiesteByIDOrdinante.setInt(1, ordinante.getKey());
+            try (ResultSet rs = sRichiesteByIDOrdinante.executeQuery()){
+                while (rs.next()){
+                    result.add(getRichiesta(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all Richieste from Ordinante", ex);
+        }
+    }
+
+    @Override
+    public void storeRichiesta(Richiesta richiesta) throws DataException {
         //INSERT INTO richiesta (codice_richiesta, note, data, ID_ordinante)
         try {
             iRichiesta.setString(1, getRandomCodiceRichiesta(10));
@@ -126,7 +141,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     }
 
     @Override
-    public void deleteRichiestaAcquisto(Richiesta richiesta) throws DataException {
+    public void deleteRichiesta(Richiesta richiesta) throws DataException {
         try {
 
             //Lo cancello prima dalla cache
@@ -138,6 +153,12 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
         } catch(SQLException e) {
             throw new DataException("Unable to delete Richiesta", e);
         }
+    }
+
+    @Override
+    public List<CaratteristicaConValore> getCaratteristicheConValore(Richiesta richiesta) throws DataException {
+        return List.of();
+        //TODO
     }
 
     private String getRandomCodiceRichiesta(int n) {

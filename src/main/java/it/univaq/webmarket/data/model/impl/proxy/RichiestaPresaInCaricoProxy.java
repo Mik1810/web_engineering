@@ -1,8 +1,9 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
-import it.univaq.webmarket.data.DAO.RichiestaConCaratteristicaDAO;
+import it.univaq.webmarket.data.DAO.RichiestaDAO;
 import it.univaq.webmarket.data.DAO.TecnicoPreventiviDAO;
-import it.univaq.webmarket.data.model.RichiestaConCaratteristiche;
+import it.univaq.webmarket.data.model.Richiesta;
+import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.data.model.impl.RichiestaPresaInCaricoImpl;
 import it.univaq.webmarket.framework.data.DataException;
@@ -17,14 +18,14 @@ public class RichiestaPresaInCaricoProxy extends RichiestaPresaInCaricoImpl impl
     protected boolean modified;
     protected DataLayer dataLayer;
     protected Integer tecnicoPreventivi_key;
-    protected Integer richiestaConCaratteristica_key;
+    protected Integer richiesta_key;
 
     public RichiestaPresaInCaricoProxy(DataLayer d) {
         super();
         this.dataLayer = d;
         this.modified = false;
         this.tecnicoPreventivi_key = 0;
-        this.richiestaConCaratteristica_key = 0;
+        this.richiesta_key = 0;
     }
 
     @Override
@@ -34,9 +35,9 @@ public class RichiestaPresaInCaricoProxy extends RichiestaPresaInCaricoImpl impl
     }
 
     @Override
-    public void setRichiestaConCaratteristiche(RichiestaConCaratteristiche richiestaConCaratteristiche) {
-        super.setRichiestaConCaratteristiche(richiestaConCaratteristiche);
-        this.richiestaConCaratteristica_key = richiestaConCaratteristiche.getKey();
+    public void setRichiesta(Richiesta richiesta) {
+        super.setRichiesta(richiesta);
+        this.richiesta_key = richiesta.getKey();
         this.modified = true;
     }
 
@@ -49,16 +50,16 @@ public class RichiestaPresaInCaricoProxy extends RichiestaPresaInCaricoImpl impl
     }
 
     @Override
-    public RichiestaConCaratteristiche getRichiestaConCaratteristiche() {
-        if (super.getRichiestaConCaratteristiche() == null && richiestaConCaratteristica_key > 0) {
+    public Richiesta getRichiesta() {
+        if (super.getRichiesta() == null && richiesta_key > 0) {
             try {
-                super.setRichiestaConCaratteristiche(((RichiestaConCaratteristicaDAO) dataLayer.getDAO(RichiestaConCaratteristiche.class)).getRichiestaConCaratteristica(richiestaConCaratteristica_key));
+                super.setRichiesta(((RichiestaDAO) dataLayer.getDAO(Richiesta.class)).getRichiesta(richiesta_key));
             } catch (DataException ex) {
-                Logger.getLogger(RichiestaConCaratteristicaProxy.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RichiestaPresaInCaricoProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
-        return super.getRichiestaConCaratteristiche();
+        return super.getRichiesta();
     }
 
     @Override
@@ -67,7 +68,7 @@ public class RichiestaPresaInCaricoProxy extends RichiestaPresaInCaricoImpl impl
             try {
                 super.setTecnicoPreventivi(((TecnicoPreventiviDAO) dataLayer.getDAO(TecnicoPreventivi.class)).getTecnicoPreventivi(tecnicoPreventivi_key));
             } catch (DataException ex) {
-                Logger.getLogger(RichiestaConCaratteristicaProxy.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RichiestaPresaInCaricoProxy.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return super.getTecnicoPreventivi();
@@ -83,13 +84,13 @@ public class RichiestaPresaInCaricoProxy extends RichiestaPresaInCaricoImpl impl
         this.modified = dirty;
     }
 
-    public void setTecnicoPreventiviKey(Integer idTecnicoPreventivi) {
-        this.tecnicoPreventivi_key = idTecnicoPreventivi;
+    public void setTecnicoPreventivi_key(Integer tecnicoPreventivi_key) {
+        this.tecnicoPreventivi_key = tecnicoPreventivi_key;
         super.setTecnicoPreventivi(null);
     }
 
-    public void setRichiestaConCaratteristicaKey(Integer idRichiestaConCaratteristica) {
-        this.richiestaConCaratteristica_key = idRichiestaConCaratteristica;
-        super.setRichiestaConCaratteristiche(null);
+    public void setRichiesta_key(Integer caratteristica_key) {
+        this.richiesta_key = caratteristica_key;
+        super.setRichiesta(null);
     }
 }

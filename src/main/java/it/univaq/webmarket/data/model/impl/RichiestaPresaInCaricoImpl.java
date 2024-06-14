@@ -1,29 +1,29 @@
 package it.univaq.webmarket.data.model.impl;
 
-import it.univaq.webmarket.data.model.RichiestaConCaratteristiche;
+import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class RichiestaPresaInCaricoImpl extends DataItemImpl<Integer> implements RichiestaPresaInCarico {
 
-    private RichiestaConCaratteristiche richiestaConCaratteristiche;
+    private Richiesta richiesta;
     private TecnicoPreventivi tecnicoPreventivi;
 
     public RichiestaPresaInCaricoImpl() {
         super();
-        this.richiestaConCaratteristiche = null;
+        this.richiesta = null;
         this.tecnicoPreventivi = null;
     }
 
     @Override
-    public RichiestaConCaratteristiche getRichiestaConCaratteristiche() {
-        return richiestaConCaratteristiche;
+    public Richiesta getRichiesta() {
+        return richiesta;
     }
 
     @Override
-    public void setRichiestaConCaratteristiche(RichiestaConCaratteristiche richiestaConCaratteristiche) {
-        this.richiestaConCaratteristiche = richiestaConCaratteristiche;
+    public void setRichiesta(Richiesta richiesta) {
+        this.richiesta = richiesta;
     }
 
     @Override

@@ -1,10 +1,12 @@
 package it.univaq.webmarket.data.model.impl;
 
+import it.univaq.webmarket.data.model.CaratteristicaConValore;
 import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
 
@@ -12,6 +14,7 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
     private String codiceRichiesta;
     private LocalDateTime dataEOra;
     private Ordinante ordinante;
+    private List<CaratteristicaConValore> caratteristicaConValore;
 
     public RichiestaImpl() {
         super();
@@ -19,6 +22,7 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
         this.codiceRichiesta = "";
         this.dataEOra = null;
         this.ordinante = null;
+        this.caratteristicaConValore = null;
     }
 
     @Override
@@ -52,6 +56,16 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
 
     @Override
     public void setDataEOra(LocalDateTime dataEOra) { this.dataEOra = dataEOra; }
+
+    @Override
+    public List<CaratteristicaConValore> getCaratteristicheConValore() {
+        return this.caratteristicaConValore;
+    }
+
+    @Override
+    public void setCaratteristicheConValore(List<CaratteristicaConValore> caratteristicheConValore) {
+        this.caratteristicaConValore = caratteristicheConValore;
+    }
 
     @Override
     public String toString() {

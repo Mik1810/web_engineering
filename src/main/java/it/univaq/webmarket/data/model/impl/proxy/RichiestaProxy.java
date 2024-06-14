@@ -1,15 +1,18 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
+import it.univaq.webmarket.data.DAO.CaratteristicaDAO;
 import it.univaq.webmarket.data.DAO.OrdinanteDAO;
+import it.univaq.webmarket.data.DAO.RichiestaDAO;
 import it.univaq.webmarket.data.DAO.UfficioDAO;
-import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.Ufficio;
+import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.data.model.impl.RichiestaImpl;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
@@ -70,6 +73,23 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
         this.modified = true;
     }
 
+    @Override
+    public void setCaratteristicheConValore(List<CaratteristicaConValore> caratteristicheConValore) {
+        super.setCaratteristicheConValore(caratteristicheConValore);
+    }
+
+    @Override
+    public List<CaratteristicaConValore> getCaratteristicheConValore() {
+        if (super.getCaratteristicheConValore() == null) {
+            try {
+                super.setCaratteristicheConValore(((RichiestaDAO) dataLayer.getDAO(Richiesta.class))
+                        .getCaratteristicheConValore(this));
+            } catch (DataException ex) {
+                Logger.getLogger(RichiestaProxy.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return super.getCaratteristicheConValore();
+    }
 
     @Override
     public boolean isModified() {

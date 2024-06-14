@@ -3,6 +3,7 @@ package it.univaq.webmarket.data.model;
 import it.univaq.webmarket.framework.data.DataItem;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface Richiesta extends DataItem<Integer> {
 
@@ -22,5 +23,8 @@ public interface Richiesta extends DataItem<Integer> {
 
     void setDataEOra(LocalDateTime dataEOra);
 
+    List<CaratteristicaConValore> getCaratteristicheConValore();
+
+    void setCaratteristicheConValore(List<CaratteristicaConValore> caratteristicheConValore);
 
 }

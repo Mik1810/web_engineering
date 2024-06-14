@@ -48,6 +48,7 @@ INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES ('7683845728
 -- Popolamento composta
 INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES ('32', 1, 1);
 INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES ('100', 2, 5);
+INSERT INTO composta(valore, ID_richiesta, ID_caratteristica) VALUES('5', 1, 3);
 
 -- Popolamento TecnicoPreventivi
 INSERT INTO TecnicoPreventivi (email, password) VALUES ('techprev1@gmail.com', 'password1');
