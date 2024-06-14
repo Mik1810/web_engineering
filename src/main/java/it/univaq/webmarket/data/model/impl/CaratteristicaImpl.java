@@ -42,4 +42,13 @@ public class CaratteristicaImpl extends DataItemImpl<Integer> implements Caratte
     public void setCategoriaNipote(CategoriaNipote categoriaNipote) {
         this.categoriaNipote = categoriaNipote;
     }
+
+    @Override
+    public String toString() {
+        return "CaratteristicaImpl{" +
+                "nome='" + nome + '\'' +
+                ", unitaMisura='" + unitaMisura + '\'' +
+                ", categoriaNipote=" + categoriaNipote +
+                '}';
+    }
 }

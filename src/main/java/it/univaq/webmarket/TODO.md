@@ -8,6 +8,8 @@ alla destra
 - [ ] Creare tutti gli altri controller
 - [ ] Creare i componenti
 
+la relazione "composta" ha la version ma non ha senso
+
 
 <h1>DAO interfaces</h1>
 

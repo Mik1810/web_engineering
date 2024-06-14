@@ -1,6 +1,7 @@
 package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
+import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.utils.Ruolo;
@@ -25,6 +26,11 @@ public class OrdinanteController extends ApplicationBaseController {
     protected void renderOrdinantePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
+        WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+        //dl.getRichiestaDAO().get
+
+        //datamodel.put("richiesta", )
+
         result.activate("ordinante.ftl", datamodel, request, response);
     }
 

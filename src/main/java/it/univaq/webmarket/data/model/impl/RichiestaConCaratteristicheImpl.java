@@ -40,5 +40,13 @@ public class RichiestaConCaratteristicheImpl extends DataItemImpl<Integer> imple
     public void setCaratteristiche(Map<Caratteristica, String> caratteristiche) {
         this.caratteristiche = caratteristiche;
     }
+
+    @Override
+    public String toString() {
+        return "RichiestaConCaratteristicheImpl{" +
+                "richiesta=" + richiesta +
+                ", caratteristiche=" + caratteristiche +
+                '}';
+    }
 }
 

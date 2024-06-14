@@ -22,11 +22,11 @@
             <blockquote class="note yellow">
                 <div>
                     <#list ordini as ordine>
-                        <span><a href="ordinante?id=${ordine.key}">Ordine ${ordine.key} - ${ordine.statoConsegna}</a></span>
+                        <span><a href="richieste?id=${richiesta.key}">Ordine ${ordine.key} - ${ordine.statoConsegna}</a></span>
                     </#list>
                 </div>
               <cite class="author">
-                  <a href="ordinante?ordini">Vedi tutti</a>
+                  <a href="richieste">Vedi tutti</a>
               </cite>
             </blockquote>
           </div>

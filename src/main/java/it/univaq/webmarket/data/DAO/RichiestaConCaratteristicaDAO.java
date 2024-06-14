@@ -7,9 +7,10 @@ import java.util.List;
 
 public interface RichiestaConCaratteristicaDAO {
 
-    RichiestaConCaratteristiche createRichiestaConCaratteristica();
+    RichiestaConCaratteristiche createRichiestaConCaratteristica() throws DataException;
 
-    RichiestaConCaratteristiche getRichiestaConCaratteristica(int richiesta_key) throws DataException;
+    // La RichiestaConCaratteristiche presenta la stessa chiave della Richiesta a cui è associata
+    RichiestaConCaratteristiche getRichiestaConCaratteristica(int richiestaConCaratteristiche_key) throws DataException;
 
     List<RichiestaConCaratteristiche> getAllRichiesteConCaratteristicaByOrdinante(Integer page) throws DataException;
 

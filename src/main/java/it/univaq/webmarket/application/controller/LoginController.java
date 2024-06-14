@@ -24,6 +24,13 @@ public class LoginController extends ApplicationBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+        try {
+            System.out.println(dl.getRichiestaConCaratteristicaDAO().getRichiestaConCaratteristica(1));
+        } catch (DataException e) {
+            e.printStackTrace();
+        }
+
         try {
             if (request.getParameter("login") != null) {
                 if (Boolean.parseBoolean(getServletContext().getInitParameter("debug"))) {
@@ -41,9 +48,9 @@ public class LoginController extends ApplicationBaseController {
     }
 
     private void handleAutoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        SecurityHelpers.createSession(request, "admin@gmail.com", 1, Ruolo.AMMINISTRATORE);
+        SecurityHelpers.createSession(request, "michaelpiccirilli3@gmail.com", 1, Ruolo.ORDINANTE);
         // Reindirizzo in base al ruolo
-        handleRedirect(Ruolo.AMMINISTRATORE, request, response);
+        handleRedirect(Ruolo.ORDINANTE, request, response);
     }
 
     private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -70,6 +77,7 @@ public class LoginController extends ApplicationBaseController {
         try {
             Utente u = null;
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+
             // Selezione del giusto utente
             switch (role) {
                 case ORDINANTE:
@@ -154,6 +162,7 @@ public class LoginController extends ApplicationBaseController {
         datamodel.put("TECNICO_PREVENTIVI", Ruolo.TECNICO_PREVENTIVI);
         datamodel.put("TECNICO_ORDINI", Ruolo.TECNICO_ORDINI);
         datamodel.put("ORDINANTE", Ruolo.ORDINANTE);
+
 
         // Per questi errori preferisco avere una gestione con messaggio direttamente
         // nella pagina di login in modo tale da poter far loggare l'utente più velocemente
