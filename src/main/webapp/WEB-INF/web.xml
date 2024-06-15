@@ -59,6 +59,10 @@
         <servlet-class>it.univaq.webmarket.application.controller.CategoriaFiglioController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>categoria_nipote</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.CategoriaNipoteController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ordinante</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.OrdinanteController</servlet-class>
     </servlet>
@@ -90,6 +94,10 @@
     <servlet-mapping>
         <servlet-name>categoria_figlio</servlet-name>
         <url-pattern>/categoria_figlio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>categoria_nipote</servlet-name>
+        <url-pattern>/categoria_nipote</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ordinante</servlet-name>

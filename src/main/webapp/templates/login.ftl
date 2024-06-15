@@ -61,7 +61,7 @@
         crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="/scripts/login.js"></script>
+<script type="module" src="/scripts/login.js"></script>
 
 </body>
 

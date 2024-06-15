@@ -26,11 +26,11 @@
         <div class="text">Inserisci, modifica o cancella una categoria <b>figlio</b></div>
     </a>
 
-    <a class="card" href="#3">
+    <a class="card" href="categoria_nipote">
         <div class="icon">🚀</div>
         <div class="separator"></div>
-        <div class="title">Titolo 3</div>
-        <div class="text">Questo è il testo della terza card.</div>
+        <div class="title">Categoria Nipote</div>
+        <div class="text">Inserisci, modifica o cancella una categoria <b>nipote</b></div>
     </a>
 
     <a class="card" href="#4">

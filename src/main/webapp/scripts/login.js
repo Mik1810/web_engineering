@@ -1,4 +1,4 @@
-//import Swal from 'sweetalert2'
+import {sweetAlert} from './sweetAlert.js';
 
 document.addEventListener("DOMContentLoaded", () => {
     const queryString = window.location.search
@@ -7,23 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     switch (errorURL) {
         case "1":
-            error("Errore", "Sessione scaduta, effettuare nuovamente il login!")
+            sweetAlert("Errore", "Sessione scaduta, effettuare nuovamente il login!", "error")
             break
         case "2":
-            error("Errore", "Email o password errate!")
+            sweetAlert("Errore", "Email o password errate!", "error")
             break
         case "3":
-            error("Errore", "Inserire email e password!")
+            sweetAlert("Errore", "Inserire email e password!", "error")
             break
     }
 });
-
-function error(title, text) {
-    Swal.fire({
-        title: title,
-        text: text,
-        icon: "error"
-    });
-}
 
 
