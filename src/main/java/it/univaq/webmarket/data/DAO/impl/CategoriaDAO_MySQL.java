@@ -22,6 +22,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     private PreparedStatement sCategoriaNipoteByID;
 
     private PreparedStatement sCategoriePadre;
+    private PreparedStatement sCategoriePadrePaginata;
     private PreparedStatement sCategorieFiglio;
     private PreparedStatement sCategorieNipote;
 
@@ -52,7 +53,8 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             sCategoriaFiglioByID = connection.prepareStatement("SELECT * FROM categoriaFiglio WHERE ID=?");
             sCategoriaNipoteByID = connection.prepareStatement("SELECT * FROM categoriaNipote WHERE ID=?");
 
-            sCategoriePadre = connection.prepareStatement("SELECT ID FROM categoriaPadre LIMIT ?, ?");
+            sCategoriePadre = connection.prepareStatement("SELECT ID FROM categoriaPadre");
+            sCategoriePadrePaginata = connection.prepareStatement("SELECT ID FROM categoriaPadre LIMIT ?, ?");
             sCategorieFiglio = connection.prepareStatement("SELECT ID FROM categoriaFiglio");
             sCategorieNipote = connection.prepareStatement("SELECT ID FROM categoriaNipote");
 
@@ -83,7 +85,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             sCategoriaFiglioByID.close();
             sCategoriaNipoteByID.close();
 
-            sCategoriePadre.close();
+            sCategoriePadrePaginata.close();
             sCategorieFiglio.close();
             sCategorieNipote.close();
 
@@ -220,12 +222,27 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     }
 
     @Override
+    public List<CategoriaPadre> getAllCategoriePadre() throws DataException {
+        List<CategoriaPadre> result = new ArrayList<>();
+        try {
+            try (ResultSet rs = sCategoriePadre.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getCategoriaPadre(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all CategoriaPadre", ex);
+        }
+    }
+
+    @Override
     public List<CategoriaPadre> getAllCategoriePadre(Integer page) throws DataException {
         List<CategoriaPadre> result = new ArrayList<>();
         try {
-            sCategoriePadre.setInt(1, page*offset);
-            sCategoriePadre.setInt(2, offset);
-            try (ResultSet rs = sCategoriePadre.executeQuery()) {
+            sCategoriePadrePaginata.setInt(1, page * offset);
+            sCategoriePadrePaginata.setInt(2, offset);
+            try (ResultSet rs = sCategoriePadrePaginata.executeQuery()) {
                 while (rs.next()) {
                     result.add(getCategoriaPadre(rs.getInt("ID")));
                 }

@@ -73,7 +73,7 @@ public class CategoriaFiglioController extends ApplicationBaseController {
                 List<CategoriaFiglio> categorieFiglio = dl.getCategoriaDAO().getCategorieFiglioByPadre(categoriaPadre);
                 datamodel.put("id_categoria_genitore", request.getParameter("id_categoria_genitore"));
                 datamodel.put("categorie", categorieFiglio);
-                datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre(0));
+                datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
                 datamodel.put("categoriaGenitoreEsistente", categoriaFiglio.getCategoriaGenitore());
                 datamodel.put("visibilityUpdate", "flex");
                 datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
@@ -83,7 +83,7 @@ public class CategoriaFiglioController extends ApplicationBaseController {
                 try {
                     datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
                     datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                    datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre(0));
+                    datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
                     datamodel.put("categoriaGenitoreEsistente", categoriaFiglio.getCategoriaGenitore());
                     datamodel.put("visibilityUpdate", "flex");
                 } catch (DataException e) {
@@ -209,7 +209,7 @@ public class CategoriaFiglioController extends ApplicationBaseController {
             Map<String, Object> datamodel = new HashMap<>();
 
             datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-            datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre(0));
+            datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
             datamodel.put("visibilityInsert", "flex");
 
             result.activate("categorie_figlio.ftl", datamodel, request, response);

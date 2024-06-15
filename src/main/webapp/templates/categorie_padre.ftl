@@ -18,22 +18,14 @@
 <#include "modules/header.ftl">
 <div class="container">
     <h1>Categorie Padre</h1>
-    <span class="buttons">
-        <#if page == 0>
-            <a class="btn btn-secondary disabled">Pagina Precedente</a>
-        <#else>
-            <a class="btn btn-primary" href="categoria_padre?page=${page-1}">Pagina precedente</a>
-        </#if>
-        <a class="btn btn-primary" href="categoria_padre?page=${page+   1}">Pagina successiva</a>
-        <div id="aggiungi">
-            <form method="POST" action="categoria_padre?page=${page}">
-                <input class="btn btn-success" type="submit" name="render" id="render" value="Aggiungi"/>
-            </form>
-        </div>
-        <!--
-        <button class="btn btn-primary" id="fetchCategories">Carica altro</button>
-        -->
-    </span>
+
+    <div id="aggiungi" class="aggiungi">
+        <form method="POST" action="categoria_padre?page=${page}">
+            <input class="btn btn-success" type="submit" name="render" id="render" value="Aggiungi"/>
+        </form>
+    </div>
+
+
     <div class="row">
 
         <div class="list">
@@ -101,6 +93,24 @@
         </div>
     </div>
 </div>
+
+<div class="paginazione">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <#if page == 0>
+                <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
+            <#else>
+                <li class="page-item"><a class="btn btn-primary" href="categoria_padre?page=${page-1}">Pagina
+                        precedente</a>
+                </li>
+            </#if>
+            <li class="page-item"><a class="btn btn-primary" href="categoria_padre?page=${page+   1}">Pagina
+                    successiva</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 
 <span class="invisible" id="success">${success!"0"}</span>
 <#include "modules/footer.ftl">

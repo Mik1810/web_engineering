@@ -21,6 +21,8 @@ public interface CategoriaDAO {
 
     CategoriaNipote getCategoriaNipote(int categoriaNipote_key) throws DataException;
 
+    List<CategoriaPadre> getAllCategoriePadre() throws DataException;
+
     List<CategoriaPadre> getAllCategoriePadre(Integer page) throws DataException;
 
     List<CategoriaFiglio> getAllCategorieFiglio() throws DataException;
