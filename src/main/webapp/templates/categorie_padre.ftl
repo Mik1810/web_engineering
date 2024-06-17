@@ -72,7 +72,7 @@
                 <label for="id"></label>
                 <input type="text" id="id" name="id" style="display: none" value="${(categoriaModifica.key)!"0"}">
                 <input class="form-control modifica-input" id="nome" name="nome" type="text"
-                       value="${(categoriaModifica.nome)!""}">
+                       value="${(categoriaModifica.nome)!""}" required>
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
                     <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
@@ -85,7 +85,7 @@
             <form method="POST" action="categoria_padre?page=${page}">
                 <label for="nome">Inserisci nome:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="text">
-                <div class="buttons-choose">
+                <div class="buttons-choose" required>
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
                     <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
                 </div>

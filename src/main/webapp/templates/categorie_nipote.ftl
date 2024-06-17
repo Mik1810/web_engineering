@@ -41,9 +41,10 @@
                 <tbody>
                 <#list categorie as categoria>
                     <tr>
-                        <td><a href="#">${categoria.nome}</a></td>
+                        <td>${categoria.nome}</td>
                         <td>
-                            <a href="categoria_figlio?id_categoria_genitore=${categoria.categoriaGenitore.key}">${categoria.categoriaGenitore.nome}</a>
+                            <a href="categoria_figlio">
+                                ${categoria.categoriaGenitore.nome}
                         </td>
                         <td>
                             <form method="POST" action="categoria_nipote">
@@ -75,13 +76,14 @@
                 <input type="hidden" name="id_categoria_genitore"
                        value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nuovo nome:</label>
-                <label for="id"></label><input type="text" id="id" name="id" style="display: none"
-                                               value="${(categoriaModifica.key)!"0"}">
+                <label for="id"></label>
+                <input type="text" id="id" name="id" style="display: none"
+                       value="${(categoriaModifica.key)!"0"}">
                 <input class="form-control modifica-input" id="nome" name="nome" type="text"
                        value="${(categoriaModifica.nome)!""}">
 
                 <div class="dropdownContainer">
-                    <select name="sceltaCategoriaFiglio" id="sceltaCategoriaFiglio" class="scelta-dropdown">
+                    <select name="sceltaCategoriaFiglio" id="sceltaCategoriaFiglio" class="scelta-dropdown" required>
                         <option class="dropdown-scelta-item" value="${(categoriaGenitoreEsistente.key)!"0"}" selected
                                 disabled
                                 hidden>${(categoriaGenitoreEsistente.nome)!"Categoria Padre"}</option>
@@ -110,9 +112,9 @@
                 <input type="hidden" name="id_categoria_genitore"
                        value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nome:</label>
-                <input class="form-control modifica-input" id="nome" name="nome" type="text">
+                <input class="form-control modifica-input" id="nome" name="nome" type="text" required>
                 <div class="dropdownContainer">
-                    <select name="sceltaCategoriaFiglio" id="sceltaCategoriaFiglio" class="scelta-dropdown">
+                    <select name="sceltaCategoriaFiglio" id="sceltaCategoriaFiglio" class="scelta-dropdown" required>
                         <#if (categorieFiglio)??>
                             <#list categorieFiglio as categoriaFiglio>
                                 <option class="dropdown-scelta-item"

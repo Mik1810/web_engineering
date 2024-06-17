@@ -17,7 +17,7 @@ import java.util.List;
 
 public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
 
-    private Integer offset;
+    private Integer offset = 3;
 
     private PreparedStatement sOrdinanteByID;
     private PreparedStatement sOrdinanteByEmail;
@@ -140,7 +140,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
                     return;
                 }
                 uOrdinante.setString(1, ordinante.getEmail());
-                uOrdinante.setString(2, ordinante.getPassword());
+                uOrdinante.setString(2, SecurityHelpers.getPasswordHashPBKDF2(ordinante.getPassword()));
                 uOrdinante.setInt(3, ordinante.getUfficio().getKey());
 
                 long current_version = ordinante.getVersion();
@@ -190,7 +190,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             dOrdinante.setInt(1, ordinante.getKey());
             dOrdinante.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DataException("Unable to delete Ordinante", e);
         }
 

@@ -17,19 +17,23 @@ public class UfficioDAO_MySQL extends DAO implements UfficioDAO {
     private Integer offset = 5;
 
     private PreparedStatement sUfficioByID;
+    private PreparedStatement sUfficiPaginato;
     private PreparedStatement sUffici;
     private PreparedStatement iUfficio;
     private PreparedStatement uUfficio;
     private PreparedStatement dUfficio;
 
-    public UfficioDAO_MySQL(DataLayer d) { super(d); }
+    public UfficioDAO_MySQL(DataLayer d) {
+        super(d);
+    }
 
     @Override
     public void init() throws DataException {
         try {
             super.init();
             sUfficioByID = connection.prepareStatement("SELECT * FROM ufficio WHERE ID=?");
-            sUffici = connection.prepareStatement("SELECT ID FROM ufficio LIMIT ?, ?");
+            sUffici = connection.prepareStatement("SELECT ID FROM ufficio");
+            sUfficiPaginato = connection.prepareStatement("SELECT ID FROM ufficio LIMIT ?, ?");
             iUfficio = connection.prepareStatement("INSERT INTO ufficio(sede, numero, piano, telefono, citta) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uUfficio = connection.prepareStatement("UPDATE ufficio SET sede=?, numero=?, piano=?, telefono=?, citta=?, version=? WHERE ID=? AND version=?");
             dUfficio = connection.prepareStatement("DELETE FROM ufficio WHERE ID=?");
@@ -42,7 +46,7 @@ public class UfficioDAO_MySQL extends DAO implements UfficioDAO {
     public void destroy() throws DataException {
         try {
             sUfficioByID.close();
-            sUffici.close();
+            sUfficiPaginato.close();
             iUfficio.close();
             uUfficio.close();
             dUfficio.close();
@@ -72,6 +76,7 @@ public class UfficioDAO_MySQL extends DAO implements UfficioDAO {
             throw new DataException("Unable to create Ufficio object form ResultSet", ex);
         }
     }
+
     @Override
     public Ufficio getUfficio(int ufficio_key) throws DataException {
         Ufficio ufficio = null;
@@ -169,12 +174,27 @@ public class UfficioDAO_MySQL extends DAO implements UfficioDAO {
     }
 
     @Override
+    public List<Ufficio> getAllUffici() throws DataException {
+        List<Ufficio> result = new ArrayList<>();
+
+        try (ResultSet rs = sUffici.executeQuery()) {
+            while (rs.next()) {
+                result.add(getUfficio(rs.getInt("ID")));
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Ufficio", ex);
+        }
+        return result;
+    }
+
+
+    @Override
     public List<Ufficio> getAllUffici(Integer page) throws DataException {
         List<Ufficio> result = new ArrayList<>();
         try {
-            sUffici.setInt(1, page * offset);
-            sUffici.setInt(2, offset);
-            try (ResultSet rs = sUffici.executeQuery()) {
+            sUfficiPaginato.setInt(1, page * offset);
+            sUfficiPaginato.setInt(2, offset);
+            try (ResultSet rs = sUfficiPaginato.executeQuery()) {
                 while (rs.next()) {
                     result.add(getUfficio(rs.getInt("ID")));
                 }

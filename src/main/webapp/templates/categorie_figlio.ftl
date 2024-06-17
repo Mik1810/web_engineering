@@ -79,10 +79,10 @@
                 <label for="id"></label><input type="text" id="id" name="id" style="display: none"
                                                value="${(categoriaModifica.key)!"0"}">
                 <input class="form-control modifica-input" id="nome" name="nome" type="text"
-                       value="${(categoriaModifica.nome)!""}">
+                       value="${(categoriaModifica.nome)!""}" required>
 
                 <div class="dropdownContainer">
-                    <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown">
+                    <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown" required>
                         <option class="dropdown-scelta-item" value="${(categoriaGenitoreEsistente.key)!"0"}" selected
                                 disabled
                                 hidden>${(categoriaGenitoreEsistente.nome)!"Categoria Padre"}</option>
@@ -111,9 +111,9 @@
                 <input type="hidden" name="id_categoria_genitore"
                        value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nome:</label>
-                <input class="form-control modifica-input" id="nome" name="nome" type="text">
+                <input class="form-control modifica-input" id="nome" name="nome" type="text" required>
                 <div class="dropdownContainer">
-                    <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown">
+                    <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown" required>
                         <#if (categoriePadre)??>
                             <#list categoriePadre as categoriaPadre>
                                 <option class="dropdown-scelta-item"
