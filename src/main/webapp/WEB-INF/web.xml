@@ -24,8 +24,9 @@
         <param-value>true</param-value>
     </context-param>
     <context-param>
+        <!--This doesn't work, i don't know why-->
         <param-name>view.date_format</param-name>
-        <param-value>dd/MM/yyyy hh:mm:ss</param-value>
+        <param-value>dd/MM/yyyy</param-value><!-- hh:mm:ss -->
     </context-param>
     <context-param>
         <param-name>view.encoding</param-name>
@@ -67,6 +68,10 @@
         <servlet-class>it.univaq.webmarket.application.controller.OrdinanteController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>crea_richiesta</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.CreaRichiestaController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>test</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.TestController</servlet-class>
     </servlet>
@@ -100,8 +105,12 @@
         <url-pattern>/categoria_nipote</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ordinante</servlet-name>
-        <url-pattern>/ordinante</url-pattern>
+    <servlet-name>ordinante</servlet-name>
+    <url-pattern>/ordinante</url-pattern>
+</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>crea_richiesta</servlet-name>
+        <url-pattern>/crea_richiesta</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>test</servlet-name>

@@ -303,15 +303,15 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
     public List<CategoriaNipote> getCategorieNipoteByFiglio(CategoriaFiglio categoriaFiglio) throws DataException {
         List<CategoriaNipote> result = new ArrayList<>();
         try {
-            sCategorieFiglioFromPadre.setInt(1, categoriaFiglio.getKey());
-            try (ResultSet rs = sCategorieFiglioFromPadre.executeQuery()) {
+            sCategorieNipoteFromFiglio.setInt(1, categoriaFiglio.getKey());
+            try (ResultSet rs = sCategorieNipoteFromFiglio.executeQuery()) {
                 while (rs.next()) {
                     result.add(getCategoriaNipote(rs.getInt("ID")));
                 }
             }
             return result;
         } catch (SQLException ex) {
-            throw new DataException("Error loading CategorieFiglio from CategoriaPadre", ex);
+            throw new DataException("Error loading CategorieNipote from CategoriaFiglio", ex);
         }
     }
 
@@ -478,5 +478,6 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
         } catch (SQLException e) {
             throw new DataException("Unable to delete CategoriaNipote", e);
         }
+
     }
 }

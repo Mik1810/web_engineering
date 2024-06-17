@@ -115,7 +115,7 @@ public abstract class AbstractBaseController extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
 
         super.init(config);
-
+        //COn l'APplicationInitializer probabilmente non serve a niente questa cosa, perchè vien fatta di là
         //init protection pattern
         String p = config.getServletContext().getInitParameter("security.protect.patterns");
         if (p == null || p.isBlank()) {

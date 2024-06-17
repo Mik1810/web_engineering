@@ -59,9 +59,7 @@ public class WebmarketDataLayer extends DataLayer {
         return (StatiEnumDAO) getDAO(StatoEnum.class);
     }
 
-    public CategoriaDAO getCategoriaDAO() {
-        return (CategoriaDAO) getDAO(Categoria.class);
-    }
+    public CategoriaDAO getCategoriaDAO() { return (CategoriaDAO) getDAO(Categoria.class); }
 
     public CaratteristicaDAO getCaratteristicaDAO() {
         return (CaratteristicaDAO) getDAO(Caratteristica.class);

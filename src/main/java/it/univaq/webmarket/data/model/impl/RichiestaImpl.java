@@ -5,24 +5,24 @@ import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
 
     private String note;
     private String codiceRichiesta;
-    private LocalDateTime dataEOra;
+    private LocalDate data;
     private Ordinante ordinante;
-    private List<CaratteristicaConValore> caratteristicaConValore;
+    private List<CaratteristicaConValore> caratteristicheConValore;
 
     public RichiestaImpl() {
         super();
         this.note = "";
         this.codiceRichiesta = "";
-        this.dataEOra = null;
+        this.data = null;
         this.ordinante = null;
-        this.caratteristicaConValore = null;
+        this.caratteristicheConValore = null;
     }
 
     @Override
@@ -50,21 +50,21 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
     public void setCodiceRichiesta(String codiceRichiesta) { this.codiceRichiesta = codiceRichiesta; }
 
     @Override
-    public LocalDateTime getDataEOra() {
-        return this.dataEOra;
+    public LocalDate getData() {
+        return this.data;
     }
 
     @Override
-    public void setDataEOra(LocalDateTime dataEOra) { this.dataEOra = dataEOra; }
+    public void setData(LocalDate data) { this.data = data; }
 
     @Override
     public List<CaratteristicaConValore> getCaratteristicheConValore() {
-        return this.caratteristicaConValore;
+        return this.caratteristicheConValore;
     }
 
     @Override
     public void setCaratteristicheConValore(List<CaratteristicaConValore> caratteristicheConValore) {
-        this.caratteristicaConValore = caratteristicheConValore;
+        this.caratteristicheConValore = caratteristicheConValore;
     }
 
     @Override
@@ -72,9 +72,9 @@ public class RichiestaImpl extends DataItemImpl<Integer> implements Richiesta {
         return "RichiestaImpl{" +
                 "note='" + note + '\'' +
                 ", codiceRichiesta='" + codiceRichiesta + '\'' +
-                ", dataEOra=" + dataEOra +
+                ", data=" + data +
                 ", ordinante=" + ordinante +
-                ", caratteristicaConValore=" + caratteristicaConValore +
+                ", caratteristicaConValore=" + caratteristicheConValore +
                 '}';
     }
 }

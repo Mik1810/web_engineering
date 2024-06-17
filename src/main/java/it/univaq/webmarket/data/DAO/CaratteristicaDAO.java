@@ -2,6 +2,7 @@ package it.univaq.webmarket.data.DAO;
 
 import it.univaq.webmarket.data.model.Caratteristica;
 import it.univaq.webmarket.data.model.CaratteristicaConValore;
+import it.univaq.webmarket.data.model.CategoriaNipote;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.framework.data.DataException;
 
@@ -14,6 +15,8 @@ public interface CaratteristicaDAO {
     Caratteristica getCaratteristica(int key) throws DataException;
 
     List<Caratteristica> getAllCaratteristiche(Integer page) throws DataException;
+
+    List<Caratteristica> getAllCaratteristiche(CategoriaNipote categoriaNipote) throws DataException;
 
     void storeCaratteristica(Caratteristica caratteristica) throws DataException;
 

@@ -10,6 +10,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
@@ -68,8 +69,8 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
     }
 
     @Override
-    public void setDataEOra(LocalDateTime dataEOra) {
-        super.setDataEOra(dataEOra);
+    public void setData(LocalDate data) {
+        super.setData(data);
         this.modified = true;
     }
 
