@@ -15,7 +15,7 @@
  */
 package it.univaq.webmarket.framework.result;
 
-import it.univaq.webmarket.framework.utils.ServletHelpers;
+import it.univaq.webmarket.framework.utils.ServletUtils;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -48,6 +48,10 @@ public class FailureResult {
         } else if (exception != null) {
             message = exception.getClass().getName();
         }
+
+        //Solo per motivi di debug
+        exception.printStackTrace();
+
         activate(message, request, response);
     }
 
@@ -81,7 +85,7 @@ public class FailureResult {
                 }
 
                 datamodel.put("error_code", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                datamodel.put("referrer", ServletHelpers.getPreviousPagePath(request));
+                datamodel.put("referrer", ServletUtils.getPreviousPagePath(request));
                 template.activate(context.getInitParameter("view.error_template"), datamodel, request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message);

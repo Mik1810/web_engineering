@@ -1,16 +1,13 @@
 package it.univaq.webmarket.application.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import freemarker.template.Template;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.*;
-import it.univaq.webmarket.data.model.impl.proxy.CaratteristicaConValoreProxy;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
-import it.univaq.webmarket.framework.utils.ServletHelpers;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

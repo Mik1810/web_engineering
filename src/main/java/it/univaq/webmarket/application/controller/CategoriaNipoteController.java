@@ -1,25 +1,19 @@
 package it.univaq.webmarket.application.controller;
 
-import freemarker.template.TemplateException;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
-import it.univaq.webmarket.data.DAO.impl.CategoriaDAO_MySQL;
-import it.univaq.webmarket.data.model.Categoria;
 import it.univaq.webmarket.data.model.CategoriaFiglio;
 import it.univaq.webmarket.data.model.CategoriaNipote;
-import it.univaq.webmarket.data.model.CategoriaPadre;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.utils.Ruolo;
-import it.univaq.webmarket.framework.utils.ServletHelpers;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

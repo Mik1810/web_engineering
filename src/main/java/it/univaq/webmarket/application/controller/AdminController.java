@@ -9,6 +9,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.utils.EmailSender;
 import it.univaq.webmarket.framework.utils.Ruolo;
 
 import javax.servlet.ServletConfig;
@@ -29,7 +30,7 @@ public class AdminController extends ApplicationBaseController {
         this.ruoliAutorizzati = List.of(Ruolo.AMMINISTRATORE);
     }
 
-    protected void renderAdminPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateManagerException {
+    protected void renderAdminPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
         result.activate("admin.ftl", datamodel, request, response);

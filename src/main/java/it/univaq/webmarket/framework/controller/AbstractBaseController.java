@@ -1,26 +1,22 @@
 package it.univaq.webmarket.framework.controller;
+
 import it.univaq.webmarket.framework.data.DataLayer;
 import it.univaq.webmarket.framework.result.FailureResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 public abstract class AbstractBaseController extends HttpServlet {
 
@@ -62,6 +58,7 @@ public abstract class AbstractBaseController extends HttpServlet {
     }
 
     protected void processBaseRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        DataSource ds = (DataSource) getServletContext().getAttribute("datasource");
         try (DataLayer datalayer = createDataLayer(ds)) {
             datalayer.init();
             initRequest(request, datalayer);
@@ -109,29 +106,6 @@ public abstract class AbstractBaseController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processBaseRequest(request, response);
-    }
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-
-        super.init(config);
-        //COn l'APplicationInitializer probabilmente non serve a niente questa cosa, perchè vien fatta di là
-        //init protection pattern
-        String p = config.getServletContext().getInitParameter("security.protect.patterns");
-        if (p == null || p.isBlank()) {
-            protect = null;
-        } else {
-            String[] split = p.split("\\s*,\\s*");
-            protect = Pattern.compile(Arrays.stream(split).collect(Collectors.joining("$)|(?:", "(?:", "$)")));
-        }
-
-        //init data source
-        try {
-            InitialContext ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/" + config.getServletContext().getInitParameter("data.source"));
-        } catch (NamingException ex) {
-            throw new ServletException(ex);
-        }
     }
 
 }

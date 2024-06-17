@@ -19,7 +19,6 @@ import freemarker.core.HTMLOutputFormat;
 import freemarker.core.JSONOutputFormat;
 import freemarker.core.XMLOutputFormat;
 import freemarker.template.*;
-import it.univaq.webmarket.framework.utils.ServletHelpers;
 import no.api.freemarker.java8.Java8ObjectWrapper;
 
 import javax.servlet.ServletContext;
