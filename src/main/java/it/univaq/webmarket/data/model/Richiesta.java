@@ -2,7 +2,7 @@ package it.univaq.webmarket.data.model;
 
 import it.univaq.webmarket.framework.data.DataItem;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface Richiesta extends DataItem<Integer> {
@@ -19,9 +19,9 @@ public interface Richiesta extends DataItem<Integer> {
 
     void setCodiceRichiesta(String codiceRichiesta);
 
-    LocalDateTime getDataEOra();
+    LocalDate getData();
 
-    void setDataEOra(LocalDateTime dataEOra);
+    void setData(LocalDate dataEOra);
 
     List<CaratteristicaConValore> getCaratteristicheConValore();
 

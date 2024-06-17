@@ -1,6 +1,7 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
 import it.univaq.webmarket.data.DAO.CategoriaDAO;
+import it.univaq.webmarket.data.model.Categoria;
 import it.univaq.webmarket.data.model.CategoriaNipote;
 import it.univaq.webmarket.data.model.impl.CaratteristicaImpl;
 import it.univaq.webmarket.framework.data.DataException;
@@ -52,9 +53,9 @@ public class CaratteristicaProxy extends CaratteristicaImpl implements DataItemP
     public CategoriaNipote getCategoriaNipote() {
         if (super.getCategoriaNipote() == null && categoriaNipote_key > 0) {
             try {
-                super.setCategoriaNipote((((CategoriaDAO) dataLayer.getDAO(CategoriaNipote.class)).getCategoriaNipote(categoriaNipote_key)));
+                super.setCategoriaNipote((((CategoriaDAO) dataLayer.getDAO(Categoria.class)).getCategoriaNipote(categoriaNipote_key)));
             } catch (DataException ex) {
-                Logger.getLogger(PropostaProxy.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CaratteristicaProxy.class.getName()).log(Level.SEVERE, "Exception in CaratteristicaProxy", ex);
             }
         }
 

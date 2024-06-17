@@ -23,6 +23,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
     private PreparedStatement sAllCaratteristiche;
     private PreparedStatement uCaratteristica;
     private PreparedStatement dCaratteristica;
+    private PreparedStatement sCaratteristicheByCategoriaNipote;
 
     private PreparedStatement sCaratteristicaConValoreByID;
     private PreparedStatement sCaratteristicheConValore;
@@ -38,11 +39,12 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
     public void init() throws DataException {
         try {
             super.init();
-            iCaratteristica = connection.prepareStatement("INSERT INTO Caratteristica(nome, unita_di_misura, ID_categoria_nipote) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
-            sCaratteristicaByID = connection.prepareStatement("SELECT * FROM Caratteristica WHERE ID=?");
-            sAllCaratteristiche = connection.prepareStatement("SELECT ID FROM Caratteristica LIMIT ?, ?");
-            uCaratteristica = connection.prepareStatement("UPDATE Caratteristica SET nome=?, unita_di_misura=?, ID_categoria_nipote=?, version=? WHERE ID=? AND version=?");
-            dCaratteristica = connection.prepareStatement("DELETE FROM Caratteristica WHERE ID=?");
+            iCaratteristica = connection.prepareStatement("INSERT INTO caratteristica(nome, unita_di_misura, ID_categoria_nipote) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            sCaratteristicaByID = connection.prepareStatement("SELECT * FROM caratteristica WHERE ID=?");
+            sAllCaratteristiche = connection.prepareStatement("SELECT ID FROM caratteristica LIMIT ?, ?");
+            uCaratteristica = connection.prepareStatement("UPDATE caratteristica SET nome=?, unita_di_misura=?, ID_categoria_nipote=?, version=? WHERE ID=? AND version=?");
+            dCaratteristica = connection.prepareStatement("DELETE FROM caratteristica WHERE ID=?");
+            sCaratteristicheByCategoriaNipote = connection.prepareStatement("SELECT * FROM caratteristica WHERE ID_categoria_nipote = ?");
 
             sCaratteristicaConValoreByID = connection.prepareStatement("SELECT * FROM composta WHERE ID=?");
             sCaratteristicheConValore = connection.prepareStatement("SELECT * FROM composta WHERE ID_richiesta = ?");
@@ -62,6 +64,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             sAllCaratteristiche.close();
             uCaratteristica.close();
             dCaratteristica.close();
+            sCaratteristicheByCategoriaNipote.close();
 
             sCaratteristicaConValoreByID.close();
             sCaratteristicheConValore.close();
@@ -150,6 +153,22 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             return result;
         } catch (SQLException ex) {
             throw new DataException("Error loading all Caratteristica", ex);
+        }
+    }
+
+    @Override
+    public List<Caratteristica> getAllCaratteristiche(CategoriaNipote categoriaNipote) throws DataException {
+        List<Caratteristica> result = new ArrayList<>();
+        try {
+            sCaratteristicheByCategoriaNipote.setInt(1, categoriaNipote.getKey());
+            try (ResultSet rs = sCaratteristicheByCategoriaNipote.executeQuery()){
+                while (rs.next()){
+                    result.add(getCaratteristica(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all Caratteristica from CategoriaNipote", ex);
         }
     }
 

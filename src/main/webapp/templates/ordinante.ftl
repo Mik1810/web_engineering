@@ -8,9 +8,11 @@
     <title>MyWebmarket</title>
 
     <link rel="stylesheet" href="/style/admin-style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/default.css">
     <link rel="stylesheet" href="/style/ordinante.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+
 </head>
 <body>
 
@@ -20,9 +22,10 @@
         <div class="quote-container">
             <i class="pin"></i>
             <blockquote class="note yellow">
+                <h2>Ordini</h2>
                 <div>
-                    <#list ordini as ordine>
-                        <span><a href="richieste?id=${richiesta.key}">Ordine ${ordine.key} - ${ordine.statoConsegna}</a></span>
+                    <#list richieste as richiesta>
+                        <span><a href="richieste?id=${richiesta.key}">${richiesta.codiceRichiesta} - ${richiesta.data}</a></span>
                     </#list>
                 </div>
               <cite class="author">
@@ -64,6 +67,10 @@
             </blockquote>
           </div>
 
+    </div>
+
+    <div id="buttons">
+        <a class="btn btn-primary" href="crea_richiesta">Crea nuova richiesta</a>
     </div>
 
     <#include "modules/footer.ftl">

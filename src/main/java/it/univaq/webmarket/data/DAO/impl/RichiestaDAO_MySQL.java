@@ -1,17 +1,12 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.RichiestaDAO;
-import it.univaq.webmarket.data.model.Caratteristica;
-import it.univaq.webmarket.data.model.CaratteristicaConValore;
 import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
 import it.univaq.webmarket.framework.data.*;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,7 +29,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
 
             iRichiesta = connection.prepareStatement("INSERT INTO richiesta (codice_richiesta, note, data, ID_ordinante) VALUES(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
             dRichiesta = connection.prepareStatement("DELETE FROM richiesta WHERE ID=?");
-            sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID=?");
+            sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID=? ORDER BY data DESC");
             sRichiesteByIDOrdinante = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
@@ -65,7 +60,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             ra.setKey(rs.getInt("ID"));
             ra.setCodiceRichiesta(rs.getString("codice_richiesta"));
             ra.setNote(rs.getString("note"));
-            ra.setDataEOra(rs.getTimestamp("data").toLocalDateTime());
+            ra.setData(rs.getTimestamp("data").toLocalDateTime().toLocalDate());
             ra.setOrdinante_key(rs.getInt("ID_ordinante"));
             ra.setVersion(rs.getLong("version"));
         } catch (SQLException ex) {
@@ -118,8 +113,12 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
         //INSERT INTO richiesta (codice_richiesta, note, data, ID_ordinante)
         try {
             iRichiesta.setString(1, getRandomCodiceRichiesta(10));
-            iRichiesta.setString(2, richiesta.getNote());
-            iRichiesta.setTimestamp(3, Timestamp.valueOf(richiesta.getDataEOra()));
+            if(richiesta.getNote() != null){
+                iRichiesta.setString(2, richiesta.getNote());
+            } else {
+                iRichiesta.setNull(2, Types.VARCHAR);
+            }
+            iRichiesta.setTimestamp(3, Timestamp.valueOf(richiesta.getData().atStartOfDay()));
             iRichiesta.setInt(4, richiesta.getOrdinante().getKey());
 
             if (iRichiesta.executeUpdate() == 1) {

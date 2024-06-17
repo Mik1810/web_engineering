@@ -74,6 +74,8 @@ public class TemplateResult {
 
         //formato di default per data/ora
         //date/time default formatting
+        // Il valore viene settato a quel tipo di formattazione ma di fatto non
+        // viene utilizzato quel tipo di formattazione per le date
         if (context.getInitParameter("view.date_format") != null) {
             cfg.setDateTimeFormat(context.getInitParameter("view.date_format"));
         }
