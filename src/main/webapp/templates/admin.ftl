@@ -33,11 +33,11 @@
         <div class="text">Inserisci, modifica o cancella una categoria <b>nipote</b></div>
     </a>
 
-    <a class="card" href="#4">
+    <a class="card" href="gestione_ordinanti?page=0">
         <div class="icon">💡</div>
         <div class="separator"></div>
-        <div class="title">Titolo 4</div>
-        <div class="text">Questo è il testo della quarta card.</div>
+        <div class="title">Gestisci ordinanti</div>
+        <div class="text">Inserisci, modifica o cancella gli <b>ordinanti</b></div>
     </a>
 
     <a class="card" href="#5">
