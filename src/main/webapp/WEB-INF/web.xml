@@ -64,6 +64,10 @@
         <servlet-class>it.univaq.webmarket.application.controller.CategoriaNipoteController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>gestione_uffici</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.GestioneUfficiController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ordinante</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.OrdinanteController</servlet-class>
     </servlet>
@@ -93,6 +97,7 @@
         <param-value>
             <!-- admin -->
             /admin,
+            /gestione_uffici,
             /categoria_padre,
             /categoria_figlio,
             /categoria_nipote,
@@ -120,6 +125,10 @@
     <servlet-mapping>
         <servlet-name>categoria_padre</servlet-name>
         <url-pattern>/categoria_padre</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gestione_uffici</servlet-name>
+        <url-pattern>/gestione_uffici</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>categoria_figlio</servlet-name>

@@ -68,9 +68,49 @@
                 </tbody>
             </table>
         </div>
+    </div>
+</div>
+
+<!--inizio div popup-->
+<div class="popup-container" id="add" style="display: ${visibilityInsert!"none"}">
+    <div class="popup">
+        <!--fine div popup-->
+        <div class="update-screen">
+            <form method="POST" action="categoria_nipote">
+                <input type="hidden" name="id_categoria_genitore"
+                       value="${id_categoria_genitore!"null"}">
+                <label for="nome">Inserisci nome:</label>
+                <input class="form-control modifica-input" id="nome" name="nome" type="text" required>
+                <div class="dropdownContainer">
+                    <select name="sceltaCategoriaFiglio" id="sceltaCategoriaFiglio" class="scelta-dropdown" required>
+                        <#if (categorieFiglio)??>
+                            <#list categorieFiglio as categoriaFiglio>
+                                <option class="dropdown-scelta-item"
+                                        value="${categoriaFiglio.key}">${categoriaFiglio.nome}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
+                <div class="buttons-choose">
+                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
+                    <#if (id_categoria_genitore)??>
+                        <a class="btn btn-danger"
+                           href="categoria_nipote?id_categoria_genitore=${id_categoria_genitore}">Annulla</a>
+                    <#else>
+                        <a class="btn btn-danger" href="categoria_nipote">Annulla</a>
+                    </#if>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
-        <div style="display: ${visibilityUpdate!"none"}" class="modify-screen">
+<!--inizio div popup-->
+<div class="popup-container" id="modify" style="display: ${visibilityUpdate!"none"}">
+    <div class="popup">
+        <!--fine div popup-->
+        <div class="modify-screen">
             <form method="POST" action="categoria_nipote">
                 <input type="hidden" name="id_categoria_genitore"
                        value="${id_categoria_genitore!"null"}">
@@ -107,34 +147,6 @@
                     </#if>
                 </div>
 
-            </form>
-        </div>
-
-        <div style="display: ${visibilityInsert!"none"}" class="update-screen">
-            <form method="POST" action="categoria_nipote">
-                <input type="hidden" name="id_categoria_genitore"
-                       value="${id_categoria_genitore!"null"}">
-                <label for="nome">Inserisci nome:</label>
-                <input class="form-control modifica-input" id="nome" name="nome" type="text" required>
-                <div class="dropdownContainer">
-                    <select name="sceltaCategoriaFiglio" id="sceltaCategoriaFiglio" class="scelta-dropdown" required>
-                        <#if (categorieFiglio)??>
-                            <#list categorieFiglio as categoriaFiglio>
-                                <option class="dropdown-scelta-item"
-                                        value="${categoriaFiglio.key}">${categoriaFiglio.nome}</option>
-                            </#list>
-                        </#if>
-                    </select>
-                </div>
-                <div class="buttons-choose">
-                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
-                    <#if (id_categoria_genitore)??>
-                        <a class="btn btn-danger"
-                           href="categoria_nipote?id_categoria_genitore=${id_categoria_genitore}">Annulla</a>
-                    <#else>
-                        <a class="btn btn-danger" href="categoria_nipote">Annulla</a>
-                    </#if>
-                </div>
             </form>
         </div>
     </div>

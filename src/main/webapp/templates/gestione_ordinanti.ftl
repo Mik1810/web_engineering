@@ -65,40 +65,32 @@
                 </tbody>
             </table>
         </div>
+    </div>
+</div>
+
+<div class="paginazione">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <#if page == 0>
+                <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
+            <#else>
+                <li class="page-item"><a class="btn btn-primary" href="gestione_ordinanti?page=${page-1}">Pagina
+                        precedente</a>
+                </li>
+            </#if>
+            <li class="page-item"><a class="btn btn-primary" href="gestione_ordinanti?page=${page+1}">Pagina
+                    successiva</a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
 
-        <div style="display: ${visibilityUpdate!"none"}" class="modify-screen">
-            <form method="POST" action="gestione_ordinanti?page=${page}">
-                <label for="nome">Inserisci nuova Email:</label>
-                <label for="id"></label>
-                <input type="text" id="id" name="id" style="display: none" value="${(ordinanteModifica.key)!"0"}">
-                <input class="form-control modifica-input" id="nome" name="nome" type="email"
-                       value="${(ordinanteModifica.email)!""}" required>
-                <label for="nome">Inserisci nuova Password:</label>
-                <input class="form-control modifica-input" id="password" name="password" type="password"
-                       value="" required>
-                <div class="dropdownContainer">
-                    <select name="sceltaUfficio" id="sceltaUfficio" class="scelta-dropdown" required>
-                        <option class="dropdown-scelta-item" value="${(ordinanteModifica.ufficio.key)!"0"}" selected
-                                disabled
-                                hidden>${(ordinanteModifica.ufficio.citta + ", " + ordinanteModifica.ufficio.sede)!"Seleziona Ufficio"}</option>
-                        <#if (uffici)??>
-                            <#list uffici as ufficio>
-                                <option class="dropdown-scelta-item"
-                                        value="${ufficio.key}">${ufficio.citta + ", " + ufficio.sede}</option>
-                            </#list>
-                        </#if>
-                    </select>
-                </div>
-                <div class="buttons-choose">
-                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
-                    <a class="btn btn-danger" href="gestione_ordinanti?page=${page}">Annulla</a>
-                </div>
-
-            </form>
-        </div>
-
-        <div style="display: ${visibilityInsert!"none"}" class="update-screen">
+<!--inizio div popup-->
+<div class="popup-container" id="add" style="display: ${visibilityInsert!"none"}">
+    <div class="popup">
+        <!--fine div popup-->
+        <div class="update-screen">
             <form method="POST" action="gestione_ordinanti?page=${page}">
                 <label for="nome">Inserisci Mail:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="email" required>
@@ -128,21 +120,42 @@
     </div>
 </div>
 
-<div class="paginazione">
-    <nav aria-label="Page navigation example">
-        <ul class="pagination">
-            <#if page == 0>
-                <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
-            <#else>
-                <li class="page-item"><a class="btn btn-primary" href="gestione_ordinanti?page=${page-1}">Pagina
-                        precedente</a>
-                </li>
-            </#if>
-            <li class="page-item"><a class="btn btn-primary" href="gestione_ordinanti?page=${page+   1}">Pagina
-                    successiva</a>
-            </li>
-        </ul>
-    </nav>
+
+<!--inizio div popup-->
+<div class="popup-container" id="modify" style="display: ${visibilityUpdate!"none"}">
+    <div class="popup">
+        <!--fine div popup-->
+        <div class="modify-screen">
+            <form method="POST" action="gestione_ordinanti?page=${page}">
+                <label for="nome">Inserisci nuova Email:</label>
+                <label for="id"></label>
+                <input type="text" id="id" name="id" style="display: none" value="${(ordinanteModifica.key)!"0"}">
+                <input class="form-control modifica-input" id="nome" name="nome" type="email"
+                       value="${(ordinanteModifica.email)!""}" required>
+                <label for="nome">Inserisci nuova Password:</label>
+                <input class="form-control modifica-input" id="password" name="password" type="password"
+                       value="" required>
+                <div class="dropdownContainer">
+                    <select name="sceltaUfficio" id="sceltaUfficio" class="scelta-dropdown" required>
+                        <option class="dropdown-scelta-item" value="${(ordinanteModifica.ufficio.key)!"0"}" selected
+                                disabled
+                                hidden>${(ordinanteModifica.ufficio.citta + ", " + ordinanteModifica.ufficio.sede)!"Seleziona Ufficio"}</option>
+                        <#if (uffici)??>
+                            <#list uffici as ufficio>
+                                <option class="dropdown-scelta-item"
+                                        value="${ufficio.key}">${ufficio.citta + ", " + ufficio.sede}</option>
+                            </#list>
+                        </#if>
+                    </select>
+                </div>
+                <div class="buttons-choose">
+                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
+                    <a class="btn btn-danger" href="gestione_ordinanti?page=${page}">Annulla</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </div>
 
 

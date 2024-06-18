@@ -14,13 +14,15 @@
 <div class="container">
 
     <a class="card" href="categoria_padre?page=0">
-        <div class="icon">📗<!--<img class="image-class" src="/images/icons/list-solid-1.png" alt="icona categoria padre">--></div>
+        <div class="icon">📗
+            <!--<img class="image-class" src="/images/icons/list-solid-1.png" alt="icona categoria padre">--></div>
         <div class="separator"></div>
         <div class="title">Categoria Padre</div>
         <div class="text">Inserisci, modifica o cancella una categoria <b>padre</b></div>
     </a>
     <a class="card" href="categoria_figlio?page=0">
-        <div class="icon">📘<!--<img class="image-class" src="/images/icons/list-solid-2.png" alt="icona categoria figlio">--></div>
+        <div class="icon">📘
+            <!--<img class="image-class" src="/images/icons/list-solid-2.png" alt="icona categoria figlio">--></div>
         <div class="separator"></div>
         <div class="title">Categoria Figlio</div>
         <div class="text">Inserisci, modifica o cancella una categoria <b>figlio</b></div>
@@ -66,7 +68,8 @@
         <div class="separator"></div>
         <div class="title">Gestione stati e feedback</div>
         <div class="text">Inserisci, modifica o cancella gli <b>stati</b> dell'applicazione e
-        i <b>feedback</b> degli ordini</div>
+            i <b>feedback</b> degli ordini
+        </div>
     </a>
 
 </div>

@@ -64,33 +64,6 @@
                 </tbody>
             </table>
         </div>
-
-
-        <div style="display: ${visibilityUpdate!"none"}" class="modify-screen">
-            <form method="POST" action="categoria_padre?page=${page}">
-                <label for="nome">Inserisci nuovo nome:</label>
-                <label for="id"></label>
-                <input type="text" id="id" name="id" style="display: none" value="${(categoriaModifica.key)!"0"}">
-                <input class="form-control modifica-input" id="nome" name="nome" type="text"
-                       value="${(categoriaModifica.nome)!""}" required>
-                <div class="buttons-choose">
-                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
-                    <a class="btn btn-danger" href="categoria_padre?page=${page}">Annulla</a>
-                </div>
-
-            </form>
-        </div>
-
-        <div style="display: ${visibilityInsert!"none"}" class="update-screen">
-            <form method="POST" action="categoria_padre?page=${page}">
-                <label for="nome">Inserisci nome:</label>
-                <input class="form-control modifica-input" id="nome" name="nome" type="text">
-                <div class="buttons-choose" required>
-                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
-                    <a class="btn btn-danger" href="categoria_padre?page=${page}">Annulla</a>
-                </div>
-            </form>
-        </div>
     </div>
 </div>
 
@@ -109,6 +82,48 @@
             </li>
         </ul>
     </nav>
+</div>
+
+
+<!--inizio div popup-->
+<div class="popup-container" id="modify" style="display: ${visibilityInsert!"none"}">
+    <div class="popup">
+        <!--fine div popup-->
+        <div class="update-screen">
+            <form method="POST" action="categoria_padre?page=${page}">
+                <label for="nome">Inserisci nome:</label>
+                <input class="form-control modifica-input" id="nome" name="nome" type="text">
+                <div class="buttons-choose" required>
+                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
+                    <a class="btn btn-danger" href="categoria_padre?page=${page}">Annulla</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--inizio div popup-->
+
+<div class="popup-container" id="add" style="display: ${visibilityUpdate!"none"}">
+    <div class="popup">
+
+        <!--fine div popup-->
+
+        <div class="modify-screen">
+            <form method="POST" action="categoria_padre?page=${page}">
+                <label for="nome">Inserisci nuovo nome:</label>
+                <label for="id"></label>
+                <input type="text" id="id" name="id" style="display: none" value="${(categoriaModifica.key)!"0"}">
+                <input class="form-control modifica-input" id="nome" name="nome" type="text"
+                       value="${(categoriaModifica.nome)!""}" required>
+                <div class="buttons-choose">
+                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
+                    <a class="btn btn-danger" href="categoria_padre?page=${page}">Annulla</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
 </div>
 
 
