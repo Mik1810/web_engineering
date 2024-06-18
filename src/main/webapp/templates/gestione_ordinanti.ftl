@@ -81,18 +81,18 @@
                     <select name="sceltaUfficio" id="sceltaUfficio" class="scelta-dropdown" required>
                         <option class="dropdown-scelta-item" value="${(ordinanteModifica.ufficio.key)!"0"}" selected
                                 disabled
-                                hidden>${(ordinanteModifica.ufficio.citta + "," + ordinanteModifica.ufficio.sede)!"Seleziona Ufficio"}</option>
+                                hidden>${(ordinanteModifica.ufficio.citta + ", " + ordinanteModifica.ufficio.sede)!"Seleziona Ufficio"}</option>
                         <#if (uffici)??>
                             <#list uffici as ufficio>
                                 <option class="dropdown-scelta-item"
-                                        value="${ufficio.key}">${ufficio.citta + "," + ufficio.sede}</option>
+                                        value="${ufficio.key}">${ufficio.citta + ", " + ufficio.sede}</option>
                             </#list>
                         </#if>
                     </select>
                 </div>
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
-                    <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
+                    <a class="btn btn-danger" href="gestione_ordinanti?page=${page}">Annulla</a>
                 </div>
 
             </form>
@@ -113,7 +113,7 @@
                         <#if (uffici)??>
                             <#list uffici as ufficio>
                                 <option class="dropdown-scelta-item"
-                                        value="${ufficio.key}">${ufficio.citta + "," + ufficio.sede}</option>
+                                        value="${ufficio.key}">${ufficio.citta + ", " + ufficio.sede}</option>
                             </#list>
                         </#if>
                     </select>
@@ -121,7 +121,7 @@
 
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
-                    <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
+                    <a class="btn btn-danger" href="gestione_ordinanti?page=${page}">Annulla</a>
                 </div>
             </form>
         </div>

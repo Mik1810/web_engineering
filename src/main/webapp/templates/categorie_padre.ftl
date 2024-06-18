@@ -75,7 +75,7 @@
                        value="${(categoriaModifica.nome)!""}" required>
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
-                    <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
+                    <a class="btn btn-danger" href="categoria_padre?page=${page}">Annulla</a>
                 </div>
 
             </form>
@@ -87,7 +87,7 @@
                 <input class="form-control modifica-input" id="nome" name="nome" type="text">
                 <div class="buttons-choose" required>
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
-                    <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
+                    <a class="btn btn-danger" href="categoria_padre?page=${page}">Annulla</a>
                 </div>
             </form>
         </div>
@@ -104,7 +104,7 @@
                         precedente</a>
                 </li>
             </#if>
-            <li class="page-item"><a class="btn btn-primary" href="categoria_padre?page=${page+   1}">Pagina
+            <li class="page-item"><a class="btn btn-primary" href="categoria_padre?page=${page+1}">Pagina
                     successiva</a>
             </li>
         </ul>
