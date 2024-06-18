@@ -1,7 +1,8 @@
-@import url(https://fonts.googleapis.com/css?family=Satisfy);
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+AU+VIC:wght@100..400&display=swap');
 
 :root {
     --width: 350px;
+    --font-size: 1.7rem;
 }
 
 .quote-container {
@@ -16,8 +17,9 @@
     min-height: var(--width);
     margin: 0 auto;
     padding: 10px 20px 20px;
-    font-family: Satisfy, serif;
-    font-size: 30px;
+    font-family: "Playwrite AU VIC", cursive, serif;
+    font-optical-sizing: auto;
+    font-size: var(--font-size);
     box-shadow: 0 10px 10px 2px rgba(0,0,0,0.3);
     align-items: center;
     justify-content: space-evenly;
@@ -112,9 +114,13 @@
     -o-transform-origin: 50% 100%;
 }
 
-.container {
+.container-postit {
     display: flex;
     justify-content: center;
+    background-color: bisque;
+    border-radius: 2rem;
+    border: 1rem #f6b066 solid;
+    min-height: 30rem;
 }
 
 .note:focus, .note:hover {
@@ -125,4 +131,30 @@
 
 .note:focus {
     outline: none;
+}
+
+.divader {
+    width: 100%;
+    border: 1px solid grey;
+    margin-top: 1rem;
+}
+
+a, a:focus, a:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+.a-postit:hover {
+    padding: .2rem;
+    background-color: rgb(255, 255, 255, 0.7);
+    border-radius: .7rem;
+}
+.bacheca, .menu {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.numeric {
+    font-size: calc(var(--font-size) * 0.7);
+    font-weight: bold;
 }

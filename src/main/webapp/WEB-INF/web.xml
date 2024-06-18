@@ -72,6 +72,10 @@
         <servlet-class>it.univaq.webmarket.application.controller.CreaRichiestaController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>richieste_ordinante</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.GestioneRichiesteOrdinante</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>gestione_stati</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.GestioneStatiController</servlet-class>
     </servlet>
@@ -87,14 +91,18 @@
         <param-name>security.protect.patterns</param-name>
         <!-- qui configuriamo i pattern delle URL da proteggere -->
         <param-value>
+            <!-- admin -->
             /admin,
             /categoria_padre,
             /categoria_figlio,
             /categoria_nipote,
+            /gestione_stati,
+            /gestione_ordinanti,
+
+            <!-- ordinante -->
             /ordinante,
             /crea_richiesta,
-            /stato,
-            /gestione_ordinanti
+            /richieste_ordinante
         </param-value>
     </context-param>
     <servlet-mapping>
@@ -128,6 +136,10 @@
     <servlet-mapping>
         <servlet-name>crea_richiesta</servlet-name>
         <url-pattern>/crea_richiesta</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>richieste_ordinante</servlet-name>
+        <url-pattern>/richieste_ordinante</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>gestione_stati</servlet-name>

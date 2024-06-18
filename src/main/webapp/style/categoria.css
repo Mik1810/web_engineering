@@ -133,3 +133,7 @@ h1 {
 .fixed-width {
     width: 16vw;
 }
+
+.data-column {
+    width: 8vw;
+}

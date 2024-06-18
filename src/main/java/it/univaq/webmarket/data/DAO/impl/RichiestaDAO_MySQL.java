@@ -17,10 +17,13 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     private PreparedStatement iRichiesta;
     private PreparedStatement dRichiesta;
     private PreparedStatement sRichiesteByIDOrdinante;
+    private PreparedStatement sRichiesteByIDOrdinantePage;
 
     public RichiestaDAO_MySQL(DataLayer d) {
         super(d);
     }
+
+    private final Integer offset = 5;
 
     @Override
     public void init() throws DataException {
@@ -31,6 +34,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             dRichiesta = connection.prepareStatement("DELETE FROM richiesta WHERE ID=?");
             sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID=? ORDER BY data DESC");
             sRichiesteByIDOrdinante = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=?");
+            sRichiesteByIDOrdinantePage = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=? LIMIT ?,?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -42,7 +46,8 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
              iRichiesta.close();
              dRichiesta.close();
              sRichiestaByID.close();
-                sRichiesteByIDOrdinante.close();
+             sRichiesteByIDOrdinante.close();
+             sRichiesteByIDOrdinantePage.close();
         } catch (SQLException ex) {
             //
         }
@@ -105,6 +110,24 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             return result;
         } catch (SQLException ex) {
             throw new DataException("Error loading all Richieste from Ordinante", ex);
+        }
+    }
+
+    @Override
+    public List<Richiesta> getRichiesteByOrdinante(Ordinante ordinante, Integer page) throws DataException {
+        List<Richiesta> result = new ArrayList<>();
+        try {
+            sRichiesteByIDOrdinantePage.setInt(1, ordinante.getKey());
+            sRichiesteByIDOrdinantePage.setInt(2, page * offset);
+            sRichiesteByIDOrdinantePage.setInt(3, offset);
+            try (ResultSet rs = sRichiesteByIDOrdinantePage.executeQuery()){
+                while (rs.next()){
+                    result.add(getRichiesta(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all Richieste paginate from Ordinante", ex);
         }
     }
 

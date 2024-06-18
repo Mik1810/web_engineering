@@ -7,25 +7,27 @@
 
     <title>MyWebmarket</title>
 
-    <link rel="stylesheet" href="/style/admin-style.css">
-    <link rel="stylesheet" href="/style/default.css">
-    <link rel="stylesheet" href="/style/ordinante.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/style/default.css">
+    <link rel="stylesheet" href="/style/admin-style.css">
+    <link rel="stylesheet" href="/style/ordinante.css">
 
 </head>
 <body>
 
     <#include "modules/header.ftl">
 
-    <div class="container">
+    <h1 class="d-flex justify-content-center bacheca">Bacheca</h1>
+
+    <div class="container-postit">
         <div class="quote-container">
             <i class="pin"></i>
             <blockquote class="note yellow">
                 <h2>Ordini</h2>
                 <div>
                     <#list richieste as richiesta>
-                        <span><a href="richieste?id=${richiesta.key}">${richiesta.codiceRichiesta} - ${richiesta.data}</a></span>
+                        <div><a class="a-postit" href="richieste?id=${richiesta.key}">Ordine <span class="numeric">${richiesta.codiceRichiesta}</span></a></div>
                     </#list>
                 </div>
               <cite class="author">
@@ -69,8 +71,38 @@
 
     </div>
 
-    <div id="buttons">
-        <a class="btn btn-primary" href="crea_richiesta">Crea nuova richiesta</a>
+    <h1 class="d-flex justify-content-center menu">Menu Ordinante</h1>
+
+    <div class="container">
+
+        <a class="card" href="crea_richiesta">
+            <div class="icon">✍🏻</div>
+            <div class="separator"></div>
+            <div class="title">Nuova Richiesta</div>
+            <div class="text">Crea una nuova richiesta selezionando la categoria e le caratteristiche</div>
+        </a>
+        <a class="card" href="richieste_ordinante?page=0">
+            <div class="icon">📋</div>
+            <div class="separator"></div>
+            <div class="title">Richieste</div>
+            <div class="text">Visualizza, modifica o elimina le tue <b>richieste</b> attive</div>
+        </a>
+
+        <a class="card" href="#">
+            <div class="icon">📙<!--<i class="fa-solid fa-list"></i>--></div>
+            <div class="separator"></div>
+            <div class="title">Categoria Nipote</div>
+            <div class="text">Inserisci, modifica o cancella una categoria <b>nipote</b></div>
+        </a>
+
+        <!--
+        <a class="card" href="#">
+            <div class="icon">🏢</div>
+            <div class="separator"></div>
+            <div class="title">Gestisci uffici</div>
+            <div class="text">Inserisci, modifica o cancella gli <b>uffici</b></div>
+        </a>-->
+
     </div>
 
     <#include "modules/footer.ftl">
