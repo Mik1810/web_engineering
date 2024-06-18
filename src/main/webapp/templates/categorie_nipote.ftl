@@ -99,8 +99,12 @@
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action"
                            value="Modifica">
-                    <input class="btn btn-danger" type="submit" id="action" name="action"
-                           value="Annulla">
+                    <#if (id_categoria_genitore)??>
+                        <a class="btn btn-danger"
+                           href="categoria_nipote?id_categoria_genitore=${id_categoria_genitore}">Annulla</a>
+                    <#else>
+                        <a class="btn btn-danger" href="categoria_nipote">Annulla</a>
+                    </#if>
                 </div>
 
             </form>
@@ -124,7 +128,12 @@
                 </div>
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
-                    <input class="btn btn-danger" type="submit" id="action" name="action" value="Annulla">
+                    <#if (id_categoria_genitore)??>
+                        <a class="btn btn-danger"
+                           href="categoria_nipote?id_categoria_genitore=${id_categoria_genitore}">Annulla</a>
+                    <#else>
+                        <a class="btn btn-danger" href="categoria_nipote">Annulla</a>
+                    </#if>
                 </div>
             </form>
         </div>

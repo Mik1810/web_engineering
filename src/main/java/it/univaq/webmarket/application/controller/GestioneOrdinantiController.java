@@ -56,7 +56,6 @@ public class GestioneOrdinantiController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            System.out.println("Page:" + request.getParameter("page"));
             datamodel.put("ordinanteModifica", dl.getOrdinanteDAO().getOrdinante(ordinante_key));
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
@@ -97,11 +96,12 @@ public class GestioneOrdinantiController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            // Controllo se i campi sono stati compilati
+            Ufficio ufficio = dl.getUfficioDAO().getUfficio(Integer.parseInt(request.getParameter("sceltaUfficio")));
 
             if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
                 ordinante.setEmail(request.getParameter("nome"));
                 ordinante.setPassword(request.getParameter("password"));
+                ordinante.setUfficio(ufficio);
             } else {
                 datamodel.put("success", "-1");
                 return;
@@ -200,8 +200,6 @@ public class GestioneOrdinantiController extends ApplicationBaseController {
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-
-
             if (request.getParameter("render") != null) {
                 //Se l'utente richiede qualche elemento non renderizzato
 
@@ -229,9 +227,6 @@ public class GestioneOrdinantiController extends ApplicationBaseController {
 
                     // Se devo effettuare l'aggiunta
                     handleInsert(request, response);
-                } else if ("Annulla".equals(request.getParameter("action"))) {
-                    // Se voglio annullare l'azione
-                    response.sendRedirect("gestione_ordinanti");
                 } else renderCategoriePage(request, response);
             } else {
                 renderCategoriePage(request, response);
