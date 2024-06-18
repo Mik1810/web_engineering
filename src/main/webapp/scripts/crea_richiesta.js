@@ -97,9 +97,9 @@ $(document).ready(function() {
                     $('#caratteristiche')
                         .prepend(`<span>
                                     <input class="invisible" type="hidden" id="key" name="key" value="${data[i].key}">
-                                    <span>${data[i].nome}</span>
-                                    <span class="d-flex">
-                                        <input id="${data[i].key}" name="${data[i].key}" type="text" class="form-control" placeholder="Inserisci il valore">${data[i].unitaMisura}
+                                    <h5 class="label-caratteristica">${data[i].nome}</h5>
+                                    <span class="d-flex align-items-center w-100">
+                                        <input class="input-value form-control" id="${data[i].key}" name="${data[i].key}" type="text" class="form-control" placeholder="Inserisci il valore">${data[i].unitaMisura}
                                     </span>
                                 </span>`);
                 }

@@ -33,6 +33,7 @@ public class AdminController extends ApplicationBaseController {
     protected void renderAdminPage(HttpServletRequest request, HttpServletResponse response) throws IOException, TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
+
         result.activate("admin.ftl", datamodel, request, response);
     }
 

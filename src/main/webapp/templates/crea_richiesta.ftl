@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MyWebmarket</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/default.css">
     <link rel="stylesheet" href="/style/categoria.css">
+    <link rel="stylesheet" href="/style/crea-caratteristica.css">
 
 </head>
 <body>
@@ -21,38 +22,45 @@
 <!--L'ordinante sta salvato in sessione-->
 <!--Bisogna solo scegliere le caratteristiche con valore  e poi le note
 -->
+<div class="container">
+    <div class="left-content">
+        <div id="categoriePadreSelect" class="d-flex flex-column mb-2">
+            <label for="sceltaCategoriaPadre">Categoria Padre:</label>
+            <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="form-select select-size" aria-label="Select per categoria padre">
+                <option value="0" selected>Seleziona Categoria Padre</option>
+                <#list categoriePadre as categoriaPadre>
+                    <option value="${(categoriaPadre.key)}">
+                        ${(categoriaPadre.nome)}
+                    </option>
+                </#list>
+            </select>
+        </div>
 
-<div id="categoriePadreSelect" class="dropdownContainer">
-    <label for="sceltaCategoriaPadre">Categoria Padre:</label>
-    <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown">
-        <option class="dropdown-scelta-item" value="0" selected>Seleziona Categoria Padre</option>
-        <#list categoriePadre as categoriaPadre>
-            <option class="dropdown-scelta-item" value="${(categoriaPadre.key)}">
-                ${(categoriaPadre.nome)}
-            </option>
-        </#list>
-    </select>
+        <div id="categorieFiglioSelect" class="d-flex flex-column invisible mb-2">
+            <label for="sceltaCategoriaFiglio">Categoria Figlio:</label>
+            <select name="sceltaCategoriaFiglio" id="sceltaCategoriaFiglio" class="form-select select-size" aria-label="Select per categoria figlio">
+            </select>
+        </div>
+
+        <div id="categorieNipoteSelect" class="d-flex flex-column invisible mb-2">
+            <label for="sceltaCategoriaNipote">Categoria Nipote:</label>
+            <select name="sceltaCategoriaNipote" id="sceltaCategoriaNipote"  class="form-select select-size" aria-label="Select per categoria nipote">
+            </select>
+        </div>
+    </div>
+
+    <div class="right-content">
+        <form id="caratteristiche" action="crea_richiesta" method="POST" class="invisible">
+
+            <div class="d-flex align-items-center flex-column">
+                <label>
+                    <textarea class="textarea-note form-control" name="note" rows="4" cols="50" placeholder="Inserisci note..."></textarea>
+                </label>
+                <input class="btn btn-primary button-submit" type="submit" value="Crea Richiesta">
+            </div>
+        </form>
+    </div>
 </div>
-
-<div id="categorieFiglioSelect" class="dropdownContainer invisible">
-    <label for="sceltaCategoriaFiglio">Categoria Figlio:</label>
-    <select name="sceltaCategoriaFiglio" id="sceltaCategoriaFiglio" class="scelta-dropdown">
-    </select>
-</div>
-
-<div id="categorieNipoteSelect" class="dropdownContainer invisible">
-    <label for="sceltaCategoriaNipote">Categoria Nipote:</label>
-    <select name="sceltaCategoriaNipote" id="sceltaCategoriaNipote" class="scelta-dropdown">
-    </select>
-</div>
-
-<form id="caratteristiche" action="crea_richiesta" method="POST" class="invisible">
-
-    <label>
-        <textarea class="form-control" name="note" rows="4" cols="50" placeholder="Inserisci note..."></textarea>
-    </label>
-    <input type="submit" value="Crea Richiesta">
-</form>
 
 <#include "modules/footer.ftl">
 

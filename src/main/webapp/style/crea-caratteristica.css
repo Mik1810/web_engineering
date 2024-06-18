@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5rem;
+    flex-direction: row;
+}
+
+.left-content {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    margin-right: 3rem;
+}
+.select-size {
+    min-width: 20vw;
+    width: 20vw;
+}
+
+.input-value {
+    margin-right: .5rem;
+}
+
+.textarea-note {
+    resize: none;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.button-submit {
+    margin-top: 1rem;
+    max-width: fit-content;
+}
+
+.label-caratteristica {
+    margin-top: .8rem;
+    margin-bottom: .3rem;
+}
