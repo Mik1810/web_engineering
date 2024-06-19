@@ -14,5 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if(span.innerText === "-1") {
         sweetAlert("Errore", "Richiesta non modificata, la nuova nota è identica alla precedente.", "error", () => {
         });
+    } else if(span.innerText === "2") {
+        sweetAlert("OK", "Richiesta eliminata con successo.", "success", () => {
+        });
     }
 });

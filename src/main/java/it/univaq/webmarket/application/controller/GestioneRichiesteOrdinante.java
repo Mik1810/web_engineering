@@ -98,10 +98,9 @@ public class GestioneRichiesteOrdinante extends ApplicationBaseController {
 
     }
 
-    private void handleModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaFiglio_key) throws TemplateManagerException {
+    private void handleModify(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key);
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
             Map<String, String[]> parameterMap = request.getParameterMap();
@@ -124,6 +123,27 @@ public class GestioneRichiesteOrdinante extends ApplicationBaseController {
         }
     }
 
+    private void handleDelete(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
+        try {
+            WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+            TemplateResult result = new TemplateResult(getServletContext());
+            Map<String, Object> datamodel = new HashMap<>();
+            Map<String, String[]> parameterMap = request.getParameterMap();
+
+            int richiestaId = Integer.parseInt(parameterMap.get("id")[0]);
+
+            Richiesta richiesta = dl.getRichiestaDAO().getRichiesta(richiestaId);
+            Ordinante ordinante = richiesta.getOrdinante();
+            dl.getRichiestaDAO().deleteRichiesta(richiesta);
+            datamodel.put("success", "2");
+            datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante));
+
+            result.activate("gestione_richieste_ordinante.ftl", datamodel, request, response);
+        } catch (DataException ex) {
+            handleError(ex, request, response);
+        }
+    }
+
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
@@ -131,22 +151,18 @@ public class GestioneRichiesteOrdinante extends ApplicationBaseController {
 
             if (parameterMap.containsKey("render")) {
                 //Se l'utente richiede qualche elemento non renderizzato
-
                 if ("Modifica".equals(parameterMap.get("render")[0])) {
                     //Se devo renderizzare il menù per la modifica
                     renderModify(request, response);
-
                 } else renderTemplate(request, response);
-
             } else if (parameterMap.containsKey("action")) {
                 // Se l'utente richiede un'azione
-
                 if ("Modifica".equals(parameterMap.get("action")[0])) {
                     // Se devo effettuare la modifica
-                    handleModify(request, response, Integer.parseInt(parameterMap.get("id")[0]));
+                    handleModify(request, response);
                 } else if ("Elimina".equals(request.getParameter("action"))) {
-
                     // Se devo effettuare l'eliminazione
+                    handleDelete(request, response);
                 } else renderTemplate(request, response);
             } else {
                 renderTemplate(request, response);
