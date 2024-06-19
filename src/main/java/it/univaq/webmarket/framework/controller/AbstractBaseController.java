@@ -58,7 +58,8 @@ public abstract class AbstractBaseController extends HttpServlet {
     }
 
     protected void processBaseRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        DataSource ds = (DataSource) getServletContext().getAttribute("datasource");
+        this.ds = (DataSource) getServletContext().getAttribute("datasource");
+        this.protect = (Pattern) getServletContext().getAttribute("protect");
         try (DataLayer datalayer = createDataLayer(ds)) {
             datalayer.init();
             initRequest(request, datalayer);
@@ -80,7 +81,6 @@ public abstract class AbstractBaseController extends HttpServlet {
     protected boolean checkAccess(HttpServletRequest request, HttpServletResponse response)  {
         HttpSession s = SecurityHelpers.checkSession(request);
         String uri = request.getRequestURI();
-        //non ridirezioniamo verso la login se richiediamo risorse da non proteggere
         return !(s == null && protect != null && protect.matcher(uri).find());
     }
 
