@@ -24,15 +24,12 @@
         <div class="quote-container">
             <i class="pin"></i>
             <blockquote class="note yellow">
-                <h2>Ordini</h2>
+                <h2>Richieste</h2>
                 <div>
                     <#list richieste as richiesta>
-                        <div><a class="a-postit" href="richieste?id=${richiesta.key}">Ordine <span class="numeric">${richiesta.codiceRichiesta}</span></a></div>
+                        <div><a class="a-postit" href="richieste_ordinante?id=${richiesta.key}">Richiesta <span class="numeric">${richiesta.codiceRichiesta}</span></a></div>
                     </#list>
                 </div>
-              <cite class="author">
-                  <a href="richieste">Vedi tutti</a>
-              </cite>
             </blockquote>
           </div>
 

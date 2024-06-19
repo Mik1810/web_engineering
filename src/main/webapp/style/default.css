@@ -40,12 +40,6 @@ header {
     border-bottom: solid 0.05rem black;
 }
 
-#logout {
-    font-size: 2.5rem;
-    cursor: pointer;
-    color: black;
-}
-
 .footer-container {
     display: flex;
     justify-content: flex-end;
@@ -106,6 +100,17 @@ html {
         opacity: 1;
         transform: scale(1);
     }
+}
+
+.header-a {
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+}
+
+.textarea-note {
+    resize: none;
+    width: 100%;
 }
 
 /*FINE POPUP*/

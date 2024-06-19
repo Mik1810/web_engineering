@@ -21,12 +21,6 @@
     margin-right: .5rem;
 }
 
-.textarea-note {
-    resize: none;
-    margin-top: 1rem;
-    width: 100%;
-}
-
 .button-submit {
     margin-top: 1rem;
     max-width: fit-content;

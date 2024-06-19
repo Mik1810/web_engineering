@@ -5,6 +5,7 @@ import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
 import it.univaq.webmarket.framework.data.*;
+import it.univaq.webmarket.framework.security.SecurityHelpers;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
 
     private PreparedStatement sRichiestaByID;
     private PreparedStatement iRichiesta;
+    private PreparedStatement uRichiesta;
     private PreparedStatement dRichiesta;
     private PreparedStatement sRichiesteByIDOrdinante;
     private PreparedStatement sRichiesteByIDOrdinantePage;
@@ -31,6 +33,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             super.init();
 
             iRichiesta = connection.prepareStatement("INSERT INTO richiesta (codice_richiesta, note, data, ID_ordinante) VALUES(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+            uRichiesta = connection.prepareStatement("UPDATE richiesta SET codice_richiesta=?, note=?, data=?, ID_ordinante=?, version=? WHERE ID=? AND version=?");
             dRichiesta = connection.prepareStatement("DELETE FROM richiesta WHERE ID=?");
             sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID=? ORDER BY data DESC");
             sRichiesteByIDOrdinante = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=?");
@@ -135,25 +138,57 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     public void storeRichiesta(Richiesta richiesta) throws DataException {
         //INSERT INTO richiesta (codice_richiesta, note, data, ID_ordinante)
         try {
-            iRichiesta.setString(1, getRandomCodiceRichiesta(10));
-            if(richiesta.getNote() != null){
-                iRichiesta.setString(2, richiesta.getNote());
-            } else {
-                iRichiesta.setNull(2, Types.VARCHAR);
-            }
-            iRichiesta.setTimestamp(3, Timestamp.valueOf(richiesta.getData().atStartOfDay()));
-            iRichiesta.setInt(4, richiesta.getOrdinante().getKey());
+            if (richiesta.getKey() != null && richiesta.getKey() > 0) { //update
+                if (richiesta instanceof DataItemProxy && !((DataItemProxy) richiesta).isModified()) {
+                    return;
+                }
+                /*
+                codice_richiesta=1,
+                note=2,
+                data=3,
+                ID_ordinante=4,
+                version=5
+                WHERE ID=6
+                AND version=7
+                */
+                uRichiesta.setString(1, richiesta.getCodiceRichiesta());
+                uRichiesta.setString(2, richiesta.getNote());
+                uRichiesta.setTimestamp(3, Timestamp.valueOf(richiesta.getData().atStartOfDay()));
+                uRichiesta.setInt(4, richiesta.getOrdinante().getKey());
 
-            if (iRichiesta.executeUpdate() == 1) {
-                try (ResultSet keys = iRichiesta.getGeneratedKeys()) {
-                    if (keys.next()) {
-                        int key = keys.getInt(1);
-                        richiesta.setKey(key);
-                        dataLayer.getCache().add(Richiesta.class, richiesta);
+                long current_version = richiesta.getVersion();
+                long next_version = current_version + 1;
+
+                uRichiesta.setLong(5, next_version);
+                uRichiesta.setInt(6, richiesta.getKey());
+                uRichiesta.setLong(7, current_version);
+
+                if (uRichiesta.executeUpdate() == 0) {
+                    throw new OptimisticLockException(richiesta);
+                } else {
+                    richiesta.setVersion(next_version);
+                }
+
+            } else { //INSERT
+                iRichiesta.setString(1, getRandomCodiceRichiesta(10));
+                if (richiesta.getNote() != null) {
+                    iRichiesta.setString(2, richiesta.getNote());
+                } else {
+                    iRichiesta.setNull(2, Types.VARCHAR);
+                }
+                iRichiesta.setTimestamp(3, Timestamp.valueOf(richiesta.getData().atStartOfDay()));
+                iRichiesta.setInt(4, richiesta.getOrdinante().getKey());
+
+                if (iRichiesta.executeUpdate() == 1) {
+                    try (ResultSet keys = iRichiesta.getGeneratedKeys()) {
+                        if (keys.next()) {
+                            int key = keys.getInt(1);
+                            richiesta.setKey(key);
+                            dataLayer.getCache().add(Richiesta.class, richiesta);
+                        }
                     }
                 }
             }
-
             if (richiesta instanceof DataItemProxy) {
                 ((DataItemProxy) richiesta).setModified(false);
             }

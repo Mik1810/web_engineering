@@ -158,7 +158,6 @@
 
 <#include "modules/footer.ftl">
 
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="module" src="/scripts/categorie_figlio.js"></script>
 

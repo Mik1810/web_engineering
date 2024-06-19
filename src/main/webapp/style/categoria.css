@@ -61,7 +61,7 @@ h1 {
 .modify-screen, .update-screen {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .modifica-input {

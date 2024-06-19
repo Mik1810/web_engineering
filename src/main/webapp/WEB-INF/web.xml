@@ -80,6 +80,10 @@
         <servlet-class>it.univaq.webmarket.application.controller.GestioneRichiesteOrdinante</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>gestione_caratteristiche_richiesta</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.GestioneCaratteristicheRichiestaController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>gestione_stati</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.GestioneStatiController</servlet-class>
     </servlet>
@@ -107,7 +111,8 @@
             <!-- ordinante -->
             /ordinante,
             /crea_richiesta,
-            /richieste_ordinante
+            /richieste_ordinante,
+            /gestione_caratteristiche_richiesta
         </param-value>
     </context-param>
     <servlet-mapping>
@@ -149,6 +154,10 @@
     <servlet-mapping>
         <servlet-name>richieste_ordinante</servlet-name>
         <url-pattern>/richieste_ordinante</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gestione_caratteristiche_richiesta</servlet-name>
+        <url-pattern>/gestione_caratteristiche_richiesta</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>gestione_stati</servlet-name>
