@@ -1,5 +1,6 @@
 package it.univaq.webmarket.application.controller;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.*;
@@ -42,11 +43,11 @@ public class LoginController extends ApplicationBaseController {
     }
 
     private void handleAutoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Reindirizzo in base al ruolo
-        SecurityHelpers.createSession(request, "michaelpiccirilli3@gmail.com", 1, Ruolo.ORDINANTE);
-        handleRedirect(Ruolo.ORDINANTE, request, response);
-        //SecurityHelpers.createSession(request, "admin3@gmail.com", 1, Ruolo.AMMINISTRATORE);
-        //handleRedirect(Ruolo.AMMINISTRATORE, request, response);
+        Dotenv dotenv = Dotenv.configure().load();
+        String email = dotenv.get("EMAIL");
+        String role = dotenv.get("ROLE");
+        SecurityHelpers.createSession(request, email, 1, Ruolo.valueOf(role));
+        handleRedirect(Ruolo.valueOf(role), request, response);
     }
 
     private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {

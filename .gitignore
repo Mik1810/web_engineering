@@ -53,3 +53,4 @@ build/
 .target/
 .mvn
 .mvn/
+.env

@@ -33,7 +33,7 @@
         <param-value>UTF-8</param-value>
     </context-param>
     <context-param>
-        <param-name>false</param-name>
+        <param-name>debug</param-name>
         <param-value>true</param-value>
     </context-param>
     <listener>
