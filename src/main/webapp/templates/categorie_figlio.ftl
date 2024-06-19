@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="it" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta charset="UTF-8" content="">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>MyWebmarket</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/default.css">
     <link rel="stylesheet" href="/style/categoria.css">
@@ -43,7 +42,7 @@
                     <tr>
                         <td><a href="categoria_nipote?id_categoria_genitore=${categoria.key}">${categoria.nome}</a></td>
                         <td>
-                            <a href="categoria_padre?id_categoria_genitore=${categoria.categoriaGenitore.key}">${categoria.categoriaGenitore.nome}</a>
+                            <a href="categoria_padre?id=${categoria.categoriaGenitore.key}">${categoria.categoriaGenitore.nome}</a>
                         </td>
                         <td>
                             <form method="POST" action="categoria_figlio">
@@ -79,16 +78,14 @@
         <!--fine div popup-->
         <div class="update-screen">
             <form method="POST" action="categoria_figlio">
-                <input type="hidden" name="id_categoria_genitore"
-                       value="${id_categoria_genitore!"null"}">
+                <input type="hidden" name="id_categoria_genitore" value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nome:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="text" required>
                 <div class="dropdownContainer">
                     <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown" required>
                         <#if (categoriePadre)??>
                             <#list categoriePadre as categoriaPadre>
-                                <option class="dropdown-scelta-item"
-                                        value="${categoriaPadre.key}">${categoriaPadre.nome}</option>
+                                <option class="dropdown-scelta-item" value="${categoriaPadre.key}">${categoriaPadre.nome}</option>
                             </#list>
                         </#if>
                     </select>

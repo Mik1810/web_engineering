@@ -164,37 +164,19 @@ public class CategoriaFiglioController extends ApplicationBaseController {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
+            Map<String, String[]> parameterMap = request.getParameterMap();
 
             CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO().createCategoriaFiglio();
+            categoriaFiglio.setNome(parameterMap.get("nome")[0]);
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").equals("")) {
-                categoriaFiglio.setNome(request.getParameter("nome"));
-            } else {
-                datamodel.put("success", "-2");
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                result.activate("categorie_figlio.ftl", datamodel, request, response);
-                return;
-            }
-
-            if (request.getParameter("sceltaCategoriaPadre") != null && !request.getParameter("sceltaCategoriaPadre").isEmpty()) {
-                categoriaFiglio.setCategoriaGenitore(dl.getCategoriaDAO().getCategoriaPadre(Integer.parseInt(request.getParameter("sceltaCategoriaPadre"))));
-            } else {
-                datamodel.put("success", "-1");
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                result.activate("categorie_figlio.ftl", datamodel, request, response);
-                return;
-            }
-
+            CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(Integer.parseInt(parameterMap.get("sceltaCategoriaPadre")[0]));
+            categoriaFiglio.setCategoriaGenitore(categoriaPadre);
 
             dl.getCategoriaDAO().storeCategoriaFiglio(categoriaFiglio);
 
-            try {
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                datamodel.put("success", "2");
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
+            datamodel.put("success", "2");
 
-            } catch (DataException e) {
-                handleError(e, request, response);
-            }
             result.activate("categorie_figlio.ftl", datamodel, request, response);
 
         } catch (DataException ex) {
@@ -218,18 +200,10 @@ public class CategoriaFiglioController extends ApplicationBaseController {
         }
     }
 
-    private void handleCancel(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (request.getParameter("id_categoria_genitore") != null) {
-            response.sendRedirect("categoria_figlio?id_categoria_genitore=" + request.getParameter("id_categoria_genitore"));
-        } else {
-            response.sendRedirect("categoria_figlio");
-        }
-    }
-
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        try {
 
+        try {
             if (request.getParameter("render") != null) {
                 //Se l'utente richiede qualche elemento non renderizzato
 
@@ -255,9 +229,6 @@ public class CategoriaFiglioController extends ApplicationBaseController {
 
                     // Se devo effettuare l'aggiunta
                     handleInsert(request, response);
-                } else if ("Annulla".equals(request.getParameter("action"))) {
-                    // Se voglio annullare l'azione
-                    handleCancel(request, response);
                 } else renderCategoriePage(request, response);
             } else {
                 renderCategoriePage(request, response);

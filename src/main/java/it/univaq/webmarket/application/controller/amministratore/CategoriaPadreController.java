@@ -29,8 +29,10 @@ public class CategoriaPadreController extends ApplicationBaseController {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
+
         try {
             if (request.getParameter("id") != null) {
+                datamodel.put("page", 0);
                 datamodel.put("categorie", List.of(dl.getCategoriaDAO().getCategoriaPadre(Integer.parseInt(request.getParameter("id")))));
             } else {
                 if (request.getParameter("page") != null) {
@@ -56,20 +58,15 @@ public class CategoriaPadreController extends ApplicationBaseController {
             CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key);
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
+            Map<String, String[]> parameterMap = request.getParameterMap();
 
-            System.out.println("Page:" + request.getParameter("page"));
+            int page = parameterMap.containsKey("page") ? Integer.parseInt(parameterMap.get("page")[0]) : 0;
+
             datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaPadre(categoriaPadre_key));
-            if (request.getParameter("page") != null) {
-                Integer page = Integer.parseInt(request.getParameter("page"));
-                datamodel.put("categorie", dl.getCategoriaDAO()
-                        .getAllCategoriePadre(page));
-                datamodel.put("page", page);
-            } else {
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
-                datamodel.put("page", 0);
-            }
-            // TODO: da chiedere a giacomo ahahhahah
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(page));
+            datamodel.put("page", page);
             datamodel.put("visibilityUpdate", "flex");
+
             result.activate("categorie_padre.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
@@ -208,36 +205,35 @@ public class CategoriaPadreController extends ApplicationBaseController {
                 }
             }*/
 
-            if (request.getParameter("render") != null) {
+            Map<String, String[]> parameterMap = request.getParameterMap();
+
+            if (parameterMap.containsKey("render")) {
                 //Se l'utente richiede qualche elemento non renderizzato
 
-                if ("Modifica".equals(request.getParameter("render"))) {
+                if ("Modifica".equals(parameterMap.get("render")[0])) {
                     //Se devo renderizzare il menù per la modifica
-                    renderModify(request, response, Integer.parseInt(request.getParameter("id")));
+                    renderModify(request, response, Integer.parseInt(parameterMap.get("id")[0]));
 
-                } else if ("Aggiungi".equals(request.getParameter("render"))) {
+                } else if ("Aggiungi".equals(parameterMap.get("render")[0])) {
                     //Se devo renderizzare il menù per l'aggiunta
                     renderInsert(request, response);
                 } else renderCategoriePage(request, response);
 
-            } else if (request.getParameter("action") != null) {
+            } else if (parameterMap.containsKey("action")) {
                 // Se l'utente richiede un'azione
 
-                if ("Modifica".equals(request.getParameter("action"))) {
+                if ("Modifica".equals(parameterMap.get("action")[0])) {
 
                     // Se devo effettuare la modifica
-                    handleModify(request, response, Integer.parseInt(request.getParameter("id")));
+                    handleModify(request, response, Integer.parseInt(parameterMap.get("id")[0]));
                 } else if ("Elimina".equals(request.getParameter("action"))) {
 
                     // Se devo effettuare l'eliminazione
-                    handleDelete(request, response, Integer.parseInt(request.getParameter("id")));
-                } else if ("Aggiungi".equals(request.getParameter("action"))) {
+                    handleDelete(request, response, Integer.parseInt(parameterMap.get("id")[0]));
+                } else if ("Aggiungi".equals(parameterMap.get("action")[0])) {
 
                     // Se devo effettuare l'aggiunta
                     handleInsert(request, response);
-                } else if ("Annulla".equals(request.getParameter("action"))) {
-                    // Se voglio annullare l'azione
-                    response.sendRedirect("categoria_padre");
                 } else renderCategoriePage(request, response);
             } else {
                 renderCategoriePage(request, response);

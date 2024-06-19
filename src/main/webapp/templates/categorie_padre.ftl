@@ -43,20 +43,15 @@
                     <tr>
                         <td><a href="categoria_figlio?id_categoria_genitore=${categoria.key}">${categoria.nome}</a></td>
                         <td>
-                            <form method="POST" action="categoria_padre?page=${page}">
+                            <form method="POST" action="categoria_padre?id=${page}">
                                 <input type="hidden" name="id" value="${categoria.key}">
-                                <input class="btn btn-primary" type="submit" id="render" name="render"
-                                       value="Modifica">
+                                <input class="btn btn-primary" type="submit" id="render" name="render" value="Modifica">
                             </form>
                         </td>
                         <td>
                             <form method="POST" action="categoria_padre?page=${page}">
-                                <input type="hidden" name="id"
-                                       value="${categoria.key}">
-                                <input class="btn btn-danger" type="submit" id="action" name="action"
-                                       value="Elimina">
-
-
+                                <input type="hidden" name="id" value="${categoria.key}">
+                                <input class="btn btn-danger" type="submit" id="action" name="action" value="Elimina">
                             </form>
                         </td>
                     </tr>
@@ -90,6 +85,7 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="update-screen">
+            <h4>Aggiungi Categoria Padre</h4>
             <form method="POST" action="categoria_padre?page=${page}">
                 <label for="nome">Inserisci nome:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="text">
