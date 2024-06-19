@@ -33,7 +33,7 @@
         <param-value>UTF-8</param-value>
     </context-param>
     <context-param>
-        <param-name>debug</param-name>
+        <param-name>false</param-name>
         <param-value>true</param-value>
     </context-param>
     <listener>
@@ -89,7 +89,11 @@
     </servlet>
     <servlet>
         <servlet-name>gestione_tecnici_ordini</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.GestioneTecniciOrdiniController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciOrdiniController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>gestione_tecnici_preventivi</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciPreventiviController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>gestione_ordinanti</servlet-name>
@@ -112,6 +116,7 @@
             /gestione_stati,
             /gestione_ordinanti,
             /gestione_tecnici_preventivi,
+            /gestione_tecnici_ordini,
 
             <!-- ordinante -->
             /ordinante,
@@ -139,6 +144,10 @@
     <servlet-mapping>
         <servlet-name>gestione_tecnici_preventivi</servlet-name>
         <url-pattern>/gestione_tecnici_preventivi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gestione_tecnici_ordini</servlet-name>
+        <url-pattern>/gestione_tecnici_ordini</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>gestione_uffici</servlet-name>

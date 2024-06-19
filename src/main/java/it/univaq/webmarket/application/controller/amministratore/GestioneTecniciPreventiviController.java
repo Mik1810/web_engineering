@@ -1,9 +1,7 @@
-package it.univaq.webmarket.application.controller;
+package it.univaq.webmarket.application.controller.amministratore;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
-import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
@@ -19,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GestioneTecniciOrdiniController extends ApplicationBaseController {
+public class GestioneTecniciPreventiviController extends ApplicationBaseController {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -27,44 +25,44 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
         this.ruoliAutorizzati = List.of(Ruolo.AMMINISTRATORE);
     }
 
-    private void renderGestioneTecniciOrdiniPage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
+    private void renderGestioneTecniciPreventiviPage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
         try {
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
-                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(page));
+                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(page));
                 datamodel.put("page", page);
             } else {
-                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(0));
+                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(0));
                 datamodel.put("page", 0);
             }
         } catch (DataException e) {
             handleError(e, request, response);
         }
 
-        result.activate("gestione_tecnici_ordini.ftl", datamodel, request, response);
+        result.activate("gestione_tecnici_preventivi.ftl", datamodel, request, response);
     }
 
     private void renderModify(HttpServletRequest request, HttpServletResponse response, Integer tecnico_key) throws TemplateManagerException, IOException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            TecnicoOrdini tecnico = dl.getTecnicoOrdiniDAO().getTecnicoOrdini(tecnico_key);
+            TecnicoPreventivi tecnico = dl.getTecnicoPreventiviDAO().getTecnicoPreventivi(tecnico_key);
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
             datamodel.put("tecnicoModifica", tecnico);
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
-                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(page));
+                datamodel.put("tecnici", dl.getOrdinanteDAO().getAllOrdinanti(page));
                 datamodel.put("page", page);
             } else {
-                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(0));
+                datamodel.put("tecnici", dl.getOrdinanteDAO().getAllOrdinanti(0));
                 datamodel.put("page", 0);
             }
             datamodel.put("visibilityUpdate", "flex");
-            result.activate("gestione_tecnici_ordini.ftl", datamodel, request, response);
+            result.activate("gestione_tecnici_preventivi.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
@@ -73,12 +71,12 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
     private void handleDelete(HttpServletRequest request, HttpServletResponse response, Integer tecnico_key) {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            TecnicoOrdini tecnico = dl.getTecnicoOrdiniDAO().getTecnicoOrdini(tecnico_key);
-            dl.getTecnicoOrdiniDAO().deleteTecnicoOrdini(tecnico);
+            TecnicoPreventivi tecnico = dl.getTecnicoPreventiviDAO().getTecnicoPreventivi(tecnico_key);
+            dl.getTecnicoPreventiviDAO().deleteTecnicoPreventivi(tecnico);
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
-                response.sendRedirect("gestione_tecnici_ordini?page=" + page);
-            } else response.sendRedirect("gestione_tecnici_ordini?page=0");
+                response.sendRedirect("gestione_tecnici_preventivi?page=" + page);
+            } else response.sendRedirect("gestione_tecnici_preventivi?page=0");
         } catch (IOException | DataException ex) {
             handleError(ex, request, response);
         }
@@ -87,7 +85,7 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
     private void handleModify(HttpServletRequest request, HttpServletResponse response, Integer tecnico_key) throws TemplateManagerException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            TecnicoOrdini tecnico = dl.getTecnicoOrdiniDAO().getTecnicoOrdini(tecnico_key);
+            TecnicoPreventivi tecnico = dl.getTecnicoPreventiviDAO().getTecnicoPreventivi(tecnico_key);
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
@@ -99,16 +97,16 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
                 return;
             }
 
+            dl.getTecnicoPreventiviDAO().storeTecnicoPreventivi(tecnico);
 
-            dl.getTecnicoOrdiniDAO().storeTecnicoOrdini(tecnico);
 
             try {
                 if (request.getParameter("page") != null) {
                     Integer page = Integer.parseInt(request.getParameter("page"));
-                    datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(page));
+                    datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(page));
                     datamodel.put("page", page);
                 } else {
-                    datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(0));
+                    datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(0));
                     datamodel.put("page", 0);
                 }
                 datamodel.put("success", "1");
@@ -117,7 +115,7 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
                 handleError(e, request, response);
             }
 
-            result.activate("gestione_tecnici_ordini.ftl", datamodel, request, response);
+            result.activate("gestione_tecnici_preventivi.ftl", datamodel, request, response);
 
         } catch (DataException ex) {
             handleError(ex, request, response);
@@ -132,15 +130,15 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
 
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
-                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(page));
+                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(page));
                 datamodel.put("page", page);
             } else {
-                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(0));
+                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(0));
                 datamodel.put("page", 0);
             }
             datamodel.put("visibilityInsert", "flex");
 
-            result.activate("gestione_tecnici_ordini.ftl", datamodel, request, response);
+            result.activate("gestione_tecnici_preventivi.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
@@ -152,7 +150,7 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            TecnicoOrdini tecnico = dl.getTecnicoOrdiniDAO().createTecnicoOrdini();
+            TecnicoPreventivi tecnico = dl.getTecnicoPreventiviDAO().createTecnicoPreventivi();
 
             if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
                 tecnico.setEmail(request.getParameter("nome"));
@@ -162,24 +160,24 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
                 return;
             }
 
-            if (dl.getTecnicoOrdiniDAO().getTecnicoOrdiniByEmail(tecnico.getEmail()) != null) {
+            if (dl.getTecnicoPreventiviDAO().getTecnicoPreventiviByEmail(tecnico.getEmail()) != null) {
                 datamodel.put("success", "-2");
             } else {
-                dl.getTecnicoOrdiniDAO().storeTecnicoOrdini(tecnico);
+                dl.getTecnicoPreventiviDAO().storeTecnicoPreventivi(tecnico);
                 datamodel.put("success", "2");
             }
 
 
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
-                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(page));
+                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(page));
                 datamodel.put("page", page);
             } else {
-                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(0));
+                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(0));
                 datamodel.put("page", 0);
             }
 
-            result.activate("gestione_tecnici_ordini.ftl", datamodel, request, response);
+            result.activate("gestione_tecnici_preventivi.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
@@ -199,7 +197,7 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
                 } else if ("Aggiungi".equals(request.getParameter("render"))) {
                     //Se devo renderizzare il menù per l'aggiunta
                     renderInsert(request, response);
-                } else renderGestioneTecniciOrdiniPage(request, response);
+                } else renderGestioneTecniciPreventiviPage(request, response);
 
             } else if (request.getParameter("action") != null) {
                 // Se l'utente richiede un'azione
@@ -216,9 +214,9 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
 
                     // Se devo effettuare l'aggiunta
                     handleInsert(request, response);
-                } else renderGestioneTecniciOrdiniPage(request, response);
+                } else renderGestioneTecniciPreventiviPage(request, response);
             } else {
-                renderGestioneTecniciOrdiniPage(request, response);
+                renderGestioneTecniciPreventiviPage(request, response);
             }
         } catch (IOException | TemplateManagerException ex) {
             handleError(ex, request, response);

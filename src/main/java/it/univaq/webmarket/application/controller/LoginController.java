@@ -42,9 +42,11 @@ public class LoginController extends ApplicationBaseController {
     }
 
     private void handleAutoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        SecurityHelpers.createSession(request, "michaelpiccirilli3@gmail.com", 1, Ruolo.AMMINISTRATORE);
         // Reindirizzo in base al ruolo
-        handleRedirect(Ruolo.AMMINISTRATORE, request, response);
+        SecurityHelpers.createSession(request, "michaelpiccirilli3@gmail.com", 1, Ruolo.ORDINANTE);
+        handleRedirect(Ruolo.ORDINANTE, request, response);
+        //SecurityHelpers.createSession(request, "admin3@gmail.com", 1, Ruolo.AMMINISTRATORE);
+        //handleRedirect(Ruolo.AMMINISTRATORE, request, response);
     }
 
     private void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
