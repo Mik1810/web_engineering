@@ -34,13 +34,13 @@
                     <td class="left">${caratteristicaConValore.valore}</td>
                     <td class="data-column left">${caratteristicaConValore.caratteristica.unitaMisura}</td>
                     <td>
-                        <form method="POST" action="gestione_caratteristiche_richiesta">
+                        <form method="POST" action="caratteristiche?id_richiesta=${richiesta.key}">
                             <input type="hidden" id="id" name="id" value="${caratteristicaConValore.key}">
                             <input class="btn btn-primary" type="submit" id="render" name="render" value="Modifica">
                         </form>
                     </td>
                     <td>
-                        <form method="POST" action="gestione_caratteristiche_richiesta">
+                        <form method="POST" action="caratteristiche?id_richiesta=${richiesta.key}">
                             <input type="hidden" name="id" value="${caratteristicaConValore.key}">
                             <input class="btn btn-danger" type="submit" id="action" name="action" value="Elimina">
                         </form>
@@ -57,22 +57,17 @@
     <div class="popup">
 
         <div class="update-screen">
-            <h4 class="d-flex align-items-center">Modifica Richiesta</h4>
+            <h4 class="d-flex align-items-center">Modifica Caratteristica</h4>
             <p class="p-3"></p>
-            <form method="POST" action="richieste_ordinante?id=${(richiestaDaModificare.key)!"0"}">
+            <form method="POST" action="caratteristiche?id_richiesta=${(richiesta.key)!"0"}">
 
-                <input type="hidden" name="id" value="${(richiestaDaModificare.key)!"0"}">
-                <label for="note">Inserisci nuove note: </label>
-                <textarea class="textarea-note form-control" name="note" rows="4" cols="50" id="note">${(richiestaDaModificare.note)!"0"}</textarea>
+                <input type="hidden" name="id" value="${(caratteristicaConValore.key)!"0"}">
+                <label for="valore">Inserisci nuovo valore: </label>
+                <input class="form-control" name="valore" id="valore" value="${(caratteristicaConValore.valore)!"0"}">
                 <p class="p-1"></p>
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
-                    <#if (url_has_id)??>
-                        <a class="btn btn-danger"
-                           href="richieste_ordinante?id=${(richiestaDaModificare.key)!"0"}">Annulla</a>
-                    <#else>
-                        <a class="btn btn-danger" href="richieste_ordinante?page=${page!0}">Annulla</a>
-                    </#if>
+                    <a class="btn btn-danger" href="caratteristiche?id_richiesta=${(richiesta.key)!"0"}">Annulla</a>
                 </div>
 
             </form>
@@ -84,7 +79,7 @@
 <span class="invisible" id="success">${success!"0"}</span>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="module" src="/scripts/richiesta.js"></script>
+<script type="module" src="/scripts/caratteristiche_richiesta.js"></script>
 
 <#include "modules/footer.ftl">
 

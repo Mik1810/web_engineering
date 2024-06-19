@@ -239,7 +239,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
         } else {
             try {
                 sCaratteristicaConValoreByID.setInt(1, key);
-                try (ResultSet rs = sCaratteristicaByID.executeQuery()){
+                try (ResultSet rs = sCaratteristicaConValoreByID.executeQuery()){
                     if(rs.next()){
                         caratteristicaConValore = createCaratteristicaConValore(rs);
                         dataLayer.getCache().add(CaratteristicaConValore.class, caratteristicaConValore);
@@ -255,7 +255,6 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
     @Override
     public void storeCaratteristicaConValore(CaratteristicaConValore caratteristicaConValore, Integer richiesta_key) throws DataException {
         try {
-            System.out.println("storeCaratteristicaConValore chiamata");
             if (caratteristicaConValore.getKey() != null && caratteristicaConValore.getKey() > 0) {
                 if (caratteristicaConValore instanceof CaratteristicaConValoreProxy && !((CaratteristicaConValoreProxy) caratteristicaConValore).isModified()) {
                     return;

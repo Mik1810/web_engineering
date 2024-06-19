@@ -1,4 +1,4 @@
-package it.univaq.webmarket.application.controller;
+package it.univaq.webmarket.application.controller.amministratore;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;

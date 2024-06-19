@@ -20,6 +20,8 @@ $(document).ready(function() {
             success: function (data) {
                 $('#sceltaCategoriaFiglio').empty()
                 $('#sceltaCategoriaFiglio').append('<option value="0">Seleziona una CategoriaFiglio</option>');
+                $('#sceltaCategoriaNipote').empty()
+                $('#sceltaCategoriaNipote').append('<option value="0">Seleziona una CategoriaNipote</option>');
                 if (data.length === 0) return
 
                 console.log(data);
@@ -92,18 +94,18 @@ $(document).ready(function() {
                 if (data.length === 0) return
 
                 console.log(data);
-
+                let form = $('#caratteristiche-item')
+                form.empty()
                 for(let i = 0; i < data.length; i++){
-                    $('#caratteristiche')
-                        .prepend(`<span>
+                    form.prepend(`<span>
                                     <input class="invisible" type="hidden" id="key" name="key" value="${data[i].key}">
                                     <h5 class="label-caratteristica">${data[i].nome}</h5>
-                                    <span class="d-flex align-items-center w-100">
+                                    <span class="d-flex align-items-center w-100 mb-3">
                                         <input class="input-value form-control" id="${data[i].key}" name="${data[i].key}" type="text" class="form-control" placeholder="Inserisci il valore">${data[i].unitaMisura}
                                     </span>
                                 </span>`);
                 }
-                $('#caratteristiche').removeClass('invisible');
+                $("#caratteristiche").removeClass('invisible');
             },
             error: function (error) {
                 console.error('Error:', error);

@@ -1,4 +1,4 @@
-package it.univaq.webmarket.application.controller;
+package it.univaq.webmarket.application.controller.ordinante;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
@@ -34,7 +34,6 @@ public class OrdinanteController extends ApplicationBaseController {
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
         HttpSession session = SecurityHelpers.checkSession(request);
 
-        System.out.println("logininfo: " + session.getAttribute("email"));
 
         try {
             Ordinante ordinante = dl.getOrdinanteDAO().getOrdinanteByEmail(session.getAttribute("email").toString());
@@ -45,7 +44,7 @@ public class OrdinanteController extends ApplicationBaseController {
 
             datamodel.put("richieste", richieste);
         } catch (DataException e) {
-            e.printStackTrace();
+            handleError(e, request, response);
         }
         result.activate("ordinante.ftl", datamodel, request, response);
     }

@@ -1,9 +1,7 @@
-package it.univaq.webmarket.application.controller;
+package it.univaq.webmarket.application.controller.ordinante;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
-import it.univaq.webmarket.data.model.CategoriaFiglio;
-import it.univaq.webmarket.data.model.CategoriaPadre;
 import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.framework.data.DataException;
@@ -11,6 +9,7 @@ import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
 import it.univaq.webmarket.framework.utils.Ruolo;
+import it.univaq.webmarket.framework.utils.ServletUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GestioneRichiesteOrdinante extends ApplicationBaseController {
+public class RichiesteOrdinanteController extends ApplicationBaseController {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -59,7 +58,7 @@ public class GestioneRichiesteOrdinante extends ApplicationBaseController {
                 handleError(e, request, response);
             }
 
-            result.activate("gestione_richieste_ordinante.ftl", datamodel, request, response);
+            result.activate("richieste.ftl", datamodel, request, response);
         } catch (TemplateManagerException e){
             handleError(e, request, response);
         }
@@ -72,30 +71,20 @@ public class GestioneRichiesteOrdinante extends ApplicationBaseController {
             Map<String, Object> datamodel = new HashMap<>();
             Map<String, String[]> parameterMap = request.getParameterMap();
 
+            int page = parameterMap.containsKey("page") ? Integer.parseInt(parameterMap.get("page")[0]) : 0;
+            int richiestaId = Integer.parseInt(parameterMap.get("id")[0]);
+
+            Richiesta richiesta = dl.getRichiestaDAO().getRichiesta(richiestaId);
+
             datamodel.put("visibilityModify", "flex");
+            datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteByOrdinante(richiesta.getOrdinante(), page));
+            datamodel.put("richiestaDaModificare", richiesta);
+            datamodel.put("page", page);
 
-            if (parameterMap.containsKey("id")) {
-
-                datamodel.put("url_has_id", true);
-                datamodel.put("richieste", List.of(dl.getRichiestaDAO()
-                        .getRichiesta(Integer.parseInt(parameterMap.get("id")[0]))));
-                datamodel.put("richiestaDaModificare", dl.getRichiestaDAO()
-                        .getRichiesta(Integer.parseInt(parameterMap.get("id")[0])));
-            } else {
-                HttpSession session = SecurityHelpers.checkSession(request);
-                Ordinante ordinante = dl.getOrdinanteDAO().getOrdinanteByEmail(String.valueOf(session.getAttribute("email")));
-
-                datamodel.put("page", parameterMap.get("page")[0]);
-                datamodel.put("richieste", dl.getRichiestaDAO()
-                        .getRichiesteByOrdinante(ordinante));
-            }
-
-
-            result.activate("gestione_richieste_ordinante.ftl", datamodel, request, response);
+            result.activate("richieste.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
-
     }
 
     private void handleModify(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
@@ -106,18 +95,25 @@ public class GestioneRichiesteOrdinante extends ApplicationBaseController {
             Map<String, String[]> parameterMap = request.getParameterMap();
 
             int richiestaId = Integer.parseInt(parameterMap.get("id")[0]);
+            int page = parameterMap.containsKey("page") ? Integer.parseInt(parameterMap.get("page")[0]) : 0;
+
             Richiesta richiesta = dl.getRichiestaDAO().getRichiesta(richiestaId);
             String note = parameterMap.containsKey("note") ? parameterMap.get("note")[0] : "";
+
+
             if (!note.equals(richiesta.getNote())) {
-                richiesta.setNote(note);
                 datamodel.put("success", "1");
+                richiesta.setNote(note);
             } else {
                 datamodel.put("success", "-1");
             }
-            datamodel.put("richieste", List.of(richiesta));
+
             dl.getRichiestaDAO().storeRichiesta(richiesta);
 
-            result.activate("gestione_richieste_ordinante.ftl", datamodel, request, response);
+            datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteByOrdinante(richiesta.getOrdinante(), page));
+            datamodel.put("page", page);
+
+            result.activate("richieste.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
@@ -131,14 +127,18 @@ public class GestioneRichiesteOrdinante extends ApplicationBaseController {
             Map<String, String[]> parameterMap = request.getParameterMap();
 
             int richiestaId = Integer.parseInt(parameterMap.get("id")[0]);
+            int page = Integer.parseInt(parameterMap.get("page")[0]);
 
             Richiesta richiesta = dl.getRichiestaDAO().getRichiesta(richiestaId);
             Ordinante ordinante = richiesta.getOrdinante();
-            dl.getRichiestaDAO().deleteRichiesta(richiesta);
-            datamodel.put("success", "2");
-            datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante));
 
-            result.activate("gestione_richieste_ordinante.ftl", datamodel, request, response);
+            dl.getRichiestaDAO().deleteRichiesta(richiesta);
+
+            datamodel.put("success", "2");
+            datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante, page));
+            datamodel.put("page", page);
+
+            result.activate("richieste.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }

@@ -45,7 +45,7 @@
     </servlet>
     <servlet>
         <servlet-name>admin</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.AdminController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.AdminController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>logout</servlet-name>
@@ -53,43 +53,43 @@
     </servlet>
     <servlet>
         <servlet-name>categoria_padre</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.CategoriaPadreController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaPadreController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>categoria_figlio</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.CategoriaFiglioController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaFiglioController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>categoria_nipote</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.CategoriaNipoteController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaNipoteController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>gestione_uffici</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.GestioneUfficiController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneUfficiController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ordinante</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.OrdinanteController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.ordinante.OrdinanteController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>crea_richiesta</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.CreaRichiestaController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.ordinante.CreaRichiestaController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>richieste_ordinante</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.GestioneRichiesteOrdinante</servlet-class>
+        <servlet-name>richieste</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.ordinante.RichiesteOrdinanteController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>gestione_caratteristiche_richiesta</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.GestioneCaratteristicheRichiestaController</servlet-class>
+        <servlet-name>caratteristiche_richiesta</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.ordinante.CaratteristicheRichiestaController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>gestione_stati</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.GestioneStatiController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneStatiController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>gestione_ordinanti</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.GestioneOrdinantiController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneOrdinantiController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>test</servlet-name>
@@ -111,8 +111,8 @@
             <!-- ordinante -->
             /ordinante,
             /crea_richiesta,
-            /richieste_ordinante,
-            /gestione_caratteristiche_richiesta
+            /richieste,
+            /caratteristiche
         </param-value>
     </context-param>
     <servlet-mapping>
@@ -152,12 +152,12 @@
         <url-pattern>/crea_richiesta</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>richieste_ordinante</servlet-name>
-        <url-pattern>/richieste_ordinante</url-pattern>
+        <servlet-name>richieste</servlet-name>
+        <url-pattern>/richieste</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>gestione_caratteristiche_richiesta</servlet-name>
-        <url-pattern>/gestione_caratteristiche_richiesta</url-pattern>
+        <servlet-name>caratteristiche_richiesta</servlet-name>
+        <url-pattern>/caratteristiche</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>gestione_stati</servlet-name>

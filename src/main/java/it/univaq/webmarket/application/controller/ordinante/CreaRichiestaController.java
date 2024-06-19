@@ -1,4 +1,4 @@
-package it.univaq.webmarket.application.controller;
+package it.univaq.webmarket.application.controller.ordinante;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.univaq.webmarket.application.ApplicationBaseController;

@@ -51,6 +51,7 @@
 
     <div class="right-content">
         <form id="caratteristiche" action="crea_richiesta" method="POST" class="invisible">
+            <div id="caratteristiche-item"></div>
 
             <div class="d-flex align-items-center flex-column">
                 <label>

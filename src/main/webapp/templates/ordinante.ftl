@@ -27,7 +27,7 @@
                 <h2>Richieste</h2>
                 <div>
                     <#list richieste as richiesta>
-                        <div><a class="a-postit" href="richieste_ordinante?id=${richiesta.key}">Richiesta <span class="numeric">${richiesta.codiceRichiesta}</span></a></div>
+                        <div><a class="a-postit" href="richieste?id=${richiesta.key}">Richiesta <span class="numeric">${richiesta.codiceRichiesta}</span></a></div>
                     </#list>
                 </div>
             </blockquote>
@@ -76,9 +76,9 @@
             <div class="icon">✍🏻</div>
             <div class="separator"></div>
             <div class="title">Nuova Richiesta</div>
-            <div class="text">Crea una nuova richiesta selezionando la categoria e le caratteristiche</div>
+            <div class="text">Crea una <b>nuova richiesta</b>    selezionando la categoria e le caratteristiche</div>
         </a>
-        <a class="card" href="richieste_ordinante?page=0">
+        <a class="card" href="richieste?page=0">
             <div class="icon">📋</div>
             <div class="separator"></div>
             <div class="title">Richieste</div>
@@ -86,19 +86,19 @@
         </a>
 
         <a class="card" href="#">
-            <div class="icon">📙<!--<i class="fa-solid fa-list"></i>--></div>
+            <div class="icon">📩</div>
             <div class="separator"></div>
-            <div class="title">Categoria Nipote</div>
-            <div class="text">Inserisci, modifica o cancella una categoria <b>nipote</b></div>
+            <div class="title">Proposte</div>
+            <div class="text">Visualizza, accetta o rifiuta le <b>proposte</b> attive</div>
         </a>
 
-        <!--
+
         <a class="card" href="#">
-            <div class="icon">🏢</div>
+            <div class="icon">📑</div>
             <div class="separator"></div>
-            <div class="title">Gestisci uffici</div>
-            <div class="text">Inserisci, modifica o cancella gli <b>uffici</b></div>
-        </a>-->
+            <div class="title">Storico</div>
+            <div class="text">Visualizza lo storico dei tuoi <b>ordini</b> e lascia un feedback</div>
+        </a>
 
     </div>
 

@@ -35,19 +35,19 @@
                     <td class="left">${richiesta.note}</td>
                     <td class="data-column left">${richiesta.data}</td>
                     <td>
-                        <form method="GET" action="gestione_caratteristiche_richiesta">
-                            <input type="hidden" name="id" value="${richiesta.key}">
+                        <form method="GET" action="caratteristiche">
+                            <input type="hidden" name="id_richiesta" value="${richiesta.key}">
                             <input id="ModificaButton" class="btn btn-primary" type="submit" value="Caratteristiche">
                         </form>
                     </td>
                     <td>
-                        <form method="POST" action="richieste_ordinante">
+                        <form method="POST" action="richieste?page=${page!"0"}">
                             <input type="hidden" id="id" name="id" value="${richiesta.key}">
                             <input class="btn btn-primary" type="submit" id="render" name="render" value="Modifica">
                         </form>
                     </td>
                     <td>
-                        <form method="POST" action="richieste_ordinante">
+                        <form method="POST" action="richieste?page=${page!"0"}">
                             <input type="hidden" name="id" value="${richiesta.key}">
                             <input class="btn btn-danger" type="submit" id="action" name="action" value="Elimina">
                         </form>
@@ -65,11 +65,11 @@
                 <#if page == 0>
                     <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
                 <#else>
-                    <li class="page-item"><a class="btn btn-primary" href="richieste_ordinante?page=${page-1}">Pagina
+                    <li class="page-item"><a class="btn btn-primary" href="richieste?page=${page-1}">Pagina
                             precedente</a>
                     </li>
                 </#if>
-                <li class="page-item"><a class="btn btn-primary" href="richieste_ordinante?page=${page+1}">Pagina
+                <li class="page-item"><a class="btn btn-primary" href="richieste?page=${page+1}">Pagina
                         successiva</a>
                 </li>
             </ul>
@@ -84,7 +84,7 @@
         <div class="update-screen">
             <h4 class="d-flex align-items-center">Modifica Richiesta</h4>
             <p class="p-3"></p>
-            <form method="POST" action="richieste_ordinante?id=${(richiestaDaModificare.key)!"0"}">
+            <form method="POST" action="richieste?page=${page!"0"}">
 
                 <input type="hidden" name="id" value="${(richiestaDaModificare.key)!"0"}">
                 <label for="note">Inserisci nuove note: </label>
@@ -92,12 +92,7 @@
                 <p class="p-1"></p>
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
-                    <#if (url_has_id)??>
-                        <a class="btn btn-danger"
-                           href="richieste_ordinante?id=${(richiestaDaModificare.key)!"0"}">Annulla</a>
-                    <#else>
-                        <a class="btn btn-danger" href="richieste_ordinante?page=${page!0}">Annulla</a>
-                    </#if>
+                    <a class="btn btn-danger" href="richieste?page=${page!0}">Annulla</a>
                 </div>
 
             </form>

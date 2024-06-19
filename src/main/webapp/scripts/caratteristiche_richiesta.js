@@ -7,14 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(span.innerText);
     if (span.innerText === "1") {
 
-        sweetAlert("OK", "Richiesta modificata con successo.", "success", () => {
+        sweetAlert("OK", "Caratteristica modificata con successo.", "success", () => {
         });
 
     } else if(span.innerText === "-1") {
-        sweetAlert("Errore", "Richiesta non modificata, la nuova nota è identica alla precedente.", "error", () => {
+        sweetAlert("Errore", "Caratteristica non modificata, il nuova valore è identico al precedente.", "error", () => {
         });
     } else if(span.innerText === "2") {
-        sweetAlert("OK", "Richiesta eliminata con successo.", "success", () => {
+        sweetAlert("OK", "Caratteristica eliminata con successo.", "success", () => {
         });
     }
 });
