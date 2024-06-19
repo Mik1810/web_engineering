@@ -1,11 +1,11 @@
-import {sweetAlert} from '/scripts/sweetAlert.js';
+import {sweetAlert} from './sweetAlert.js';
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     // Per la Categoria Padre
     $('#sceltaCategoriaPadre').on("change", function () {
         console.log("Categoria Padre cambiata", $(this).val());
-        if($(this).val() === "0"){
+        if ($(this).val() === "0") {
             sweetAlert("Seleziona una CategoriaPadre", "Seleziona una CategoriaPadre valida", "warning");
             return
         }
@@ -26,7 +26,7 @@ $(document).ready(function() {
 
                 console.log(data);
 
-                for(let i = 0; i < data.length; i++){
+                for (let i = 0; i < data.length; i++) {
                     $('#sceltaCategoriaFiglio').append('<option value=' + data[i].key + '>' + data[i].nome + '</option>');
                 }
                 $('#categorieFiglioSelect').removeClass('invisible');
@@ -41,7 +41,7 @@ $(document).ready(function() {
     // Per la Categoria Figlio
     $('#sceltaCategoriaFiglio').on("change", function () {
         console.log("Categoria Figlio cambiata", $(this).val());
-        if($(this).val() === "0"){
+        if ($(this).val() === "0") {
             sweetAlert("Seleziona una CategoriaFiglio", "Seleziona una CategoriaFiglio valida", "warning");
             return
         }
@@ -61,7 +61,7 @@ $(document).ready(function() {
 
                 console.log(data);
 
-                for(let i = 0; i < data.length; i++){
+                for (let i = 0; i < data.length; i++) {
                     $('#sceltaCategoriaNipote').append('<option value=' + data[i].key + '>' + data[i].nome + '</option>');
                 }
                 $('#categorieNipoteSelect').removeClass('invisible');
@@ -77,7 +77,7 @@ $(document).ready(function() {
     // Per la Categoria Figlio
     $('#sceltaCategoriaNipote').on("change", function () {
         console.log("Categoria Nipote cambiata", $(this).val());
-        if($(this).val() === "0"){
+        if ($(this).val() === "0") {
             sweetAlert("Seleziona una CategoriaNipote", "Seleziona una CategoriaNipote valida", "warning");
             return
         }
@@ -94,10 +94,10 @@ $(document).ready(function() {
                 if (data.length === 0) return
 
                 console.log(data);
-                let form = $('#caratteristiche-item')
-                form.empty()
+
                 for(let i = 0; i < data.length; i++){
-                    form.prepend(`<span>
+                    $('#caratteristiche')
+                        .prepend(`<span>
                                     <input class="invisible" type="hidden" id="key" name="key" value="${data[i].key}">
                                     <h5 class="label-caratteristica">${data[i].nome}</h5>
                                     <span class="d-flex align-items-center w-100 mb-3">

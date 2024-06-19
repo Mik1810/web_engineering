@@ -88,6 +88,10 @@
         <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneStatiController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>gestione_tecnici_ordini</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.GestioneTecniciOrdiniController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>gestione_ordinanti</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneOrdinantiController</servlet-class>
     </servlet>
@@ -107,6 +111,7 @@
             /categoria_nipote,
             /gestione_stati,
             /gestione_ordinanti,
+            /gestione_tecnici_preventivi,
 
             <!-- ordinante -->
             /ordinante,
@@ -130,6 +135,10 @@
     <servlet-mapping>
         <servlet-name>categoria_padre</servlet-name>
         <url-pattern>/categoria_padre</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gestione_tecnici_preventivi</servlet-name>
+        <url-pattern>/gestione_tecnici_preventivi</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>gestione_uffici</servlet-name>
