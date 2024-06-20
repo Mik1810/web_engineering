@@ -12,7 +12,7 @@ public interface RichiestaPresaInCaricoDAO {
 
     RichiestaPresaInCarico getRichiestaPresaInCarico(Integer key) throws DataException;
 
-    List<RichiestaPresaInCarico> getAllRichiestePresaInCaricoByTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi) throws DataException;
+    List<RichiestaPresaInCarico> getAllRichiestePresaInCaricoByTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi, Integer page) throws DataException;
 
     void storeRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico) throws DataException;
 

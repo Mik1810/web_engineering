@@ -18,8 +18,8 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     private PreparedStatement iRichiesta;
     private PreparedStatement uRichiesta;
     private PreparedStatement dRichiesta;
-    private PreparedStatement sRichiesteByIDOrdinante;
     private PreparedStatement sRichiesteByIDOrdinantePage;
+    private PreparedStatement sRichiesteNonGestite;
 
     public RichiestaDAO_MySQL(DataLayer d) {
         super(d);
@@ -36,8 +36,8 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             uRichiesta = connection.prepareStatement("UPDATE richiesta SET codice_richiesta=?, note=?, data=?, ID_ordinante=?, version=? WHERE ID=? AND version=?");
             dRichiesta = connection.prepareStatement("DELETE FROM richiesta WHERE ID=?");
             sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID=? ORDER BY data DESC");
-            sRichiesteByIDOrdinante = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=?");
-            sRichiesteByIDOrdinantePage = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=? LIMIT ?,?");
+            sRichiesteByIDOrdinantePage = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=? ORDER BY data DESC LIMIT ?,?");
+            sRichiesteNonGestite = connection.prepareStatement("SELECT r.ID FROM richiesta r LEFT JOIN richiestapresaincarico rp ON r.ID = rp.ID_richiesta  WHERE rp.ID_richiesta IS NULL LIMIT ?, ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -49,8 +49,8 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
              iRichiesta.close();
              dRichiesta.close();
              sRichiestaByID.close();
-             sRichiesteByIDOrdinante.close();
              sRichiesteByIDOrdinantePage.close();
+             sRichiesteNonGestite.close();
         } catch (SQLException ex) {
             //
         }
@@ -101,22 +101,6 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     }
 
     @Override
-    public List<Richiesta> getRichiesteByOrdinante(Ordinante ordinante) throws DataException {
-        List<Richiesta> result = new ArrayList<>();
-        try {
-            sRichiesteByIDOrdinante.setInt(1, ordinante.getKey());
-            try (ResultSet rs = sRichiesteByIDOrdinante.executeQuery()){
-                while (rs.next()){
-                    result.add(getRichiesta(rs.getInt("ID")));
-                }
-            }
-            return result;
-        } catch (SQLException ex) {
-            throw new DataException("Error loading all Richieste from Ordinante", ex);
-        }
-    }
-
-    @Override
     public List<Richiesta> getRichiesteByOrdinante(Ordinante ordinante, Integer page) throws DataException {
         List<Richiesta> result = new ArrayList<>();
         try {
@@ -131,6 +115,23 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             return result;
         } catch (SQLException ex) {
             throw new DataException("Error loading all Richieste paginate from Ordinante", ex);
+        }
+    }
+
+    @Override
+    public List<Richiesta> getRichiesteNonGestite(Integer page) throws DataException {
+        List<Richiesta> result = new ArrayList<>();
+        try {
+            sRichiesteNonGestite.setInt(1, page * offset);
+            sRichiesteNonGestite.setInt(2, offset);
+            try (ResultSet rs = sRichiesteNonGestite.executeQuery()){
+                while (rs.next()){
+                    result.add(getRichiesta(rs.getInt("ID")));
+                }
+            }
+            return result;
+        } catch (SQLException ex) {
+            throw new DataException("Error loading all Richieste non gestite paginate from Ordinante", ex);
         }
     }
 

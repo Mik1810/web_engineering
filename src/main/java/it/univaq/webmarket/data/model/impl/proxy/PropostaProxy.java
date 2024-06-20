@@ -1,7 +1,7 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
 import it.univaq.webmarket.data.DAO.RichiestaPresaInCaricoDAO;
-import it.univaq.webmarket.data.DAO.StatiEnumDAO;
+import it.univaq.webmarket.data.DAO.StatiFeedbackDAO;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.enums.StatoEnum;
 import it.univaq.webmarket.data.model.enums.StatoProposta;
@@ -106,7 +106,7 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     public StatoProposta getStatoProposta() {
         if (super.getStatoProposta() == null && statoProposta_key > 0) {
             try {
-                super.setStatoProposta(((StatiEnumDAO) dataLayer.getDAO(StatoEnum.class)).getStatoProposta(statoProposta_key));
+                super.setStatoProposta(((StatiFeedbackDAO) dataLayer.getDAO(StatoEnum.class)).getStatoProposta(statoProposta_key));
             } catch (DataException ex) {
                 Logger.getLogger(PropostaProxy.class.getName()).log(Level.SEVERE, null, ex);
             }

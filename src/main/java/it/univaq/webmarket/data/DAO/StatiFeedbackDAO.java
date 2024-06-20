@@ -8,7 +8,7 @@ import it.univaq.webmarket.framework.data.DataException;
 
 import java.util.List;
 
-public interface StatiEnumDAO {
+public interface StatiFeedbackDAO {
 
     StatoProposta createStatoProposta();
 

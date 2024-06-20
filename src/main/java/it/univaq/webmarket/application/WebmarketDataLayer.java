@@ -24,7 +24,7 @@ public class WebmarketDataLayer extends DataLayer {
         registerDAO(TecnicoOrdini.class, new TecnicoOrdiniDAO_MySQL(this));
         registerDAO(TecnicoPreventivi.class, new TecnicoPreventiviDAO_MySQL(this));
         registerDAO(Ufficio.class, new UfficioDAO_MySQL(this));
-        registerDAO(StatoEnum.class, new StatiEnumDAO_MySQL(this));
+        registerDAO(StatoEnum.class, new StatiFeedbackDAO_MySQL(this));
         registerDAO(Categoria.class, new CategoriaDAO_MySQL(this));
         registerDAO(Caratteristica.class, new CaratteristicaDAO_MySQL(this));
         //TODO: ricordarsi di aggiungere i restanti DAO
@@ -55,8 +55,8 @@ public class WebmarketDataLayer extends DataLayer {
         return (UfficioDAO) getDAO(Ufficio.class);
     }
 
-    public StatiEnumDAO getStatiEnumDAO() {
-        return (StatiEnumDAO) getDAO(StatoEnum.class);
+    public StatiFeedbackDAO getStatiFeedbackDAO() {
+        return (StatiFeedbackDAO) getDAO(StatoEnum.class);
     }
 
     public CategoriaDAO getCategoriaDAO() { return (CategoriaDAO) getDAO(Categoria.class); }

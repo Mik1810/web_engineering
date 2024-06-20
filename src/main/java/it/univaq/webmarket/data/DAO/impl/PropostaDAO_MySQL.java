@@ -3,6 +3,8 @@ package it.univaq.webmarket.data.DAO.impl;
 import it.univaq.webmarket.data.DAO.PropostaDAO;
 import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Proposta;
+import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
+import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.data.model.impl.proxy.PropostaProxy;
 import it.univaq.webmarket.framework.data.DAO;
 import it.univaq.webmarket.framework.data.DataException;
@@ -21,7 +23,9 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     private Integer offset = 5;
 
     private PreparedStatement sPropostaByID;
-    private PreparedStatement sProposte;
+    private PreparedStatement sProposteByRichiestaPresaInCarico;
+    private PreparedStatement sProposteByTecnicoPreventivi;
+    private PreparedStatement sProposteAccettate;
     private PreparedStatement iProposta;
     private PreparedStatement dProposta;
     private PreparedStatement uProposta;
@@ -35,10 +39,22 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
         try {
             super.init();
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE ID=?");
-            sProposte = connection.prepareStatement("SELECT ID FROM proposta LIMIT ?, ?");
-            iProposta = connection.prepareStatement("INSERT INTO proposta(codice_prodotto, produttore, note, prezzo,nome_prodotto,URL,stato,motivazione, ID_richiesta_presa_in_carico) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            sProposteByRichiestaPresaInCarico = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_richiesta_presa_in_carico = ? LIMIT ?, ?");
+            sProposteByTecnicoPreventivi = connection.prepareStatement("SELECT p.ID FROM proposta p JOIN webmarket.richiestapresaincarico r ON p.ID_richiesta_presa_in_carico = r.ID WHERE r.ID_tecnico_preventivi = ? LIMIT ?, ?");
+            sProposteAccettate = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_stato_proposta = 2 LIMIT ?, ?");
+            iProposta = connection.prepareStatement("INSERT INTO proposta(" +
+                    "codice_prodotto, " +
+                    "produttore, " +
+                    "note, " +
+                    "prezzo, " +
+                    "nome_prodotto," +
+                    "URL, " +
+                    "ID_stato_proposta," +
+                    "motivazione," +
+                    "ID_richiesta_presa_in_carico)" +
+                    " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dProposta = connection.prepareStatement("DELETE FROM proposta WHERE ID=?");
-            uProposta = connection.prepareStatement("UPDATE proposta SET codice_prodotto=?, produttore=?, note=?, prezzo=?, nome_prodotto=?, URL=?, stato=?, motivazione=?, ID_richiesta_presa_in_carico=?, version=? WHERE ID=? AND version=?");
+            uProposta = connection.prepareStatement("UPDATE proposta SET codice_prodotto=?, produttore=?, note=?, prezzo=?, nome_prodotto=?, URL=?, ID_stato_proposta=?, motivazione=?, ID_richiesta_presa_in_carico=?, version=? WHERE ID=? AND version=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -48,7 +64,9 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     public void destroy() throws DataException {
         try {
             sPropostaByID.close();
-            sProposte.close();
+            sProposteByRichiestaPresaInCarico.close();
+            sProposteByTecnicoPreventivi.close();
+            sProposteAccettate.close();
             iProposta.close();
             dProposta.close();
             uProposta.close();
@@ -87,7 +105,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     }
 
     @Override
-    public Proposta getProposta(int key) throws DataException{
+    public Proposta getProposta(Integer key) throws DataException{
         Proposta proposta = null;
         if(dataLayer.getCache().has(Proposta.class, key)){
             proposta = dataLayer.getCache().get(Proposta.class, key);
@@ -108,22 +126,20 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     }
 
     @Override
-    public List<Proposta> getAllProposta(Integer page) throws DataException {
-
-        List<Proposta> result = new ArrayList<>();
-        try {
-            sProposte.setInt(1, page*offset);
-            sProposte.setInt(2, offset);
-            try (ResultSet rs = sProposte.executeQuery()){
-                while (rs.next()){
-                    result.add(getProposta(rs.getInt("ID")));
-                }
-            }
-            return result;
-        }catch (SQLException ex){
-            throw new DataException("Unable to get all Proposta", ex);
-        }
+    public List<Proposta> getAllProposteByRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico, Integer page) throws DataException {
+        return List.of();
     }
+
+    @Override
+    public List<Proposta> getAllProposteByTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi, Integer page) throws DataException {
+        return List.of();
+    }
+
+    @Override
+    public List<Proposta> getAllProposteAccettate(Integer page) throws DataException {
+        return List.of();
+    }
+
 
     @Override
     public void deleteProposta(Proposta proposta) throws DataException {
@@ -171,7 +187,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                 iProposta.setFloat(4, proposta.getPrezzo());
                 iProposta.setString(5, proposta.getNomeProdotto());
                 iProposta.setString(6, proposta.getURL());
-                iProposta.setString(7, proposta.getStatoProposta().getNome());
+                iProposta.setInt(7, proposta.getStatoProposta().getKey());
                 iProposta.setString(8, proposta.getMotivazione());
                 iProposta.setInt(9, proposta.getRichiestaPresaInCarico().getKey());
 

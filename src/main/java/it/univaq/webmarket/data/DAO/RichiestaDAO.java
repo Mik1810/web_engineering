@@ -13,9 +13,9 @@ public interface RichiestaDAO {
 
     Richiesta getRichiesta(int richiesta_key) throws DataException;
 
-    List<Richiesta> getRichiesteByOrdinante(Ordinante ordinante) throws DataException;
-
     List<Richiesta> getRichiesteByOrdinante(Ordinante ordinante, Integer page) throws DataException;
+
+    List<Richiesta> getRichiesteNonGestite(Integer page) throws DataException;
 
     void storeRichiesta(Richiesta richiesta) throws DataException;
 

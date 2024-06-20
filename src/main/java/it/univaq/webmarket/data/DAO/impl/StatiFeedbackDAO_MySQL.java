@@ -1,11 +1,9 @@
 package it.univaq.webmarket.data.DAO.impl;
 
-import it.univaq.webmarket.data.DAO.StatiEnumDAO;
+import it.univaq.webmarket.data.DAO.StatiFeedbackDAO;
 import it.univaq.webmarket.data.model.enums.Feedback;
 import it.univaq.webmarket.data.model.enums.StatoConsegna;
-import it.univaq.webmarket.data.model.enums.StatoEnum;
 import it.univaq.webmarket.data.model.enums.StatoProposta;
-import it.univaq.webmarket.data.model.impl.enums.StatoPropostaImpl;
 import it.univaq.webmarket.data.model.impl.proxy.enums.FeedbackProxy;
 import it.univaq.webmarket.data.model.impl.proxy.enums.StatoConsegnaProxy;
 import it.univaq.webmarket.data.model.impl.proxy.enums.StatoPropostaProxy;
@@ -19,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatiEnumDAO_MySQL extends DAO implements StatiEnumDAO {
+public class StatiFeedbackDAO_MySQL extends DAO implements StatiFeedbackDAO {
 
     private PreparedStatement sStatoPropostaByID;
     private PreparedStatement sStatiProposta;
@@ -28,7 +26,7 @@ public class StatiEnumDAO_MySQL extends DAO implements StatiEnumDAO {
     private PreparedStatement sFeedbackByID;
     private PreparedStatement sFeedback;
 
-    public StatiEnumDAO_MySQL(DataLayer d) {
+    public StatiFeedbackDAO_MySQL(DataLayer d) {
         super(d);
     }
 

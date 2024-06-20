@@ -50,7 +50,7 @@ public class RichiesteOrdinanteController extends ApplicationBaseController {
                         datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante, page));
                         datamodel.put("page", page);
                     } else {
-                        datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante));
+                        datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante, 0));
                         datamodel.put("page", 0);
                     }
                 }

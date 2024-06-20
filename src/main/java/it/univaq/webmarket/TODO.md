@@ -1,12 +1,11 @@
 <h1>Templating</h1>
 
-- [ ] Template di outline (Giacomo)
+- [x] Template di outline (Giacomo) (Alla fine si è optato per includere nei file .tpl l'header e il footer)
 - [x] Rivedere Login (Michael)
-- [ ] Template per le modifiche dell'amministratore (Giacomo). Cioè mettere a destra della tabella la parte per la modifica 
+- [x] Template per le modifiche dell'amministratore (Giacomo). Cioè mettere a destra della tabella la parte per la modifica 
 in modo tale che sia inizialmente invisibile, e poi se clicchi modifica viene fatto apparire
 alla destra
 - [ ] Creare tutti gli altri controller
-- [ ] Creare i componenti
 
 <h1>DAO interfaces</h1>
 
@@ -31,7 +30,7 @@ alla destra
 - [x] RichiestaDAO_MySQL
 - [x] OrdinanteDAO_MySQL
 - [x] UfficioDAO_MySQL
-- [ ] RichiestaPresaInCaricoDAO_MySQL
+- [x] RichiestaPresaInCaricoDAO_MySQL
 - [x] TecnicoPreventiviDAO_MySQL
 - [x] PropostaDAO_MySQL
 - [x] OrdineDAO_MySQL

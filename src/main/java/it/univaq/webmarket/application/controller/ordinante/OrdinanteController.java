@@ -37,7 +37,7 @@ public class OrdinanteController extends ApplicationBaseController {
 
         try {
             Ordinante ordinante = dl.getOrdinanteDAO().getOrdinanteByEmail(session.getAttribute("email").toString());
-            List<Richiesta> richieste = dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante);
+            List<Richiesta> richieste = dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante, 0);
             if(richieste.size() > 3) {
                 richieste = richieste.subList(0, 3);
             }

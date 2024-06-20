@@ -1,7 +1,7 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
 import it.univaq.webmarket.data.DAO.PropostaDAO;
-import it.univaq.webmarket.data.DAO.StatiEnumDAO;
+import it.univaq.webmarket.data.DAO.StatiFeedbackDAO;
 import it.univaq.webmarket.data.DAO.TecnicoOrdiniDAO;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
@@ -83,7 +83,7 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
     public StatoConsegna getStatoConsegna() {
         if (super.getStatoConsegna() == null && statoConsegna_key > 0) {
             try {
-                super.setStatoConsegna(((StatiEnumDAO) dataLayer.getDAO(StatoConsegna.class)).getStatoConsegna(statoConsegna_key));
+                super.setStatoConsegna(((StatiFeedbackDAO) dataLayer.getDAO(StatoConsegna.class)).getStatoConsegna(statoConsegna_key));
             } catch (DataException ex) {
                 Logger.getLogger(OrdineProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
@@ -96,7 +96,7 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
     public Feedback getFeedback() {
         if (super.getFeedback() == null && feedback_key > 0) {
             try {
-                super.setFeedback(((StatiEnumDAO) dataLayer.getDAO(Feedback.class)).getFeedback(feedback_key));
+                super.setFeedback(((StatiFeedbackDAO) dataLayer.getDAO(Feedback.class)).getFeedback(feedback_key));
             } catch (DataException ex) {
                 Logger.getLogger(OrdineProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }

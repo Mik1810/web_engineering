@@ -20,9 +20,9 @@ public class GestioneStatiController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
 
             Map<String, Object> datamodel = new HashMap<>();
-            datamodel.put("statiConsegna", dl.getStatiEnumDAO().getAllStatiProposta());
-            datamodel.put("statiProposta", dl.getStatiEnumDAO().getAllStatiConsegna());
-            datamodel.put("feedbacks", dl.getStatiEnumDAO().getAllFeedback());
+            datamodel.put("statiConsegna", dl.getStatiFeedbackDAO().getAllStatiProposta());
+            datamodel.put("statiProposta", dl.getStatiFeedbackDAO().getAllStatiConsegna());
+            datamodel.put("feedbacks", dl.getStatiFeedbackDAO().getAllFeedback());
 
             result.activate("gestione_stati.ftl", datamodel, request, response);
         } catch (DataException | TemplateManagerException e) {
