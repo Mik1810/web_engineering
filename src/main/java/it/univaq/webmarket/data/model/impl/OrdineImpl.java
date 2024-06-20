@@ -7,6 +7,7 @@ import it.univaq.webmarket.data.model.enums.Feedback;
 import it.univaq.webmarket.data.model.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class OrdineImpl extends DataItemImpl<Integer> implements Ordine {
@@ -14,7 +15,7 @@ public class OrdineImpl extends DataItemImpl<Integer> implements Ordine {
     private StatoConsegna statoConsegna;
     private Feedback feedback;
 
-    private LocalDateTime dataConsegna;
+    private LocalDate dataConsegna;
     private TecnicoOrdini tecnicoOrdini;
     private Proposta proposta;
 
@@ -68,12 +69,12 @@ public class OrdineImpl extends DataItemImpl<Integer> implements Ordine {
     }
 
     @Override
-    public LocalDateTime getDataConsegna() {
+    public LocalDate getDataConsegna() {
         return dataConsegna;
     }
 
     @Override
-    public void setDataConsegna(LocalDateTime dataConsegna) {
+    public void setDataConsegna(LocalDate dataConsegna) {
         this.dataConsegna = dataConsegna;
     }
 

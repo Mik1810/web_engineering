@@ -12,6 +12,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
 
+import java.time.LocalDate;
 import java.util.logging.Logger;
 
 public class OrdineProxy extends OrdineImpl implements DataItemProxy {
@@ -64,6 +65,11 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
         this.modified = true;
     }
 
+    @Override
+    public void setDataConsegna(LocalDate dataConsegna) {
+        super.setDataConsegna(dataConsegna);
+        this.modified = true;
+    }
 
     @Override
     public void setTecnicoOrdini(TecnicoOrdini tecnicoOrdini) {

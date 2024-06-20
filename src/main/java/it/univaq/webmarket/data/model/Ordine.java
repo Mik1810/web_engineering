@@ -4,7 +4,7 @@ import it.univaq.webmarket.data.model.enums.Feedback;
 import it.univaq.webmarket.data.model.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItem;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface Ordine extends DataItem<Integer> {
 
@@ -24,9 +24,9 @@ public interface Ordine extends DataItem<Integer> {
 
     void setProposta(Proposta proposta);
 
-    LocalDateTime getDataConsegna();
+    LocalDate getDataConsegna();
 
-    void setDataConsegna(LocalDateTime dataConsegna);
+    void setDataConsegna(LocalDate dataConsegna);
 
 
 }

@@ -1,7 +1,9 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.OrdineDAO;
+import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Ordine;
+import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.proxy.OrdineProxy;
 import it.univaq.webmarket.framework.data.*;
 
@@ -11,14 +13,14 @@ import java.util.List;
 
 public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
 
-    private Integer offset = 5;
+    private final Integer offset = 5;
 
     private PreparedStatement sOrdineByID;
     private PreparedStatement iOrdine;
     private PreparedStatement uOrdine;
-    private PreparedStatement sOrdini;
-    private PreparedStatement dOrdine;
-    private PreparedStatement sStoricoByID;
+    private PreparedStatement sOrdiniByOrdinante;
+    private PreparedStatement sOrdiniByTecnicoOrdini;
+    private PreparedStatement sStoricoByOrdinante;
 
     public OrdineDAO_MySQL(DataLayer d) {
         super(d);
@@ -31,9 +33,16 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
             sOrdineByID = connection.prepareStatement("SELECT * FROM ordine WHERE ID=?");
             iOrdine = connection.prepareStatement("INSERT INTO ordine(stato_consegna, ID_tecnico_ordini, ID_proposta) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uOrdine = connection.prepareStatement("UPDATE ordine SET stato_consegna=?,feedback=?, ID_tecnico_ordini=?, ID_proposta=?, version=? WHERE ID=? AND version=?");
-            sOrdini = connection.prepareStatement("SELECT ID FROM ordine LIMIT ?, ?");
-            dOrdine = connection.prepareStatement("DELETE FROM ordine WHERE ID=?");
-            sStoricoByID = connection.prepareStatement("SELECT ID_ordine FROM chiude WHERE ID_ordinante=?");
+            sOrdiniByOrdinante = connection.prepareStatement(
+                    "SELECT o2.ID " +
+                    "FROM ordinante o " +
+                    "JOIN richiesta r ON o.ID = r.ID_ordinante " +
+                    "JOIN richiestapresaincarico r2 ON r.ID = r2.ID_richiesta " +
+                    "JOIN proposta p ON r2.ID = p.ID_richiesta_presa_in_carico " +
+                    "JOIN ordine o2 ON p.ID = o2.ID_proposta " +
+                    "WHERE o2.stato_consegna != 3 AND o.ID = ? LIMIT ?, ?");
+            sOrdiniByTecnicoOrdini = connection.prepareStatement("SELECT * FROM ordine WHERE ID_tecnico_ordini=? LIMIT ?, ?");
+            sStoricoByOrdinante = connection.prepareStatement("SELECT ID_ordine FROM chiude WHERE ID_ordinante=? LIMIT ?, ?");
         } catch (SQLException e) {
             throw new DataException("Error initializing webmarket data layer", e);
         }
@@ -43,11 +52,11 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
     public void destroy() throws DataException {
         try{
             sOrdineByID.close();
+            sOrdiniByTecnicoOrdini.close();
+            sOrdiniByOrdinante.close();
+            sStoricoByOrdinante.close();
             iOrdine.close();
             uOrdine.close();
-            sOrdini.close();
-            dOrdine.close();
-            sStoricoByID.close();
         } catch (SQLException ex) {
             //
         }
@@ -63,16 +72,18 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
             OrdineProxy o = (OrdineProxy) createOrdine();
             o.setKey(rs.getInt("ID"));
             o.setStatoConsegnaKey(rs.getInt("stato_consegna"));
-            o.setFeedbackKey(rs.getInt("feedback"));
+            if(rs.getInt("feedback") != 0) {
+                o.setFeedbackKey(rs.getInt("feedback"));
+            }
             o.setVersion(rs.getLong("version"));
             if(rs.getTimestamp("data_di_consegna") != null) {
-                o.setDataConsegna(rs.getTimestamp("data").toLocalDateTime());
+                o.setDataConsegna(rs.getTimestamp("data").toLocalDateTime().toLocalDate());
             }
             o.setTecnicoOrdiniKey(rs.getInt("ID_tecnico_ordini"));
             o.setPropostaKey(rs.getInt("ID_proposta"));
             return o;
         } catch (SQLException ex) {
-            throw new DataException("Unable to create ordine object form ResultSet", ex);
+            throw new DataException("Unable to create Ordine object form ResultSet", ex);
         }
     }
 
@@ -98,21 +109,57 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
     }
 
     @Override
-    public List<Ordine> getAllOrdini(Integer page) throws DataException {
-
-        List<Ordine> result = new ArrayList<>();
+    public List<Ordine> getStorico(Ordinante ordinante, Integer page) throws DataException {
+        List<Ordine> ordini = new ArrayList<>();
         try {
-            sOrdini.setInt(1, page*offset);
-            sOrdini.setInt(2, offset);
-            try (ResultSet rs = sOrdini.executeQuery()) {
+            sStoricoByOrdinante.setInt(1, ordinante.getKey());
+            sStoricoByOrdinante.setInt(2, page * offset);
+            sStoricoByOrdinante.setInt(3, offset);
+            try (ResultSet rs = sStoricoByOrdinante.executeQuery()) {
                 while (rs.next()) {
-                    result.add(getOrdine(rs.getInt("ID")));
+                    ordini.add(getOrdine(rs.getInt("ID_ordine")));
                 }
             }
-            return result;
         } catch (SQLException ex) {
-            throw new DataException("Unable to load Ordine", ex);
+            throw new DataException("Unable to load storico Ordini by Ordinante", ex);
         }
+        return ordini;
+    }
+
+    @Override
+    public List<Ordine> getAllOrdiniByOrdinante(Ordinante ordinante, Integer page) throws DataException {
+        List<Ordine> ordini = new ArrayList<>();
+        try {
+            sOrdiniByOrdinante.setInt(1, ordinante.getKey());
+            sOrdiniByOrdinante.setInt(2, page * offset);
+            sOrdiniByOrdinante.setInt(3, offset);
+            try (ResultSet rs = sOrdiniByOrdinante.executeQuery()) {
+                while (rs.next()) {
+                    ordini.add(getOrdine(rs.getInt("ID")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Ordini by Ordinante", ex);
+        }
+        return ordini;
+    }
+
+    @Override
+    public List<Ordine> getAllOrdiniByTecnicoOrdine(TecnicoOrdini tecnicoOrdini, Integer page) throws DataException {
+        List<Ordine> ordini = new ArrayList<>();
+        try {
+            sOrdiniByTecnicoOrdini.setInt(1, tecnicoOrdini.getKey());
+            sOrdiniByTecnicoOrdini.setInt(2, page * offset);
+            sOrdiniByTecnicoOrdini.setInt(3, offset);
+            try (ResultSet rs = sOrdiniByTecnicoOrdini.executeQuery()) {
+                while (rs.next()) {
+                    ordini.add(getOrdine(rs.getInt("ID")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Ordini by TecnicoOrdini", ex);
+        }
+        return ordini;
     }
 
     @Override
@@ -131,6 +178,9 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 * WHERE ID=?
                 * AND version=?"
                 */
+
+                // Per la data di consegna ci pensa il trigger nel db ad inserirla quando vede
+                // che lo stato di consegna è "Consegnato"
 
                 uOrdine.setInt(1, ordine.getStatoConsegna().getKey());
                 if(ordine.getFeedback() == null) {
@@ -158,6 +208,12 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 /*
                 * INSERT INTO ordine(stato_consegna, ID_tecnico_ordini, ID_proposta) VALUES (?, ?, ?)
                 */
+                /*
+                Non inserisco un feedback perchè di base un utente non può inserirlo se
+                lo stato consegna non è "Consegnato", non inserisco nemmeno la data di
+                consegna dal momento che appena inserisco un ordine non può essere con
+                stato "Consegnato"
+                   */
                 iOrdine.setInt(1, ordine.getStatoConsegna().getKey());
                 iOrdine.setInt(2, ordine.getTecnicoOrdini().getKey());
                 iOrdine.setInt(3, ordine.getProposta().getKey());
@@ -176,21 +232,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 ((DataItemProxy) ordine).setModified(false);
             }
         } catch (SQLException | OptimisticLockException ex) {
-            throw new DataException("Unable to store Ordinee", ex);
+            throw new DataException("Unable to store Ordine", ex);
         }
-    }
-
-    @Override
-    public List<Ordine> getStoricoByID(int key) throws DataException {
-        List<Ordine> result = new ArrayList<>();
-
-        try (ResultSet rs = sStoricoByID.executeQuery()) {
-            while (rs.next()) {
-                result.add(getOrdine(rs.getInt("ID_ordine")));
-            }
-        } catch (SQLException ex) {
-            throw new DataException("Unable to load Storico Ordini", ex);
-        }
-        return result;
     }
 }
