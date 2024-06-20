@@ -44,12 +44,12 @@
         <servlet-class>it.univaq.webmarket.application.controller.LoginController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>admin</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.AdminController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>logout</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>admin</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.AdminController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>categoria_padre</servlet-name>
@@ -68,6 +68,18 @@
         <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneUfficiController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>gestione_tecnici_ordini</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciOrdiniController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>gestione_tecnici_preventivi</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciPreventiviController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>gestione_ordinanti</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneOrdinantiController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ordinante</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.ordinante.OrdinanteController</servlet-class>
     </servlet>
@@ -84,20 +96,8 @@
         <servlet-class>it.univaq.webmarket.application.controller.ordinante.CaratteristicheRichiestaController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>gestione_stati</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneStatiController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>gestione_tecnici_ordini</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciOrdiniController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>gestione_tecnici_preventivi</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciPreventiviController</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>gestione_ordinanti</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneOrdinantiController</servlet-class>
+        <servlet-name>visualizza_proposte</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.ordinante.VisualizzaProposteController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>test</servlet-name>
@@ -113,7 +113,6 @@
             /categoria_padre,
             /categoria_figlio,
             /categoria_nipote,
-            /gestione_stati,
             /gestione_ordinanti,
             /gestione_tecnici_preventivi,
             /gestione_tecnici_ordini,
@@ -122,7 +121,8 @@
             /ordinante,
             /crea_richiesta,
             /richieste,
-            /caratteristiche
+            /caratteristiche,
+            /proposte
         </param-value>
     </context-param>
     <servlet-mapping>
@@ -178,8 +178,8 @@
         <url-pattern>/caratteristiche</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>gestione_stati</servlet-name>
-        <url-pattern>/gestione_stati</url-pattern>
+        <servlet-name>visualizza_proposte</servlet-name>
+        <url-pattern>/proposte</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>gestione_ordinanti</servlet-name>

@@ -85,7 +85,7 @@
             <div class="text">Visualizza, modifica o elimina le tue <b>richieste</b> attive</div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="proposte?page=0">
             <div class="icon">📩</div>
             <div class="separator"></div>
             <div class="title">Proposte</div>

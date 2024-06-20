@@ -42,13 +42,13 @@ INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('michaelpiccirilli3@
 INSERT INTO Ordinante (email, password, ID_ufficio) VALUES ('paoloccigiacomo@gmail.com', 'miksoccombi', 1);
 
 -- Popolamento RichiestaAcquisto
-INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES ('7592783840', 'Voglio un PC Desktop per poter giocare a WarThunder in ufficio', 2);
+INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES ('7592783840', 'Voglio un Nootbook per poter programmare in ufficio', 1);
 INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES ('7683845728', 'Voglio una scrivania più larga ', 1);
 
 -- Popolamento composta
-INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES ('32', 1, 1);
+INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES ('32', 1, 2);
 INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES ('100', 2, 5);
-INSERT INTO composta(valore, ID_richiesta, ID_caratteristica) VALUES('5', 1, 3);
+INSERT INTO composta(valore, ID_richiesta, ID_caratteristica) VALUES('5', 1, 4);
 
 -- Popolamento TecnicoPreventivi
 INSERT INTO TecnicoPreventivi (email, password) VALUES ('techprev1@gmail.com', 'password1');
@@ -64,3 +64,8 @@ INSERT INTO Amministratore (email, password) VALUES ('admin@gmail.com', '282db4a
 -- Popolamento TecnicoOrdini
 INSERT INTO TecnicoOrdini (email, password) VALUES ('techord1@gmail.com', 'techpassword1');
 INSERT INTO TecnicoOrdini (email, password) VALUES ('techord2@gmail.com', 'techpassword2');
+
+-- Popolamento Proposta
+INSERT INTO Proposta(codice_prodotto, produttore, note, prezzo, nome_prodotto, URL, ID_stato_proposta, motivazione, ID_richiesta_presa_in_carico) VALUES
+('229f8ej382j8je9sua0s9', 'Honor', 'Pc molto leggero e di un colore blu elettrico',  699.99,'Honor MagicBook 14', 'https://www.honor.com/it/laptops/honor-magicbook-14/', 2, NULL, 1),
+('8fu9eurw9e8ur8u38hc3m', 'HP', 'Pc economico ma plasticoso',  273.50, 'Pixel Intel N4500', 'https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/', 3, 'Non ha abbastanza RAM, non mi piace il materiale', 1);

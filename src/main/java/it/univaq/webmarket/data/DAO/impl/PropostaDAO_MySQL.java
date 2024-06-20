@@ -25,6 +25,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     private PreparedStatement sPropostaByID;
     private PreparedStatement sProposteByRichiestaPresaInCarico;
     private PreparedStatement sProposteByTecnicoPreventivi;
+    private PreparedStatement sProposteByOrdinante;
     private PreparedStatement sProposteAccettate;
     private PreparedStatement iProposta;
     private PreparedStatement dProposta;
@@ -40,8 +41,13 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             super.init();
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE ID=?");
             sProposteByRichiestaPresaInCarico = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_richiesta_presa_in_carico = ? LIMIT ?, ?");
-            sProposteByTecnicoPreventivi = connection.prepareStatement("SELECT p.ID FROM proposta p JOIN webmarket.richiestapresaincarico r ON p.ID_richiesta_presa_in_carico = r.ID WHERE r.ID_tecnico_preventivi = ? LIMIT ?, ?");
+            sProposteByTecnicoPreventivi = connection.prepareStatement("SELECT p.ID FROM proposta p JOIN richiestapresaincarico r ON p.ID_richiesta_presa_in_carico = r.ID WHERE r.ID_tecnico_preventivi = ? LIMIT ?, ?");
             sProposteAccettate = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_stato_proposta = 2 LIMIT ?, ?");
+            sProposteByOrdinante = connection.prepareStatement(
+                    "SELECT p.ID FROM proposta p " +
+                    "JOIN richiestapresaincarico rp ON p.ID_richiesta_presa_in_carico = rp.ID " +
+                    "JOIN richiesta r ON rp.ID_richiesta=r.ID " +
+                    "WHERE ID_ordinante = ? LIMIT ?, ?");
             iProposta = connection.prepareStatement("INSERT INTO proposta(" +
                     "codice_prodotto, " +
                     "produttore, " +
@@ -67,6 +73,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             sProposteByRichiestaPresaInCarico.close();
             sProposteByTecnicoPreventivi.close();
             sProposteAccettate.close();
+            sProposteByOrdinante.close();
             iProposta.close();
             dProposta.close();
             uProposta.close();
@@ -92,7 +99,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             proposta.setPrezzo(rs.getFloat("prezzo"));
             proposta.setNomeProdotto(rs.getString("nome_prodotto"));
             proposta.setURL(rs.getString("URL"));
-            proposta.setStatoProposta_key(rs.getInt("ID_stato_proposta"));
+            proposta.setStatoProposta(rs.getInt("ID_stato_proposta"));
             proposta.setMotivazione(rs.getString("motivazione"));
             proposta.setVersion(rs.getLong("version"));
             proposta.setRichiestaPresaInCarico_key(rs.getInt("ID_richiesta_presa_in_carico"));
@@ -139,6 +146,24 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             }
         } catch (SQLException ex) {
             throw new DataException("Unable to get all Proposte by RichiestaPresaInCarico", ex);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Proposta> getAllProposteByOrdinante(Ordinante ordinante, Integer page) throws DataException {
+        List<Proposta> result = new ArrayList<>();
+        try {
+            sProposteByOrdinante.setInt(1, ordinante.getKey());
+            sProposteByOrdinante.setInt(2, page * offset);
+            sProposteByOrdinante.setInt(3, offset);
+            try (ResultSet rs = sProposteByOrdinante.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getProposta(rs.getInt("ID")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to get all Proposte by Ordinante", ex);
         }
         return result;
     }
@@ -204,7 +229,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                 uProposta.setFloat(4, proposta.getPrezzo());
                 uProposta.setString(5, proposta.getNomeProdotto());
                 uProposta.setString(6, proposta.getURL());
-                uProposta.setInt(7, proposta.getStatoProposta().getKey());
+                uProposta.setInt(7, proposta.getStatoProposta());
 
                 long current_version = proposta.getVersion();
                 long next_version = current_version + 1;
@@ -225,7 +250,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                 iProposta.setFloat(4, proposta.getPrezzo());
                 iProposta.setString(5, proposta.getNomeProdotto());
                 iProposta.setString(6, proposta.getURL());
-                iProposta.setInt(7, proposta.getStatoProposta().getKey());
+                iProposta.setInt(7, proposta.getStatoProposta());
                 iProposta.setString(8, proposta.getMotivazione());
                 iProposta.setInt(9, proposta.getRichiestaPresaInCarico().getKey());
 

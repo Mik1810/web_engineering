@@ -184,7 +184,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         stato_consegna INT UNSIGNED NOT NULL,
         feedback INT UNSIGNED NULL DEFAULT NULL,
         data_di_consegna TIMESTAMP NULL DEFAULT NULL,
-        ID_tecnico_ordini INT UNSIGNED NOT NULL,
+        ID_tecnico_ordini INT UNSIGNED NULL,
         ID_proposta INT UNSIGNED NOT NULL,
         version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         FOREIGN KEY (ID_tecnico_ordini) REFERENCES TecnicoOrdini(ID)

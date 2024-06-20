@@ -3,48 +3,43 @@ package it.univaq.webmarket.data.model.impl;
 import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
-import it.univaq.webmarket.data.model.enums.Feedback;
-import it.univaq.webmarket.data.model.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class OrdineImpl extends DataItemImpl<Integer> implements Ordine {
 
-    private StatoConsegna statoConsegna;
-    private Feedback feedback;
-
+    private Integer statoConsegna, feedback;
     private LocalDate dataConsegna;
     private TecnicoOrdini tecnicoOrdini;
     private Proposta proposta;
 
     public OrdineImpl() {
         super();
-        this.statoConsegna = null;
-        this.feedback = null;
+        this.statoConsegna = 0;
+        this.feedback = 0;
         this.tecnicoOrdini = null;
         this.proposta = null;
         this.dataConsegna = null;
     }
 
     @Override
-    public StatoConsegna getStatoConsegna() {
+    public Integer getStatoConsegna() {
         return statoConsegna;
     }
 
     @Override
-    public void setStatoConsegna(StatoConsegna statoConsegna) {
+    public void setStatoConsegna(Integer statoConsegna) {
         this.statoConsegna = statoConsegna;
     }
 
     @Override
-    public Feedback getFeedback() {
+    public Integer getFeedback() {
         return feedback;
     }
 
     @Override
-    public void setFeedback(Feedback feedback) {
+    public void setFeedback(Integer feedback) {
         this.feedback = feedback;
     }
 

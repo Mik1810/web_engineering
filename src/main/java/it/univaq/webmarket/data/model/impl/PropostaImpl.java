@@ -2,14 +2,13 @@ package it.univaq.webmarket.data.model.impl;
 
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
-import it.univaq.webmarket.data.model.enums.StatoProposta;
 import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
 
     private String nomeProdotto, codiceProdotto, produttore, note, motivazione, URL;
     private Float prezzo;
-    private StatoProposta statoProposta;
+    private Integer statoProposta;
     private RichiestaPresaInCarico richiestaPresaInCarico;
 
     public PropostaImpl() {
@@ -19,7 +18,7 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
         this.prezzo = 0F;
         this.nomeProdotto = "";
         this.URL = "";
-        this.statoProposta = null;
+        this.statoProposta = 0;
         this.motivazione = "";
         this.richiestaPresaInCarico = null;
     }
@@ -75,12 +74,10 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     }
 
     @Override
-    public StatoProposta getStatoProposta() {
-        return statoProposta;
-    }
+    public Integer getStatoProposta() { return statoProposta;}
 
     @Override
-    public void setStatoProposta(StatoProposta statoProposta) {
+    public void setStatoProposta(Integer statoProposta) {
         this.statoProposta = statoProposta;
     }
 
@@ -112,5 +109,20 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     @Override
     public void setURL(String URL) {
         this.URL = URL;
+    }
+
+    @Override
+    public String toString() {
+        return "PropostaImpl{" +
+                "nomeProdotto='" + nomeProdotto + '\'' +
+                ", codiceProdotto='" + codiceProdotto + '\'' +
+                ", produttore='" + produttore + '\'' +
+                ", note='" + note + '\'' +
+                ", motivazione='" + motivazione + '\'' +
+                ", URL='" + URL + '\'' +
+                ", prezzo=" + prezzo +
+                ", statoProposta=" + statoProposta +
+                ", richiestaPresaInCarico=" + richiestaPresaInCarico +
+                '}';
     }
 }

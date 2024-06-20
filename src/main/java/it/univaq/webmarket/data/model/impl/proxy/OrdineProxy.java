@@ -1,13 +1,10 @@
 package it.univaq.webmarket.data.model.impl.proxy;
 
 import it.univaq.webmarket.data.DAO.PropostaDAO;
-import it.univaq.webmarket.data.DAO.StatiFeedbackDAO;
 import it.univaq.webmarket.data.DAO.TecnicoOrdiniDAO;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
 import it.univaq.webmarket.data.model.impl.OrdineImpl;
-import it.univaq.webmarket.data.model.enums.Feedback;
-import it.univaq.webmarket.data.model.enums.StatoConsegna;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.data.DataItemProxy;
 import it.univaq.webmarket.framework.data.DataLayer;
@@ -20,8 +17,6 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
     protected boolean modified;
     protected DataLayer dataLayer;
 
-    protected Integer statoConsegna_key;
-    protected Integer feedback_key;
     protected Integer tecnicoOrdini_key;
     protected Integer proposta_key;
 
@@ -29,8 +24,6 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
         super();
         this.dataLayer = d;
         this.modified = false;
-        this.statoConsegna_key = 0;
-        this.feedback_key = 0;
         this.tecnicoOrdini_key = 0;
         this.proposta_key = 0;
     }
@@ -52,16 +45,14 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
     }
 
     @Override
-    public void setFeedback(Feedback feedback) {
+    public void setFeedback(Integer feedback) {
         super.setFeedback(feedback);
-        this.feedback_key = feedback.getKey();
         this.modified = true;
     }
 
     @Override
-    public void setStatoConsegna(StatoConsegna statoConsegna) {
+    public void setStatoConsegna(Integer statoConsegna) {
         super.setStatoConsegna(statoConsegna);
-        this.statoConsegna_key = statoConsegna.getKey();
         this.modified = true;
     }
 
@@ -83,32 +74,6 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
         super.setProposta(proposta);
         this.proposta_key = proposta.getKey();
         this.modified = true;
-    }
-
-    @Override
-    public StatoConsegna getStatoConsegna() {
-        if (super.getStatoConsegna() == null && statoConsegna_key > 0) {
-            try {
-                super.setStatoConsegna(((StatiFeedbackDAO) dataLayer.getDAO(StatoConsegna.class)).getStatoConsegna(statoConsegna_key));
-            } catch (DataException ex) {
-                Logger.getLogger(OrdineProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-        }
-
-        return super.getStatoConsegna();
-    }
-
-    @Override
-    public Feedback getFeedback() {
-        if (super.getFeedback() == null && feedback_key > 0) {
-            try {
-                super.setFeedback(((StatiFeedbackDAO) dataLayer.getDAO(Feedback.class)).getFeedback(feedback_key));
-            } catch (DataException ex) {
-                Logger.getLogger(OrdineProxy.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
-        }
-
-        return super.getFeedback();
     }
 
     @Override
@@ -135,16 +100,6 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
         }
 
         return super.getProposta();
-    }
-
-    public void setStatoConsegnaKey(Integer key) {
-        this.statoConsegna_key = key;
-        super.setStatoConsegna(null);
-    }
-
-    public void setFeedbackKey(Integer key) {
-        this.feedback_key = key;
-        super.setFeedback(null);
     }
 
     public void setTecnicoOrdiniKey(Integer key) {

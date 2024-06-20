@@ -2,15 +2,16 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
-import it.univaq.webmarket.data.model.CaratteristicaConValore;
-import it.univaq.webmarket.data.model.Richiesta;
+import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.framework.data.DataException;
+import it.univaq.webmarket.framework.security.SecurityHelpers;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 public class TestController extends ApplicationBaseController {
 
@@ -20,25 +21,12 @@ public class TestController extends ApplicationBaseController {
         try {
             PrintWriter out = response.getWriter();
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            Richiesta richiesta = dl.getRichiestaDAO().getRichiesta(1);
-            System.out.println(richiesta);
-            System.out.println(richiesta.getCaratteristicheConValore().toString());
+            Ordinante ordinante = dl.getOrdinanteDAO().getOrdinante(1);
+            List<Proposta> proposte = dl.getPropostaDAO().getAllProposteByOrdinante(ordinante, 0);
+            System.out.println(proposte);
 
-            out.println(richiesta);
+            out.println(proposte);
             out.println();
-
-            out.println(richiesta.getCaratteristicheConValore());
-            out.println();
-
-            CaratteristicaConValore caratteristicaConValore = dl.getCaratteristicaDAO().createCaratteristicaConValore();
-            caratteristicaConValore.setCaratteristica(dl.getCaratteristicaDAO().getCaratteristica(5));
-            caratteristicaConValore.setValore("120");
-            dl.getCaratteristicaDAO()
-                    .storeCaratteristicaConValore(caratteristicaConValore, richiesta.getKey());
-            richiesta.getCaratteristicheConValore().add(caratteristicaConValore);
-            response.getWriter().println(richiesta.getCaratteristicheConValore());
-            response.getWriter().println();
-
 
         } catch (IOException | DataException e) {
             e.printStackTrace();

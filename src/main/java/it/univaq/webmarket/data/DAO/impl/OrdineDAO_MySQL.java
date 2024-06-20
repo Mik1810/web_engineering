@@ -71,9 +71,9 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
         try {
             OrdineProxy o = (OrdineProxy) createOrdine();
             o.setKey(rs.getInt("ID"));
-            o.setStatoConsegnaKey(rs.getInt("stato_consegna"));
+            o.setStatoConsegna(rs.getInt("stato_consegna"));
             if(rs.getInt("feedback") != 0) {
-                o.setFeedbackKey(rs.getInt("feedback"));
+                o.setFeedback(rs.getInt("feedback"));
             }
             o.setVersion(rs.getLong("version"));
             if(rs.getTimestamp("data_di_consegna") != null) {
@@ -182,11 +182,11 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 // Per la data di consegna ci pensa il trigger nel db ad inserirla quando vede
                 // che lo stato di consegna è "Consegnato"
 
-                uOrdine.setInt(1, ordine.getStatoConsegna().getKey());
+                uOrdine.setInt(1, ordine.getStatoConsegna());
                 if(ordine.getFeedback() == null) {
                     uOrdine.setNull(2, Types.INTEGER);
                 } else {
-                    uOrdine.setInt(2, ordine.getFeedback().getKey());
+                    uOrdine.setInt(2, ordine.getFeedback());
                 }
                 uOrdine.setInt(3, ordine.getTecnicoOrdini().getKey());
                 uOrdine.setInt(4, ordine.getProposta().getKey());
@@ -214,7 +214,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 consegna dal momento che appena inserisco un ordine non può essere con
                 stato "Consegnato"
                    */
-                iOrdine.setInt(1, ordine.getStatoConsegna().getKey());
+                iOrdine.setInt(1, ordine.getStatoConsegna());
                 iOrdine.setInt(2, ordine.getTecnicoOrdini().getKey());
                 iOrdine.setInt(3, ordine.getProposta().getKey());
 

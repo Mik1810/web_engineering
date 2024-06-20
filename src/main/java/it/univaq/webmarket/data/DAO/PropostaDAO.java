@@ -1,7 +1,7 @@
 package it.univaq.webmarket.data.DAO;
 
+import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.Proposta;
-import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.framework.data.DataException;
@@ -16,6 +16,9 @@ public interface PropostaDAO {
 
     // Questo metodo ritorna tutte le proposte legate ad una richiesta presa in carico
     List<Proposta> getAllProposteByRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico, Integer page) throws DataException;
+
+    // Questo metodo ritorna tutte le proposte rivolte ad un ordinante
+    List<Proposta> getAllProposteByOrdinante(Ordinante ordinante, Integer page) throws DataException;
 
     //Questo metodo ritorna tutte le proposte effettuate da un tecnico dei preventivi
     List<Proposta> getAllProposteByTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi, Integer page) throws DataException;
