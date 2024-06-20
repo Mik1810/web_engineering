@@ -58,5 +58,5 @@ INSERT INTO TecnicoOrdini (email, password) VALUES ('techord2@gmail.com', 'techp
 
 -- Popolamento Proposta
 INSERT INTO Proposta(codice_prodotto, produttore, note, prezzo, nome_prodotto, URL, stato_proposta, motivazione, ID_richiesta_presa_in_carico) VALUES
-('229f8ej382j8je9sua0s9', 'Honor', 'Pc molto leggero e di un colore blu elettrico',  699.99,'Honor MagicBook 14', 'https://www.honor.com/it/laptops/honor-magicbook-14/', 'Accettato', NULL, 1),
-('8fu9eurw9e8ur8u38hc3m', 'HP', 'Pc economico ma plasticoso',  273.50, 'Pixel Intel N4500', 'https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/', 'Rifiutato', 'Non ha abbastanza RAM, non mi piace il materiale', 1);
+('8fu9eurw9e8ur8u38hc3m', 'HP', 'Pc economico ma plasticoso',  273.50, 'Pixel Intel N4500', 'https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/', 'Rifiutato', 'Non ha abbastanza RAM, non mi piace il materiale', 1),
+('229f8ej382j8je9sua0s9', 'Honor', 'Pc molto leggero e di un colore blu elettrico',  699.99,'Honor MagicBook 14', 'https://www.honor.com/it/laptops/honor-magicbook-14/', 'In attesa', NULL, 1);

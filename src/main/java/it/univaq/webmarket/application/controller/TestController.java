@@ -22,7 +22,7 @@ public class TestController extends ApplicationBaseController {
             PrintWriter out = response.getWriter();
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             Ordinante ordinante = dl.getOrdinanteDAO().getOrdinante(1);
-            List<Proposta> proposte = dl.getPropostaDAO().getAllProposteByOrdinante(ordinante, 0);
+            List<Proposta> proposte = dl.getPropostaDAO().getAllProposteDaDecidereByOrdinante(ordinante, 0);
             System.out.println(proposte);
 
             out.println(proposte);

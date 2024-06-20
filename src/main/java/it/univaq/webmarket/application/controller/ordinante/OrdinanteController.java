@@ -3,6 +3,7 @@ package it.univaq.webmarket.application.controller.ordinante;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.Ordinante;
+import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
@@ -42,7 +43,13 @@ public class OrdinanteController extends ApplicationBaseController {
                 richieste = richieste.subList(0, 3);
             }
 
+            List<Proposta> proposte = dl.getPropostaDAO().getAllProposteDaDecidereByOrdinante(ordinante, 0);
+            if(proposte.size() > 3) {
+                proposte = proposte.subList(0, 3);
+            }
+
             datamodel.put("richieste", richieste);
+            datamodel.put("proposte", proposte);
         } catch (DataException e) {
             handleError(e, request, response);
         }

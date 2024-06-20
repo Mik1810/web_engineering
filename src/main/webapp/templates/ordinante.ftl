@@ -36,17 +36,15 @@
           <div class="quote-container">
             <i class="pin"></i>
             <blockquote class="note pink">
+                <h2>Proposte</h2>
                 <div>
-                    <a href="#">Proposta per: ordine 1</a>
+                    <#list proposte as proposta>
+                        <div><a class="a-postit" href="proposte?id=${proposta.key}">Proposta per richiesta
+                                <span class="numeric">${proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</span>
+                            </a>
+                        </div>
+                    </#list>
                 </div>
-                <div>
-                    <a href="#">Proposta per: ordine 2</a>
-                </div>
-                <div>
-                    <a href="#">Proposta per: ordine 3</a>
-                </div>
-
-              <cite class="author">Vedi tutti</cite>
             </blockquote>
           </div>
 
@@ -91,7 +89,6 @@
             <div class="title">Proposte</div>
             <div class="text">Visualizza, accetta o rifiuta le <b>proposte</b> attive</div>
         </a>
-
 
         <a class="card" href="#">
             <div class="icon">📑</div>
