@@ -127,17 +127,55 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
 
     @Override
     public List<Proposta> getAllProposteByRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico, Integer page) throws DataException {
-        return List.of();
+        List<Proposta> result = new ArrayList<>();
+        try {
+            sProposteByRichiestaPresaInCarico.setInt(1, richiestaPresaInCarico.getKey());
+            sProposteByRichiestaPresaInCarico.setInt(2, page * offset);
+            sProposteByRichiestaPresaInCarico.setInt(3, offset);
+            try (ResultSet rs = sProposteByRichiestaPresaInCarico.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getProposta(rs.getInt("ID")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to get all Proposte by RichiestaPresaInCarico", ex);
+        }
+        return result;
     }
 
     @Override
     public List<Proposta> getAllProposteByTecnicoPreventivi(TecnicoPreventivi tecnicoPreventivi, Integer page) throws DataException {
-        return List.of();
+        List<Proposta> result = new ArrayList<>();
+        try {
+            sProposteByTecnicoPreventivi.setInt(1, tecnicoPreventivi.getKey());
+            sProposteByTecnicoPreventivi.setInt(2, page * offset);
+            sProposteByTecnicoPreventivi.setInt(3, offset);
+            try (ResultSet rs = sProposteByTecnicoPreventivi.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getProposta(rs.getInt("ID")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to get all Proposte by TecnicoPreventivi", ex);
+        }
+        return result;
     }
 
     @Override
     public List<Proposta> getAllProposteAccettate(Integer page) throws DataException {
-        return List.of();
+        List<Proposta> result = new ArrayList<>();
+        try {
+            sProposteAccettate.setInt(1, page * offset);
+            sProposteAccettate.setInt(2, offset);
+            try (ResultSet rs = sProposteAccettate.executeQuery()) {
+                while (rs.next()) {
+                    result.add(getProposta(rs.getInt("ID")));
+                }
+            }
+        } catch (SQLException ex) {
+            throw new DataException("Unable to get all Proposte accettate", ex);
+        }
+        return result;
     }
 
 
