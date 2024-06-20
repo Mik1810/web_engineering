@@ -91,12 +91,11 @@ public class VisualizzaProposteController extends ApplicationBaseController {
 
     private void handleDeny(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
         try {
-            request.setCharacterEncoding("UTF-8");
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
             Map<String, String[]> parameterMap = request.getParameterMap();
-            System.out.println("Encoding request: "+request.getCharacterEncoding());
+
             int propostaId = Integer.parseInt(parameterMap.get("id")[0]);
             int page = Integer.parseInt(parameterMap.get("page")[0]);
             String motivazione = parameterMap.get("motivazione")[0];
@@ -114,7 +113,7 @@ public class VisualizzaProposteController extends ApplicationBaseController {
             datamodel.put("page", page);
 
             result.activate("proposte.ftl", datamodel, request, response);
-        } catch (DataException | UnsupportedEncodingException ex) {
+        } catch (DataException ex) {
             handleError(ex, request, response);
         }
     }
