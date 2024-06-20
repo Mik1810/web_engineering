@@ -63,6 +63,8 @@
         <div class="text">Inserisci, modifica o cancella i <b>tecnici degli ordini</b></div>
     </a>
 
+    <!--
+
     <a class="card" href=gestione_stati>
         <div class="icon">⚙️</div>
         <div class="separator"></div>
@@ -71,8 +73,10 @@
             i <b>feedback</b> degli ordini
         </div>
     </a>
-
+    -->
+    
 </div>
+
 <#include "modules/footer.ftl">
 </body>
 </html>

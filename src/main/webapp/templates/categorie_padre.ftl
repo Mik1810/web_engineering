@@ -85,8 +85,10 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="update-screen">
-            <h4>Aggiungi Categoria Padre</h4>
-            <form method="POST" action="categoria_padre?page=${page}">
+            <div class="titolo-popup">
+                <h4>Aggiungi Categoria Padre</h4>
+            </div>
+            <form method="POST" action="categoria_padre?page=${page}" class="contenuto-form-popup">
                 <label for="nome">Inserisci nome:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="text">
                 <div class="buttons-choose" required>
@@ -106,7 +108,10 @@
         <!--fine div popup-->
 
         <div class="modify-screen">
-            <form method="POST" action="categoria_padre?page=${page}">
+            <div class="titolo-popup">
+                <h4>Modifica Categoria Padre</h4>
+            </div>
+            <form method="POST" action="categoria_padre?page=${page}" class="contenuto-form-popup">
                 <label for="nome">Inserisci nuovo nome:</label>
                 <label for="id"></label>
                 <input type="text" id="id" name="id" style="display: none" value="${(categoriaModifica.key)!"0"}">
