@@ -85,7 +85,7 @@ public class PropostaProxy extends PropostaImpl implements DataItemProxy {
     }
 
     @Override
-    public void setStatoProposta(Integer statoProposta) {
+    public void setStatoProposta(String statoProposta) {
         super.setStatoProposta(statoProposta);
         this.modified = true;
     }

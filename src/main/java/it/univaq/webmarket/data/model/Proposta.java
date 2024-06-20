@@ -10,29 +10,12 @@ import java.util.List;
 
 public interface Proposta extends DataItem<Integer> {
 
-    class StatoProposta implements TemplateMethodModelEx {
+    class StatoProposta {
 
-        public static final Integer IN_ATTESA = 1;
-        public static final Integer ACCETTATO = 2;
-        public static final Integer RIFIUTATO = 3;
+        public static final String IN_ATTESA = "In attesa";
+        public static final String ACCETTATO = "Accettato";
+        public static final String RIFIUTATO = "Rifiutato";
 
-        public String valueOf(Integer value) {
-            switch (value) {
-                case 1:
-                    return "In attesa";
-                case 2:
-                    return "Accettato";
-                case 3:
-                    return "Rifiutato";
-                default:
-                    return "Unknown";
-            }
-        }
-
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            return new SimpleScalar(valueOf(Integer.valueOf(list.get(0).toString())));
-        }
     }
 
     String getCodiceProdotto();
@@ -59,9 +42,9 @@ public interface Proposta extends DataItem<Integer> {
 
     void setNomeProdotto(String nomeProdotto);
 
-    Integer getStatoProposta();
+    String getStatoProposta();
 
-    void setStatoProposta(Integer statoProposta);
+    void setStatoProposta(String statoProposta);
 
     String getMotivazione();
 

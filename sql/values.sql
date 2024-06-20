@@ -1,15 +1,6 @@
 /* Populate the init.sql tables */
 USE webmarket;
 
--- Popolamento StatoConsegna
-INSERT INTO StatoConsegna (nome) VALUES ('Presa in carico'), ('In consegna'), ('Consegnato');
-
--- Popolamento Feedback
-INSERT INTO Feedback (nome) VALUES ('Accettato'), ('Respinto perché non conforme'), ('Respinto perché non funzionante');
-
--- Popolamento StatoProposta
-INSERT INTO StatoProposta (nome) VALUES ('In Attesa'), ('Accettata'), ('Rifiutata');
-
 -- Popolamento CategoriaPadre
 INSERT INTO CategoriaPadre (nome) VALUES ('Modulistica');
 INSERT INTO CategoriaPadre (nome) VALUES ('Informatica');
@@ -66,6 +57,6 @@ INSERT INTO TecnicoOrdini (email, password) VALUES ('techord1@gmail.com', 'techp
 INSERT INTO TecnicoOrdini (email, password) VALUES ('techord2@gmail.com', 'techpassword2');
 
 -- Popolamento Proposta
-INSERT INTO Proposta(codice_prodotto, produttore, note, prezzo, nome_prodotto, URL, ID_stato_proposta, motivazione, ID_richiesta_presa_in_carico) VALUES
-('229f8ej382j8je9sua0s9', 'Honor', 'Pc molto leggero e di un colore blu elettrico',  699.99,'Honor MagicBook 14', 'https://www.honor.com/it/laptops/honor-magicbook-14/', 2, NULL, 1),
-('8fu9eurw9e8ur8u38hc3m', 'HP', 'Pc economico ma plasticoso',  273.50, 'Pixel Intel N4500', 'https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/', 3, 'Non ha abbastanza RAM, non mi piace il materiale', 1);
+INSERT INTO Proposta(codice_prodotto, produttore, note, prezzo, nome_prodotto, URL, stato_proposta, motivazione, ID_richiesta_presa_in_carico) VALUES
+('229f8ej382j8je9sua0s9', 'Honor', 'Pc molto leggero e di un colore blu elettrico',  699.99,'Honor MagicBook 14', 'https://www.honor.com/it/laptops/honor-magicbook-14/', 'Accettato', NULL, 1),
+('8fu9eurw9e8ur8u38hc3m', 'HP', 'Pc economico ma plasticoso',  273.50, 'Pixel Intel N4500', 'https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/', 'Rifiutato', 'Non ha abbastanza RAM, non mi piace il materiale', 1);

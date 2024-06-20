@@ -9,37 +9,37 @@ import java.time.LocalDate;
 
 public class OrdineImpl extends DataItemImpl<Integer> implements Ordine {
 
-    private Integer statoConsegna, feedback;
+    private String statoConsegna, feedback;
     private LocalDate dataConsegna;
     private TecnicoOrdini tecnicoOrdini;
     private Proposta proposta;
 
     public OrdineImpl() {
         super();
-        this.statoConsegna = 0;
-        this.feedback = 0;
+        this.statoConsegna = "";
+        this.feedback = "";
         this.tecnicoOrdini = null;
         this.proposta = null;
         this.dataConsegna = null;
     }
 
     @Override
-    public Integer getStatoConsegna() {
+    public String getStatoConsegna() {
         return statoConsegna;
     }
 
     @Override
-    public void setStatoConsegna(Integer statoConsegna) {
+    public void setStatoConsegna(String statoConsegna) {
         this.statoConsegna = statoConsegna;
     }
 
     @Override
-    public Integer getFeedback() {
+    public String getFeedback() {
         return feedback;
     }
 
     @Override
-    public void setFeedback(Integer feedback) {
+    public void setFeedback(String feedback) {
         this.feedback = feedback;
     }
 

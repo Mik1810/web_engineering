@@ -6,9 +6,8 @@ import it.univaq.webmarket.framework.data.DataItemImpl;
 
 public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
 
-    private String nomeProdotto, codiceProdotto, produttore, note, motivazione, URL;
+    private String nomeProdotto, codiceProdotto, produttore, note, motivazione, URL, statoProposta;
     private Float prezzo;
-    private Integer statoProposta;
     private RichiestaPresaInCarico richiestaPresaInCarico;
 
     public PropostaImpl() {
@@ -18,7 +17,7 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
         this.prezzo = 0F;
         this.nomeProdotto = "";
         this.URL = "";
-        this.statoProposta = 0;
+        this.statoProposta = "";
         this.motivazione = "";
         this.richiestaPresaInCarico = null;
     }
@@ -74,10 +73,10 @@ public class PropostaImpl extends DataItemImpl<Integer> implements Proposta {
     }
 
     @Override
-    public Integer getStatoProposta() { return statoProposta;}
+    public String getStatoProposta() { return statoProposta;}
 
     @Override
-    public void setStatoProposta(Integer statoProposta) {
+    public void setStatoProposta(String statoProposta) {
         this.statoProposta = statoProposta;
     }
 

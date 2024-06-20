@@ -52,7 +52,6 @@ public class VisualizzaProposteController extends ApplicationBaseController {
                         datamodel.put("proposte", dl.getPropostaDAO().getAllProposteByOrdinante(ordinante, 0));
                         datamodel.put("page", 0);
                     }
-                    datamodel.put("valueOf", new Proposta.StatoProposta());
 
                 }
             } catch (DataException e) {
@@ -82,7 +81,6 @@ public class VisualizzaProposteController extends ApplicationBaseController {
             datamodel.put("proposte", dl.getPropostaDAO().getAllProposteByOrdinante(ordinante, page));
             datamodel.put("propostaDaRifiutare", proposta);
             datamodel.put("page", page);
-            datamodel.put("valueOf", new Proposta.StatoProposta());
 
             result.activate("richieste.ftl", datamodel, request, response);
         } catch (DataException ex) {
@@ -112,7 +110,6 @@ public class VisualizzaProposteController extends ApplicationBaseController {
             datamodel.put("success", "2");
             datamodel.put("proposte", dl.getPropostaDAO().getAllProposteByOrdinante(ordinante, page));
             datamodel.put("page", page);
-            datamodel.put("valueOf", new Proposta.StatoProposta());
 
             result.activate("proposte.ftl", datamodel, request, response);
         } catch (DataException ex) {
@@ -140,7 +137,6 @@ public class VisualizzaProposteController extends ApplicationBaseController {
             datamodel.put("success", "1");
             datamodel.put("proposte", dl.getPropostaDAO().getAllProposteByOrdinante(ordinante, page));
             datamodel.put("page", page);
-            datamodel.put("valueOf", new Proposta.StatoProposta());
 
             result.activate("proposte.ftl", datamodel, request, response);
         } catch (DataException ex) {

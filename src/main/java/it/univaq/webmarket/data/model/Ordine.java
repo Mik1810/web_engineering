@@ -10,65 +10,29 @@ import java.util.List;
 
 public interface Ordine extends DataItem<Integer> {
 
-    class StatoConsegna implements TemplateMethodModelEx {
+    class StatoConsegna {
 
-        public static final Integer PRESA_IN_CARICO = 1;
-        public static final Integer IN_CONSEGNA = 2;
-        public static final Integer CONSEGNATO = 3;
-
-        public String valueOf(Integer value) {
-            switch (value) {
-                case 1:
-                    return "Presa in carico";
-                case 2:
-                    return "In consegna";
-                case 3:
-                    return "Consegnato";
-                default:
-                    return "Unknown";
-            }
-        }
-
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            return new SimpleScalar(valueOf(Integer.valueOf(list.get(0).toString())));
-        }
+        public static final String PRESA_IN_CARICO = "Presa in carico";
+        public static final String IN_CONSEGNA = "In consegna";
+        public static final String CONSEGNATO = "Consegnato";
 
     }
 
-    class Feedback implements TemplateMethodModelEx {
+    class Feedback  {
 
-        public static final Integer ACCETTATO = 1;
-        public static final Integer RESPINTO_NON_CONFORME = 2;
-        public static final Integer RIFIUTATO_NON_FUNZIONANTE = 3;
-
-        public  String valueOf(Integer value) {
-            switch (value) {
-                case 1:
-                    return "Accettato";
-                case 2:
-                    return "Respinto perchè non conforme";
-                case 3:
-                    return "Respinto perchè non funzionante";
-                default:
-                    return "Unknown";
-            }
-        }
-
-        @Override
-        public Object exec(List list) throws TemplateModelException {
-            return new SimpleScalar(valueOf(Integer.valueOf(list.get(0).toString())));
-        }
+        public static final String ACCETTATO = "Accettato";
+        public static final String RESPINTO_NON_CONFORME = "Respinto perchè non conforme";
+        public static final String RIFIUTATO_NON_FUNZIONANTE = "Rifiutato perchè non conforme";
 
     }
 
-    Integer getStatoConsegna();
+    String getStatoConsegna();
 
-    void setStatoConsegna(Integer statoConsegna);
+    void setStatoConsegna(String statoConsegna);
 
-    Integer getFeedback();
+    String getFeedback();
 
-    void setFeedback(Integer feedback);
+    void setFeedback(String feedback);
 
     TecnicoOrdini getTecnicoOrdini();
 

@@ -71,14 +71,10 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
         try {
             OrdineProxy o = (OrdineProxy) createOrdine();
             o.setKey(rs.getInt("ID"));
-            o.setStatoConsegna(rs.getInt("stato_consegna"));
-            if(rs.getInt("feedback") != 0) {
-                o.setFeedback(rs.getInt("feedback"));
-            }
+            o.setStatoConsegna(rs.getString("stato_consegna"));
+            o.setFeedback(rs.getString("feedback"));
             o.setVersion(rs.getLong("version"));
-            if(rs.getTimestamp("data_di_consegna") != null) {
-                o.setDataConsegna(rs.getTimestamp("data").toLocalDateTime().toLocalDate());
-            }
+            o.setDataConsegna(rs.getTimestamp("data").toLocalDateTime().toLocalDate());
             o.setTecnicoOrdiniKey(rs.getInt("ID_tecnico_ordini"));
             o.setPropostaKey(rs.getInt("ID_proposta"));
             return o;
@@ -182,11 +178,11 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 // Per la data di consegna ci pensa il trigger nel db ad inserirla quando vede
                 // che lo stato di consegna è "Consegnato"
 
-                uOrdine.setInt(1, ordine.getStatoConsegna());
+                uOrdine.setString(1, ordine.getStatoConsegna());
                 if(ordine.getFeedback() == null) {
-                    uOrdine.setNull(2, Types.INTEGER);
+                    uOrdine.setNull(2, Types.VARCHAR);
                 } else {
-                    uOrdine.setInt(2, ordine.getFeedback());
+                    uOrdine.setString(2, ordine.getFeedback());
                 }
                 uOrdine.setInt(3, ordine.getTecnicoOrdini().getKey());
                 uOrdine.setInt(4, ordine.getProposta().getKey());
@@ -214,7 +210,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 consegna dal momento che appena inserisco un ordine non può essere con
                 stato "Consegnato"
                    */
-                iOrdine.setInt(1, ordine.getStatoConsegna());
+                iOrdine.setString(1, ordine.getStatoConsegna());
                 iOrdine.setInt(2, ordine.getTecnicoOrdini().getKey());
                 iOrdine.setInt(3, ordine.getProposta().getKey());
 

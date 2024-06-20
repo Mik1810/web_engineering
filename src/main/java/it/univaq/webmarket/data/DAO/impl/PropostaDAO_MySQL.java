@@ -42,7 +42,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE ID=?");
             sProposteByRichiestaPresaInCarico = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_richiesta_presa_in_carico = ? LIMIT ?, ?");
             sProposteByTecnicoPreventivi = connection.prepareStatement("SELECT p.ID FROM proposta p JOIN richiestapresaincarico r ON p.ID_richiesta_presa_in_carico = r.ID WHERE r.ID_tecnico_preventivi = ? LIMIT ?, ?");
-            sProposteAccettate = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_stato_proposta = 2 LIMIT ?, ?");
+            sProposteAccettate = connection.prepareStatement("SELECT ID FROM proposta WHERE stato_proposta = 'Accettato' LIMIT ?, ?");
             sProposteByOrdinante = connection.prepareStatement(
                     "SELECT p.ID FROM proposta p " +
                     "JOIN richiestapresaincarico rp ON p.ID_richiesta_presa_in_carico = rp.ID " +
@@ -55,12 +55,12 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                     "prezzo, " +
                     "nome_prodotto," +
                     "URL, " +
-                    "ID_stato_proposta," +
+                    "stato_proposta," +
                     "motivazione," +
                     "ID_richiesta_presa_in_carico)" +
                     " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dProposta = connection.prepareStatement("DELETE FROM proposta WHERE ID=?");
-            uProposta = connection.prepareStatement("UPDATE proposta SET codice_prodotto=?, produttore=?, note=?, prezzo=?, nome_prodotto=?, URL=?, ID_stato_proposta=?, motivazione=?, ID_richiesta_presa_in_carico=?, version=? WHERE ID=? AND version=?");
+            uProposta = connection.prepareStatement("UPDATE proposta SET codice_prodotto=?, produttore=?, note=?, prezzo=?, nome_prodotto=?, URL=?, stato_proposta=?, motivazione=?, ID_richiesta_presa_in_carico=?, version=? WHERE ID=? AND version=?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -99,7 +99,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             proposta.setPrezzo(rs.getFloat("prezzo"));
             proposta.setNomeProdotto(rs.getString("nome_prodotto"));
             proposta.setURL(rs.getString("URL"));
-            proposta.setStatoProposta(rs.getInt("ID_stato_proposta"));
+            proposta.setStatoProposta(rs.getString("stato_proposta"));
             proposta.setMotivazione(rs.getString("motivazione"));
             proposta.setVersion(rs.getLong("version"));
             proposta.setRichiestaPresaInCarico_key(rs.getInt("ID_richiesta_presa_in_carico"));
@@ -229,7 +229,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                 uProposta.setFloat(4, proposta.getPrezzo());
                 uProposta.setString(5, proposta.getNomeProdotto());
                 uProposta.setString(6, proposta.getURL());
-                uProposta.setInt(7, proposta.getStatoProposta());
+                uProposta.setString(7, proposta.getStatoProposta());
 
                 long current_version = proposta.getVersion();
                 long next_version = current_version + 1;
@@ -250,7 +250,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                 iProposta.setFloat(4, proposta.getPrezzo());
                 iProposta.setString(5, proposta.getNomeProdotto());
                 iProposta.setString(6, proposta.getURL());
-                iProposta.setInt(7, proposta.getStatoProposta());
+                iProposta.setString(7, proposta.getStatoProposta());
                 iProposta.setString(8, proposta.getMotivazione());
                 iProposta.setInt(9, proposta.getRichiestaPresaInCarico().getKey());
 

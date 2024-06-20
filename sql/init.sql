@@ -4,12 +4,9 @@ CREATE DATABASE IF NOT EXISTS webmarket;
 
     DROP TABLE IF EXISTS chiude;
     DROP TABLE IF EXISTS Ordine;
-    DROP TABLE IF EXISTS Feedback;
-    DROP TABLE IF EXISTS StatoConsegna;
     DROP TABLE IF EXISTS TecnicoOrdini;
     DROP TABLE IF EXISTS Amministratore;
     DROP TABLE IF EXISTS Proposta;
-    DROP TABLE IF EXISTS StatoProposta;
     DROP TABLE IF EXISTS RichiestaPresaInCarico;
     DROP TABLE IF EXISTS TecnicoPreventivi;
     DROP TABLE IF EXISTS composta;
@@ -129,12 +126,6 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         ON DELETE RESTRICT ON UPDATE CASCADE
     );
 
-    CREATE TABLE StatoProposta (
-        ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(255) NOT NULL,
-        version BIGINT UNSIGNED NOT NULL DEFAULT 1
-    );
-
     CREATE TABLE Proposta (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
         codice_prodotto VARCHAR(255) NOT NULL UNIQUE,
@@ -143,12 +134,10 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         prezzo DECIMAL(10,2) NOT NULL,
         nome_prodotto VARCHAR(255) NOT NULL,
         URL VARCHAR(2048) NOT NULL,
-        ID_stato_proposta INT UNSIGNED NOT NULL,
+        stato_proposta ENUM('In attesa', 'Accettato', 'Rifiutato') NOT NULL,
         motivazione TEXT NULL,
         version BIGINT UNSIGNED NOT NULL DEFAULT 1,
         ID_richiesta_presa_in_carico INT UNSIGNED NOT NULL,
-        FOREIGN KEY (ID_stato_proposta) REFERENCES StatoProposta(ID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
         FOREIGN KEY (ID_richiesta_presa_in_carico) REFERENCES RichiestaPresaInCarico(ID)
         ON DELETE CASCADE ON UPDATE CASCADE
     );
@@ -167,22 +156,10 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         version BIGINT UNSIGNED NOT NULL DEFAULT 1
     );
 
-    CREATE TABLE Feedback (
-        ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(255) NOT NULL,
-        version BIGINT UNSIGNED NOT NULL DEFAULT 1
-    );
-
-    CREATE TABLE StatoConsegna (
-        ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        nome VARCHAR(255) NOT NULL,
-        version BIGINT UNSIGNED NOT NULL DEFAULT 1
-    );
-
     CREATE TABLE Ordine (
         ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-        stato_consegna INT UNSIGNED NOT NULL,
-        feedback INT UNSIGNED NULL DEFAULT NULL,
+        stato_consegna ENUM('Presa in carico', 'In consegna', 'Consegnato') NOT NULL,
+        feedback ENUM('Accettato', 'Respinto perchè non conforme','Respinto perchè non funzionante') NULL,
         data_di_consegna TIMESTAMP NULL DEFAULT NULL,
         ID_tecnico_ordini INT UNSIGNED NULL,
         ID_proposta INT UNSIGNED NOT NULL,
@@ -190,13 +167,7 @@ CREATE DATABASE IF NOT EXISTS webmarket;
         FOREIGN KEY (ID_tecnico_ordini) REFERENCES TecnicoOrdini(ID)
         ON DELETE SET NULL ON UPDATE CASCADE,
         FOREIGN KEY (ID_proposta) REFERENCES Proposta(ID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-        FOREIGN KEY (stato_consegna) REFERENCES StatoConsegna(ID)
-        ON DELETE RESTRICT ON UPDATE CASCADE,
-        FOREIGN KEY (feedback) REFERENCES Feedback(ID)
         ON DELETE RESTRICT ON UPDATE CASCADE
-        /* Si poteva mettere anche un default sull'ON DELETE ma InnoDB non accetta
-           questo tipo di sintassi */
     );
 
     CREATE TABLE chiude (

@@ -41,19 +41,28 @@
                     <td class="left">${proposta.note!""}</td>
                     <td class="left">${proposta.prezzo!""}</td>
                     <td class="left"><a href="${proposta.URL!""}">Vai al sito.</a></td>
-                    <td class="left">${valueOf(proposta.statoProposta)!""}</td>
+                    <td class="left">${proposta.statoProposta!""}</td>
                     <td class="left">${proposta.motivazione!""}</td>
                     <td>
-                        <form method="POST" action="proposte?page=${page!"0"}">
-                            <input type="hidden" id="id" name="id" value="${proposta.key}">
-                            <input class="btn btn-primary" type="submit" id="action" name="action" value="Accetta">
-                        </form>
+                        <#if proposta.statoProposta == "In attesa">
+                            <form method="POST" action="proposte?page=${page!"0"}">
+                                <input type="hidden" id="id" name="id" value="${proposta.key}">
+                                <input class="btn btn-primary" type="submit" id="action" name="action" value="Accetta">
+                            </form>
+                        <#else>
+                            <a class="btn btn-secondary disabled">Accetta</a>
+                        </#if>
+
                     </td>
                     <td>
-                        <form method="POST" action="proposte?page=${page!"0"}">
-                            <input type="hidden" name="id" value="${proposta.key}">
-                            <input class="btn btn-danger" type="submit" id="render" name="render" value="Rifiuta">
-                        </form>
+                        <#if proposta.statoProposta == "In attesa">
+                            <form method="POST" action="proposte?page=${page!"0"}">
+                                <input type="hidden" name="id" value="${proposta.key}">
+                                <input class="btn btn-danger" type="submit" id="render" name="render" value="Rifiuta">
+                            </form>
+                        <#else>
+                            <a class="btn btn-secondary disabled">Rifiuta</a>
+                        </#if>
                     </td>
                 </tr>
             </#list>
@@ -68,11 +77,11 @@
                     <#if page == 0>
                         <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
                     <#else>
-                        <li class="page-item"><a class="btn btn-primary" href="richieste?page=${page-1}">Pagina
+                        <li class="page-item"><a class="btn btn-primary" href="proposte?page=${page-1}">Pagina
                                 precedente</a>
                         </li>
                     </#if>
-                    <li class="page-item"><a class="btn btn-primary" href="richieste?page=${page+1}">Pagina
+                    <li class="page-item"><a class="btn btn-primary" href="proposte?page=${page+1}">Pagina
                             successiva</a>
                     </li>
                 </ul>

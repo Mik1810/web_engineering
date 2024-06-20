@@ -35,23 +35,13 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
     }
 
     @Override
-    public boolean isModified() {
-        return modified;
-    }
-
-    @Override
-    public void setModified(boolean dirty) {
-        this.modified = dirty;
-    }
-
-    @Override
-    public void setFeedback(Integer feedback) {
+    public void setFeedback(String feedback) {
         super.setFeedback(feedback);
         this.modified = true;
     }
 
     @Override
-    public void setStatoConsegna(Integer statoConsegna) {
+    public void setStatoConsegna(String statoConsegna) {
         super.setStatoConsegna(statoConsegna);
         this.modified = true;
     }
@@ -100,6 +90,16 @@ public class OrdineProxy extends OrdineImpl implements DataItemProxy {
         }
 
         return super.getProposta();
+    }
+
+    @Override
+    public boolean isModified() {
+        return modified;
+    }
+
+    @Override
+    public void setModified(boolean dirty) {
+        this.modified = dirty;
     }
 
     public void setTecnicoOrdiniKey(Integer key) {

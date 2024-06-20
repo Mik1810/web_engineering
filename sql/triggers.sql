@@ -9,7 +9,7 @@ CREATE TRIGGER aggiorna_data_consegna
     AFTER UPDATE ON Ordine
     FOR EACH ROW
 BEGIN
-    IF NEW.stato_consegna = 3 AND NEW.data_di_consegna IS NULL THEN
+    IF NEW.stato_consegna = 'Consegnato' AND NEW.data_di_consegna IS NULL THEN
         UPDATE Ordine
         SET data_di_consegna = CURRENT_TIMESTAMP
         WHERE ID = NEW.ID;
@@ -20,7 +20,7 @@ CREATE TRIGGER controlla_inserimento_feedback
     BEFORE UPDATE ON Ordine
     FOR EACH ROW
 BEGIN
-    IF NEW.stato_consegna != 3 AND NEW.feedback IS NOT NULL THEN
+    IF NEW.stato_consegna != 'Consegnato' AND NEW.feedback IS NOT NULL THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Inserimento feedback non consentito per questo stato di consegna.';
     END IF;
 END;
@@ -39,7 +39,7 @@ BEGIN
                         JOIN proposta p on r2.ID = p.ID_richiesta_presa_in_carico
                         JOIN ordine o2 ON p.ID = o2.ID_proposta
                         WHERE o2.ID = NEW.ID);
-    IF NEW.stato_consegna = 3 THEN
+    IF NEW.stato_consegna = 'Consegnato' THEN
         INSERT INTO chiude(ID_ordine,ID_ordinante)
         VALUES (NEW.ID,ID_ordinante);
     END IF;
