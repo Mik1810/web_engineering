@@ -138,5 +138,7 @@ h1 {
 }
 
 .titolo-popup {
+    display: flex;
+    justify-content: flex-start;
     margin-bottom: 1rem;
 }

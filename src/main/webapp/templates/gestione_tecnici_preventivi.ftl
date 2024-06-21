@@ -88,7 +88,10 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="update-screen">
-            <form method="POST" action="gestione_tecnici_preventivi?page=${page}">
+            <div class="titolo-popup">
+                <h4>Aggiungi Tecnico Preventivi</h4>
+            </div>
+            <form method="POST" action="gestione_tecnici_preventivi?page=${page}" class="contenuto-form-popup">
                 <label for="nome">Inserisci Mail:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="email" required>
                 <label for="nome">Inserisci Password:</label>
@@ -108,7 +111,10 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="modify-screen">
-            <form method="POST" action="gestione_tecnici_preventivi?page=${page}">
+            <div class="titolo-popup">
+                <h4>Modifica Tecnico Preventivi</h4>
+            </div>
+            <form method="POST" action="gestione_tecnici_preventivi?page=${page}" class="contenuto-form-popup">
                 <label for="nome">Inserisci nuova Email:</label>
                 <label for="id"></label>
                 <input type="text" id="id" name="id" style="display: none" value="${(tecnicoModifica.key)!"0"}">
