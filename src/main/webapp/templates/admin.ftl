@@ -63,18 +63,6 @@
         <div class="text">Inserisci, modifica o cancella i <b>tecnici degli ordini</b></div>
     </a>
 
-    <!--
-
-    <a class="card" href=gestione_stati>
-        <div class="icon">⚙️</div>
-        <div class="separator"></div>
-        <div class="title">Gestione stati e feedback</div>
-        <div class="text">Inserisci, modifica o cancella gli <b>stati</b> dell'applicazione e
-            i <b>feedback</b> degli ordini
-        </div>
-    </a>
-    -->
-    
 </div>
 
 <#include "modules/footer.ftl">
