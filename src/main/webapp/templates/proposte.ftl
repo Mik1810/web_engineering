@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="it">
+<html lang="it">
 <head>
     <title>MyWebmarket</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -45,8 +44,12 @@
                     <td class="left">${proposta.motivazione!""}</td>
                     <td>
                         <#if proposta.statoProposta == "In attesa">
-                            <form method="POST" action="proposte?page=${page!"0"}">
+                            <#if id??>
+                                <form method="POST" action="proposte?id=${id}">
+                            <#else>
+                                <form method="POST" action="proposte?page=${page!"0"}">
                                 <input type="hidden" id="id" name="id" value="${proposta.key}">
+                            </#if>
                                 <input class="btn btn-primary" type="submit" id="action" name="action" value="Accetta">
                             </form>
                         <#else>
@@ -56,8 +59,12 @@
                     </td>
                     <td>
                         <#if proposta.statoProposta == "In attesa">
-                            <form method="POST" action="proposte?page=${page!"0"}">
-                                <input type="hidden" name="id" value="${proposta.key}">
+                            <#if id??>
+                                <form method="POST" action="proposte?id=${id}">
+                            <#else>
+                                <form method="POST" action="proposte?page=${page!"0"}">
+                                <input type="hidden" id="id" name="id" value="${proposta.key}">
+                            </#if>
                                 <input class="btn btn-danger" type="submit" id="render" name="render" value="Rifiuta">
                             </form>
                         <#else>
@@ -94,10 +101,15 @@
     <div class="popup">
 
         <div class="update-screen">
-            <h4 class="d-flex align-items-center">Rifiuta Proposta</h4>
-            <p class="p-3"></p>
-            <form method="POST" action="proposte?page=${page!"0"}">
-                <input type="hidden" name="id" value="${(propostaDaRifiutare.key)!"0"}">
+            <div class="titolo-popup">
+                <h4>Rifiuta Proposta</h4>
+            </div>
+            <#if id??>
+                <form method="POST" accept-charset="UTF-8" action="proposte?id=${id}" class="contenuto-form-popup">
+            <#else>
+                <form method="POST" accept-charset="UTF-8" action="proposte?page=${page!"0"}" class="contenuto-form-popup">
+                <input type="hidden" id="id" name="id" value="${(propostaDaRifiutare.key)!"0"}">
+            </#if>
                 <label for="motivazione">Inserisci motivazione: </label>
                 <textarea class="textarea-note form-control" id="motivazione" name="motivazione" rows="4" cols="50"></textarea>
                 <p class="p-1"></p>
