@@ -86,7 +86,7 @@
         <!--fine div popup-->
         <div class="update-screen">
             <div class="titolo-popup">
-                <h4>Aggiungi Categoria Padre</h4>
+                <h4>Aggiunta Categoria Padre</h4>
             </div>
             <form method="POST" action="categoria_padre?page=${page}" class="contenuto-form-popup">
                 <label for="nome">Inserisci nome:</label>

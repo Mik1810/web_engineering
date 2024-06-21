@@ -96,6 +96,9 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="update-screen">
+            <div class="titolo-popup">
+                <h4>Aggiungi Uffici</h4>
+            </div>
             <form method="POST" action="gestione_uffici?page=${page}">
                 <label for="nome">Inserisci Via:</label>
                 <input class="form-control modifica-input" id="sede" name="sede" type="text" required>
@@ -124,6 +127,9 @@
         <!--fine div popup-->
 
         <div class="modify-screen">
+            <div class="titolo-popup">
+                <h4>Modifica Uffici</h4>
+            </div>
             <form method="POST" action="gestione_uffici?page=${page}">
 
                 <label for="nome">Inserisci Via:</label>

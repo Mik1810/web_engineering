@@ -75,7 +75,10 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="update-screen">
-            <form method="POST" action="categoria_nipote">
+            <div class="titolo-popup">
+                <h4>Aggiunta Categoria Figlio</h4>
+            </div>
+            <form method="POST" action="categoria_nipote" class="contenuto-form-popup">
                 <input type="hidden" name="id_categoria_genitore"
                        value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nome:</label>
@@ -110,7 +113,10 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="modify-screen">
-            <form method="POST" action="categoria_nipote">
+            <div class="titolo-popup">
+                <h4>Modifica Categoria Nipote</h4>
+            </div>
+            <form method="POST" action="categoria_nipote" class="contenuto-form-popup">
                 <input type="hidden" name="id_categoria_genitore"
                        value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nuovo nome:</label>

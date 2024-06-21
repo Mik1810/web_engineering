@@ -2,7 +2,8 @@
 <html lang="it" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" content="">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>MyWebmarket</title>
@@ -77,7 +78,10 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="update-screen">
-            <form method="POST" action="categoria_figlio">
+            <div class="titolo-popup">
+                <h4>Aggiunta Categoria Figlio</h4>
+            </div>
+            <form method="POST" action="categoria_figlio" class="contenuto-form-popup">
                 <input type="hidden" name="id_categoria_genitore" value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nome:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="text" required>
@@ -85,7 +89,8 @@
                     <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="scelta-dropdown" required>
                         <#if (categoriePadre)??>
                             <#list categoriePadre as categoriaPadre>
-                                <option class="dropdown-scelta-item" value="${categoriaPadre.key}">${categoriaPadre.nome}</option>
+                                <option class="dropdown-scelta-item"
+                                        value="${categoriaPadre.key}">${categoriaPadre.nome}</option>
                             </#list>
                         </#if>
                     </select>
@@ -110,7 +115,10 @@
     <div class="popup">
         <!--fine div popup-->
         <div class="modify-screen">
-            <form method="POST" action="categoria_figlio">
+            <div class="titolo-popup">
+                <h4>Modifica Categoria Figlio</h4>
+            </div>
+            <form method="POST" action="categoria_figlio" class="contenuto-form-popup">
                 <input type="hidden" name="id_categoria_genitore"
                        value="${id_categoria_genitore!"null"}">
                 <label for="nome">Inserisci nuovo nome:</label>

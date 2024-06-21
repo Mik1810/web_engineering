@@ -136,3 +136,7 @@ h1 {
 .data-column {
     width: 8vw;
 }
+
+.titolo-popup {
+    margin-bottom: 1rem;
+}
