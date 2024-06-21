@@ -9,7 +9,7 @@
     <#elseif logininfo.role == "TECNICO_ORDINI">
         <a class="header-a" href="tecnico_ordini"><i class="fas fa-home"></i></a>
     </#if>
-    Benvenuto, ${logininfo.email}
+        <span class="welcome-string">Benvenuto, ${logininfo.email}</span>
     </div>
     <a class="header-a" href="logout">
         <i class="fa fa-sign-out" aria-hidden="true"></i>

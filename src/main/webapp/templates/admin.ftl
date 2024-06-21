@@ -4,9 +4,11 @@
     <meta charset="UTF-8" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyWebmarket</title>
-    <link rel="stylesheet" href="/style/admin-style.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/default.css">
+    <link rel="stylesheet" href="/style/admin-style.css">
 </head>
 <body>
 <#include "modules/header.ftl">
@@ -33,6 +35,13 @@
         <div class="separator"></div>
         <div class="title">Categoria Nipote</div>
         <div class="text">Inserisci, modifica o cancella una categoria <b>nipote</b></div>
+    </a>
+
+    <a class="card" href="gestione_caratteristiche">
+        <div class="icon">🔍</div>
+        <div class="separator"></div>
+        <div class="title">Gestisci le caratteristiche</div>
+        <div class="text">Inserisci, modifica o cancella le <b>caratteristiche</b></div>
     </a>
 
     <a class="card" href="gestione_uffici">
