@@ -1,12 +1,6 @@
 package it.univaq.webmarket.data.model;
 
-import freemarker.template.SimpleNumber;
-import freemarker.template.SimpleScalar;
-import freemarker.template.TemplateMethodModelEx;
-import freemarker.template.TemplateModelException;
 import it.univaq.webmarket.framework.data.DataItem;
-
-import java.util.List;
 
 public interface Proposta extends DataItem<Integer> {
 

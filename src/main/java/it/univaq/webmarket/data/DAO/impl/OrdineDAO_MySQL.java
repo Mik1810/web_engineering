@@ -16,6 +16,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
     private final Integer offset = 5;
 
     private PreparedStatement sOrdineByID;
+    private PreparedStatement sOrdineInStoricoByID;
     private PreparedStatement iOrdine;
     private PreparedStatement uOrdine;
     private PreparedStatement sOrdiniByOrdinante;
@@ -31,6 +32,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
         try {
             super.init();
             sOrdineByID = connection.prepareStatement("SELECT * FROM ordine WHERE ID=?");
+            sOrdineInStoricoByID = connection.prepareStatement("SELECT ID_ordine FROM chiude WHERE ID=?");
             iOrdine = connection.prepareStatement("INSERT INTO ordine(stato_consegna, ID_tecnico_ordini, ID_proposta) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             uOrdine = connection.prepareStatement("UPDATE ordine SET stato_consegna=?,feedback=?, ID_tecnico_ordini=?, ID_proposta=?, version=? WHERE ID=? AND version=?");
             sOrdiniByOrdinante = connection.prepareStatement(
@@ -40,7 +42,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                     "JOIN richiestapresaincarico r2 ON r.ID = r2.ID_richiesta " +
                     "JOIN proposta p ON r2.ID = p.ID_richiesta_presa_in_carico " +
                     "JOIN ordine o2 ON p.ID = o2.ID_proposta " +
-                    "WHERE o2.stato_consegna != 3 AND o.ID = ? LIMIT ?, ?");
+                    "WHERE o.ID = ? LIMIT ?, ?");
             sOrdiniByTecnicoOrdini = connection.prepareStatement("SELECT * FROM ordine WHERE ID_tecnico_ordini=? LIMIT ?, ?");
             sStoricoByOrdinante = connection.prepareStatement("SELECT ID_ordine FROM chiude WHERE ID_ordinante=? LIMIT ?, ?");
         } catch (SQLException e) {
@@ -52,6 +54,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
     public void destroy() throws DataException {
         try{
             sOrdineByID.close();
+            sOrdineInStoricoByID.close();
             sOrdiniByTecnicoOrdini.close();
             sOrdiniByOrdinante.close();
             sStoricoByOrdinante.close();
@@ -74,7 +77,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
             o.setStatoConsegna(rs.getString("stato_consegna"));
             o.setFeedback(rs.getString("feedback"));
             o.setVersion(rs.getLong("version"));
-            o.setDataConsegna(rs.getTimestamp("data").toLocalDateTime().toLocalDate());
+            o.setDataConsegna(rs.getTimestamp("data_di_consegna") != null ? rs.getTimestamp("data_di_consegna").toLocalDateTime().toLocalDate() : null);
             o.setTecnicoOrdiniKey(rs.getInt("ID_tecnico_ordini"));
             o.setPropostaKey(rs.getInt("ID_proposta"));
             return o;
@@ -105,6 +108,23 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
     }
 
     @Override
+    public Ordine getOrdineInStorico(int key) throws DataException {
+        Ordine o = null;
+        try {
+            sOrdineInStoricoByID.setInt(1, key);
+            try (ResultSet rs = sOrdineInStoricoByID.executeQuery()) {
+                if (rs.next()) {
+                    o = getOrdine(rs.getInt("ID_ordine"));
+                    dataLayer.getCache().add(Ordine.class, o);
+                }
+            }
+            return o;
+        } catch (SQLException ex) {
+            throw new DataException("Unable to load Ordine from Storico by ID", ex);
+        }
+    }
+
+    @Override
     public List<Ordine> getStorico(Ordinante ordinante, Integer page) throws DataException {
         List<Ordine> ordini = new ArrayList<>();
         try {
@@ -113,7 +133,9 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
             sStoricoByOrdinante.setInt(3, offset);
             try (ResultSet rs = sStoricoByOrdinante.executeQuery()) {
                 while (rs.next()) {
-                    ordini.add(getOrdine(rs.getInt("ID_ordine")));
+                    int id = rs.getInt("ID_ordine");
+                    System.out.println("ID ordine: "+id);
+                    ordini.add(getOrdine(id));
                 }
             }
         } catch (SQLException ex) {
@@ -166,20 +188,21 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                     return;
                 }
                 /*
-                * stato_consegna=?,
-                * feedback=?,
-                * ID_tecnico_ordini=?,
-                * ID_proposta=?,
-                * version=?
-                * WHERE ID=?
-                * AND version=?"
+                * stato_consegna=1,
+                * feedback=2,
+                * ID_tecnico_ordini=3,
+                * ID_proposta=4,
+                * version=5
+                * WHERE ID=6
+                * AND version=7"
                 */
 
                 // Per la data di consegna ci pensa il trigger nel db ad inserirla quando vede
                 // che lo stato di consegna è "Consegnato"
 
+                System.out.println(ordine.getFeedback());
                 uOrdine.setString(1, ordine.getStatoConsegna());
-                if(ordine.getFeedback() == null) {
+                if (ordine.getFeedback() == null) {
                     uOrdine.setNull(2, Types.VARCHAR);
                 } else {
                     uOrdine.setString(2, ordine.getFeedback());
@@ -191,8 +214,8 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 long next_version = current_version + 1;
 
                 uOrdine.setLong(5, next_version);
-                uOrdine.setInt(5, ordine.getKey());
-                uOrdine.setLong(6, current_version);
+                uOrdine.setInt(6, ordine.getKey());
+                uOrdine.setLong(7, current_version);
 
                 if (uOrdine.executeUpdate() == 0) {
                     throw new OptimisticLockException(ordine);

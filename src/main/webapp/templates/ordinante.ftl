@@ -27,7 +27,9 @@
                 <h2>Richieste</h2>
                 <div>
                     <#list richieste as richiesta>
-                        <div><a class="a-postit" href="richieste?id=${richiesta.key}">Richiesta <span class="numeric">${richiesta.codiceRichiesta}</span></a></div>
+                        <a class="a-postit" href="richieste?id=${richiesta.key}">Richiesta
+                            <span class="numeric">${richiesta.codiceRichiesta}</span>
+                        </a>
                     </#list>
                 </div>
             </blockquote>
@@ -39,10 +41,9 @@
                 <h2>Proposte</h2>
                 <div>
                     <#list proposte as proposta>
-                        <div><a class="a-postit" href="proposte?id=${proposta.key}">Proposta per richiesta
+                        <a class="a-postit" href="proposte?id=${proposta.key}">Proposta per richiesta
                                 <span class="numeric">${proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</span>
-                            </a>
-                        </div>
+                        </a>
                     </#list>
                 </div>
             </blockquote>
@@ -51,16 +52,14 @@
           <div class="quote-container">
             <i class="pin"></i>
             <blockquote class="note green">
+                <h2>Ordini</h2>
                 <div>
-                    <a href="#">Opzione 1</a>
+                    <#list ordini as ordine>
+                        <a class="a-postit" href="ordini?id=${ordine.key}">Ordine per richiesta
+                                <span class="numeric">${ordine.proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</span>
+                        </a>
+                    </#list>
                 </div>
-                <div>
-                    <a href="#">Opzione 2</a>
-                </div>
-                <div>
-                    <a href="#">Opzione 3</a>
-                </div>
-              <cite class="author">Vedi tutti</cite>
             </blockquote>
           </div>
 
@@ -90,11 +89,18 @@
             <div class="text">Visualizza, accetta o rifiuta le <b>proposte</b> attive</div>
         </a>
 
-        <a class="card" href="#">
+        <a class="card" href="ordini?page=0">
+            <div class="icon">📦</div>
+            <div class="separator"></div>
+            <div class="title">Ordini</div>
+            <div class="text">Visualizza gli <b>ordini</b> e il loro stato di consegna</div>
+        </a>
+
+        <a class="card" href="storico?page=0">
             <div class="icon">📑</div>
             <div class="separator"></div>
             <div class="title">Storico</div>
-            <div class="text">Visualizza lo storico dei tuoi <b>ordini</b> e lascia un feedback</div>
+            <div class="text">Visualizza lo storico dei tuoi <b>ordini</b></div>
         </a>
 
     </div>

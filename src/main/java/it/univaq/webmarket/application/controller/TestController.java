@@ -4,7 +4,6 @@ import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.framework.data.DataException;
-import it.univaq.webmarket.framework.security.SecurityHelpers;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +21,23 @@ public class TestController extends ApplicationBaseController {
             PrintWriter out = response.getWriter();
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             Ordinante ordinante = dl.getOrdinanteDAO().getOrdinante(1);
-            List<Proposta> proposte = dl.getPropostaDAO().getAllProposteDaDecidereByOrdinante(ordinante, 0);
-            System.out.println(proposte);
 
-            out.println(proposte);
+            List<Ordine> storico = dl.getOrdineDAO().getStorico(ordinante, 0);
+            List<Ordine> ordini = dl.getOrdineDAO().getAllOrdiniByOrdinante(ordinante, 0);
+
+            System.out.println("Storico: "+storico);
+            out.println("Storico ordini:");
+            out.println(storico);
+            out.println();
+
+            System.out.println("Ordini: "+ordini);
+            out.println("Ordini:");
+            out.println(ordini);
+            out.println();
+
+            System.out.println("Ordine 1 in storico: "+dl.getOrdineDAO().getOrdineInStorico(1));
+            out.println("Ordine 1 in storico:");
+            out.println(dl.getOrdineDAO().getOrdineInStorico(1));
             out.println();
 
         } catch (IOException | DataException e) {

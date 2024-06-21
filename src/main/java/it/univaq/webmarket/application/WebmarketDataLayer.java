@@ -27,7 +27,7 @@ public class WebmarketDataLayer extends DataLayer {
         registerDAO(Caratteristica.class, new CaratteristicaDAO_MySQL(this));
         registerDAO(RichiestaPresaInCarico.class, new RichiestaPresaInCaricoDAO_MySQL(this));
         registerDAO(Proposta.class, new PropostaDAO_MySQL(this));
-        registerDAO(Ordine.class, new OrdinanteDAO_MySQL(this));
+        registerDAO(Ordine.class, new OrdineDAO_MySQL(this));
 
     }
 

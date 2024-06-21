@@ -13,6 +13,8 @@ public interface OrdineDAO {
 
     Ordine getOrdine(int key) throws DataException;
 
+    Ordine getOrdineInStorico(int key) throws DataException;
+
     // Ritorna una lista di ordini chiusi, cioè con stato ordine "Consegnato" associati ad un ordinante
     List<Ordine> getStorico(Ordinante ordinante, Integer page) throws DataException;
 

@@ -3,6 +3,7 @@ package it.univaq.webmarket.application.controller.ordinante;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.Ordinante;
+import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.framework.data.DataException;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class OrdinanteController extends ApplicationBaseController {
 
@@ -48,8 +50,17 @@ public class OrdinanteController extends ApplicationBaseController {
                 proposte = proposte.subList(0, 3);
             }
 
+            List<Ordine> ordini = dl.getOrdineDAO().getAllOrdiniByOrdinante(ordinante, 0)
+                    .stream()
+                    .filter(ordine -> !ordine.getStatoConsegna().equals("Consegnato"))
+                    .collect(Collectors.toList());
+            if(ordini.size() > 3) {
+                ordini = ordini.subList(0, 3);
+            }
+
             datamodel.put("richieste", richieste);
             datamodel.put("proposte", proposte);
+            datamodel.put("ordini", ordini);
         } catch (DataException e) {
             handleError(e, request, response);
         }

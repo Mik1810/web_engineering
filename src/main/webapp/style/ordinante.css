@@ -26,6 +26,7 @@
     display: flex;
     flex-direction: column;
     transition: all 0.3s ease;
+
 }
 
 .note > * {
@@ -143,9 +144,14 @@ a, a:focus, a:hover {
     text-decoration: none;
     color: #333;
 }
+div:has(.a-postit) {
+    text-align: center;
+}
+.a-postit {
+    display: block;
+}
 
 .a-postit:hover {
-    padding: .2rem;
     background-color: rgb(255, 255, 255, 0.7);
     border-radius: .7rem;
 }

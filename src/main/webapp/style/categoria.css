@@ -138,7 +138,7 @@ h1 {
     width: 8vw;
 }
 
-.proposte-container {
+.proposte-container, .ordine-container {
     margin: auto;
     padding-right: 2rem;
     padding-left: 2rem;

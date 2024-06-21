@@ -100,6 +100,14 @@
         <servlet-class>it.univaq.webmarket.application.controller.ordinante.VisualizzaProposteController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>visualizza_ordini</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.ordinante.VisualizzaOrdiniController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>storico</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.ordinante.StoricoController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>test</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.TestController</servlet-class>
     </servlet>
@@ -122,7 +130,9 @@
             /crea_richiesta,
             /richieste,
             /caratteristiche,
-            /proposte
+            /proposte,
+            /ordini,
+            /storico
         </param-value>
     </context-param>
     <servlet-mapping>
@@ -162,6 +172,10 @@
         <url-pattern>/categoria_nipote</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>gestione_ordinanti</servlet-name>
+        <url-pattern>/gestione_ordinanti</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ordinante</servlet-name>
         <url-pattern>/ordinante</url-pattern>
     </servlet-mapping>
@@ -182,8 +196,12 @@
         <url-pattern>/proposte</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>gestione_ordinanti</servlet-name>
-        <url-pattern>/gestione_ordinanti</url-pattern>
+        <servlet-name>visualizza_ordini</servlet-name>
+        <url-pattern>/ordini</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>storico</servlet-name>
+        <url-pattern>/storico</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
