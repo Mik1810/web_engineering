@@ -1,8 +1,12 @@
 package it.univaq.webmarket.framework.utils;
 
+import it.univaq.webmarket.data.model.CaratteristicaConValore;
+import it.univaq.webmarket.data.model.Richiesta;
+import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 
@@ -14,12 +18,16 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
 public class EmailSender {
+
+    public enum Event {
+        REQUEST_REGISTERD,
+        REQUEST_ACCEPTED,
+    }
 
     private String emailFrom, password;
     private Properties properties;
@@ -33,13 +41,6 @@ public class EmailSender {
     public void sendEmail(String to, String messageText) {
         // Uso un thread perchè potrebbe metterci del tempo ad inviare l'email
         new Thread(() -> {
-            // Get system properties
-            Properties properties = System.getProperties();
-            properties.put("mail.smtp.host", "smtp-mail.outlook.com");
-            properties.put("mail.smtp.port", "587");
-            properties.put("mail.smtp.starttls.enable", "true");
-            properties.put("mail.smtp.auth", "true");
-            properties.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
             Session session = Session.getInstance(properties,  new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -72,24 +73,40 @@ public class EmailSender {
         }).start();
     }
 
-    public void sendPDFWithEmail() throws IOException {
+    private void requestRegistered(String to, Richiesta richiesta) {
+
+        // Creazione del documento PDF
+        StringBuilder sb = new StringBuilder();
+        sb.append("Richiesta: ").append(richiesta.getCodiceRichiesta()).append("\n");
+        sb.append("Data: ").append(richiesta.getData()).append("\n");
+        sb.append("Ordinante: ").append(richiesta.getOrdinante().getEmail()).append("\n");
+        sb.append("Note: ").append(richiesta.getNote()).append("\n");
+        sb.append("Caratteristiche: ").append("\n");
+        for (CaratteristicaConValore ccv : richiesta.getCaratteristicheConValore()) {
+            sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
+        }
+        String text = sb.toString();
+        String subject = "Richiesta creata con successo: " + richiesta.getCodiceRichiesta();
+        String filename = "richiesta " + richiesta.getCodiceRichiesta() + ".pdf";
+
         new Thread(() -> {
             try {
-                // Creazione del documento PDF
                 PDDocument document = new PDDocument();
                 PDPage page = new PDPage();
                 document.addPage(page);
                 try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
                     contentStream.beginText();
                     contentStream.newLineAtOffset(100, 700);
-                    contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD), 12);
-                    contentStream.showText("Ciao sono michael");
+                    contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN), 12);
+                    String[] lines = text.split("\\r?\\n");
+                    for (String line : lines) {
+                        contentStream.showText(line);
+                        contentStream.newLineAtOffset(0, -14); // Sposta verso il basso per la prossima linea
+                    }
                     contentStream.endText();
                 }
-                document.save( "hello_world.pdf");
+                document.save(filename);
                 document.close();
-
-                // Configurazione delle proprietà per la sessione di posta
 
                 // Creazione della sessione di posta
                 Session session = Session.getInstance(properties, new Authenticator() {
@@ -97,20 +114,22 @@ public class EmailSender {
                         return new PasswordAuthentication(emailFrom, password);
                     }
                 });
+
+                // Messaggio da allegare all'email
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(this.emailFrom)); // Inserire il proprio indirizzo email
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("elisabetta.mecozzi0@gmail.com")); // Inserire il destinatario
-                message.setSubject("File PDF con Hello World");
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to)); // Inserire il destinatario
+                message.setSubject(subject);
 
                 // Creazione del corpo del messaggio
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
-                messageBodyPart.setText("Ciao, sono michael");
+                messageBodyPart.setText(text);
 
                 // Creazione della parte dell'allegato
                 MimeBodyPart attachmentPart = new MimeBodyPart();
-                DataSource source = new FileDataSource("hello_world.pdf");
+                DataSource source = new FileDataSource(filename);
                 attachmentPart.setDataHandler(new DataHandler(source));
-                attachmentPart.setFileName("hello_world.pdf");
+                attachmentPart.setFileName(filename);
 
                 // Composizione del messaggio
                 MimeMultipart multipart = new MimeMultipart();
@@ -124,9 +143,21 @@ public class EmailSender {
                 Transport.send(message);
 
                 Logger.getLogger(EmailSender.class.getName()).info("Email inviata con successo!");
-            } catch (IOException | MessagingException e) {
+            } catch (MessagingException | IOException e) {
                 Logger.getLogger(EmailSender.class.getName()).severe(e.getMessage());
             }
         }).start();
+    }
+
+    public void sendPDFWithEmail(String to, Object obj, Event event) {
+        switch (event) {
+            case REQUEST_REGISTERD:
+                Richiesta richiesta = (RichiestaProxy) obj;
+                requestRegistered(to, richiesta);
+                break;
+            case REQUEST_ACCEPTED:
+                break;
+        }
+
     }
 }

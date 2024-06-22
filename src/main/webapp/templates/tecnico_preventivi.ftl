@@ -39,7 +39,7 @@
     <div class="quote-container">
         <i class="pin"></i>
         <blockquote class="note pink">
-            <h2>Proposte</h2>
+            <h2>Richieste prese in carico</h2>
             <div>
                 <#--
                 <#list proposte as proposta>
@@ -55,7 +55,7 @@
     <div class="quote-container">
         <i class="pin"></i>
         <blockquote class="note green">
-            <h2>Ordini</h2>
+            <h2>Proposte</h2>
             <div>
                 <#--
                 <#list ordini as ordine>

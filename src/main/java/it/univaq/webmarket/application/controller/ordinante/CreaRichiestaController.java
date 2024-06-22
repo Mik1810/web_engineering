@@ -8,6 +8,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.utils.EmailSender;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,7 @@ public class CreaRichiestaController extends ApplicationBaseController {
 
         try {
             if (parameterMap.containsKey("categoriaPadre")) {
-                Integer idCategoriaPadre = Integer.parseInt(parameterMap.get("categoriaPadre")[0]);
+                int idCategoriaPadre = Integer.parseInt(parameterMap.get("categoriaPadre")[0]);
                 ObjectMapper mapper = new ObjectMapper();
                 CategoriaPadre categoriaPadre = dl.getCategoriaDAO()
                         .getCategoriaPadre(idCategoriaPadre);
@@ -56,7 +57,7 @@ public class CreaRichiestaController extends ApplicationBaseController {
 
             } else if (parameterMap.containsKey("categoriaFiglio")) {
 
-                Integer idCategoriaFiglio = Integer.parseInt(parameterMap.get("categoriaFiglio")[0]);
+                int idCategoriaFiglio = Integer.parseInt(parameterMap.get("categoriaFiglio")[0]);
                 ObjectMapper mapper = new ObjectMapper();
                 CategoriaFiglio categoriafiglio = dl.getCategoriaDAO()
                         .getCategoriaFiglio(idCategoriaFiglio);
@@ -70,13 +71,11 @@ public class CreaRichiestaController extends ApplicationBaseController {
 
             } else if (parameterMap.containsKey("categoriaNipote")) {
 
-                Integer idCategoriaNipote = Integer.parseInt(parameterMap.get("categoriaNipote")[0]);
+                int idCategoriaNipote = Integer.parseInt(parameterMap.get("categoriaNipote")[0]);
                 ObjectMapper mapper = new ObjectMapper();
                 CategoriaNipote categoriaNipote = dl.getCategoriaDAO()
                         .getCategoriaNipote(idCategoriaNipote);
-                System.out.println(categoriaNipote);
                 List<Caratteristica> caratteristiche = dl.getCaratteristicaDAO().getAllCaratteristiche(categoriaNipote);
-                caratteristiche.forEach(System.out::println);
                 String json = mapper.writeValueAsString(caratteristiche);
 
                 response.setContentType("application/json");
@@ -113,6 +112,9 @@ public class CreaRichiestaController extends ApplicationBaseController {
                         dl.getCaratteristicaDAO().storeCaratteristicaConValore(caratteristicaConValore, richiestaID);
                     }
                 }
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                sender.sendPDFWithEmail(ordinante.getEmail(), richiesta, EmailSender.Event.REQUEST_REGISTERD);
+
                 response.sendRedirect("ordinante");
             } else {
                 renderTemplate(request, response);

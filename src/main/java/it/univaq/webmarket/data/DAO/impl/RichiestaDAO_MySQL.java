@@ -172,7 +172,8 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
 
             } else { //INSERT
                 //TODO: verificare che il codice richiesta non esista già nel DB
-                iRichiesta.setString(1, getRandomCodiceRichiesta(10));
+                String codiceRichiesta = getRandomCodiceRichiesta(10);
+                iRichiesta.setString(1, codiceRichiesta);
                 if (richiesta.getNote() != null) {
                     iRichiesta.setString(2, richiesta.getNote());
                 } else {
@@ -186,6 +187,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
                         if (keys.next()) {
                             int key = keys.getInt(1);
                             richiesta.setKey(key);
+                            richiesta.setCodiceRichiesta(codiceRichiesta);
                             dataLayer.getCache().add(Richiesta.class, richiesta);
                         }
                     }
