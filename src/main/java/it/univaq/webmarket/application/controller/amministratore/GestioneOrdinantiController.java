@@ -97,14 +97,9 @@ public class GestioneOrdinantiController extends ApplicationBaseController {
 
             Ufficio ufficio = dl.getUfficioDAO().getUfficio(Integer.parseInt(request.getParameter("sceltaUfficio")));
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
-                ordinante.setEmail(request.getParameter("nome"));
-                ordinante.setPassword(request.getParameter("password"));
-                ordinante.setUfficio(ufficio);
-            } else {
-                datamodel.put("success", "-1");
-                return;
-            }
+            ordinante.setEmail(request.getParameter("nome"));
+            ordinante.setPassword(request.getParameter("password"));
+            ordinante.setUfficio(ufficio);
 
 
             dl.getOrdinanteDAO().storeOrdinante(ordinante);
@@ -120,7 +115,7 @@ public class GestioneOrdinantiController extends ApplicationBaseController {
                             .getAllOrdinanti(0));
                     datamodel.put("page", 0);
                 }
-                datamodel.put("success", "1");
+                datamodel.put("success", "1"); // Modifica effettuata con successo
 
             } catch (DataException e) {
                 handleError(e, request, response);
@@ -168,21 +163,16 @@ public class GestioneOrdinantiController extends ApplicationBaseController {
             Ordinante ordinante = dl.getOrdinanteDAO().createOrdinante();
             Ufficio ufficio = dl.getUfficioDAO().getUfficio(Integer.parseInt(request.getParameter("sceltaUfficio")));
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
-                ordinante.setUfficio(ufficio);
-                ordinante.setEmail(request.getParameter("nome"));
-                ordinante.setPassword(request.getParameter("password"));
-            } else {
-                datamodel.put("success", "-1");
-                return;
-            }
+            ordinante.setUfficio(ufficio);
+            ordinante.setEmail(request.getParameter("nome"));
+            ordinante.setPassword(request.getParameter("password"));
 
 
             if (dl.getOrdinanteDAO().getOrdinanteByEmail(ordinante.getEmail()) != null) {
-                datamodel.put("success", "-2");
+                datamodel.put("success", "-2"); // Ordinante già presente
             } else {
                 dl.getOrdinanteDAO().storeOrdinante(ordinante);
-                datamodel.put("success", "2");
+                datamodel.put("success", "2"); // Inserimento effettuato con successo
             }
 
 

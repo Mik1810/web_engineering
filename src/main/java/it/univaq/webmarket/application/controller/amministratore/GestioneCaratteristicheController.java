@@ -114,7 +114,7 @@ public class GestioneCaratteristicheController extends ApplicationBaseController
                 datamodel.put("caratteristiche", dl.getCaratteristicaDAO().getAllCaratteristiche(0));
                 datamodel.put("page", 0);
             }
-            datamodel.put("success", "1");
+            datamodel.put("success", "1"); //Successo, caratteristica modificata
 
 
             result.activate("gestione_caratteristiche.ftl", datamodel, request, response);

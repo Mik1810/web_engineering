@@ -89,31 +89,24 @@ public class GestioneTecniciPreventiviController extends ApplicationBaseControll
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
-                tecnico.setEmail(request.getParameter("nome"));
-                tecnico.setPassword(request.getParameter("password"));
-            } else {
-                datamodel.put("success", "-1");
-                return;
-            }
+
+            tecnico.setEmail(request.getParameter("nome"));
+            tecnico.setPassword(request.getParameter("password"));
+
 
             dl.getTecnicoPreventiviDAO().storeTecnicoPreventivi(tecnico);
 
 
-            try {
-                if (request.getParameter("page") != null) {
-                    Integer page = Integer.parseInt(request.getParameter("page"));
-                    datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(page));
-                    datamodel.put("page", page);
-                } else {
-                    datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(0));
-                    datamodel.put("page", 0);
-                }
-                datamodel.put("success", "1");
-
-            } catch (DataException e) {
-                handleError(e, request, response);
+            if (request.getParameter("page") != null) {
+                Integer page = Integer.parseInt(request.getParameter("page"));
+                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(page));
+                datamodel.put("page", page);
+            } else {
+                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(0));
+                datamodel.put("page", 0);
             }
+            datamodel.put("success", "1"); // Modifica effettuata con successo
+
 
             result.activate("gestione_tecnici_preventivi.ftl", datamodel, request, response);
 
@@ -152,19 +145,15 @@ public class GestioneTecniciPreventiviController extends ApplicationBaseControll
 
             TecnicoPreventivi tecnico = dl.getTecnicoPreventiviDAO().createTecnicoPreventivi();
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
-                tecnico.setEmail(request.getParameter("nome"));
-                tecnico.setPassword(request.getParameter("password"));
-            } else {
-                datamodel.put("success", "-1");
-                return;
-            }
+            tecnico.setEmail(request.getParameter("nome"));
+            tecnico.setPassword(request.getParameter("password"));
+
 
             if (dl.getTecnicoPreventiviDAO().getTecnicoPreventiviByEmail(tecnico.getEmail()) != null) {
-                datamodel.put("success", "-2");
+                datamodel.put("success", "-2"); // Tecnico già presente
             } else {
                 dl.getTecnicoPreventiviDAO().storeTecnicoPreventivi(tecnico);
-                datamodel.put("success", "2");
+                datamodel.put("success", "2"); // Aggiunta effettuata con successo
             }
 
 

@@ -107,7 +107,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
                     datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
                     datamodel.put("page", 0);
                 }
-                datamodel.put("success", "1");
+                datamodel.put("success", "1");  // 1 = modifica effettuata con successo
 
             } catch (DataException e) {
                 handleError(e, request, response);
@@ -135,7 +135,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
                 datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
                 datamodel.put("page", 0);
             }
-            
+
             datamodel.put("visibilityInsert", "flex");
 
             result.activate("categorie_padre.ftl", datamodel, request, response);
@@ -165,7 +165,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
                 datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
                 datamodel.put("page", 0);
             }
-            datamodel.put("success", "2");
+            datamodel.put("success", "2"); // 2 = inserimento effettuato con successo
 
             result.activate("categorie_padre.ftl", datamodel, request, response);
         } catch (DataException ex) {

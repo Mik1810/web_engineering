@@ -48,10 +48,10 @@ public class CategoriaFiglioController extends ApplicationBaseController {
 
         if (request.getParameter("showAlert") != null) {
             if (request.getParameter("showAlert").equals("1")) {
-                datamodel.put("success", "1");
+                datamodel.put("success", "1"); //modifica effettuata
             }
             if (request.getParameter("showAlert").equals("2")) {
-                datamodel.put("success", "2");
+                datamodel.put("success", "2"); //inserimento effettuato
             }
         }
 
@@ -80,15 +80,12 @@ public class CategoriaFiglioController extends ApplicationBaseController {
             } else {
 
 
-                try {
-                    datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
-                    datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                    datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
-                    datamodel.put("categoriaGenitoreEsistente", categoriaFiglio.getCategoriaGenitore());
-                    datamodel.put("visibilityUpdate", "flex");
-                } catch (DataException e) {
-                    handleError(e, request, response);
-                }
+                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
+                datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
+                datamodel.put("categoriaGenitoreEsistente", categoriaFiglio.getCategoriaGenitore());
+                datamodel.put("visibilityUpdate", "flex");
+
             }
 
             result.activate("categorie_figlio.ftl", datamodel, request, response);
@@ -135,14 +132,10 @@ public class CategoriaFiglioController extends ApplicationBaseController {
 
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
-            try {
-                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                datamodel.put("success", "1");
 
-            } catch (DataException e) {
-                handleError(e, request, response);
-            }
+            datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
+            datamodel.put("success", "1"); //modifica effettuata
 
 
             if (id_categoria_genitore.equals("null")) {
@@ -175,7 +168,7 @@ public class CategoriaFiglioController extends ApplicationBaseController {
             dl.getCategoriaDAO().storeCategoriaFiglio(categoriaFiglio);
 
             datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-            datamodel.put("success", "2");
+            datamodel.put("success", "2"); //inserimento effettuato
 
             result.activate("categorie_figlio.ftl", datamodel, request, response);
 

@@ -50,10 +50,10 @@ public class CategoriaNipoteController extends ApplicationBaseController {
 
         if (request.getParameter("showAlert") != null) {
             if (request.getParameter("showAlert").equals("1")) {
-                datamodel.put("success", "1");
+                datamodel.put("success", "1"); //successo => categoria nipote aggiunta
             }
             if (request.getParameter("showAlert").equals("2")) {
-                datamodel.put("success", "2");
+                datamodel.put("success", "2"); //successo => categoria nipote modificata
             }
         }
 
@@ -81,16 +81,12 @@ public class CategoriaNipoteController extends ApplicationBaseController {
                 datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key));
             } else {
 
+                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key));
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
+                datamodel.put("categorieFiglio", dl.getCategoriaDAO().getAllCategorieFiglio());
+                datamodel.put("categoriaGenitoreEsistente", categoriaNipote.getCategoriaGenitore());
+                datamodel.put("visibilityUpdate", "flex");
 
-                try {
-                    datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key));
-                    datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
-                    datamodel.put("categorieFiglio", dl.getCategoriaDAO().getAllCategorieFiglio());
-                    datamodel.put("categoriaGenitoreEsistente", categoriaNipote.getCategoriaGenitore());
-                    datamodel.put("visibilityUpdate", "flex");
-                } catch (DataException e) {
-                    handleError(e, request, response);
-                }
             }
 
             result.activate("categorie_nipote.ftl", datamodel, request, response);
@@ -137,14 +133,10 @@ public class CategoriaNipoteController extends ApplicationBaseController {
 
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
-            try {
-                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key));
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
-                datamodel.put("success", "1");
 
-            } catch (DataException e) {
-                handleError(e, request, response);
-            }
+            datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key));
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
+            datamodel.put("success", "1"); //successo => categoria nipote modificata
 
 
             if (id_categoria_genitore.equals("null")) {
@@ -169,19 +161,13 @@ public class CategoriaNipoteController extends ApplicationBaseController {
 
             CategoriaNipote categoriaNipote = dl.getCategoriaDAO().createCategoriaNipote();
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").equals("")) {
-                categoriaNipote.setNome(request.getParameter("nome"));
-            } else {
-                datamodel.put("success", "-2");
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
-                result.activate("categorie_nipote.ftl", datamodel, request, response);
-                return;
-            }
+            categoriaNipote.setNome(request.getParameter("nome"));
+
 
             if (request.getParameter("sceltaCategoriaFiglio") != null && !request.getParameter("sceltaCategoriaFiglio").isEmpty()) {
                 categoriaNipote.setCategoriaGenitore(dl.getCategoriaDAO().getCategoriaFiglio(Integer.parseInt(request.getParameter("sceltaCategoriaFiglio"))));
             } else {
-                datamodel.put("success", "-1");
+                datamodel.put("success", "-1"); //errore => non è stata selezionata nessuna categoria figlio
                 datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
                 result.activate("categorie_nipote.ftl", datamodel, request, response);
                 return;
@@ -190,13 +176,11 @@ public class CategoriaNipoteController extends ApplicationBaseController {
 
             dl.getCategoriaDAO().storeCategoriaNipote(categoriaNipote);
 
-            try {
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
-                datamodel.put("success", "2");
 
-            } catch (DataException e) {
-                handleError(e, request, response);
-            }
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
+            datamodel.put("success", "2"); //successo => categoria nipote aggiunta
+
+
             result.activate("categorie_nipote.ftl", datamodel, request, response);
 
         } catch (DataException ex) {
@@ -217,14 +201,6 @@ public class CategoriaNipoteController extends ApplicationBaseController {
             result.activate("categorie_nipote.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
-        }
-    }
-
-    private void handleCancel(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        if (request.getParameter("id_categoria_genitore") != null) {
-            response.sendRedirect("categoria_nipote?id_categoria_genitore=" + request.getParameter("id_categoria_genitore"));
-        } else {
-            response.sendRedirect("categoria_nipote");
         }
     }
 
@@ -257,9 +233,6 @@ public class CategoriaNipoteController extends ApplicationBaseController {
 
                     // Se devo effettuare l'aggiunta
                     handleInsert(request, response);
-                } else if ("Annulla".equals(request.getParameter("action"))) {
-                    // Se voglio annullare l'azione
-                    handleCancel(request, response);
                 } else renderCategoriePage(request, response);
             } else {
                 renderCategoriePage(request, response);

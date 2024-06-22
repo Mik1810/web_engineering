@@ -103,20 +103,17 @@ public class GestioneUfficiController extends ApplicationBaseController {
 
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
-            try {
-                if (request.getParameter("page") != null) {
-                    Integer page = Integer.parseInt(request.getParameter("page"));
-                    datamodel.put("categorie", dl.getUfficioDAO().getAllUffici(page));
-                    datamodel.put("page", page);
-                } else {
-                    datamodel.put("categorie", dl.getUfficioDAO().getAllUffici());
-                    datamodel.put("page", 0);
-                }
-                datamodel.put("success", "1");
 
-            } catch (DataException e) {
-                handleError(e, request, response);
+            if (request.getParameter("page") != null) {
+                Integer page = Integer.parseInt(request.getParameter("page"));
+                datamodel.put("categorie", dl.getUfficioDAO().getAllUffici(page));
+                datamodel.put("page", page);
+            } else {
+                datamodel.put("categorie", dl.getUfficioDAO().getAllUffici());
+                datamodel.put("page", 0);
             }
+            datamodel.put("success", "1"); // 1 = modifica effettuata con successo
+
 
             result.activate("gestione_uffici.ftl", datamodel, request, response);
 
@@ -172,7 +169,7 @@ public class GestioneUfficiController extends ApplicationBaseController {
                 datamodel.put("categorie", dl.getUfficioDAO().getAllUffici(0));
                 datamodel.put("page", 0);
             }
-            datamodel.put("success", "2");
+            datamodel.put("success", "2"); // 2 = inserimento effettuato con successo
 
             result.activate("gestione_uffici.ftl", datamodel, request, response);
         } catch (DataException ex) {

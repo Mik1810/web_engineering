@@ -89,31 +89,24 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
-                tecnico.setEmail(request.getParameter("nome"));
-                tecnico.setPassword(request.getParameter("password"));
-            } else {
-                datamodel.put("success", "-1");
-                return;
-            }
+
+            tecnico.setEmail(request.getParameter("nome"));
+            tecnico.setPassword(request.getParameter("password"));
 
 
             dl.getTecnicoOrdiniDAO().storeTecnicoOrdini(tecnico);
 
-            try {
-                if (request.getParameter("page") != null) {
-                    Integer page = Integer.parseInt(request.getParameter("page"));
-                    datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(page));
-                    datamodel.put("page", page);
-                } else {
-                    datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(0));
-                    datamodel.put("page", 0);
-                }
-                datamodel.put("success", "1");
 
-            } catch (DataException e) {
-                handleError(e, request, response);
+            if (request.getParameter("page") != null) {
+                Integer page = Integer.parseInt(request.getParameter("page"));
+                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(page));
+                datamodel.put("page", page);
+            } else {
+                datamodel.put("tecnici", dl.getTecnicoOrdiniDAO().getAllTecnicoOrdini(0));
+                datamodel.put("page", 0);
             }
+            datamodel.put("success", "1"); // Modifica effettuata con successo
+
 
             result.activate("gestione_tecnici_ordini.ftl", datamodel, request, response);
 
@@ -152,19 +145,15 @@ public class GestioneTecniciOrdiniController extends ApplicationBaseController {
 
             TecnicoOrdini tecnico = dl.getTecnicoOrdiniDAO().createTecnicoOrdini();
 
-            if (request.getParameter("nome") != null && !request.getParameter("nome").isEmpty()) {
-                tecnico.setEmail(request.getParameter("nome"));
-                tecnico.setPassword(request.getParameter("password"));
-            } else {
-                datamodel.put("success", "-1");
-                return;
-            }
+            tecnico.setEmail(request.getParameter("nome"));
+            tecnico.setPassword(request.getParameter("password"));
+
 
             if (dl.getTecnicoOrdiniDAO().getTecnicoOrdiniByEmail(tecnico.getEmail()) != null) {
-                datamodel.put("success", "-2");
+                datamodel.put("success", "-2"); // Tecnico già presente
             } else {
                 dl.getTecnicoOrdiniDAO().storeTecnicoOrdini(tecnico);
-                datamodel.put("success", "2");
+                datamodel.put("success", "2"); // Aggiunta effettuata con successo
             }
 
 

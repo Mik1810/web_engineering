@@ -6,15 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(span.innerText);
     if (span.innerText === "1") {
 
-        sweetAlert("OK", "Categoria Nipote modificata con successo.", "success", () => {
+        sweetAlert("Modifica effettuata", "Categoria Nipote modificata con successo.", "success", () => {
         });
 
     } else if (span.innerText === "2") {
-        sweetAlert("OK", "Categoria Nipote aggiunta con successo.", "success", () => {
-        });
-
-    } else if (span.innerText === "-2") {
-        sweetAlert("Errore", "Categoria Nipote non aggiunta, nome già esistente.", "error", () => {
+        sweetAlert("Aggiunta effettuata", "Categoria Nipote aggiunta con successo.", "success", () => {
         });
 
     } else if (span.innerText === "-1") {
