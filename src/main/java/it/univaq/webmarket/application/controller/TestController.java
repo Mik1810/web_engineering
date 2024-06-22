@@ -4,6 +4,7 @@ import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.framework.data.DataException;
+import it.univaq.webmarket.framework.security.SecurityHelpers;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,27 +21,35 @@ public class TestController extends ApplicationBaseController {
         try {
             PrintWriter out = response.getWriter();
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            Ordinante ordinante = dl.getOrdinanteDAO().getOrdinante(1);
 
-            List<Ordine> storico = dl.getOrdineDAO().getStorico(ordinante, 0);
-            List<Ordine> ordini = dl.getOrdineDAO().getAllOrdiniByOrdinante(ordinante, 0);
-
-            System.out.println("Storico: "+storico);
-            out.println("Storico ordini:");
-            out.println(storico);
+            String password = SecurityHelpers.getPasswordHashPBKDF2("giacomopass");
+            System.out.println(password);
+            out.println("Giacomo: "+password);
             out.println();
 
-            System.out.println("Ordini: "+ordini);
-            out.println("Ordini:");
-            out.println(ordini);
+            password = SecurityHelpers.getPasswordHashPBKDF2("techprevpass1");
+            System.out.println(password);
+            out.println("techprevpass1: "+password);
             out.println();
 
-            System.out.println("Ordine 1 in storico: "+dl.getOrdineDAO().getOrdineInStorico(1));
-            out.println("Ordine 1 in storico:");
-            out.println(dl.getOrdineDAO().getOrdineInStorico(1));
+            password = SecurityHelpers.getPasswordHashPBKDF2("techprevpass2");
+            System.out.println(password);
+            out.println("techprevpass2: "+password);
             out.println();
 
-        } catch (IOException | DataException e) {
+            password = SecurityHelpers.getPasswordHashPBKDF2("techordpass2");
+            System.out.println(password);
+            out.println("techordpass2: "+password);
+            out.println();
+
+            password = SecurityHelpers.getPasswordHashPBKDF2("techordpass2");
+            System.out.println(password);
+            out.println("techordpass2: "+password);
+            out.println();
+
+
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

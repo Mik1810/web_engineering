@@ -41,8 +41,8 @@ INSERT INTO Ufficio (sede, numero, piano, telefono, citta) VALUES
 
 -- Popolamento Ordinante
 INSERT INTO Ordinante (email, password, ID_ufficio) VALUES
-('michaelpiccirilli3@gmail.com', '78bcd4a8fdf004fbc369061a84b5cd31312da76008934816ebeb74ea3afd23f66375dffde3b91b8872ca20ed36a7b071', 3),
-('paoloccigiacomo@gmail.com', 'miksoccombi', 1);
+('michaelpiccirilli3@gmail.com', '78bcd4a8fdf004fbc369061a84b5cd31312da76008934816ebeb74ea3afd23f66375dffde3b91b8872ca20ed36a7b071', 3), #supersafepassword
+('paoloccigiacomo@gmail.com', 'c93af3c4d15d0614f28aa3c0a3f929b01f0bbafc0dcf39608f5934e200b0094b1712e362953461c3b39fba751aae358b', 1); #giacomopass
 
 -- Popolamento RichiestaAcquisto
 INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES
@@ -60,8 +60,8 @@ INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES
 
 -- Popolamento TecnicoPreventivi
 INSERT INTO TecnicoPreventivi (email, password) VALUES
-('techprev1@gmail.com', 'password1'),
-('techprev2@gmail.com', 'password2');
+('techprev1@gmail.com', '86dfa250e8da2a2add194605ef10dd450692f9706c01e7b352d5f13f410ccf179252694deeecff8e71a416b668abb288'), #techprevpass1
+('techprev2@gmail.com', 'e942d4bea001c6c035cf6783f17d8d8b0ab0c5dffee23ff48bd6d157b325079c7a7f3a003fefb42b04cfe5b89123f7ae'); #techprevpass2
 
 -- Popolamento RichiestaPresaInCarico
 INSERT INTO RichiestaPresaInCarico (ID_richiesta, ID_tecnico_preventivi) VALUES
@@ -71,12 +71,12 @@ INSERT INTO RichiestaPresaInCarico (ID_richiesta, ID_tecnico_preventivi) VALUES
 
 -- Popolamento Amministratore
 INSERT INTO Amministratore (email, password) VALUES
- ('admin@gmail.com', '282db4a4425f50237e7df29d56988825f15dd8b34fa74af54e650ce0fd8897a82dff0b952017a3a88a62f5f1b0e0e467');
+ ('admin@gmail.com', '282db4a4425f50237e7df29d56988825f15dd8b34fa74af54e650ce0fd8897a82dff0b952017a3a88a62f5f1b0e0e467'); #admin
 
 -- Popolamento TecnicoOrdini
 INSERT INTO TecnicoOrdini (email, password) VALUES
-('techord1@gmail.com', 'techpassword1'),
-('techord2@gmail.com', 'techpassword2');
+('techord1@gmail.com', '86dfa250e8da2a2add194605ef10dd450692f9706c01e7b352d5f13f410ccf179252694deeecff8e71a416b668abb288'), #techordpass1
+('techord2@gmail.com', 'e1333ca4aa5ee5963c9b8a38bc62024fb9c9636e42d01e4f0fb85f59b94d31256a8d2dd9c3f2aab686345bbebf637f6c'); #techordpass2
 
 -- Popolamento Proposta
 INSERT INTO Proposta(codice_prodotto, produttore, note, prezzo, nome_prodotto, URL, stato_proposta, motivazione, ID_richiesta_presa_in_carico) VALUES

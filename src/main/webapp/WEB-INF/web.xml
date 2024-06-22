@@ -34,7 +34,7 @@
     </context-param>
     <context-param>
         <param-name>debug</param-name>
-        <param-value>true</param-value>
+        <param-value>false</param-value>
     </context-param>
     <listener>
         <listener-class>it.univaq.webmarket.framework.application.ApplicationInitializer</listener-class>
@@ -108,6 +108,10 @@
         <servlet-class>it.univaq.webmarket.application.controller.ordinante.StoricoController</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>tecnico_preventivi</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.TecnicoPreventiviController</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>test</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.TestController</servlet-class>
     </servlet>
@@ -132,7 +136,10 @@
             /caratteristiche,
             /proposte,
             /ordini,
-            /storico
+            /storico,
+
+            <!-- tecnico preventivi -->
+            /tecnico_preventivi
         </param-value>
     </context-param>
     <servlet-mapping>
@@ -202,6 +209,10 @@
     <servlet-mapping>
         <servlet-name>storico</servlet-name>
         <url-pattern>/storico</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tecnico_preventivi</servlet-name>
+        <url-pattern>/tecnico_preventivi</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>test</servlet-name>

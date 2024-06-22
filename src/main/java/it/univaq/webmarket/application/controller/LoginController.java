@@ -123,10 +123,10 @@ public class LoginController extends ApplicationBaseController {
                 response.sendRedirect("ordinante");
                 break;
             case TECNICO_PREVENTIVI:
-                response.sendRedirect("tecnicoprev");
+                response.sendRedirect("tecnico_preventivi");
                 break;
             case TECNICO_ORDINI:
-                response.sendRedirect("tecnicoord");
+                response.sendRedirect("tecnico_ordini");
                 break;
             case AMMINISTRATORE:
                 response.sendRedirect("admin");
