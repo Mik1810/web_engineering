@@ -135,8 +135,7 @@ public class CategoriaPadreController extends ApplicationBaseController {
                 datamodel.put("categorie", dl.getCategoriaDAO().getAllCategoriePadre(0));
                 datamodel.put("page", 0);
             }
-
-            //TODO: da chiedere a giacomo ahahhahah
+            
             datamodel.put("visibilityInsert", "flex");
 
             result.activate("categorie_padre.ftl", datamodel, request, response);

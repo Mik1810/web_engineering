@@ -16,7 +16,7 @@ import java.util.List;
 
 public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
 
-    private Integer offset;
+    private Integer offset = 5;
 
     private PreparedStatement iCaratteristica;
     private PreparedStatement sCaratteristicaByID;
@@ -88,7 +88,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
     }
 
 
-    public CaratteristicaProxy createCaratteristica(ResultSet rs)throws DataException {
+    public CaratteristicaProxy createCaratteristica(ResultSet rs) throws DataException {
         try {
             CaratteristicaProxy caratteristica = new CaratteristicaProxy(getDataLayer());
             caratteristica.setKey(rs.getInt("ID"));
@@ -103,7 +103,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
         }
     }
 
-    public CaratteristicaConValoreProxy createCaratteristicaConValore(ResultSet rs)throws DataException {
+    public CaratteristicaConValoreProxy createCaratteristicaConValore(ResultSet rs) throws DataException {
         try {
             CaratteristicaConValoreProxy caratteristicaConValore = new CaratteristicaConValoreProxy(getDataLayer());
             caratteristicaConValore.setKey(rs.getInt("ID"));
@@ -118,20 +118,20 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
 
 
     @Override
-    public Caratteristica getCaratteristica(int key)throws DataException {
+    public Caratteristica getCaratteristica(int key) throws DataException {
         Caratteristica caratteristica = null;
-        if(dataLayer.getCache().has(Caratteristica.class, key)){
+        if (dataLayer.getCache().has(Caratteristica.class, key)) {
             caratteristica = dataLayer.getCache().get(Caratteristica.class, key);
-        }else{
+        } else {
             try {
-                sCaratteristicaByID.setInt(1,key);
-                try (ResultSet rs = sCaratteristicaByID.executeQuery()){
-                    if(rs.next()){
+                sCaratteristicaByID.setInt(1, key);
+                try (ResultSet rs = sCaratteristicaByID.executeQuery()) {
+                    if (rs.next()) {
                         caratteristica = createCaratteristica(rs);
                         dataLayer.getCache().add(Caratteristica.class, caratteristica);
                     }
                 }
-            }catch (SQLException ex){
+            } catch (SQLException ex) {
                 throw new DataException("Unable to get Caratteristica by ID", ex);
             }
         }
@@ -143,10 +143,10 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
     public List<Caratteristica> getAllCaratteristiche(Integer page) throws DataException {
         List<Caratteristica> result = new ArrayList<>();
         try {
-            sAllCaratteristiche.setInt(1, page*offset);
+            sAllCaratteristiche.setInt(1, page * offset);
             sAllCaratteristiche.setInt(2, offset);
-            try (ResultSet rs = sAllCaratteristiche.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = sAllCaratteristiche.executeQuery()) {
+                while (rs.next()) {
                     result.add(getCaratteristica(rs.getInt("ID")));
                 }
             }
@@ -161,8 +161,8 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
         List<Caratteristica> result = new ArrayList<>();
         try {
             sCaratteristicheByCategoriaNipote.setInt(1, categoriaNipote.getKey());
-            try (ResultSet rs = sCaratteristicheByCategoriaNipote.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = sCaratteristicheByCategoriaNipote.executeQuery()) {
+                while (rs.next()) {
                     result.add(getCaratteristica(rs.getInt("ID")));
                 }
             }
@@ -202,9 +202,9 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
                 iCaratteristica.setString(2, caratteristica.getUnitaMisura());
                 iCaratteristica.setInt(3, caratteristica.getCategoriaNipote().getKey());
 
-                if(iCaratteristica.executeUpdate() == 1){
-                    try(ResultSet keys = iCaratteristica.getGeneratedKeys()){
-                        if(keys.next()){
+                if (iCaratteristica.executeUpdate() == 1) {
+                    try (ResultSet keys = iCaratteristica.getGeneratedKeys()) {
+                        if (keys.next()) {
                             int key = keys.getInt(1);
                             caratteristica.setKey(key);
                             dataLayer.getCache().add(Caratteristica.class, caratteristica);
@@ -226,7 +226,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             dCaratteristica.setInt(1, caratteristica.getKey());
             dCaratteristica.executeUpdate();
 
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DataException("Unable to delete Caratteristica", e);
         }
     }
@@ -234,18 +234,18 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
     @Override
     public CaratteristicaConValore getCaratteristicaConValore(int key) throws DataException {
         CaratteristicaConValore caratteristicaConValore = null;
-        if(dataLayer.getCache().has(CaratteristicaConValore.class, key)){
+        if (dataLayer.getCache().has(CaratteristicaConValore.class, key)) {
             caratteristicaConValore = dataLayer.getCache().get(CaratteristicaConValore.class, key);
         } else {
             try {
                 sCaratteristicaConValoreByID.setInt(1, key);
-                try (ResultSet rs = sCaratteristicaConValoreByID.executeQuery()){
-                    if(rs.next()){
+                try (ResultSet rs = sCaratteristicaConValoreByID.executeQuery()) {
+                    if (rs.next()) {
                         caratteristicaConValore = createCaratteristicaConValore(rs);
                         dataLayer.getCache().add(CaratteristicaConValore.class, caratteristicaConValore);
                     }
                 }
-            }catch (SQLException ex){
+            } catch (SQLException ex) {
                 throw new DataException("Unable to get CaratteristicaConValore by ID", ex);
             }
         }
@@ -287,10 +287,10 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
 
             } else {
                 /*
-                * ID_caratteristica=1
-                * ID_richiesta=2
-                * valore=3
-                */
+                 * ID_caratteristica=1
+                 * ID_richiesta=2
+                 * valore=3
+                 */
                 iCaratteristicaConValore.setInt(1, caratteristicaConValore.getCaratteristica().getKey());
                 iCaratteristicaConValore.setInt(2, richiesta_key);
                 iCaratteristicaConValore.setString(3, caratteristicaConValore.getValore());
@@ -320,7 +320,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             dataLayer.getCache().delete(CaratteristicaConValore.class, caratteristicaConValore);
             dCaratteristicaConValore.setInt(1, caratteristicaConValore.getKey());
             dCaratteristicaConValore.executeUpdate();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new DataException("Unable to delete CaratteristicaConValore", e);
         }
     }
@@ -332,8 +332,8 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
 
         try {
             sCaratteristicheConValore.setInt(1, richiesta.getKey());
-            try (ResultSet rs = sCaratteristicheConValore.executeQuery()){
-                while (rs.next()){
+            try (ResultSet rs = sCaratteristicheConValore.executeQuery()) {
+                while (rs.next()) {
                     CaratteristicaConValore caratteristicaConValore = createCaratteristicaConValore();
                     caratteristicaConValore.setKey(rs.getInt("ID"));
                     caratteristicaConValore.setVersion(rs.getLong("version"));

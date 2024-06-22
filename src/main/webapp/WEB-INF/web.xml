@@ -53,31 +53,43 @@
     </servlet>
     <servlet>
         <servlet-name>categoria_padre</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaPadreController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaPadreController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>categoria_figlio</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaFiglioController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaFiglioController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>categoria_nipote</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaNipoteController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.CategoriaNipoteController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>gestione_uffici</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneUfficiController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneUfficiController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>gestione_tecnici_ordini</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciOrdiniController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciOrdiniController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>gestione_tecnici_preventivi</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciPreventiviController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneTecniciPreventiviController
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>gestione_caratteristiche</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneCaratteristicheController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>gestione_ordinanti</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneOrdinantiController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.amministratore.GestioneOrdinantiController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ordinante</servlet-name>
@@ -93,7 +105,8 @@
     </servlet>
     <servlet>
         <servlet-name>caratteristiche_richiesta</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.ordinante.CaratteristicheRichiestaController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.ordinante.CaratteristicheRichiestaController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>visualizza_proposte</servlet-name>
@@ -109,7 +122,8 @@
     </servlet>
     <servlet>
         <servlet-name>tecnico_preventivi</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.TecnicoPreventiviController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.TecnicoPreventiviController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>test</servlet-name>
@@ -128,6 +142,7 @@
             /gestione_ordinanti,
             /gestione_tecnici_preventivi,
             /gestione_tecnici_ordini,
+            /gestione_caratteristiche,
 
             <!-- ordinante -->
             /ordinante,
@@ -161,6 +176,10 @@
     <servlet-mapping>
         <servlet-name>gestione_tecnici_preventivi</servlet-name>
         <url-pattern>/gestione_tecnici_preventivi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>gestione_caratteristiche</servlet-name>
+        <url-pattern>/gestione_caratteristiche</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>gestione_tecnici_ordini</servlet-name>
