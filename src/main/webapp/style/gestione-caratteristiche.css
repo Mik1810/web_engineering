@@ -1,7 +1,9 @@
-
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    flex: 1;
+    margin-top: 2rem;
 }
 
 .row {
@@ -30,11 +32,6 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #e9e9e9;
-}
-
-.container {
-    max-width: 800px;
-    margin: auto;
 }
 
 h1 {

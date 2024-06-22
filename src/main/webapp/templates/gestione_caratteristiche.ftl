@@ -45,7 +45,8 @@
                     <tr>
                         <td>${caratteristica.nome}</td>
                         <td>${caratteristica.unitaMisura}</td>
-                        <td>${caratteristica.categoriaNipote.nome}</td>
+
+                        <td><a href="categoria_nipote">${caratteristica.categoriaNipote.nome}</a></td>
                         <td>
                             <form method="POST" action="gestione_caratteristiche?page=${page}">
                                 <input type="hidden" name="id" value="${caratteristica.key}">

@@ -43,7 +43,7 @@
                     <tr>
                         <td><a href="categoria_figlio?id_categoria_genitore=${categoria.key}">${categoria.nome}</a></td>
                         <td>
-                            <form method="POST" action="categoria_padre?id=${page}">
+                            <form method="POST" action="categoria_padre?page=${page}">
                                 <input type="hidden" name="id" value="${categoria.key}">
                                 <input class="btn btn-primary" type="submit" id="render" name="render" value="Modifica">
                             </form>
