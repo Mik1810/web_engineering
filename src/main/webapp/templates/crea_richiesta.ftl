@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/default.css">
     <link rel="stylesheet" href="/style/table.css">
-    <link rel="stylesheet" href="/style/crea-caratteristica.css">
+    <link rel="stylesheet" href="/style/crea-richiesta.css">
 
 </head>
 <body>
@@ -24,7 +24,7 @@
 <!--Bisogna solo scegliere le caratteristiche con valore  e poi le note
 -->
 <div class="container">
-    <div class="left-content">
+    <div id="left-content" class="left-content">
         <div id="categoriePadreSelect" class="d-flex flex-column mb-2">
             <label for="sceltaCategoriaPadre">Categoria Padre:</label>
             <select name="sceltaCategoriaPadre" id="sceltaCategoriaPadre" class="form-select select-size" aria-label="Select per categoria padre">
@@ -50,8 +50,8 @@
         </div>
     </div>
 
-    <div class="right-content">
-        <form id="caratteristiche" action="crea_richiesta" method="POST" class="invisible">
+    <div id="right-content" class="right-content invisible">
+        <form action="crea_richiesta" method="POST">
             <div id="caratteristiche-item"></div>
 
             <div class="d-flex align-items-center flex-column">

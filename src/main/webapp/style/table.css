@@ -58,7 +58,6 @@ h1 {
 
 .modify-screen, .update-screen {
     display: flex;
-    flex: 1;
     flex-direction: column;
     align-items: center;
 }
@@ -145,6 +144,7 @@ h1 {
 .titolo-popup {
     display: flex;
     justify-content: flex-start;
+    margin-bottom: 1rem;
 }
 
 .contenuto-form-popup {

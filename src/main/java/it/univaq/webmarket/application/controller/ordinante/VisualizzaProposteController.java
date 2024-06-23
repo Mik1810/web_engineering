@@ -80,8 +80,6 @@ public class VisualizzaProposteController extends ApplicationBaseController {
                 datamodel.put("visibilityModify", "flex");
                 datamodel.put("propostaDaRifiutare", proposta);
                 datamodel.put("page", page);
-                System.out.println(proposta);
-                System.out.println(dl.getPropostaDAO().getAllProposteDaDecidereByOrdinante(ordinante, page));
                 datamodel.put("proposte", dl.getPropostaDAO().getAllProposteDaDecidereByOrdinante(ordinante, page));
             } else if(parameterMap.containsKey("id")) {
 

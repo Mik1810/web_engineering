@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-top: 5rem;
     flex-direction: row;
 }
@@ -10,8 +10,8 @@
     display: flex;
     flex-direction: column;
     justify-content: left;
-    margin-right: 3rem;
 }
+
 .select-size {
     min-width: 20vw;
     width: 20vw;

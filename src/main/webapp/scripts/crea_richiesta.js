@@ -107,7 +107,7 @@ $(document).ready(function () {
                                     </span>
                                 </span>`);
                 }
-                $('#caratteristiche').removeClass('invisible');
+                $('#right-content').removeClass('invisible');
             },
             error: function (error) {
                 console.error('Error:', error);

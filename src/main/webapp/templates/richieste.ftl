@@ -22,7 +22,7 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col" class="left">Codice</th>
-                <th scope="col" class="left">Note</th>
+                <th scope="col" class="left fixed-width">Note</th>
                 <th scope="col" class="data-column left">Data</th>
                 <th scope="col">Caratteristiche</th>
                 <th scope="col">Modifica</th>
@@ -33,7 +33,7 @@
             <#list richieste as richiesta>
                 <tr>
                     <td class="left">${richiesta.codiceRichiesta}</td>
-                    <td class="left">${richiesta.note}</td>
+                    <td class="left fixed-width">${richiesta.note}</td>
                     <td class="data-column left">${richiesta.data}</td>
                     <td>
                         <form method="GET" action="caratteristiche">
