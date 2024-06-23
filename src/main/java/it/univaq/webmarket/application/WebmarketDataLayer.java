@@ -62,7 +62,7 @@ public class WebmarketDataLayer extends DataLayer {
     }
 
     public RichiestaPresaInCaricoDAO getRichiestaPresaInCaricoDAO() {
-        return (RichiestaPresaInCaricoDAO) getDAO(RichiestaPresaInCaricoDAO.class);
+        return (RichiestaPresaInCaricoDAO) getDAO(RichiestaPresaInCarico.class);
     }
 
     public PropostaDAO getPropostaDAO() {

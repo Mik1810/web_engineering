@@ -23,15 +23,14 @@
     <div class="quote-container">
         <i class="pin"></i>
         <blockquote class="note yellow">
-            <h2>Richieste</h2>
+            <h2 class="justify-content-center">Richieste non gestite</h2>
             <div>
-                <#--
                 <#list richieste as richiesta>
-                    <a class="a-postit" href="richieste?id=${richiesta.key}">Richiesta
+                    <a class="a-postit" href="prendi_in_consegna?id=${richiesta.key}">Richiesta
                         <span class="numeric">${richiesta.codiceRichiesta}</span>
                     </a>
                 </#list>
-                -->
+
             </div>
         </blockquote>
     </div>
@@ -41,13 +40,11 @@
         <blockquote class="note pink">
             <h2>Richieste prese in carico</h2>
             <div>
-                <#--
-                <#list proposte as proposta>
-                    <a class="a-postit" href="proposte?id=${proposta.key}">Proposta per richiesta
-                        <span class="numeric">${proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</span>
+                <#list richiestePreseInCarico as richiestaPresaIncarico>
+                    <a class="a-postit" href="richieste_prese_in_carico?id=${richiestaPresaIncarico.key}">Richiesta presa in carico:
+                        <span class="numeric">${richiestaPresaIncarico.richiesta.codiceRichiesta}</span>
                     </a>
                 </#list>
-                -->
             </div>
         </blockquote>
     </div>
@@ -74,17 +71,17 @@
 
 <div class="container">
 
-    <a class="card" href="crea_richiesta">
-        <div class="icon">✍🏻</div>
+    <a class="card" href="prendi_in_consegna?page=0">
+        <div class="icon">✅</div>
         <div class="separator"></div>
-        <div class="title">Nuova Richiesta</div>
-        <div class="text">Crea una <b>nuova richiesta</b>    selezionando la categoria e le caratteristiche</div>
+        <div class="title">Prendi in consegna</div>
+        <div class="text">Prendi in consegna una <b>richiesta</b></div>
     </a>
-    <a class="card" href="richieste?page=0">
+    <a class="card" href="richieste_prese_in_carico?page=0">
         <div class="icon">📋</div>
         <div class="separator"></div>
-        <div class="title">Richieste</div>
-        <div class="text">Visualizza, modifica o elimina le tue <b>richieste</b> attive</div>
+        <div class="title">Richieste prese in carico</div>
+        <div class="text">Visualizza le tue <b>richieste prese in carico</b>e crea una proposta</div>
     </a>
 
     <a class="card" href="proposte?page=0">

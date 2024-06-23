@@ -37,7 +37,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             dRichiesta = connection.prepareStatement("DELETE FROM richiesta WHERE ID=?");
             sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID=? ORDER BY data DESC");
             sRichiesteByIDOrdinantePage = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=? ORDER BY data DESC LIMIT ?,?");
-            sRichiesteNonGestite = connection.prepareStatement("SELECT r.ID FROM richiesta r LEFT JOIN richiestapresaincarico rp ON r.ID = rp.ID_richiesta  WHERE rp.ID_richiesta IS NULL LIMIT ?, ?");
+            sRichiesteNonGestite = connection.prepareStatement("SELECT r.ID FROM richiesta r LEFT JOIN richiestapresaincarico rp ON r.ID = rp.ID_richiesta  WHERE rp.ID_richiesta IS NULL ORDER BY r.data LIMIT ?, ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }

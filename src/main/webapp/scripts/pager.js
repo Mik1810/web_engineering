@@ -1,3 +1,5 @@
+/* NON PIU' IN USO*/
+
 $(document).ready(function() {
     $('#fetchCategories').click(function() {
         const pageNum = $('#page').text();

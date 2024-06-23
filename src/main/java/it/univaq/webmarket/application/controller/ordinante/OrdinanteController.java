@@ -2,10 +2,7 @@ package it.univaq.webmarket.application.controller.ordinante;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
-import it.univaq.webmarket.data.model.Ordinante;
-import it.univaq.webmarket.data.model.Ordine;
-import it.univaq.webmarket.data.model.Proposta;
-import it.univaq.webmarket.data.model.Richiesta;
+import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
@@ -31,7 +28,7 @@ public class OrdinanteController extends ApplicationBaseController {
         this.ruoliAutorizzati = List.of(Ruolo.ORDINANTE);
     }
 
-    protected void renderOrdinantePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, TemplateManagerException {
+    protected void renderOrdinantePage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
@@ -41,22 +38,15 @@ public class OrdinanteController extends ApplicationBaseController {
         try {
             Ordinante ordinante = dl.getOrdinanteDAO().getOrdinanteByEmail(session.getAttribute("email").toString());
             List<Richiesta> richieste = dl.getRichiestaDAO().getRichiesteByOrdinante(ordinante, 0);
-            if(richieste.size() > 3) {
-                richieste = richieste.subList(0, 3);
-            }
-
             List<Proposta> proposte = dl.getPropostaDAO().getAllProposteDaDecidereByOrdinante(ordinante, 0);
-            if(proposte.size() > 3) {
-                proposte = proposte.subList(0, 3);
-            }
-
             List<Ordine> ordini = dl.getOrdineDAO().getAllOrdiniByOrdinante(ordinante, 0)
                     .stream()
                     .filter(ordine -> !ordine.getStatoConsegna().equals("Consegnato"))
                     .collect(Collectors.toList());
-            if(ordini.size() > 3) {
-                ordini = ordini.subList(0, 3);
-            }
+
+            richieste = richieste.size() > 3 ? richieste.subList(0, 3) : richieste;
+            proposte = proposte.size() > 3? proposte.subList(0, 3) : proposte;
+            ordini = ordini.size() > 3 ? ordini.subList(0, 3) : ordini;
 
             datamodel.put("richieste", richieste);
             datamodel.put("proposte", proposte);
@@ -68,11 +58,10 @@ public class OrdinanteController extends ApplicationBaseController {
     }
 
     @Override
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
             renderOrdinantePage(request, response);
-        } catch (IOException | TemplateManagerException ex) {
+        } catch (TemplateManagerException ex) {
             handleError(ex, request, response);
         }
     }

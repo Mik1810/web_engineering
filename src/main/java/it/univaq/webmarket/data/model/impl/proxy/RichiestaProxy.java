@@ -85,7 +85,6 @@ public class RichiestaProxy extends RichiestaImpl implements DataItemProxy {
             try {
                 List<CaratteristicaConValore> caratteristicheConValore = ((CaratteristicaDAO) dataLayer.getDAO(Caratteristica.class))
                         .getCaratteristicheConValore(this);
-                System.out.println("Caratteristiche con valore: " + caratteristicheConValore);
                 super.setCaratteristicheConValore(caratteristicheConValore);
             } catch (DataException ex) {
                 Logger.getLogger(RichiestaProxy.class.getName()).log(Level.SEVERE, null, ex);
