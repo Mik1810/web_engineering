@@ -67,7 +67,7 @@
 
 </div>
 
-<h1 class="d-flex justify-content-center menu">Menu Ordinante</h1>
+<h1 class="d-flex justify-content-center menu">Menu Tecnico Preventivi</h1>
 
 <div class="container">
 
@@ -81,28 +81,14 @@
         <div class="icon">📋</div>
         <div class="separator"></div>
         <div class="title">Richieste prese in carico</div>
-        <div class="text">Visualizza le tue <b>richieste prese in carico</b>e crea una proposta</div>
+        <div class="text">Visualizza le tue <b>richieste prese in carico</b> e crea una <b>proposta</b></div>
     </a>
 
-    <a class="card" href="proposte?page=0">
+    <a class="card" href="proposte_tecnico?page=0">
         <div class="icon">📩</div>
         <div class="separator"></div>
         <div class="title">Proposte</div>
-        <div class="text">Visualizza, accetta o rifiuta le <b>proposte</b> attive</div>
-    </a>
-
-    <a class="card" href="ordini?page=0">
-        <div class="icon">📦</div>
-        <div class="separator"></div>
-        <div class="title">Ordini</div>
-        <div class="text">Visualizza gli <b>ordini</b> e il loro stato di consegna</div>
-    </a>
-
-    <a class="card" href="storico?page=0">
-        <div class="icon">📑</div>
-        <div class="separator"></div>
-        <div class="title">Storico</div>
-        <div class="text">Visualizza lo storico dei tuoi <b>ordini</b></div>
+        <div class="text">Visualizza lo stato delle tue <b>proposte</b></div>
     </a>
 
 </div>

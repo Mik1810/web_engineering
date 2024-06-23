@@ -1,15 +1,10 @@
 package it.univaq.webmarket.data.DAO.impl;
 
 import it.univaq.webmarket.data.DAO.RichiestaPresaInCaricoDAO;
-import it.univaq.webmarket.data.model.Ordinante;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.data.model.impl.proxy.RichiestaPresaInCaricoProxy;
 import it.univaq.webmarket.framework.data.*;
-import it.univaq.webmarket.framework.security.SecurityHelpers;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -36,7 +31,30 @@ public class RichiestaPresaInCaricoDAO_MySQL extends DAO implements RichiestaPre
         try {
             super.init();
             sRichiestaPresaInCaricoByID = connection.prepareStatement("SELECT * FROM richiestapresaincarico WHERE ID=?");
-            sRichiestePresaInCaricoByTecnicoPreventivi = connection.prepareStatement("SELECT ID FROM richiestapresaincarico WHERE ID_tecnico_preventivi=? LIMIT ?, ?");
+
+            /*
+            * SPIEGAZIONE: Dobbiamo prendere quelle RichiestePreseInCarico che non hanno una Proposta associata
+            * oppure che hanno una Proposta associata ma è stata rifiutata e non ci sono altre Proposte valide
+            * */
+            sRichiestePresaInCaricoByTecnicoPreventivi = connection.prepareStatement(
+                    "SELECT ID FROM (" +
+                            "SELECT r.ID, r.ID_tecnico_preventivi FROM RichiestaPresaInCarico r " +
+                            "JOIN Proposta p ON r.ID = p.ID_richiesta_presa_in_carico " +
+                            "AND p.stato_proposta = 'Rifiutato' " +
+                            "WHERE NOT EXISTS (" +
+                            "   SELECT 1 " +
+                            "   FROM Proposta p2 " +
+                            "   WHERE p2.ID_richiesta_presa_in_carico = r.ID " +
+                            "   AND p2.ID <> p.ID " +
+                            "   AND p2.stato_proposta <> 'Rifiutato' " +
+                            ")" +
+                            "UNION " +
+                            "SELECT r.ID, r.ID_tecnico_preventivi FROM RichiestaPresaInCarico r " +
+                            "LEFT JOIN Proposta p ON r.ID = p.ID_richiesta_presa_in_carico " +
+                            "WHERE p.ID IS NULL" +
+                        ") AS richieste_non_proposte_valide " +
+                        "WHERE ID_tecnico_preventivi=? " +
+                        "LIMIT ?, ?;");
             iRichiestaPresaInCarico = connection.prepareStatement("INSERT INTO richiestapresaincarico(ID_tecnico_preventivi, ID_richiesta) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             uRichiestaPresaInCarico = connection.prepareStatement("UPDATE richiestapresaincarico SET ID_tecnico_preventivi=?, ID_richiesta=?, version=? WHERE ID=? AND version=?");
             dRichiestaPresaInCarico = connection.prepareStatement("DELETE FROM richiestapresaincarico WHERE ID=?");

@@ -153,3 +153,13 @@ h1 {
     justify-content: center;
     flex: 1;
 }
+
+.proposta-container-buttons {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.proposta-buttons{
+    width: 6rem;
+}

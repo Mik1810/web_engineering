@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
 
@@ -30,6 +31,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     private PreparedStatement iProposta;
     private PreparedStatement dProposta;
     private PreparedStatement uProposta;
+    private PreparedStatement checkCodiceProposta;
 
     public PropostaDAO_MySQL(DataLayer d) {
         super(d);
@@ -41,6 +43,15 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             super.init();
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE ID=?");
             sProposteByRichiestaPresaInCarico = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_richiesta_presa_in_carico = ? LIMIT ?, ?");
+            /*sProposteByTecnicoPreventivi = connection.prepareStatement("" +
+                    "SELECT p.ID FROM proposta p " +
+                    "LEFT JOIN ordine o ON p.ID = o.ID_proposta " +
+                    "WHERE o.ID_proposta IS NULL " +
+                    "AND p.ID_richiesta_presa_in_carico IN ( " +
+                    "   SELECT r.ID FROM RichiestaPresaInCarico r " +
+                    "   WHERE r.ID_tecnico_preventivi = ? " +
+                    ") " +
+                    "LIMIT ?, ?;");*/
             sProposteByTecnicoPreventivi = connection.prepareStatement("SELECT p.ID FROM proposta p JOIN richiestapresaincarico r ON p.ID_richiesta_presa_in_carico = r.ID WHERE r.ID_tecnico_preventivi = ? LIMIT ?, ?");
             sProposteAccettate = connection.prepareStatement("SELECT ID FROM proposta WHERE stato_proposta = 'Accettato' LIMIT ?, ?");
             sProposteDaDecidereByOrdinante = connection.prepareStatement(
@@ -56,11 +67,11 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                     "nome_prodotto," +
                     "URL, " +
                     "stato_proposta," +
-                    "motivazione," +
                     "ID_richiesta_presa_in_carico)" +
-                    " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    " VALUES(?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             dProposta = connection.prepareStatement("DELETE FROM proposta WHERE ID=?");
             uProposta = connection.prepareStatement("UPDATE proposta SET codice_prodotto=?, produttore=?, note=?, prezzo=?, nome_prodotto=?, URL=?, stato_proposta=?, motivazione=?, ID_richiesta_presa_in_carico=?, version=? WHERE ID=? AND version=?");
+            checkCodiceProposta = connection.prepareStatement("SELECT 1 FROM Proposta WHERE codice_prodotto = ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -77,6 +88,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             iProposta.close();
             dProposta.close();
             uProposta.close();
+            checkCodiceProposta.close();
         } catch (SQLException ex) {
             throw new DataException("Can't destroy connections", ex);
         }
@@ -260,15 +272,28 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                     proposta.setVersion(next_version);
                 }
             }else {
-                iProposta.setString(1, proposta.getCodiceProdotto());
+                /*
+                * codice_prodotto=1
+                * produttore=2
+                * note=3
+                * prezzo=4
+                * nome_prodotto=5
+                * URL=6
+                * stato_proposta=7
+                * ID_richiesta_presa_in_carico=8
+                */
+                String codiceProposta = getRandomCodiceRichiesta(10);
+                while(checkCodiceProposta(codiceProposta)){
+                    codiceProposta = getRandomCodiceRichiesta(10);
+                }
+                iProposta.setString(1, codiceProposta);
                 iProposta.setString(2, proposta.getProduttore());
                 iProposta.setString(3, proposta.getNote());
                 iProposta.setFloat(4, proposta.getPrezzo());
                 iProposta.setString(5, proposta.getNomeProdotto());
                 iProposta.setString(6, proposta.getURL());
                 iProposta.setString(7, proposta.getStatoProposta());
-                iProposta.setString(8, proposta.getMotivazione());
-                iProposta.setInt(9, proposta.getRichiestaPresaInCarico().getKey());
+                iProposta.setInt(8, proposta.getRichiestaPresaInCarico().getKey());
 
                 if(iProposta.executeUpdate() == 1){
                     try(ResultSet keys = iProposta.getGeneratedKeys()){
@@ -282,6 +307,26 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             }
         }catch (SQLException ex){
             throw new DataException("Unable to store Proposta", ex);
+        }
+    }
+
+    private String getRandomCodiceRichiesta(int n) {
+        Random r = new Random();
+        StringBuilder code = new StringBuilder();
+        for(int i = 0; i < n; i++) {
+            code.append(r.nextInt(10));
+        }
+        return code.toString();
+    }
+
+    private boolean checkCodiceProposta(String codiceProposta) throws DataException {
+        try {
+            checkCodiceProposta.setString(1, codiceProposta);
+            try (ResultSet resultSet = checkCodiceProposta.executeQuery()) {
+                return resultSet.next(); // returns true if a row exists
+            }
+        } catch (SQLException e) {
+            throw new DataException("Unable to check codice Proposta", e);
         }
     }
 }
