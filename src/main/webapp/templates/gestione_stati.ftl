@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="it" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -28,23 +27,23 @@
             </tr>
             </thead>
             <tbody id="tbody">
-                <#list statiConsegna as statoConsegna>
-                    <tr>
-                        <td class="left">${statoConsegna.nome}</td>
-                        <td>
-                            <form method="POST" action="gestione_stati?stato_consegna">
-                                <input type="hidden" name="id" value="${statoConsegna.key}">
-                                <input class="btn btn-primary" type="submit" id="render" name="render" value="Modifica">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="POST" action="gestione_stati?stato_consegna">
-                                <input type="hidden" name="id" value="${statoConsegna.key}">
-                                <input class="btn btn-danger" type="submit" id="action" name="action" value="Elimina">
-                            </form>
-                        </td>
-                    </tr>
-                </#list>
+            <#list statiConsegna as statoConsegna>
+                <tr>
+                    <td class="left">${statoConsegna.nome}</td>
+                    <td>
+                        <form method="POST" action="gestione_stati?stato_consegna">
+                            <input type="hidden" name="id" value="${statoConsegna.key}">
+                            <input class="btn btn-primary" type="submit" id="render" name="render" value="Modifica">
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST" action="gestione_stati?stato_consegna">
+                            <input type="hidden" name="id" value="${statoConsegna.key}">
+                            <input class="btn btn-danger" type="submit" id="action" name="action" value="Elimina">
+                        </form>
+                    </td>
+                </tr>
+            </#list>
             </tbody>
         </table>
     </div>

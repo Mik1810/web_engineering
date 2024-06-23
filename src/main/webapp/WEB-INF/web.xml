@@ -122,15 +122,30 @@
     </servlet>
     <servlet>
         <servlet-name>tecnico_preventivi</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.TecnicoPreventiviController</servlet-class>
+        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.TecnicoPreventiviController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>prendi_in_consegna</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaRichiesteNonGestiteController</servlet-class>
+        <servlet-class>
+            it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaRichiesteNonGestiteController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>richieste_prese_in_carico</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaRichiestePreseInCaricoController</servlet-class>
+        <servlet-class>
+            it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaRichiestePreseInCaricoController
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tecnico_ordini</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.tecnico_ordini.TecnicoOrdiniController
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tecnico_ordini_gestione_proposte_accettate</servlet-name>
+        <servlet-class>it.univaq.webmarket.application.controller.tecnico_ordini.TecnicoOrdiniGestioneProposteAccettate
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>visualizza_proposte_tecnico</servlet-name>
@@ -167,8 +182,7 @@
             <!-- tecnico preventivi -->
             /tecnico_preventivi,
             /prendi_in_consegna,
-            /richieste_prese_in_carico,
-            /proposte_tecnico
+            /richieste_prese_in_carico
         </param-value>
     </context-param>
     <servlet-mapping>
@@ -254,10 +268,6 @@
     <servlet-mapping>
         <servlet-name>richieste_prese_in_carico</servlet-name>
         <url-pattern>/richieste_prese_in_carico</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>visualizza_proposte_tecnico</servlet-name>
-        <url-pattern>/proposte_tecnico</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
