@@ -138,17 +138,7 @@
         </servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>tecnico_ordini</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_ordini.TecnicoOrdiniController
-        </servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>tecnico_ordini_gestione_proposte_accettate</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_ordini.TecnicoOrdiniGestioneProposteAccettate
-        </servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>visualizza_proposte_tecnico</servlet-name>
+        <servlet-name>proposte_tecnico_preventivi</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaProposteTecnicoPreventiviController</servlet-class>
     </servlet>
     <servlet>
@@ -182,7 +172,12 @@
             <!-- tecnico preventivi -->
             /tecnico_preventivi,
             /prendi_in_consegna,
-            /richieste_prese_in_carico
+            /richieste_prese_in_carico,
+
+            <!-- tecnico ordini -->
+            /tecnico_ordini,
+            /tecnico_ordini_gestione_proposte_accettate
+
         </param-value>
     </context-param>
     <servlet-mapping>
@@ -268,6 +263,10 @@
     <servlet-mapping>
         <servlet-name>richieste_prese_in_carico</servlet-name>
         <url-pattern>/richieste_prese_in_carico</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>proposte_tecnico_preventivi</servlet-name>
+        <url-pattern>/proposte_tecnico_preventivi</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
