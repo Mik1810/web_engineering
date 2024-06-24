@@ -19,7 +19,7 @@
     <h1>Gestisci Tecnici Ordini</h1>
 
     <div id="aggiungi" class="aggiungi">
-        <form method="POST" action="gestione_tecnici_preventivi?page=${page}">
+        <form method="POST" action="gestione_tecnici_ordini?page=${page}">
             <input class="btn btn-success" type="submit" name="render" id="render" value="Aggiungi"/>
         </form>
     </div>
@@ -42,14 +42,14 @@
                     <tr>
                         <td>${tecnico.email}</td>
                         <td>
-                            <form method="POST" action="gestione_tecnici_preventivi?page=${page}">
+                            <form method="POST" action="gestione_tecnici_ordini?page=${page}">
                                 <input type="hidden" name="id" value="${tecnico.key}">
                                 <input class="btn btn-primary" type="submit" id="render" name="render"
                                        value="Modifica">
                             </form>
                         </td>
                         <td>
-                            <form method="POST" action="gestione_tecnici_preventivi?page=${page}">
+                            <form method="POST" action="gestione_tecnici_ordini?page=${page}">
                                 <input type="hidden" name="id"
                                        value="${tecnico.key}">
                                 <input class="btn btn-danger" type="submit" id="action" name="action"
@@ -70,11 +70,11 @@
             <#if page == 0>
                 <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
             <#else>
-                <li class="page-item"><a class="btn btn-primary" href="gestione_tecnici_preventivi?page=${page-1}">Pagina
+                <li class="page-item"><a class="btn btn-primary" href="gestione_tecnici_ordini?page=${page-1}">Pagina
                         precedente</a>
                 </li>
             </#if>
-            <li class="page-item"><a class="btn btn-primary" href="gestione_tecnici_preventivi?page=${page+1}">Pagina
+            <li class="page-item"><a class="btn btn-primary" href="gestione_tecnici_ordini?page=${page+1}">Pagina
                     successiva</a>
             </li>
         </ul>
@@ -90,14 +90,14 @@
             <div class="titolo-popup">
                 <h4>Aggiungi Tecnico Ordini</h4>
             </div>
-            <form method="POST" action="gestione_tecnici_preventivi?page=${page}" class="contenuto-form-popup">
+            <form method="POST" action="gestione_tecnici_ordini?page=${page}" class="contenuto-form-popup">
                 <label for="nome">Inserisci Mail:</label>
                 <input class="form-control modifica-input" id="nome" name="nome" type="email" required>
                 <label for="nome">Inserisci Password:</label>
                 <input class="form-control modifica-input" id="password" name="password" type="password" required>
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Aggiungi">
-                    <a class="btn btn-danger" href="gestione_tecnici_preventivi?page=${page}">Annulla</a>
+                    <a class="btn btn-danger" href="gestione_tecnici_ordini?page=${page}">Annulla</a>
                 </div>
             </form>
         </div>
@@ -113,7 +113,7 @@
             <div class="titolo-popup">
                 <h4>Modifica Tecnico Ordini</h4>
             </div>
-            <form method="POST" action="gestione_tecnici_preventivi?page=${page}" class="contenuto-form-popup">
+            <form method="POST" action="gestione_tecnici_ordini?page=${page}" class="contenuto-form-popup">
                 <label for="nome">Inserisci nuova Email:</label>
                 <label for="id"></label>
                 <input type="text" id="id" name="id" style="display: none" value="${(tecnicoModifica.key)!"0"}">
@@ -125,7 +125,7 @@
 
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
-                    <a class="btn btn-danger" href="gestione_tecnici_preventivi?page=${page}">Annulla</a>
+                    <a class="btn btn-danger" href="gestione_tecnici_ordini?page=${page}">Annulla</a>
                 </div>
 
             </form>
