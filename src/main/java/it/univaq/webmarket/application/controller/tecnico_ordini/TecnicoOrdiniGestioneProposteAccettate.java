@@ -37,10 +37,10 @@ public class TecnicoOrdiniGestioneProposteAccettate extends ApplicationBaseContr
         try {
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
-                datamodel.put("tecnici", dl.getPropostaDAO().getAllProposteAccettate(page));
+                datamodel.put("proposte", dl.getPropostaDAO().getAllProposteAccettate(page));
                 datamodel.put("page", page);
             } else {
-                datamodel.put("tecnici", dl.getPropostaDAO().getAllProposteAccettate(0));
+                datamodel.put("proposte", dl.getPropostaDAO().getAllProposteAccettate(0));
                 datamodel.put("page", 0);
             }
         } catch (DataException e) {
@@ -67,7 +67,7 @@ public class TecnicoOrdiniGestioneProposteAccettate extends ApplicationBaseContr
             ordine.setTecnicoOrdini(tecnicoOrdini);
 
             dl.getOrdineDAO().storeOrdine(ordine);
-            
+
             datamodel.put("success", "1"); // Ordine creato con successo
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
@@ -76,42 +76,6 @@ public class TecnicoOrdiniGestioneProposteAccettate extends ApplicationBaseContr
             } else datamodel.put("page", 0);
 
             result.activate("tecnico_ordini_gestione_proposte_accettate", datamodel, request, response);
-        } catch (DataException ex) {
-            handleError(ex, request, response);
-        }
-    }
-
-
-    private void handleInsert(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
-        try {
-            WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            TemplateResult result = new TemplateResult(getServletContext());
-            Map<String, Object> datamodel = new HashMap<>();
-
-            TecnicoPreventivi tecnico = dl.getTecnicoPreventiviDAO().createTecnicoPreventivi();
-
-            tecnico.setEmail(request.getParameter("nome"));
-            tecnico.setPassword(request.getParameter("password"));
-
-
-            if (dl.getTecnicoPreventiviDAO().getTecnicoPreventiviByEmail(tecnico.getEmail()) != null) {
-                datamodel.put("success", "-2"); // Tecnico già presente
-            } else {
-                dl.getTecnicoPreventiviDAO().storeTecnicoPreventivi(tecnico);
-                datamodel.put("success", "2"); // Aggiunta effettuata con successo
-            }
-
-
-            if (request.getParameter("page") != null) {
-                Integer page = Integer.parseInt(request.getParameter("page"));
-                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(page));
-                datamodel.put("page", page);
-            } else {
-                datamodel.put("tecnici", dl.getTecnicoPreventiviDAO().getAllTecnicoPreventivi(0));
-                datamodel.put("page", 0);
-            }
-
-            result.activate("tecnico_ordini_gestione_proposte_accettate.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }

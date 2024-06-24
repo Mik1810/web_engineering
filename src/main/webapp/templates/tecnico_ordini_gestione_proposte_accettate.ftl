@@ -27,28 +27,24 @@
                 <tr>
                     <th scope="col">Codice Proposta</th>
                     <th scope="col">Caratteristiche Proposta</th>
+                    <th scope="col">Link</th>
                     <th scope="col">Crea Ordine</th>
                 </tr>
                 </thead>
                 <tbody id="tbody">
-                <#list tecnici as tecnico>
+                <#list proposte as proposta>
                     <tr>
-                        <td>${tecnico.codiceProdotto}</td>
-                        <td>${tecnico.nomeProdotto + ", "+tecnico.produttore} <br> ${tecnico.prezzo + "€"} </td>
+                        <td>${proposta.codiceProdotto}</td>
+                        <td>${proposta.nomeProdotto + ", "+proposta.produttore} <br> ${proposta.prezzo + "€"} </td>
                         <td>
-                            <#if (disabled)>
-                                <form method="POST" action="tecnico_ordini_gestione_proposte_accettate?page=${page}">
-                                    <input type="hidden" name="id" value="${tecnico.key}">
-                                    <input class="btn btn-primary" type="submit" id="ordine" name="ordine"
-                                           value="Crea Ordine" disabled>
-                                </form>
-                            <#else>
-                                <form method="POST" action="tecnico_ordini_gestione_proposte_accettate?page=${page}">
-                                    <input type="hidden" name="id" value="${tecnico.key}">
-                                    <input class="btn btn-primary" type="submit" id="ordine" name="ordine"
-                                           value="Crea Ordine">
-                                </form>
-                            </#if>
+                            <a href="${proposta.URL}" target="_blank">Link</a>
+                        </td>
+                        <td>
+                            <form method="POST" action="tecnico_ordini_gestione_proposte_accettate?page=${page}">
+                                <input type="hidden" name="id" value="${proposta.key}">
+                                <input class="btn btn-primary" type="submit" id="ordine" name="ordine"
+                                       value="Crea Ordine">
+                            </form>
                         </td>
                     </tr>
                 </#list>
