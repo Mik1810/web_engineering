@@ -46,6 +46,7 @@ public class TecnicoPreventiviController extends ApplicationBaseController {
 
             datamodel.put("richieste", richieste);
             datamodel.put("richiestePreseInCarico", richiestePreseInCarico);
+            datamodel.put("proposte", proposte);
 
             result.activate("tecnico_preventivi.ftl", datamodel, request, response);
         } catch (DataException e) {

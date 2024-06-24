@@ -42,16 +42,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
         try {
             super.init();
             sPropostaByID = connection.prepareStatement("SELECT * FROM proposta WHERE ID=?");
-            sProposteByRichiestaPresaInCarico = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_richiesta_presa_in_carico = ? LIMIT ?, ?");
-            /*sProposteByTecnicoPreventivi = connection.prepareStatement("" +
-                    "SELECT p.ID FROM proposta p " +
-                    "LEFT JOIN ordine o ON p.ID = o.ID_proposta " +
-                    "WHERE o.ID_proposta IS NULL " +
-                    "AND p.ID_richiesta_presa_in_carico IN ( " +
-                    "   SELECT r.ID FROM RichiestaPresaInCarico r " +
-                    "   WHERE r.ID_tecnico_preventivi = ? " +
-                    ") " +
-                    "LIMIT ?, ?;");*/
+            sProposteByRichiestaPresaInCarico = connection.prepareStatement("SELECT ID FROM proposta WHERE ID_richiesta_presa_in_carico = ?");
             sProposteByTecnicoPreventivi = connection.prepareStatement("SELECT p.ID FROM proposta p JOIN richiestapresaincarico r ON p.ID_richiesta_presa_in_carico = r.ID WHERE r.ID_tecnico_preventivi = ? LIMIT ?, ?");
             sProposteAccettate = connection.prepareStatement(
                     "SELECT p.ID " +
@@ -150,12 +141,10 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
     }
 
     @Override
-    public List<Proposta> getAllProposteByRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico, Integer page) throws DataException {
+    public List<Proposta> getAllProposteByRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico) throws DataException {
         List<Proposta> result = new ArrayList<>();
         try {
             sProposteByRichiestaPresaInCarico.setInt(1, richiestaPresaInCarico.getKey());
-            sProposteByRichiestaPresaInCarico.setInt(2, page * offset);
-            sProposteByRichiestaPresaInCarico.setInt(3, offset);
             try (ResultSet rs = sProposteByRichiestaPresaInCarico.executeQuery()) {
                 while (rs.next()) {
                     result.add(getProposta(rs.getInt("ID")));

@@ -52,15 +52,14 @@
     <div class="quote-container">
         <i class="pin"></i>
         <blockquote class="note green">
-            <h2 class="title-postit">Proposte</h2>
+            <h2 class="title-postit">Tue Proposte</h2>
             <div>
-                <#--
-                <#list ordini as ordine>
-                    <a class="a-postit" href="ordini?id=${ordine.key}">Ordine per richiesta
-                        <span class="numeric">${ordine.proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</span>
+                <#list proposte as proposta>
+                    <a class="a-postit" href="proposte_tecnico_preventivi?id_richiesta_presa_in_carico=${proposta.richiestaPresaInCarico.key}">
+                        Proposte per Richiesta
+                        <span class="numeric">${proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</span>
                     </a>
                 </#list>
-                -->
             </div>
         </blockquote>
     </div>
@@ -84,8 +83,8 @@
         <div class="text">Visualizza le tue <b>richieste prese in carico</b> e crea una <b>proposta</b></div>
     </a>
 
-    <a class="card" href="proposte_tecnico?page=0">
-        <div class="icon">📩</div>
+    <a class="card" href="proposte_tecnico_preventivi?page=0">
+        <div class="icon">✉️</div>
         <div class="separator"></div>
         <div class="title">Proposte</div>
         <div class="text">Visualizza lo stato delle tue <b>proposte</b></div>

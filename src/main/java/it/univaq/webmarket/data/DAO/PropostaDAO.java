@@ -15,7 +15,7 @@ public interface PropostaDAO {
     Proposta getProposta(Integer key) throws DataException;
 
     // Questo metodo ritorna tutte le proposte legate ad una richiesta presa in carico
-    List<Proposta> getAllProposteByRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico, Integer page) throws DataException;
+    List<Proposta> getAllProposteByRichiestaPresaInCarico(RichiestaPresaInCarico richiestaPresaInCarico) throws DataException;
 
     // Questo metodo ritorna tutte le proposte rivolte ad un ordinante
     List<Proposta> getAllProposteDaDecidereByOrdinante(Ordinante ordinante, Integer page) throws DataException;
