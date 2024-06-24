@@ -5,7 +5,6 @@ import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.TecnicoOrdini;
-import it.univaq.webmarket.data.model.TecnicoPreventivi;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
@@ -21,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TecnicoOrdiniGestioneProposteAccettate extends ApplicationBaseController {
+public class TecnicoOrdiniGestioneProposteAccettateController extends ApplicationBaseController {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -29,7 +28,7 @@ public class TecnicoOrdiniGestioneProposteAccettate extends ApplicationBaseContr
         this.ruoliAutorizzati = List.of(Ruolo.TECNICO_ORDINI);
     }
 
-    private void renderGestioneProposteAccettatePage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
+    private void renderGestioneOrdinePage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {
         TemplateResult result = new TemplateResult(getServletContext());
         Map<String, Object> datamodel = new HashMap<>();
         WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
@@ -52,7 +51,7 @@ public class TecnicoOrdiniGestioneProposteAccettate extends ApplicationBaseContr
     }
 
 
-    private void handleCreaOrdine(HttpServletRequest request, HttpServletResponse response, Integer proposta_key) throws TemplateManagerException {
+    private void handleModificaOrdine(HttpServletRequest request, HttpServletResponse response, Integer proposta_key) throws TemplateManagerException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             TemplateResult result = new TemplateResult(getServletContext());
@@ -65,17 +64,22 @@ public class TecnicoOrdiniGestioneProposteAccettate extends ApplicationBaseContr
 
             ordine.setProposta(proposta);
             ordine.setTecnicoOrdini(tecnicoOrdini);
+            ordine.setStatoConsegna(Ordine.StatoConsegna.PRESA_IN_CARICO);
 
             dl.getOrdineDAO().storeOrdine(ordine);
 
             datamodel.put("success", "1"); // Ordine creato con successo
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
+                datamodel.put("proposte", dl.getPropostaDAO().getAllProposteAccettate(page));
                 datamodel.put("page", page);
 
-            } else datamodel.put("page", 0);
+            } else {
+                datamodel.put("proposte", dl.getPropostaDAO().getAllProposteAccettate(0));
+                datamodel.put("page", 0);
+            }
 
-            result.activate("tecnico_ordini_gestione_proposte_accettate", datamodel, request, response);
+            result.activate("tecnico_ordini_gestione_proposte_accettate.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
@@ -85,13 +89,13 @@ public class TecnicoOrdiniGestioneProposteAccettate extends ApplicationBaseContr
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         try {
-            System.out.println("TecnicoOrdiniGestioneProposteAccettate");
+
 
             if ("Crea Ordine".equals(request.getParameter("ordine"))) {
                 //Se devo creare un ordine da una proposta accettata
-                handleCreaOrdine(request, response, Integer.parseInt(request.getParameter("id")));
+                handleModificaOrdine(request, response, Integer.parseInt(request.getParameter("id")));
 
-            } else renderGestioneProposteAccettatePage(request, response);
+            } else renderGestioneOrdinePage(request, response);
 
         } catch (IOException | TemplateManagerException ex) {
             handleError(ex, request, response);

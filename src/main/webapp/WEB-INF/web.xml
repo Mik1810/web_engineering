@@ -34,7 +34,7 @@
     </context-param>
     <context-param>
         <param-name>debug</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
     </context-param>
     <listener>
         <listener-class>it.univaq.webmarket.framework.application.ApplicationInitializer</listener-class>
@@ -123,19 +123,43 @@
     <servlet>
         <servlet-name>tecnico_preventivi</servlet-name>
         <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.TecnicoPreventiviController
-    </servlet-class>
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>prendi_in_consegna</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaRichiesteNonGestiteController</servlet-class>
+        <servlet-class>
+            it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaRichiesteNonGestiteController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>richieste_prese_in_carico</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaRichiestePreseInCaricoController</servlet-class>
+        <servlet-class>
+            it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaRichiestePreseInCaricoController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>proposte_tecnico_preventivi</servlet-name>
-        <servlet-class>it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaProposteTecnicoPreventiviController</servlet-class>
+        <servlet-class>
+            it.univaq.webmarket.application.controller.tecnico_preventivi.VisualizzaProposteTecnicoPreventiviController
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tecnico_ordini</servlet-name>
+        <servlet-class>
+            it.univaq.webmarket.application.controller.tecnico_ordini.TecnicoOrdiniController
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tecnico_ordini_gestione_proposte_accettate</servlet-name>
+        <servlet-class>
+            it.univaq.webmarket.application.controller.tecnico_ordini.TecnicoOrdiniGestioneProposteAccettateController
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>tecnico_ordini_gestione_ordini</servlet-name>
+        <servlet-class>
+            it.univaq.webmarket.application.controller.tecnico_ordini.TecnicoOrdiniGestioneOrdiniController
+        </servlet-class>
     </servlet>
     <servlet>
         <servlet-name>test</servlet-name>
@@ -172,7 +196,8 @@
 
             <!-- tecnico ordini -->
             /tecnico_ordini,
-            /tecnico_ordini_gestione_proposte_accettate
+            /tecnico_ordini_gestione_proposte_accettate,
+            /tecnico_ordini_gestione_ordini,
 
         </param-value>
     </context-param>
@@ -263,6 +288,18 @@
     <servlet-mapping>
         <servlet-name>proposte_tecnico_preventivi</servlet-name>
         <url-pattern>/proposte_tecnico_preventivi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tecnico_ordini</servlet-name>
+        <url-pattern>/tecnico_ordini</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tecnico_ordini_gestione_proposte_accettate</servlet-name>
+        <url-pattern>/tecnico_ordini_gestione_proposte_accettate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>tecnico_ordini_gestione_ordini</servlet-name>
+        <url-pattern>/tecnico_ordini_gestione_ordini</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>test</servlet-name>
