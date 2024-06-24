@@ -45,8 +45,8 @@ public class RichiestaPresaInCaricoDAO_MySQL extends DAO implements RichiestaPre
                             "   SELECT 1 " +
                             "   FROM Proposta p2 " +
                             "   WHERE p2.ID_richiesta_presa_in_carico = r.ID " +
-                            "   AND p2.ID <> p.ID " +
-                            "   AND p2.stato_proposta <> 'Rifiutato' " +
+                            "   AND p2.ID != p.ID " +
+                            "   AND p2.stato_proposta != 'Rifiutato' " +
                             ")" +
                             "UNION " +
                             "SELECT r.ID, r.ID_tecnico_preventivi FROM RichiestaPresaInCarico r " +

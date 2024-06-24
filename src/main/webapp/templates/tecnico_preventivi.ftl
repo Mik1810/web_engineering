@@ -23,7 +23,7 @@
     <div class="quote-container">
         <i class="pin"></i>
         <blockquote class="note yellow">
-            <h2 class="justify-content-center">Richieste non gestite</h2>
+            <h2 class="title-postit">Richieste non gestite</h2>
             <div>
                 <#list richieste as richiesta>
                     <a class="a-postit" href="prendi_in_consegna?id=${richiesta.key}">Richiesta
@@ -38,7 +38,7 @@
     <div class="quote-container">
         <i class="pin"></i>
         <blockquote class="note pink">
-            <h2>Richieste prese in carico</h2>
+            <h2 class="title-postit">Richieste prese in carico</h2>
             <div>
                 <#list richiestePreseInCarico as richiestaPresaIncarico>
                     <a class="a-postit" href="richieste_prese_in_carico?id=${richiestaPresaIncarico.key}">Richiesta presa in carico:
@@ -52,7 +52,7 @@
     <div class="quote-container">
         <i class="pin"></i>
         <blockquote class="note green">
-            <h2>Proposte</h2>
+            <h2 class="title-postit">Proposte</h2>
             <div>
                 <#--
                 <#list ordini as ordine>

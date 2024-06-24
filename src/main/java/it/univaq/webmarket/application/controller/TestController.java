@@ -23,7 +23,7 @@ public class TestController extends ApplicationBaseController {
             PrintWriter out = response.getWriter();
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
 
-            PropostaDAO_MySQL dao = (PropostaDAO_MySQL) dl.getPropostaDAO();
+            System.out.println(SecurityHelpers.getPasswordHashPBKDF2("techprevpass1"));
 
             out.println();
 

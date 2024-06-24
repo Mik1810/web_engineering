@@ -40,6 +40,10 @@
 
 }
 
+.title-postit {
+    text-align: center;
+}
+
 .yellow {
     background: #eae672;
     -webkit-transform: rotate(2deg);

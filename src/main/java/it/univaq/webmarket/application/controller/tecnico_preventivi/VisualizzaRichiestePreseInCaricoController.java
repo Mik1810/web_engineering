@@ -212,15 +212,17 @@ public class VisualizzaRichiestePreseInCaricoController extends ApplicationBaseC
 
                     dl.getPropostaDAO().storeProposta(proposta);
 
-                    datamodel.put("richiestePreseInCarico", List.of(richiestaPresaInCarico));
+                    // Passo la lista vuota perchè una volta che ho creato la proposta, non è più
+                    // una RichiestaPresaInCarico in attesa
+                    datamodel.put("richiestePreseInCarico", List.of());
                     datamodel.put("id", richiestaPresaInCaricoId);
                     datamodel.put("success", "1");
                 } catch(NumberFormatException e) {
-                    datamodel.put("richiestePreseInCarico", List.of(richiestaPresaInCarico));
+                    datamodel.put("richiestePreseInCarico", List.of());
                     datamodel.put("id", richiestaPresaInCaricoId);
                     datamodel.put("success", "-1");
                 } catch(MalformedURLException e) {
-                    datamodel.put("richiestePreseInCarico", List.of(richiestaPresaInCarico));
+                    datamodel.put("richiestePreseInCarico", List.of());
                     datamodel.put("id", richiestaPresaInCaricoId);
                     datamodel.put("success", "-2");
                 }

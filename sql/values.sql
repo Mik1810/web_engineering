@@ -60,7 +60,7 @@ INSERT INTO composta (valore, ID_richiesta, ID_caratteristica) VALUES
 
 -- Popolamento TecnicoPreventivi
 INSERT INTO TecnicoPreventivi (email, password) VALUES
-('techprev1@gmail.com', '86dfa250e8da2a2add194605ef10dd450692f9706c01e7b352d5f13f410ccf179252694deeecff8e71a416b668abb288'), #techprevpass1
+('techprev1@gmail.com', '19bc1dfbdcdf7d8ddbb8f6b7c12112192b7cc3569eaed68dab0720fd3a93fd7211951aa804aa499d33163944eec1312b'), #techprevpass1
 ('techprev2@gmail.com', 'e942d4bea001c6c035cf6783f17d8d8b0ab0c5dffee23ff48bd6d157b325079c7a7f3a003fefb42b04cfe5b89123f7ae'); #techprevpass2
 
 -- Popolamento RichiestaPresaInCarico
