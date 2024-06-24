@@ -116,9 +116,9 @@
             </table>
 
             <#if id??>
-                <a class="btn btn-primary" href="prendi_in_consegna?id=${id!""}">Esci</a>
+                <a class="btn btn-danger proposta-buttons" href="prendi_in_consegna?id=${id!""}">Esci</a>
             <#else>
-                <a class="btn btn-primary" href="prendi_in_consegna?page=${page!"0"}">Esci</a>
+                <a class="btn btn-danger proposta-buttons" href="prendi_in_consegna?page=${page!"0"}">Esci</a>
             </#if>
         </div>
     </div>

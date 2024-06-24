@@ -2,6 +2,7 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
+import it.univaq.webmarket.data.DAO.impl.PropostaDAO_MySQL;
 import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
@@ -22,32 +23,9 @@ public class TestController extends ApplicationBaseController {
             PrintWriter out = response.getWriter();
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
 
-            String password = SecurityHelpers.getPasswordHashPBKDF2("giacomopass");
-            System.out.println(password);
-            out.println("Giacomo: "+password);
+            PropostaDAO_MySQL dao = (PropostaDAO_MySQL) dl.getPropostaDAO();
+
             out.println();
-
-            password = SecurityHelpers.getPasswordHashPBKDF2("techprevpass1");
-            System.out.println(password);
-            out.println("techprevpass1: "+password);
-            out.println();
-
-            password = SecurityHelpers.getPasswordHashPBKDF2("techprevpass2");
-            System.out.println(password);
-            out.println("techprevpass2: "+password);
-            out.println();
-
-            password = SecurityHelpers.getPasswordHashPBKDF2("techordpass2");
-            System.out.println(password);
-            out.println("techordpass2: "+password);
-            out.println();
-
-            password = SecurityHelpers.getPasswordHashPBKDF2("techordpass2");
-            System.out.println(password);
-            out.println("techordpass2: "+password);
-            out.println();
-
-
 
         } catch (Exception e) {
             e.printStackTrace();

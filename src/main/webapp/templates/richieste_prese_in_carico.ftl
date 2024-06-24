@@ -14,10 +14,16 @@
 </head>
 <body>
 
+<!-- Visualizzare i dettagli della richiesta presa in carico richiesta, con il pulsante per vedere le caratteristiche
+    e il pulsante per creare una proposta
+-->
+<!-- Visualizzare il popup delle caratteristiche -->
+<!-- Visualizzare il popup del menù per inserire i campire della proposta-->
+
 <#include "modules/header.ftl">
 
 <div class="ordine-container">
-    <h1>Richieste</h1>
+    <h1>Richieste Prese In Carico</h1>
 
     <div class="row">
         <table class="table">
@@ -27,23 +33,23 @@
                 <th scope="col" class="left fixed-width">Note</th>
                 <th scope="col" class="data-column left">Data</th>
                 <th scope="col">Caratteristiche</th>
-                <th scope="col">Prendi in consegna</th>
+                <th scope="col">Proposte</th>
             </tr>
             </thead>
             <tbody id="tbody">
-            <#list richieste as richiesta>
+            <#list richiestePreseInCarico as richiestaPresaInCarico>
                 <tr>
-                    <td class="left">${richiesta.codiceRichiesta}</td>
-                    <td class="left fixed-width">${richiesta.note}</td>
-                    <td class="data-column left">${richiesta.data}</td>
+                    <td class="left">${richiestaPresaInCarico.richiesta.codiceRichiesta}</td>
+                    <td class="left fixed-width">${richiestaPresaInCarico.richiesta.note}</td>
+                    <td class="data-column left">${richiestaPresaInCarico.richiesta.data}</td>
                     <td>
                         <#if id??>
-                            <form method="POST" action="prendi_in_consegna?id=${id}">
+                            <form method="POST" action="richieste_prese_in_carico?id=${id}">
                                 <input class="btn btn-primary" type="submit" id="render" name="render" value="Caratteristiche">
                             </form>
                         <#else>
-                            <form method="POST" action="prendi_in_consegna?page=${page!"0"}">
-                                <input type="hidden" id="id" name="id" value="${richiesta.key}">
+                            <form method="POST" action="richieste_prese_in_carico?page=${page!"0"}">
+                                <input type="hidden" id="id" name="id" value="${richiestaPresaInCarico.key}">
                                 <input class="btn btn-primary" type="submit" id="render" name="render" value="Caratteristiche">
                             </form>
                         </#if>
@@ -51,13 +57,13 @@
                     </td>
                     <td>
                         <#if id??>
-                            <form method="POST" action="prendi_in_consegna?id=${id}">
-                                <input class="btn btn-success" type="submit" id="action" name="action" value="Prendi in consegna">
+                            <form method="POST" action="richieste_prese_in_carico?id=${id}">
+                                <input class="btn btn-success" type="submit" id="render" name="render" value="Crea Proposta">
                             </form>
                         <#else>
-                            <form method="POST" action="prendi_in_consegna?page=${page!"0"}">
-                                <input type="hidden" id="id" name="id" value="${richiesta.key}">
-                                <input class="btn btn-success" type="submit" id="action" name="action" value="Prendi in consegna">
+                            <form method="POST" action="richieste_prese_in_carico?page=${page!"0"}">
+                                <input type="hidden" id="id" name="id" value="${richiestaPresaInCarico.key}">
+                                <input class="btn btn-success" type="submit" id="render" name="render" value="Crea Proposta">
                             </form>
                         </#if>
                     </td>
@@ -75,11 +81,11 @@
                         <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
                     <#else>
                         <li class="page-item">
-                            <a class="btn btn-primary" href="prendi_in_consegna?page=${page-1}">Pagina precedente</a>
+                            <a class="btn btn-primary" href="richieste_prese_in_carico?page=${page-1}">Pagina precedente</a>
                         </li>
                     </#if>
                     <li class="page-item">
-                        <a class="btn btn-primary" href="prendi_in_consegna?page=${page+1}">Pagina successiva</a>
+                        <a class="btn btn-primary" href="richieste_prese_in_carico?page=${page+1}">Pagina successiva</a>
                     </li>
                 </ul>
             </nav>
@@ -87,7 +93,7 @@
     </#if>
 </div>
 
-<div class="popup-container" id="add" style="display: ${visibilityModify!"none"}">
+<div class="popup-container" id="caratteristiche" style="display: ${visibilityCaratteristiche!"none"}">
     <div class="popup">
 
         <div class="update-screen">
@@ -98,8 +104,8 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col" class="left">Nome</th>
-                    <th scope="col" class="left">Valore</th>
-                    <th scope="col" class="data-column left">Unità di Misura</th>
+                    <th scope="col">Valore</th>
+                    <th scope="col">Unità di Misura</th>
                 </tr>
                 </thead>
                 <tbody id="tbody">
@@ -107,7 +113,7 @@
                     <#list caratteristiche as caratteristicaConValore>
                         <tr>
                             <td class="left">${caratteristicaConValore.caratteristica.nome!""}</td>
-                            <td class="left">${caratteristicaConValore.valore!""}</td>
+                            <td>${caratteristicaConValore.valore!""}</td>
                             <td>${caratteristicaConValore.caratteristica.unitaMisura!""}</td>
                         </tr>
                     </#list>
@@ -116,9 +122,81 @@
             </table>
 
             <#if id??>
-                <a class="btn btn-primary" href="prendi_in_consegna?id=${id!""}">Esci</a>
+                <a class="btn btn-danger proposta-buttons" href="richieste_prese_in_carico?id=${id!""}">Esci</a>
             <#else>
-                <a class="btn btn-primary" href="prendi_in_consegna?page=${page!"0"}">Esci</a>
+                <a class="btn btn-danger proposta-buttons" href="richieste_prese_in_carico?page=${page!"0"}">Esci</a>
+            </#if>
+        </div>
+    </div>
+</div>
+
+<div class="popup-container" id="compila-proposta" style="display: ${visibilityProposta!"none"}">
+    <div class="popup">
+
+        <div class="update-screen">
+            <div class="titolo-popup">
+                <h4>Caratteristiche</h4>
+            </div>
+            <!-- Qui va  la form per compilare la proposta-->
+            <!-- Cose da inserire:
+                1. Produttore
+                2. note
+                3. prezzo
+                4. nome prodotto
+                5. URL
+                6. stato proposta - "In attesa"
+             -->
+            <#if id??>
+                <form method="POST" action="richieste_prese_in_carico?id=${id}">
+
+                    <label for="produttore">Produttore</label>
+                    <input class="form-control" type="text" id="produttore" name="produttore" required />
+
+                    <label for="prezzo">Prezzo</label>
+                    <input class="form-control" type="text" id="prezzo" name="prezzo"  required />
+
+                    <label for="nome_prodotto">Nome prodotto</label>
+                    <input class="form-control" type="text" id="nome_prodotto" name="nome_prodotto" required />
+
+                    <label for="URL">URL</label>
+                    <input class="form-control" type="text" name="URL" id="URL" pattern="https://.*" required />
+
+                    <label for="note"></label>
+                    <textarea class="textarea-note form-control" id="note" name="note" rows="4" cols="50" placeholder="Inserisci note..."></textarea>
+
+                    <div class="proposta-container-buttons">
+                        <input class="btn btn-primary proposta-buttons" type="submit" id="action" name="action" value="Crea" />
+                        <a class="btn btn-danger proposta-buttons" href="richieste_prese_in_carico?id=${id!""}">Esci</a>
+                    </div>
+                </form>
+
+            <#else>
+
+                <form method="POST" action="richieste_prese_in_carico?page=${page!"0"}">
+
+                    <input class="form-control" type="hidden" id="id" name="id" value="${(richiestaPresaInCarico.key)!""}">
+
+                    <label for="produttore">Produttore</label>
+                    <input class="form-control" type="text" id="produttore" name="produttore" required />
+
+                    <label for="prezzo">Prezzo</label>
+                    <input class="form-control" type="text" id="prezzo" name="prezzo" required />
+
+                    <label for="nome_prodotto">Nome prodotto</label>
+                    <input class="form-control" type="text" id="nome_prodotto" name="nome_prodotto" required />
+
+                    <label for="URL">URL</label>
+                    <input class="form-control" type="text" name="URL" id="URL" pattern="https://.*" required />
+
+                    <label for="note"></label>
+                    <textarea class="textarea-note form-control" id="note" name="note" rows="4" cols="50" placeholder="Inserisci note..."></textarea>
+
+                    <div class="proposta-container-buttons">
+                        <input class="btn btn-success proposta-buttons" type="submit" id="action" name="action" value="Crea">
+                        <a class="btn btn-danger proposta-buttons" href="richieste_prese_in_carico?page=${page!"0"}">Esci</a>
+                    </div>
+                </form>
+
             </#if>
         </div>
     </div>
@@ -128,8 +206,8 @@
 
 <#include "modules/footer.ftl">
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="module" src="/scripts/prendi_in_consegna.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="/scripts/richieste_prese_in_carico.js"></script>
 
 </body>
 </html>

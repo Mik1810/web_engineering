@@ -51,7 +51,7 @@ public class VisualizzaRichiesteNonGestiteController extends ApplicationBaseCont
             handleError(e, request, response);
         }
 
-        result.activate("prendi_in_consegna.ftl", datamodel, request, response);
+        result.activate("prendi_in_carico.ftl", datamodel, request, response);
     }
 
     private void renderCaratteristiche(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException{
@@ -89,7 +89,7 @@ public class VisualizzaRichiesteNonGestiteController extends ApplicationBaseCont
                 datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteNonGestite(0));
             }
 
-            result.activate("prendi_in_consegna.ftl", datamodel, request, response);
+            result.activate("prendi_in_carico.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
@@ -142,7 +142,7 @@ public class VisualizzaRichiesteNonGestiteController extends ApplicationBaseCont
                 datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteNonGestite(0));
             }
 
-            result.activate("prendi_in_consegna.ftl", datamodel, request, response);
+            result.activate("prendi_in_carico.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
