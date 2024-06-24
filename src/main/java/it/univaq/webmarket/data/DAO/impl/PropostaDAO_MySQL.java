@@ -53,7 +53,12 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                     ") " +
                     "LIMIT ?, ?;");*/
             sProposteByTecnicoPreventivi = connection.prepareStatement("SELECT p.ID FROM proposta p JOIN richiestapresaincarico r ON p.ID_richiesta_presa_in_carico = r.ID WHERE r.ID_tecnico_preventivi = ? LIMIT ?, ?");
-            sProposteAccettate = connection.prepareStatement("SELECT ID FROM proposta WHERE stato_proposta = 'Accettato' LIMIT ?, ?");
+            sProposteAccettate = connection.prepareStatement(
+                    "SELECT p.ID " +
+                    "FROM Proposta p " +
+                    "LEFT JOIN Ordine o ON p.ID = o.ID_proposta " +
+                    "WHERE p.stato_proposta = 'Accettato' AND o.ID IS NULL " +
+                    "LIMIT ?, ?;");
             sProposteDaDecidereByOrdinante = connection.prepareStatement(
                     "SELECT p.ID FROM proposta p " +
                     "JOIN richiestapresaincarico rp ON p.ID_richiesta_presa_in_carico = rp.ID " +

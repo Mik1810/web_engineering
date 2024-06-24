@@ -38,9 +38,11 @@ public class TecnicoPreventiviController extends ApplicationBaseController {
             TecnicoPreventivi tecnicoPreventivi = dl.getTecnicoPreventiviDAO().getTecnicoPreventiviByEmail(session.getAttribute("email").toString());
             List<Richiesta> richieste = dl.getRichiestaDAO().getRichiesteNonGestite(0);
             List<RichiestaPresaInCarico> richiestePreseInCarico = dl.getRichiestaPresaInCaricoDAO().getAllRichiestePresaInCaricoByTecnicoPreventivi(tecnicoPreventivi, 0);
+            List<Proposta> proposte = dl.getPropostaDAO().getAllProposteByTecnicoPreventivi(tecnicoPreventivi, 0);
 
             richieste = richieste.size() > 3 ? richieste.subList(0, 3) : richieste;
             richiestePreseInCarico = richiestePreseInCarico.size() > 2 ? richiestePreseInCarico.subList(0, 2) : richiestePreseInCarico;
+            proposte = proposte.size() > 3 ? proposte.subList(0, 3) : proposte;
 
             datamodel.put("richieste", richieste);
             datamodel.put("richiestePreseInCarico", richiestePreseInCarico);
