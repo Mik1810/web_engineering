@@ -1,11 +1,7 @@
 package it.univaq.webmarket.framework.utils;
 
 import com.lowagie.text.DocumentException;
-import it.univaq.webmarket.data.model.CaratteristicaConValore;
-import it.univaq.webmarket.data.model.Proposta;
-import it.univaq.webmarket.data.model.Richiesta;
-import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
-import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
+import it.univaq.webmarket.data.model.*;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import org.xhtmlrenderer.pdf.ITextRenderer;
@@ -37,7 +33,7 @@ public class EmailSender {
         PROPOSTA_ACCETTATA, // MIK
         PROPOSTA_RIFIUTATA, // MIk
         ORDINE_CREATO, // Giacomo
-        RICHIESTA_CHIUSA, // Giacomo
+        ORDINE_CHIUSO, // Giacomo
     }
 
     private String emailFrom, password;
@@ -134,8 +130,8 @@ public class EmailSender {
                         sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
                     }
 
-                    values.put("filename", "richiesta_presa_in_carico_"+richiestaPresaInCarico.getRichiesta().getCodiceRichiesta());
-                    values.put("subject", "Richiesta presa in carico: "+richiestaPresaInCarico.getRichiesta().getCodiceRichiesta());
+                    values.put("filename", "richiesta_presa_in_carico_" + richiestaPresaInCarico.getRichiesta().getCodiceRichiesta());
+                    values.put("subject", "Richiesta presa in carico: " + richiestaPresaInCarico.getRichiesta().getCodiceRichiesta());
                     values.put("text", sb.toString());
 
                     newEmailSender(context, to, htmlresult, values);
@@ -165,8 +161,8 @@ public class EmailSender {
                         sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
                     }
 
-                    values.put("filename", "proposta_"+proposta.getCodiceProdotto());
-                    values.put("subject", "Proposta: "+proposta.getCodiceProdotto());
+                    values.put("filename", "proposta_" + proposta.getCodiceProdotto());
+                    values.put("subject", "Proposta: " + proposta.getCodiceProdotto());
                     values.put("text", sb.toString());
 
                     newEmailSender(context, to, htmlresult, values);
@@ -196,8 +192,8 @@ public class EmailSender {
                         sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
                     }
 
-                    values.put("filename", "proposta_accettata_"+propostaAccettata.getCodiceProdotto());
-                    values.put("subject", "Proposta accettata: "+propostaAccettata.getCodiceProdotto());
+                    values.put("filename", "proposta_accettata_" + propostaAccettata.getCodiceProdotto());
+                    values.put("subject", "Proposta accettata: " + propostaAccettata.getCodiceProdotto());
                     values.put("text", sb.toString());
 
                     newEmailSender(context, to, htmlresult, values);
@@ -228,13 +224,90 @@ public class EmailSender {
                         sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
                     }
 
-                    values.put("filename", "proposta_rifiutata_"+propostaRifiutata.getCodiceProdotto());
-                    values.put("subject", "Proposta rifiutata: "+propostaRifiutata.getCodiceProdotto());
+                    values.put("filename", "proposta_rifiutata_" + propostaRifiutata.getCodiceProdotto());
+                    values.put("subject", "Proposta rifiutata: " + propostaRifiutata.getCodiceProdotto());
                     values.put("text", sb.toString());
 
                     newEmailSender(context, to, htmlresult, values);
                     break;
 
+                case ORDINE_CREATO:
+                    Ordine ordine = (Ordine) obj;
+                    datamodel = new HashMap<>();
+                    datamodel.put("ordine", ordine);
+                    datamodel.put("proposta", ordine.getProposta());
+                    htmlresult = result.activate("/pdf_templates/pdf_ordine_creato.ftl", datamodel, new StringWriter());
+
+
+                    sb.append("Ordine creato").append("\n");
+                    sb.append("Stato ordine: ").append(ordine.getStatoConsegna()).append("\n");
+                    sb.append("Tecnico Ordini Referente: ").append(ordine.getTecnicoOrdini().getEmail()).append("\n\n");
+                    sb.append("Riepilogo Proposta Accettata:").append("\n");
+                    sb.append("Codice proposta: ").append(ordine.getProposta().getCodiceProdotto()).append("\n");
+                    sb.append("Prodotto: ").append(ordine.getProposta().getNomeProdotto()).append("\n");
+                    sb.append("Note: ").append(ordine.getProposta().getNote()).append("\n");
+                    sb.append("URL: ").append(ordine.getProposta().getURL()).append("\n");
+                    sb.append("Prezzo: ").append(ordine.getProposta().getPrezzo()).append("\n");
+                    sb.append("Produttore: ").append(ordine.getProposta().getProduttore()).append("\n");
+                    sb.append("Stato Proposta: ").append(ordine.getProposta().getStatoProposta()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta presa in carico da: ").append(ordine.getProposta().getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta: ").append(ordine.getProposta().getRichiestaPresaInCarico().getRichiesta().getCodiceRichiesta()).append("\n");
+                    sb.append("Data: ").append(ordine.getProposta().getRichiestaPresaInCarico().getRichiesta().getData()).append("\n");
+                    sb.append("Ordinante: ").append(ordine.getProposta().getRichiestaPresaInCarico().getRichiesta().getOrdinante().getEmail()).append("\n");
+                    sb.append("Note: ").append(ordine.getProposta().getRichiestaPresaInCarico().getRichiesta().getNote()).append("\n");
+                    sb.append("Caratteristiche: ").append("\n");
+                    for (CaratteristicaConValore ccv : ordine.getProposta().getRichiestaPresaInCarico().getRichiesta().getCaratteristicheConValore()) {
+                        sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
+                    }
+
+
+                    values.put("filename", "ordine_creato_" + ordine.getProposta().getCodiceProdotto());
+                    values.put("subject", "Ordine creato: " + ordine.getProposta().getCodiceProdotto());
+                    values.put("text", sb.toString());
+
+
+                    newEmailSender(context, to, htmlresult, values);
+                    break;
+                case ORDINE_CHIUSO:
+                    datamodel = new HashMap<>();
+                    Ordine ordineChiuso = (Ordine) obj;
+
+                    datamodel.put("ordine", ordineChiuso);
+                    htmlresult = result.activate("/pdf_templates/pdf_richiesta_chiusa.ftl", datamodel, new StringWriter());
+
+
+                    sb.append("Ordine chiuso").append("\n");
+                    sb.append("Stato ordine: ").append(ordineChiuso.getStatoConsegna()).append("\n");
+                    sb.append("Tecnico Ordini Referente: ").append(ordineChiuso.getTecnicoOrdini().getEmail()).append("\n\n");
+                    sb.append("Riepilogo Proposta Accettata:").append("\n");
+                    sb.append("Codice proposta: ").append(ordineChiuso.getProposta().getCodiceProdotto()).append("\n");
+                    sb.append("Prodotto: ").append(ordineChiuso.getProposta().getNomeProdotto()).append("\n");
+                    sb.append("Note: ").append(ordineChiuso.getProposta().getNote()).append("\n");
+                    sb.append("URL: ").append(ordineChiuso.getProposta().getURL()).append("\n");
+                    sb.append("Prezzo: ").append(ordineChiuso.getProposta().getPrezzo()).append("\n");
+                    sb.append("Produttore: ").append(ordineChiuso.getProposta().getProduttore()).append("\n");
+                    sb.append("Stato Proposta: ").append(ordineChiuso.getProposta().getStatoProposta()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta presa in carico da: ").append(ordineChiuso.getProposta().getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta: ").append(ordineChiuso.getProposta().getRichiestaPresaInCarico().getRichiesta().getCodiceRichiesta()).append("\n");
+                    sb.append("Data: ").append(ordineChiuso.getProposta().getRichiestaPresaInCarico().getRichiesta().getData()).append("\n");
+                    sb.append("Ordinante: ").append(ordineChiuso.getProposta().getRichiestaPresaInCarico().getRichiesta().getOrdinante().getEmail()).append("\n");
+                    sb.append("Note: ").append(ordineChiuso.getProposta().getRichiestaPresaInCarico().getRichiesta().getNote()).append("\n");
+                    sb.append("Caratteristiche: ").append("\n");
+                    for (CaratteristicaConValore ccv : ordineChiuso.getProposta().getRichiestaPresaInCarico().getRichiesta().getCaratteristicheConValore()) {
+                        sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
+                    }
+
+                    values.put("filename", "ordine_chiuso_" + ordineChiuso.getProposta().getCodiceProdotto());
+                    values.put("subject", "Ordine chiuso: " + ordineChiuso.getProposta().getCodiceProdotto());
+                    values.put("text", sb.toString());
+
+                    newEmailSender(context, to, htmlresult, values);
+
+                    break;
             }
         } catch (TemplateManagerException e) {
             Logger.getLogger(EmailSender.class.getName()).severe(e.getMessage());

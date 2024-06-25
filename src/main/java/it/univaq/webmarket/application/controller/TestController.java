@@ -2,6 +2,7 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
+import it.univaq.webmarket.data.model.Ordine;
 import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.framework.utils.EmailSender;
@@ -21,8 +22,8 @@ public class TestController extends ApplicationBaseController {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
 
             EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
-            Proposta proposta = dl.getPropostaDAO().getProposta(1);
-            sender.sendPDFWithEmail(getServletContext(), "michaelpiccirilli3@gmail.com", proposta, EmailSender.Event.PROPOSTA_RIFIUTATA);
+            Ordine ordine = dl.getOrdineDAO().getOrdine(2);
+            sender.sendPDFWithEmail(getServletContext(), "paoloccigiacomo@gmail.com", ordine, EmailSender.Event.ORDINE_CHIUSO);
         } catch (Exception e) {
             e.printStackTrace();
         }

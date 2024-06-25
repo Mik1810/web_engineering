@@ -8,6 +8,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.utils.EmailSender;
 import it.univaq.webmarket.framework.utils.Ruolo;
 
 import javax.servlet.ServletConfig;
@@ -43,7 +44,7 @@ public class StoricoController extends ApplicationBaseController {
                     datamodel.put("ordini", List.of(dl.getOrdineDAO().getOrdineInStorico(Integer.parseInt(parameterMap.get("id")[0]))));
                     datamodel.put("feedbacks", List.of(Ordine.Feedback.ACCETTATO, Ordine.Feedback.RESPINTO_NON_CONFORME, Ordine.Feedback.RIFIUTATO_NON_FUNZIONANTE));
                     datamodel.put("id", parameterMap.get("id")[0]);
-                } else if(parameterMap.containsKey("page")) {
+                } else if (parameterMap.containsKey("page")) {
                     Integer page = Integer.parseInt(parameterMap.get("page")[0]);
                     datamodel.put("feedbacks", List.of(Ordine.Feedback.ACCETTATO, Ordine.Feedback.RESPINTO_NON_CONFORME, Ordine.Feedback.RIFIUTATO_NON_FUNZIONANTE));
                     datamodel.put("ordini", dl.getOrdineDAO().getStorico(ordinante, page));
@@ -58,7 +59,7 @@ public class StoricoController extends ApplicationBaseController {
             }
 
             result.activate("storico.ftl", datamodel, request, response);
-        } catch (TemplateManagerException e){
+        } catch (TemplateManagerException e) {
             handleError(e, request, response);
         }
     }
@@ -72,7 +73,7 @@ public class StoricoController extends ApplicationBaseController {
 
             Ordinante ordinante = dl.getOrdinanteDAO().getOrdinanteByEmail((String) SecurityHelpers.checkSession(request).getAttribute("email"));
 
-            if(parameterMap.containsKey("page")) {
+            if (parameterMap.containsKey("page")) {
                 int ordineId = Integer.parseInt(parameterMap.get("id")[0]);
                 int page = Integer.parseInt(parameterMap.get("page")[0]);
 
@@ -83,7 +84,7 @@ public class StoricoController extends ApplicationBaseController {
                 datamodel.put("ordineDaFeedbackare", ordine);
                 datamodel.put("feedbacks", List.of(Ordine.Feedback.ACCETTATO, Ordine.Feedback.RESPINTO_NON_CONFORME, Ordine.Feedback.RIFIUTATO_NON_FUNZIONANTE));
                 datamodel.put("ordini", dl.getOrdineDAO().getStorico(ordinante, page));
-            } else if(parameterMap.containsKey("id")) {
+            } else if (parameterMap.containsKey("id")) {
 
                 int ordineId = Integer.parseInt(parameterMap.get("id")[0]);
 
@@ -116,7 +117,7 @@ public class StoricoController extends ApplicationBaseController {
 
             Ordinante ordinante = dl.getOrdinanteDAO().getOrdinanteByEmail((String) SecurityHelpers.checkSession(request).getAttribute("email"));
 
-            if(parameterMap.containsKey("page")) {
+            if (parameterMap.containsKey("page")) {
                 int ordineId = Integer.parseInt(parameterMap.get("id")[0]);
                 int page = Integer.parseInt(parameterMap.get("page")[0]);
                 String feedback = parameterMap.get("feedback")[0];
@@ -131,7 +132,7 @@ public class StoricoController extends ApplicationBaseController {
                 datamodel.put("success", "1");
                 datamodel.put("ordini", dl.getOrdineDAO().getStorico(ordinante, page));
                 datamodel.put("feedbacks", List.of(Ordine.Feedback.ACCETTATO, Ordine.Feedback.RESPINTO_NON_CONFORME, Ordine.Feedback.RIFIUTATO_NON_FUNZIONANTE));
-            } else if(parameterMap.containsKey("id")) {
+            } else if (parameterMap.containsKey("id")) {
 
                 int ordineId = Integer.parseInt(parameterMap.get("id")[0]);
                 String feedback = parameterMap.get("feedback")[0];
@@ -141,6 +142,13 @@ public class StoricoController extends ApplicationBaseController {
                 ordine.setFeedback(feedback);
 
                 dl.getOrdineDAO().storeOrdine(ordine);
+
+
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+
+                String emailTecnico = ordine.getTecnicoOrdini().getEmail();
+                sender.sendPDFWithEmail(getServletContext(), emailTecnico, ordine, EmailSender.Event.ORDINE_CHIUSO);
+
 
                 datamodel.put("ordini", List.of(ordine));
                 datamodel.put("id", ordineId);
@@ -158,6 +166,7 @@ public class StoricoController extends ApplicationBaseController {
             handleError(ex, request, response);
         }
     }
+
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {

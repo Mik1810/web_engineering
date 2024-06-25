@@ -9,6 +9,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.utils.EmailSender;
 import it.univaq.webmarket.framework.utils.Ruolo;
 
 import javax.servlet.ServletConfig;
@@ -51,7 +52,7 @@ public class TecnicoOrdiniGestioneProposteAccettateController extends Applicatio
     }
 
 
-    private void handleModificaOrdine(HttpServletRequest request, HttpServletResponse response, Integer proposta_key) throws TemplateManagerException {
+    private void handleCreaOrdine(HttpServletRequest request, HttpServletResponse response, Integer proposta_key) throws TemplateManagerException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             TemplateResult result = new TemplateResult(getServletContext());
@@ -67,6 +68,12 @@ public class TecnicoOrdiniGestioneProposteAccettateController extends Applicatio
             ordine.setStatoConsegna(Ordine.StatoConsegna.PRESA_IN_CARICO);
 
             dl.getOrdineDAO().storeOrdine(ordine);
+
+            EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+            String mailOrdinante = ordine.getProposta().getRichiestaPresaInCarico().getRichiesta().getOrdinante().getEmail();
+
+            sender.sendPDFWithEmail(getServletContext(), mailOrdinante, ordine, EmailSender.Event.ORDINE_CREATO);
+
 
             datamodel.put("success", "1"); // Ordine creato con successo
             if (request.getParameter("page") != null) {
@@ -93,7 +100,7 @@ public class TecnicoOrdiniGestioneProposteAccettateController extends Applicatio
 
             if ("Crea Ordine".equals(request.getParameter("ordine"))) {
                 //Se devo creare un ordine da una proposta accettata
-                handleModificaOrdine(request, response, Integer.parseInt(request.getParameter("id")));
+                handleCreaOrdine(request, response, Integer.parseInt(request.getParameter("id")));
 
             } else renderGestioneOrdinePage(request, response);
 
