@@ -8,6 +8,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.utils.EmailSender;
 import it.univaq.webmarket.framework.utils.Ruolo;
 
 import javax.servlet.ServletConfig;
@@ -172,6 +173,9 @@ public class VisualizzaProposteController extends ApplicationBaseController {
                 proposta.setStatoProposta(Proposta.StatoProposta.ACCETTATO);
 
                 dl.getPropostaDAO().storeProposta(proposta);
+
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                sender.sendPDFWithEmail(getServletContext(), proposta.getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail(), proposta, EmailSender.Event.PROPOSTA_ACCETTATA);
 
                 datamodel.put("page", page);
                 datamodel.put("success", "2");
