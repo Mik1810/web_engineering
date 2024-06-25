@@ -34,7 +34,9 @@ public class EmailSender {
         RICHIESTA_PRESA_IN_CARICO,
         PROPOSTA_INSERITA,
         ORDINE_CREATO,
-        RICHIESTA_CHIUSA
+        RICHIESTA_CHIUSA,
+        PROPOSTA_ACCETTATA,
+        PROPOSTA_RIFIUTATA,
     }
 
     private String emailFrom, password;
@@ -50,7 +52,7 @@ public class EmailSender {
         // Uso un thread perchè potrebbe metterci del tempo ad inviare l'email
         new Thread(() -> {
 
-            Session session = Session.getInstance(properties,  new Authenticator() {
+            Session session = Session.getInstance(properties, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(emailFrom, password);
                 }
@@ -114,8 +116,8 @@ public class EmailSender {
                         sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
                     }
 
-                    values.put("filename", "richiesta_"+richiesta.getCodiceRichiesta());
-                    values.put("subject", "Richiesta: "+richiesta.getCodiceRichiesta());
+                    values.put("filename", "richiesta_" + richiesta.getCodiceRichiesta());
+                    values.put("subject", "Richiesta: " + richiesta.getCodiceRichiesta());
                     values.put("text", sb.toString());
 
                     newEmailSender(context, to, htmlresult, values);
@@ -126,7 +128,7 @@ public class EmailSender {
                 case PROPOSTA_INSERITA:
                     break;
             }
-        } catch(TemplateManagerException e) {
+        } catch (TemplateManagerException e) {
             Logger.getLogger(EmailSender.class.getName()).severe(e.getMessage());
 
         }
@@ -136,7 +138,7 @@ public class EmailSender {
     private void newEmailSender(ServletContext context, String to, String htmlresult, Map<String, String> values) {
 
         new Thread(() -> {
-            String outputPdf =  context.getRealPath("/WEB-INF/")+values.get("filename")+".pdf";
+            String outputPdf = context.getRealPath("/WEB-INF/") + values.get("filename") + ".pdf";
 
             try {
 
@@ -171,7 +173,7 @@ public class EmailSender {
                 MimeBodyPart attachmentPart = new MimeBodyPart();
                 DataSource source = new FileDataSource(outputPdf);
                 attachmentPart.setDataHandler(new DataHandler(source));
-                attachmentPart.setFileName(values.get("filename")+".pdf");
+                attachmentPart.setFileName(values.get("filename") + ".pdf");
 
                 // Composizione del messaggio
                 MimeMultipart multipart = new MimeMultipart();
@@ -198,7 +200,7 @@ public class EmailSender {
                     Logger.getLogger(EmailSender.class.getName()).warning("File PDF non trovato durante la cancellazione.");
                 }
 
-            } catch(DocumentException | MessagingException | IOException e) {
+            } catch (DocumentException | MessagingException | IOException e) {
                 Logger.getLogger(EmailSender.class.getName()).severe(e.getMessage());
             }
         }).start();
