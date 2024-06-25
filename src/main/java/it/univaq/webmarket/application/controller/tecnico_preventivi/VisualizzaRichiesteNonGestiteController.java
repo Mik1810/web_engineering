@@ -117,9 +117,13 @@ public class VisualizzaRichiesteNonGestiteController extends ApplicationBaseCont
 
                 dl.getRichiestaPresaInCaricoDAO().storeRichiestaPresaInCarico(richiestaPresaInCarico);
 
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                sender.sendPDFWithEmail(getServletContext(), richiesta.getOrdinante().getEmail(), richiestaPresaInCarico, EmailSender.Event.RICHIESTA_PRESA_IN_CARICO);
+
                 datamodel.put("page", page);
                 datamodel.put("success", "1");
                 datamodel.put("richieste", dl.getRichiestaDAO().getRichiesteNonGestite(page));
+
 
             } else if(parameterMap.containsKey("id")) {
 

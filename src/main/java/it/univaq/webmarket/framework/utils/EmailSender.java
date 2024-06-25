@@ -2,6 +2,7 @@ package it.univaq.webmarket.framework.utils;
 
 import com.lowagie.text.DocumentException;
 import it.univaq.webmarket.data.model.CaratteristicaConValore;
+import it.univaq.webmarket.data.model.Proposta;
 import it.univaq.webmarket.data.model.Richiesta;
 import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
@@ -83,16 +84,6 @@ public class EmailSender {
         }).start();
     }
 
-    /*
-    * StringBuilder sb = new StringBuilder();
-        sb.append("La seguente richiesta è stata presa in carico:").append("\n");
-        sb.append("Richiesta: ").append(richiestaPresaInCarico.getRichiesta().getCodiceRichiesta()).append("\n");
-        sb.append("Tecnico dei Preventivi: ").append(richiestaPresaInCarico.getTecnicoPreventivi().getEmail()).append("\n");
-        String text = sb.toString();
-        String subject = "Richiesta presa in carico: Richiesta" + richiestaPresaInCarico.getRichiesta().getCodiceRichiesta();
-        String filename = "richiesta_presa_in_carico_ " + richiestaPresaInCarico.getRichiesta().getCodiceRichiesta() + ".pdf";
-    * */
-
     public void sendPDFWithEmail(ServletContext context, String to, Object obj, Event event) {
         try {
             TemplateResult result = new TemplateResult(context);
@@ -133,6 +124,15 @@ public class EmailSender {
                     sb.append("Richiesta presa in carico").append("\n");
                     sb.append("Codice richiesta: ").append(richiestaPresaInCarico.getRichiesta().getCodiceRichiesta()).append("\n");
                     sb.append("Tecnico dei Preventivi: ").append(richiestaPresaInCarico.getTecnicoPreventivi().getEmail()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta: ").append(richiestaPresaInCarico.getRichiesta().getCodiceRichiesta()).append("\n");
+                    sb.append("Data: ").append(richiestaPresaInCarico.getRichiesta().getData()).append("\n");
+                    sb.append("Ordinante: ").append(richiestaPresaInCarico.getRichiesta().getOrdinante().getEmail()).append("\n");
+                    sb.append("Note: ").append(richiestaPresaInCarico.getRichiesta().getNote()).append("\n");
+                    sb.append("Caratteristiche: ").append("\n");
+                    for (CaratteristicaConValore ccv : richiestaPresaInCarico.getRichiesta().getCaratteristicheConValore()) {
+                        sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
+                    }
 
                     values.put("filename", "richiesta_presa_in_carico_"+richiestaPresaInCarico.getRichiesta().getCodiceRichiesta());
                     values.put("subject", "Richiesta presa in carico: "+richiestaPresaInCarico.getRichiesta().getCodiceRichiesta());
@@ -142,6 +142,64 @@ public class EmailSender {
 
                     break;
                 case PROPOSTA_INSERITA:
+                    Proposta proposta = (Proposta) obj;
+
+                    datamodel.put("proposta", proposta);
+                    htmlresult = result.activate("/pdf_templates/pdf_proposta.ftl", datamodel, new StringWriter());
+
+                    sb.append("Proposta accettata: ").append(proposta.getCodiceProdotto()).append("\n");
+                    sb.append("Produttore: ").append(proposta.getProduttore()).append("\n");
+                    sb.append("Nome Prodotto: ").append(proposta.getNomeProdotto()).append("\n");
+                    sb.append("Prezzo: ").append(proposta.getPrezzo()).append("\n");
+                    sb.append("Note: ").append(proposta.getNote()).append("\n");
+                    sb.append("Stato Proposta: ").append(proposta.getStatoProposta()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta presa in carico da: ").append(proposta.getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta: ").append(proposta.getRichiestaPresaInCarico().getRichiesta().getCodiceRichiesta()).append("\n");
+                    sb.append("Data: ").append(proposta.getRichiestaPresaInCarico().getRichiesta().getData()).append("\n");
+                    sb.append("Ordinante: ").append(proposta.getRichiestaPresaInCarico().getRichiesta().getOrdinante().getEmail()).append("\n");
+                    sb.append("Note: ").append(proposta.getRichiestaPresaInCarico().getRichiesta().getNote()).append("\n");
+                    sb.append("Caratteristiche: ").append("\n");
+                    for (CaratteristicaConValore ccv : proposta.getRichiestaPresaInCarico().getRichiesta().getCaratteristicheConValore()) {
+                        sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
+                    }
+
+                    values.put("filename", "proposta_"+proposta.getCodiceProdotto());
+                    values.put("subject", "Proposta: "+proposta.getCodiceProdotto());
+                    values.put("text", sb.toString());
+
+                    newEmailSender(context, to, htmlresult, values);
+                    break;
+                case PROPOSTA_ACCETTATA:
+                    Proposta propostaAccettata = (Proposta) obj;
+
+                    datamodel.put("proposta", propostaAccettata);
+                    htmlresult = result.activate("/pdf_templates/pdf_proposta.ftl", datamodel, new StringWriter());
+
+                    sb.append("Proposta creata con successo: ").append(propostaAccettata.getCodiceProdotto()).append("\n");
+                    sb.append("Produttore: ").append(propostaAccettata.getProduttore()).append("\n");
+                    sb.append("Nome Prodotto: ").append(propostaAccettata.getNomeProdotto()).append("\n");
+                    sb.append("Prezzo: ").append(propostaAccettata.getPrezzo()).append("\n");
+                    sb.append("Note: ").append(propostaAccettata.getNote()).append("\n");
+                    sb.append("Stato Proposta: ").append(propostaAccettata.getStatoProposta()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta presa in carico da: ").append(propostaAccettata.getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta: ").append(propostaAccettata.getRichiestaPresaInCarico().getRichiesta().getCodiceRichiesta()).append("\n");
+                    sb.append("Data: ").append(propostaAccettata.getRichiestaPresaInCarico().getRichiesta().getData()).append("\n");
+                    sb.append("Ordinante: ").append(propostaAccettata.getRichiestaPresaInCarico().getRichiesta().getOrdinante().getEmail()).append("\n");
+                    sb.append("Note: ").append(propostaAccettata.getRichiestaPresaInCarico().getRichiesta().getNote()).append("\n");
+                    sb.append("Caratteristiche: ").append("\n");
+                    for (CaratteristicaConValore ccv : propostaAccettata.getRichiestaPresaInCarico().getRichiesta().getCaratteristicheConValore()) {
+                        sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
+                    }
+
+                    values.put("filename", "proposta_accettata_"+propostaAccettata.getCodiceProdotto());
+                    values.put("subject", "Proposta accettata: "+propostaAccettata.getCodiceProdotto());
+                    values.put("text", sb.toString());
+
+                    newEmailSender(context, to, htmlresult, values);
                     break;
             }
         } catch (TemplateManagerException e) {

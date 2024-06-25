@@ -10,6 +10,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.utils.EmailSender;
 import it.univaq.webmarket.framework.utils.Ruolo;
 
 import javax.servlet.ServletConfig;
@@ -175,6 +176,9 @@ public class VisualizzaRichiestePreseInCaricoController extends ApplicationBaseC
 
                     dl.getPropostaDAO().storeProposta(proposta);
 
+                    EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                    sender.sendPDFWithEmail(getServletContext(), proposta.getRichiestaPresaInCarico().getRichiesta().getOrdinante().getEmail(), proposta, EmailSender.Event.PROPOSTA_INSERITA);
+
                     datamodel.put("page", page);
                     datamodel.put("success", "1");
                     datamodel.put("richiestePreseInCarico", dl.getRichiestaPresaInCaricoDAO().getAllRichiestePresaInCaricoByTecnicoPreventivi(tecnicoPreventivi, page));
@@ -211,6 +215,10 @@ public class VisualizzaRichiestePreseInCaricoController extends ApplicationBaseC
                     proposta.setRichiestaPresaInCarico(richiestaPresaInCarico);
 
                     dl.getPropostaDAO().storeProposta(proposta);
+
+                    EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                    sender.sendPDFWithEmail(getServletContext(), proposta.getRichiestaPresaInCarico().getRichiesta().getOrdinante().getEmail(), proposta, EmailSender.Event.PROPOSTA_INSERITA);
+
 
                     // Passo la lista vuota perchè una volta che ho creato la proposta, non è più
                     // una RichiestaPresaInCarico in attesa

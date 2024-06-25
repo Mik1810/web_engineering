@@ -23,10 +23,6 @@
             font-size: 14px;
         }
 
-        .caratteristiche {
-            margin-top: 1rem;
-        }
-
         header {
             display: flex;
             justify-content: center;
@@ -36,6 +32,34 @@
         hr {
             display: flex;
             justify-content: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+            justify-content: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .left {
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e9e9e9;
         }
     </style>
 </head>
@@ -49,9 +73,34 @@
         <hr></hr>
     </header>
     <h3>Richiesta presa in carico</h3>
-    <div>Richiesta: <b>${richiestaPresaInCarico.richiesta.codiceRichiesta}</b></div>
+    <div>Richiesta: ${richiestaPresaInCarico.richiesta.codiceRichiesta}</div>
     <div>Tecnico dei Preventivi: ${richiestaPresaInCarico.tecnicoPreventivi.email}</div>
-
+    <hr></hr>
+    <h3>Richiesta</h3>
+    <div>Richiesta: ${richiestaPresaInCarico.richiesta.codiceRichiesta}</div>
+    <div>Data: ${richiestaPresaInCarico.richiesta.data}</div>
+    <div>Email: ${richiestaPresaInCarico.richiesta.ordinante.email}</div>
+    <div>Note: ${richiestaPresaInCarico.richiesta.note}</div>
+    <hr></hr>
+    <h3>Caratteristiche</h3>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" >Nome</th>
+            <th scope="col">Valore</th>
+            <th scope="col">Unità di Misura</th>
+        </tr>
+        </thead>
+        <tbody id="tbody">
+        <#list richiestaPresaInCarico.richiesta.caratteristicheConValore as caratteristicaConValore>
+            <tr>
+                <td class="left">${caratteristicaConValore.caratteristica.nome}</td>
+                <td>${caratteristicaConValore.valore}</td>
+                <td>${caratteristicaConValore.caratteristica.unitaMisura}</td>
+            </tr>
+        </#list>
+        </tbody>
+    </table>
 </div>
 
 </body>

@@ -33,6 +33,7 @@
             display: flex;
             justify-content: center;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -71,11 +72,27 @@
         </div>
         <hr></hr>
     </header>
-    <h3><b>Riepilogo Richiesta</b></h3>
-    <div>Richiesta: ${richiesta.codiceRichiesta}</div>
-    <div>Data: ${richiesta.data}</div>
-    <div>Email: ${richiesta.ordinante.email}</div>
-    <div>Note: ${richiesta.note}</div>
+    <h3>Riepilogo Proposta</h3>
+    <div>Proposta: ${proposta.codiceProdotto}</div>
+    <div>Produttore: ${proposta.produttore}</div>
+    <div>Nome Prodotto: ${proposta.nomeProdotto}</div>
+    <div>Prezzo: ${proposta.prezzo}</div>
+    <div>Note: ${proposta.note}</div>
+    <div>Stato Proposta: ${proposta.statoProposta}</div>
+    <#if proposta.motivazione??>
+        <div>Motivazione: ${proposta.motivazione}</div>
+    </#if>
+    <div>Produttore: ${proposta.produttore}</div>
+    <hr></hr>
+    <h3>Richiesta presa in carico</h3>
+    <div>Richiesta: ${proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</div>
+    <div>Tecnico dei Preventivi: ${proposta.richiestaPresaInCarico.tecnicoPreventivi.email}</div>
+    <hr></hr>
+    <h3>Richiesta</h3>
+    <div>Richiesta: ${proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</div>
+    <div>Data: ${proposta.richiestaPresaInCarico.richiesta.data}</div>
+    <div>Email: ${proposta.richiestaPresaInCarico.richiesta.ordinante.email}</div>
+    <div>Note: ${proposta.richiestaPresaInCarico.richiesta.note}</div>
     <hr></hr>
     <h3>Caratteristiche</h3>
     <table class="table">
@@ -87,7 +104,7 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <#list richiesta.caratteristicheConValore as caratteristicaConValore>
+        <#list proposta.richiestaPresaInCarico.richiesta.caratteristicheConValore as caratteristicaConValore>
             <tr>
                 <td class="left">${caratteristicaConValore.caratteristica.nome}</td>
                 <td>${caratteristicaConValore.valore}</td>
