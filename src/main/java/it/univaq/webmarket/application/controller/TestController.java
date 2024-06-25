@@ -22,7 +22,7 @@ public class TestController extends ApplicationBaseController {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
 
             EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
-            Ordine ordine = dl.getOrdineDAO().getOrdine(2);
+            Ordine ordine = dl.getOrdineDAO().getOrdine(3);
             sender.sendPDFWithEmail(getServletContext(), "paoloccigiacomo@gmail.com", ordine, EmailSender.Event.ORDINE_CHIUSO);
         } catch (Exception e) {
             e.printStackTrace();

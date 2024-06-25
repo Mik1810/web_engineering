@@ -142,8 +142,10 @@ h1 {
 }
 
 .titolo-popup {
+    text-align: center;
+    flex-direction: column;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     margin-bottom: 1rem;
 }
 

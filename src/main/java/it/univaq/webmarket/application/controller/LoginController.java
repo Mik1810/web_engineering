@@ -19,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class LoginController extends ApplicationBaseController {
 
@@ -46,7 +47,8 @@ public class LoginController extends ApplicationBaseController {
         Dotenv dotenv = Dotenv.configure().load();
         String email = dotenv.get("EMAIL");
         String role = dotenv.get("ROLE");
-        SecurityHelpers.createSession(request, email, 1, Ruolo.valueOf(role));
+        Integer id = Integer.parseInt(Objects.requireNonNull(dotenv.get("ID")));
+        SecurityHelpers.createSession(request, email, id, Ruolo.valueOf(role));
         handleRedirect(Ruolo.valueOf(role), request, response);
     }
 
