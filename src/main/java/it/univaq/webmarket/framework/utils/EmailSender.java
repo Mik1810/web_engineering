@@ -95,18 +95,20 @@ public class EmailSender {
 
     public void sendPDFWithEmail(ServletContext context, String to, Object obj, Event event) {
         try {
+            TemplateResult result = new TemplateResult(context);
+            String htmlresult = "";
+            Map<String, Object> datamodel = new HashMap<>();
+            Map<String, String> values = new HashMap<>();
+            StringBuilder sb = new StringBuilder();
+
             switch (event) {
                 case RICHIESTA_REGISTRATA:
-                    Richiesta richiesta = (RichiestaProxy) obj;
+                    Richiesta richiesta = (Richiesta) obj;
 
-                    TemplateResult result = new TemplateResult(context);
-                    Map<String, Object> datamodel = new HashMap<>();
+                    datamodel = new HashMap<>();
                     datamodel.put("richiesta", richiesta);
-                    String htmlresult = result.activate("/pdf_templates/pdf_richiesta.ftl", datamodel, new StringWriter());
+                    htmlresult = result.activate("/pdf_templates/pdf_richiesta.ftl", datamodel, new StringWriter());
 
-                    Map<String, String> values = new HashMap<>();
-
-                    StringBuilder sb = new StringBuilder();
                     sb.append("Richiesta: ").append(richiesta.getCodiceRichiesta()).append("\n");
                     sb.append("Data: ").append(richiesta.getData()).append("\n");
                     sb.append("Ordinante: ").append(richiesta.getOrdinante().getEmail()).append("\n");
@@ -124,6 +126,20 @@ public class EmailSender {
                     break;
                 case RICHIESTA_PRESA_IN_CARICO:
                     RichiestaPresaInCarico richiestaPresaInCarico = (RichiestaPresaInCarico) obj;
+
+                    datamodel.put("richiestaPresaInCarico", richiestaPresaInCarico);
+                    htmlresult = result.activate("/pdf_templates/pdf_richiesta_presa_in_carico.ftl", datamodel, new StringWriter());
+
+                    sb.append("Richiesta presa in carico").append("\n");
+                    sb.append("Codice richiesta: ").append(richiestaPresaInCarico.getRichiesta().getCodiceRichiesta()).append("\n");
+                    sb.append("Tecnico dei Preventivi: ").append(richiestaPresaInCarico.getTecnicoPreventivi().getEmail()).append("\n");
+
+                    values.put("filename", "richiesta_presa_in_carico_"+richiestaPresaInCarico.getRichiesta().getCodiceRichiesta());
+                    values.put("subject", "Richiesta presa in carico: "+richiestaPresaInCarico.getRichiesta().getCodiceRichiesta());
+                    values.put("text", sb.toString());
+
+                    newEmailSender(context, to, htmlresult, values);
+
                     break;
                 case PROPOSTA_INSERITA:
                     break;
