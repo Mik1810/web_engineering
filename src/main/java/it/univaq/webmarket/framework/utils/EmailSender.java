@@ -30,13 +30,13 @@ import java.util.logging.Logger;
 public class EmailSender {
 
     public enum Event {
-        RICHIESTA_REGISTRATA,
-        RICHIESTA_PRESA_IN_CARICO,
-        PROPOSTA_INSERITA,
-        ORDINE_CREATO,
-        RICHIESTA_CHIUSA,
-        PROPOSTA_ACCETTATA,
-        PROPOSTA_RIFIUTATA,
+        RICHIESTA_REGISTRATA, // Mik
+        RICHIESTA_PRESA_IN_CARICO, //Mik
+        PROPOSTA_INSERITA, // Mik
+        PROPOSTA_ACCETTATA, // MIK
+        PROPOSTA_RIFIUTATA, // MIk
+        ORDINE_CREATO, // Giacomo
+        RICHIESTA_CHIUSA, // Giacomo
     }
 
     private String emailFrom, password;
