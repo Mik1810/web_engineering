@@ -3,7 +3,7 @@ package it.univaq.webmarket.application.controller.amministratore;
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
 import it.univaq.webmarket.data.model.CategoriaFiglio;
-import it.univaq.webmarket.data.model.CategoriaPadre;
+import it.univaq.webmarket.data.model.CategoriaNipote;
 import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
@@ -18,13 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CategoriaFiglioController extends ApplicationBaseController {
+public class GestioneCategoriaNipoteController extends ApplicationBaseController {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         this.ruoliAutorizzati = List.of(Ruolo.AMMINISTRATORE);
     }
+
 
     private void renderCategoriePage(HttpServletRequest request, HttpServletResponse response) throws TemplateManagerException, IOException {   //all'avvio della pagina
         TemplateResult result = new TemplateResult(getServletContext());
@@ -33,14 +34,15 @@ public class CategoriaFiglioController extends ApplicationBaseController {
 
         try {
             if (request.getParameter("id_categoria_genitore") != null) {
-                CategoriaPadre categoriaPadre = dl.getCategoriaDAO()
-                        .getCategoriaPadre(Integer.parseInt(request.getParameter("id_categoria_genitore")));
-                List<CategoriaFiglio> categorieFiglio = dl.getCategoriaDAO().getCategorieFiglioByPadre(categoriaPadre);
-                datamodel.put("categorie", categorieFiglio);
+                CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO()
+                        .getCategoriaFiglio(Integer.parseInt(request.getParameter("id_categoria_genitore")));
+                List<CategoriaNipote> categoriaNipote = dl.getCategoriaDAO().getCategorieNipoteByFiglio(categoriaFiglio);
+                datamodel.put("categorie", categoriaNipote);
 
                 datamodel.put("id_categoria_genitore", request.getParameter("id_categoria_genitore"));
             } else {
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
+
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
             }
         } catch (DataException e) {
             handleError(e, request, response);
@@ -48,100 +50,99 @@ public class CategoriaFiglioController extends ApplicationBaseController {
 
         if (request.getParameter("showAlert") != null) {
             if (request.getParameter("showAlert").equals("1")) {
-                datamodel.put("success", "1"); //modifica effettuata
+                datamodel.put("success", "1"); //successo => categoria nipote aggiunta
             }
             if (request.getParameter("showAlert").equals("2")) {
-                datamodel.put("success", "2"); //inserimento effettuato
+                datamodel.put("success", "2"); //successo => categoria nipote modificata
             }
         }
 
-        result.activate("categorie_figlio.ftl", datamodel, request, response);
+        result.activate("categorie_nipote.ftl", datamodel, request, response);
     }
 
-    private void renderModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaFiglio_key) throws TemplateManagerException, IOException {
+    private void renderModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaNipote_key) throws TemplateManagerException, IOException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key);
+            CategoriaNipote categoriaNipote = dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key);
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
             if (!request.getParameter("id_categoria_genitore").equals("null")) {
 
 
-                CategoriaPadre categoriaPadre = dl.getCategoriaDAO()
-                        .getCategoriaPadre(Integer.parseInt(request.getParameter("id_categoria_genitore")));
-                List<CategoriaFiglio> categorieFiglio = dl.getCategoriaDAO().getCategorieFiglioByPadre(categoriaPadre);
+                CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO()
+                        .getCategoriaFiglio(Integer.parseInt(request.getParameter("id_categoria_genitore")));
+                List<CategoriaNipote> categorieNipote = dl.getCategoriaDAO().getCategorieNipoteByFiglio(categoriaFiglio);
                 datamodel.put("id_categoria_genitore", request.getParameter("id_categoria_genitore"));
-                datamodel.put("categorie", categorieFiglio);
-                datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
-                datamodel.put("categoriaGenitoreEsistente", categoriaFiglio.getCategoriaGenitore());
+                datamodel.put("categorie", categorieNipote);
+                datamodel.put("categorieFiglio", dl.getCategoriaDAO().getAllCategorieFiglio());
+                datamodel.put("categoriaGenitoreEsistente", categoriaNipote.getCategoriaGenitore());
                 datamodel.put("visibilityUpdate", "flex");
-                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
+                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key));
             } else {
 
-
-                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
-                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-                datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
-                datamodel.put("categoriaGenitoreEsistente", categoriaFiglio.getCategoriaGenitore());
+                datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key));
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
+                datamodel.put("categorieFiglio", dl.getCategoriaDAO().getAllCategorieFiglio());
+                datamodel.put("categoriaGenitoreEsistente", categoriaNipote.getCategoriaGenitore());
                 datamodel.put("visibilityUpdate", "flex");
 
             }
 
-            result.activate("categorie_figlio.ftl", datamodel, request, response);
+            result.activate("categorie_nipote.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
 
     }
 
-    private void handleDelete(HttpServletRequest request, HttpServletResponse response, Integer categoriaFiglio_key) {
+    private void handleDelete(HttpServletRequest request, HttpServletResponse response, Integer categoriaNipote_key) {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key);
-            dl.getCategoriaDAO().deleteCategoriaFiglio(categoriaFiglio);
+            CategoriaNipote categoriaNipote = dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key);
+            dl.getCategoriaDAO().deleteCategoriaNipote(categoriaNipote);
 
 
             String id_categoria_genitore = request.getParameter("id_categoria_genitore");
 
 
             if (id_categoria_genitore.equals("null")) {
-                response.sendRedirect("categoria_figlio");
+                response.sendRedirect("categoria_nipote");
             } else {
-                response.sendRedirect("categoria_figlio?id_categoria_genitore=" + id_categoria_genitore);
+                response.sendRedirect("categoria_nipote?id_categoria_genitore=" + id_categoria_genitore);
             }
-            response.sendRedirect("categoria_figlio");
+            response.sendRedirect("categoria_nipote");
         } catch (IOException | DataException ex) {
             handleError(ex, request, response);
         }
     }
 
-    private void handleModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaFiglio_key) throws TemplateManagerException {
+    private void handleModify(HttpServletRequest request, HttpServletResponse response, Integer categoriaNipote_key) throws TemplateManagerException {
         try {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
-            CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key);
-            categoriaFiglio.setNome(request.getParameter("nome"));
+            CategoriaNipote categoriaNipote = dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key);
+            categoriaNipote.setNome(request.getParameter("nome"));
 
             String id_categoria_genitore = request.getParameter("id_categoria_genitore");
 
-            if (request.getParameter("sceltaCategoriaPadre") != null) {
-                categoriaFiglio.getCategoriaGenitore().setKey(Integer.parseInt(request.getParameter("sceltaCategoriaPadre")));
+            if (request.getParameter("sceltaCategoriaFiglio") != null) {
+                categoriaNipote.getCategoriaGenitore().setKey(Integer.parseInt(request.getParameter("sceltaCategoriaFiglio")));
             }
 
-            dl.getCategoriaDAO().storeCategoriaFiglio(categoriaFiglio);
+            dl.getCategoriaDAO().storeCategoriaNipote(categoriaNipote);
 
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaFiglio(categoriaFiglio_key));
-            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-            datamodel.put("success", "1"); //modifica effettuata
+            datamodel.put("categoriaModifica", dl.getCategoriaDAO().getCategoriaNipote(categoriaNipote_key));
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
+            datamodel.put("success", "1"); //successo => categoria nipote modificata
 
 
             if (id_categoria_genitore.equals("null")) {
-                result.activate("categorie_figlio.ftl", datamodel, request, response);
+                result.activate("categorie_nipote.ftl", datamodel, request, response);
             } else {
-                response.sendRedirect("categoria_figlio?id_categoria_genitore=" + id_categoria_genitore + "&showAlert=1");
+                response.sendRedirect("categoria_nipote?id_categoria_genitore=" + id_categoria_genitore + "&showAlert=1");
             }
 
 
@@ -157,20 +158,30 @@ public class CategoriaFiglioController extends ApplicationBaseController {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
-            Map<String, String[]> parameterMap = request.getParameterMap();
 
-            CategoriaFiglio categoriaFiglio = dl.getCategoriaDAO().createCategoriaFiglio();
-            categoriaFiglio.setNome(parameterMap.get("nome")[0]);
+            CategoriaNipote categoriaNipote = dl.getCategoriaDAO().createCategoriaNipote();
 
-            CategoriaPadre categoriaPadre = dl.getCategoriaDAO().getCategoriaPadre(Integer.parseInt(parameterMap.get("sceltaCategoriaPadre")[0]));
-            categoriaFiglio.setCategoriaGenitore(categoriaPadre);
+            categoriaNipote.setNome(request.getParameter("nome"));
 
-            dl.getCategoriaDAO().storeCategoriaFiglio(categoriaFiglio);
 
-            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-            datamodel.put("success", "2"); //inserimento effettuato
+            if (request.getParameter("sceltaCategoriaFiglio") != null && !request.getParameter("sceltaCategoriaFiglio").isEmpty()) {
+                categoriaNipote.setCategoriaGenitore(dl.getCategoriaDAO().getCategoriaFiglio(Integer.parseInt(request.getParameter("sceltaCategoriaFiglio"))));
+            } else {
+                datamodel.put("success", "-1"); //errore => non è stata selezionata nessuna categoria figlio
+                datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
+                result.activate("categorie_nipote.ftl", datamodel, request, response);
+                return;
+            }
 
-            result.activate("categorie_figlio.ftl", datamodel, request, response);
+
+            dl.getCategoriaDAO().storeCategoriaNipote(categoriaNipote);
+
+
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
+            datamodel.put("success", "2"); //successo => categoria nipote aggiunta
+
+
+            result.activate("categorie_nipote.ftl", datamodel, request, response);
 
         } catch (DataException ex) {
             handleError(ex, request, response);
@@ -183,11 +194,11 @@ public class CategoriaFiglioController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieFiglio());
-            datamodel.put("categoriePadre", dl.getCategoriaDAO().getAllCategoriePadre());
+            datamodel.put("categorie", dl.getCategoriaDAO().getAllCategorieNipote());
+            datamodel.put("categorieFiglio", dl.getCategoriaDAO().getAllCategorieFiglio());
             datamodel.put("visibilityInsert", "flex");
 
-            result.activate("categorie_figlio.ftl", datamodel, request, response);
+            result.activate("categorie_nipote.ftl", datamodel, request, response);
         } catch (DataException ex) {
             handleError(ex, request, response);
         }
@@ -195,8 +206,8 @@ public class CategoriaFiglioController extends ApplicationBaseController {
 
     @Override
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException {
-
         try {
+
             if (request.getParameter("render") != null) {
                 //Se l'utente richiede qualche elemento non renderizzato
 

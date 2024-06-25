@@ -19,21 +19,21 @@
         <div class="icon">📗
             <!--<img class="image-class" src="/images/icons/list-solid-1.png" alt="icona categoria padre">--></div>
         <div class="separator"></div>
-        <div class="title">Categoria Padre</div>
+        <div class="title">Gestione Categoria Padre</div>
         <div class="text">Inserisci, modifica o cancella una categoria <b>padre</b></div>
     </a>
     <a class="card" href="categoria_figlio?page=0">
         <div class="icon">📘
             <!--<img class="image-class" src="/images/icons/list-solid-2.png" alt="icona categoria figlio">--></div>
         <div class="separator"></div>
-        <div class="title">Categoria Figlio</div>
+        <div class="title">Gestione Categoria Figlio</div>
         <div class="text">Inserisci, modifica o cancella una categoria <b>figlio</b></div>
     </a>
 
     <a class="card" href="categoria_nipote?page=0">
         <div class="icon">📙<!--<i class="fa-solid fa-list"></i>--></div>
         <div class="separator"></div>
-        <div class="title">Categoria Nipote</div>
+        <div class="title">Gestione Categoria Nipote</div>
         <div class="text">Inserisci, modifica o cancella una categoria <b>nipote</b></div>
     </a>
 

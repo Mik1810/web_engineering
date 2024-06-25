@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CategoriaPadreController extends ApplicationBaseController {
+public class GestioneCategoriaPadreController extends ApplicationBaseController {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
