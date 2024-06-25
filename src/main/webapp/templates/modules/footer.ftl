@@ -7,7 +7,7 @@
         <p>
             <a href="https://github.com/Mik1810/web_engineering" target="_blank">
                 <img class="github-icon" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                     alt="GitHub">
+                     alt="GitHub"></img>
             </a>
         </p>
     </footer>

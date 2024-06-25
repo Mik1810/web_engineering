@@ -190,4 +190,15 @@ public class TemplateResult {
             throw new TemplateManagerException("Template error: " + ex.getMessage(), ex);
         }
     }
+
+    public String activate(String tplname, Map<String, Object> datamodel, StringWriter stringWriter) throws TemplateManagerException {
+        try {
+            // Load template
+            Template template = cfg.getTemplate(tplname);
+            template.process(datamodel, stringWriter);
+            return stringWriter.toString();
+        } catch (IOException | TemplateException e) {
+            throw new TemplateManagerException("Template error: " + e.getMessage(), e);
+        }
+    }
 }

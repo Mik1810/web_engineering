@@ -2,17 +2,13 @@ package it.univaq.webmarket.application.controller;
 
 import it.univaq.webmarket.application.ApplicationBaseController;
 import it.univaq.webmarket.application.WebmarketDataLayer;
-import it.univaq.webmarket.data.DAO.impl.PropostaDAO_MySQL;
-import it.univaq.webmarket.data.model.*;
-import it.univaq.webmarket.framework.data.DataException;
-import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.data.model.Richiesta;
+import it.univaq.webmarket.framework.utils.EmailSender;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 public class TestController extends ApplicationBaseController {
 
@@ -23,10 +19,9 @@ public class TestController extends ApplicationBaseController {
             PrintWriter out = response.getWriter();
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
 
-            System.out.println(SecurityHelpers.getPasswordHashPBKDF2("techprevpass1"));
-
-            out.println();
-
+            EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+            Richiesta richiesta = dl.getRichiestaDAO().getRichiesta(1);
+            sender.sendPDFWithEmail(getServletContext(), "michaelpiccirilli3@gmail.com", richiesta, EmailSender.Event.RICHIESTA_REGISTRATA);
         } catch (Exception e) {
             e.printStackTrace();
         }

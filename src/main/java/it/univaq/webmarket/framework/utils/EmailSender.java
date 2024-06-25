@@ -1,14 +1,13 @@
 package it.univaq.webmarket.framework.utils;
 
+import com.lowagie.text.DocumentException;
 import it.univaq.webmarket.data.model.CaratteristicaConValore;
 import it.univaq.webmarket.data.model.Richiesta;
+import it.univaq.webmarket.data.model.RichiestaPresaInCarico;
 import it.univaq.webmarket.data.model.impl.proxy.RichiestaProxy;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType0Font;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
+import it.univaq.webmarket.framework.result.TemplateManagerException;
+import it.univaq.webmarket.framework.result.TemplateResult;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -18,15 +17,24 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.ServletContext;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
 public class EmailSender {
 
     public enum Event {
-        REQUEST_REGISTERD,
-        REQUEST_ACCEPTED,
+        RICHIESTA_REGISTRATA,
+        RICHIESTA_PRESA_IN_CARICO,
+        PROPOSTA_INSERITA,
+        ORDINE_CREATO,
+        RICHIESTA_CHIUSA
     }
 
     private String emailFrom, password;
@@ -73,40 +81,74 @@ public class EmailSender {
         }).start();
     }
 
-    private void requestRegistered(String to, Richiesta richiesta) {
-
-        // Creazione del documento PDF
-        StringBuilder sb = new StringBuilder();
-        sb.append("Richiesta: ").append(richiesta.getCodiceRichiesta()).append("\n");
-        sb.append("Data: ").append(richiesta.getData()).append("\n");
-        sb.append("Ordinante: ").append(richiesta.getOrdinante().getEmail()).append("\n");
-        sb.append("Note: ").append(richiesta.getNote()).append("\n");
-        sb.append("Caratteristiche: ").append("\n");
-        for (CaratteristicaConValore ccv : richiesta.getCaratteristicheConValore()) {
-            sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
-        }
+    /*
+    * StringBuilder sb = new StringBuilder();
+        sb.append("La seguente richiesta è stata presa in carico:").append("\n");
+        sb.append("Richiesta: ").append(richiestaPresaInCarico.getRichiesta().getCodiceRichiesta()).append("\n");
+        sb.append("Tecnico dei Preventivi: ").append(richiestaPresaInCarico.getTecnicoPreventivi().getEmail()).append("\n");
         String text = sb.toString();
-        String subject = "Richiesta creata con successo: " + richiesta.getCodiceRichiesta();
-        String filename = "richiesta " + richiesta.getCodiceRichiesta() + ".pdf";
+        String subject = "Richiesta presa in carico: Richiesta" + richiestaPresaInCarico.getRichiesta().getCodiceRichiesta();
+        String filename = "richiesta_presa_in_carico_ " + richiestaPresaInCarico.getRichiesta().getCodiceRichiesta() + ".pdf";
+    * */
+
+    public void sendPDFWithEmail(ServletContext context, String to, Object obj, Event event) {
+        try {
+            switch (event) {
+                case RICHIESTA_REGISTRATA:
+                    Richiesta richiesta = (RichiestaProxy) obj;
+
+                    TemplateResult result = new TemplateResult(context);
+                    Map<String, Object> datamodel = new HashMap<>();
+                    datamodel.put("richiesta", richiesta);
+                    String htmlresult = result.activate("/pdf_templates/pdf_richiesta.ftl", datamodel, new StringWriter());
+
+                    Map<String, String> values = new HashMap<>();
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Richiesta: ").append(richiesta.getCodiceRichiesta()).append("\n");
+                    sb.append("Data: ").append(richiesta.getData()).append("\n");
+                    sb.append("Ordinante: ").append(richiesta.getOrdinante().getEmail()).append("\n");
+                    sb.append("Note: ").append(richiesta.getNote()).append("\n");
+                    sb.append("Caratteristiche: ").append("\n");
+                    for (CaratteristicaConValore ccv : richiesta.getCaratteristicheConValore()) {
+                        sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
+                    }
+
+                    values.put("filename", "richiesta_"+richiesta.getCodiceRichiesta());
+                    values.put("subject", "Richiesta: "+richiesta.getCodiceRichiesta());
+                    values.put("text", sb.toString());
+
+                    newEmailSender(context, to, htmlresult, values);
+                    break;
+                case RICHIESTA_PRESA_IN_CARICO:
+                    RichiestaPresaInCarico richiestaPresaInCarico = (RichiestaPresaInCarico) obj;
+                    break;
+                case PROPOSTA_INSERITA:
+                    break;
+            }
+        } catch(TemplateManagerException e) {
+            Logger.getLogger(EmailSender.class.getName()).severe(e.getMessage());
+
+        }
+
+    }
+
+    private void newEmailSender(ServletContext context, String to, String htmlresult, Map<String, String> values) {
 
         new Thread(() -> {
+            String outputPdf =  context.getRealPath("/WEB-INF/")+values.get("filename")+".pdf";
+
             try {
-                PDDocument document = new PDDocument();
-                PDPage page = new PDPage();
-                document.addPage(page);
-                try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(100, 700);
-                    contentStream.setFont(new PDType1Font(Standard14Fonts.FontName.TIMES_ROMAN), 12);
-                    String[] lines = text.split("\\r?\\n");
-                    for (String line : lines) {
-                        contentStream.showText(line);
-                        contentStream.newLineAtOffset(0, -14); // Sposta verso il basso per la prossima linea
-                    }
-                    contentStream.endText();
-                }
-                document.save(filename);
-                document.close();
+
+                // Create a new document
+                ITextRenderer renderer = new ITextRenderer();
+                renderer.setDocumentFromString(htmlresult);
+                renderer.layout();
+
+                // Write PDF to file
+                FileOutputStream fos = new FileOutputStream(outputPdf);
+                renderer.createPDF(fos);
+                fos.close();
 
                 // Creazione della sessione di posta
                 Session session = Session.getInstance(properties, new Authenticator() {
@@ -119,17 +161,17 @@ public class EmailSender {
                 MimeMessage message = new MimeMessage(session);
                 message.setFrom(new InternetAddress(this.emailFrom)); // Inserire il proprio indirizzo email
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to)); // Inserire il destinatario
-                message.setSubject(subject);
+                message.setSubject(values.get("subject"));
 
                 // Creazione del corpo del messaggio
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
-                messageBodyPart.setText(text);
+                messageBodyPart.setText(values.get("text"));
 
                 // Creazione della parte dell'allegato
                 MimeBodyPart attachmentPart = new MimeBodyPart();
-                DataSource source = new FileDataSource(filename);
+                DataSource source = new FileDataSource(outputPdf);
                 attachmentPart.setDataHandler(new DataHandler(source));
-                attachmentPart.setFileName(filename);
+                attachmentPart.setFileName(values.get("filename")+".pdf");
 
                 // Composizione del messaggio
                 MimeMultipart multipart = new MimeMultipart();
@@ -143,21 +185,22 @@ public class EmailSender {
                 Transport.send(message);
 
                 Logger.getLogger(EmailSender.class.getName()).info("Email inviata con successo!");
-            } catch (MessagingException | IOException e) {
+
+                // Cancella il file PDF dopo l'invio dell'email
+                File pdfFile = new File(outputPdf);
+                if (pdfFile.exists()) {
+                    if (pdfFile.delete()) {
+                        Logger.getLogger(EmailSender.class.getName()).info("File PDF eliminato con successo.");
+                    } else {
+                        Logger.getLogger(EmailSender.class.getName()).warning("Impossibile eliminare il file PDF.");
+                    }
+                } else {
+                    Logger.getLogger(EmailSender.class.getName()).warning("File PDF non trovato durante la cancellazione.");
+                }
+
+            } catch(DocumentException | MessagingException | IOException e) {
                 Logger.getLogger(EmailSender.class.getName()).severe(e.getMessage());
             }
         }).start();
-    }
-
-    public void sendPDFWithEmail(String to, Object obj, Event event) {
-        switch (event) {
-            case REQUEST_REGISTERD:
-                Richiesta richiesta = (RichiestaProxy) obj;
-                requestRegistered(to, richiesta);
-                break;
-            case REQUEST_ACCEPTED:
-                break;
-        }
-
     }
 }

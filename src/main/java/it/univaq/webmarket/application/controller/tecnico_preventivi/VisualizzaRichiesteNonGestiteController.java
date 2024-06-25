@@ -7,6 +7,7 @@ import it.univaq.webmarket.framework.data.DataException;
 import it.univaq.webmarket.framework.result.TemplateManagerException;
 import it.univaq.webmarket.framework.result.TemplateResult;
 import it.univaq.webmarket.framework.security.SecurityHelpers;
+import it.univaq.webmarket.framework.utils.EmailSender;
 import it.univaq.webmarket.framework.utils.Ruolo;
 
 import javax.servlet.ServletConfig;
@@ -131,6 +132,9 @@ public class VisualizzaRichiesteNonGestiteController extends ApplicationBaseCont
                 richiestaPresaInCarico.setTecnicoPreventivi(tecnicoPreventivi);
 
                 dl.getRichiestaPresaInCaricoDAO().storeRichiestaPresaInCarico(richiestaPresaInCarico);
+
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                sender.sendPDFWithEmail(getServletContext(), richiesta.getOrdinante().getEmail(), richiestaPresaInCarico, EmailSender.Event.RICHIESTA_PRESA_IN_CARICO);
 
                 // Restituisco una lista vuota se effettivamente prendo in consegna questo ordine
                 datamodel.put("richieste", List.of());

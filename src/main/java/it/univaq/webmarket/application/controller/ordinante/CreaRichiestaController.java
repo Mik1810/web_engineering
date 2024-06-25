@@ -113,7 +113,7 @@ public class CreaRichiestaController extends ApplicationBaseController {
                     }
                 }
                 EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
-                sender.sendPDFWithEmail(ordinante.getEmail(), richiesta, EmailSender.Event.REQUEST_REGISTERD);
+                sender.sendPDFWithEmail(getServletContext(), ordinante.getEmail(), richiesta, EmailSender.Event.RICHIESTA_REGISTRATA);
 
                 response.sendRedirect("ordinante");
             } else {
