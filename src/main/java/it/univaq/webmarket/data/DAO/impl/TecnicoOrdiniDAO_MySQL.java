@@ -140,7 +140,7 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
                     return;
                 }
                 uTecnicoOrdini.setString(1, tecnicoOrdini.getEmail());
-                uTecnicoOrdini.setString(2, tecnicoOrdini.getPassword());
+                uTecnicoOrdini.setString(2, SecurityHelpers.getPasswordHashPBKDF2(tecnicoOrdini.getPassword()));
 
                 long current_version = tecnicoOrdini.getVersion();
                 long next_version = current_version + 1;

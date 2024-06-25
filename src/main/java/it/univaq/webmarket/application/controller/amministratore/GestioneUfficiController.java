@@ -52,7 +52,6 @@ public class GestioneUfficiController extends ApplicationBaseController {
             TemplateResult result = new TemplateResult(getServletContext());
             Map<String, Object> datamodel = new HashMap<>();
 
-            System.out.println("Page:" + request.getParameter("page"));
             datamodel.put("UfficioModifica", dl.getUfficioDAO().getUfficio(ufficio_key));
             if (request.getParameter("page") != null) {
                 Integer page = Integer.parseInt(request.getParameter("page"));
@@ -96,8 +95,6 @@ public class GestioneUfficiController extends ApplicationBaseController {
             ufficio.setNumeroUfficio(numeroUfficio);
             ufficio.setPiano(piano);
             ufficio.setNumeroTelefono(request.getParameter("telefono"));
-
-            System.out.println("Ufficio: " + ufficio);
 
             dl.getUfficioDAO().storeUfficio(ufficio);
 

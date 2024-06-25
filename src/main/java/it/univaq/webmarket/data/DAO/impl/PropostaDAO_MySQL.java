@@ -294,6 +294,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
                         if(keys.next()){
                             int key = keys.getInt(1);
                             proposta.setKey(key);
+                            proposta.setCodiceProdotto(codiceProposta);
                             dataLayer.getCache().add(Proposta.class, proposta);
                         }
                     }

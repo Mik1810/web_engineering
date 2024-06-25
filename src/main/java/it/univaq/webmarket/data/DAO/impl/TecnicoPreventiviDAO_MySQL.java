@@ -138,7 +138,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
                     return;
                 }
                 uTecnicoPreventivi.setString(1, tecnicoPreventivi.getEmail());
-                uTecnicoPreventivi.setString(2, tecnicoPreventivi.getPassword());
+                uTecnicoPreventivi.setString(2, SecurityHelpers.getPasswordHashPBKDF2(tecnicoPreventivi.getPassword()));
 
                 long current_version = tecnicoPreventivi.getVersion();
                 long next_version = current_version + 1;
@@ -153,7 +153,6 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
                     tecnicoPreventivi.setVersion(next_version);
                 }
             } else { //insert
-                System.out.println("Inserting");
                 iTecnicoPreventivi.setString(1, tecnicoPreventivi.getEmail());
                 iTecnicoPreventivi.setString(2, SecurityHelpers.getPasswordHashPBKDF2(tecnicoPreventivi.getPassword()));
 

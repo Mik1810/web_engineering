@@ -134,7 +134,6 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
             try (ResultSet rs = sStoricoByOrdinante.executeQuery()) {
                 while (rs.next()) {
                     int id = rs.getInt("ID_ordine");
-                    System.out.println("ID ordine: "+id);
                     ordini.add(getOrdine(id));
                 }
             }
@@ -200,7 +199,6 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
                 // Per la data di consegna ci pensa il trigger nel db ad inserirla quando vede
                 // che lo stato di consegna è "Consegnato"
 
-                System.out.println(ordine.getFeedback());
                 uOrdine.setString(1, ordine.getStatoConsegna());
                 if (ordine.getFeedback() == null) {
                     uOrdine.setNull(2, Types.VARCHAR);

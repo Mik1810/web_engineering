@@ -58,8 +58,8 @@
                                     <input class="btn btn-primary" type="submit" id="ordine" name="ordine"
                                            value="Consegnato">
                                 <#else>
-                                    <label style="color: red">Ordine consegnato
-                                        il ${ordine.dataConsegna.toString()}</label>
+                                    <label>Ordine consegnato
+                                        il ${ordine.dataConsegna}</label>
                                 </#if>
 
                             </form>

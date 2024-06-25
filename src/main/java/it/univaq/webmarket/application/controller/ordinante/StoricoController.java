@@ -128,6 +128,10 @@ public class StoricoController extends ApplicationBaseController {
 
                 dl.getOrdineDAO().storeOrdine(ordine);
 
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                String emailTecnico = ordine.getTecnicoOrdini().getEmail();
+                sender.sendPDFWithEmail(getServletContext(), emailTecnico, ordine, EmailSender.Event.ORDINE_CHIUSO);
+
                 datamodel.put("page", page);
                 datamodel.put("success", "1");
                 datamodel.put("ordini", dl.getOrdineDAO().getStorico(ordinante, page));
@@ -143,12 +147,9 @@ public class StoricoController extends ApplicationBaseController {
 
                 dl.getOrdineDAO().storeOrdine(ordine);
 
-
                 EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
-
                 String emailTecnico = ordine.getTecnicoOrdini().getEmail();
                 sender.sendPDFWithEmail(getServletContext(), emailTecnico, ordine, EmailSender.Event.ORDINE_CHIUSO);
-
 
                 datamodel.put("ordini", List.of(ordine));
                 datamodel.put("id", ordineId);

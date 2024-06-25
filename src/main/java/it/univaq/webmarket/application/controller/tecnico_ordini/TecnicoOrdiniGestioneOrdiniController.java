@@ -16,6 +16,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +93,7 @@ public class TecnicoOrdiniGestioneOrdiniController extends ApplicationBaseContro
 
             Ordine ordine = dl.getOrdineDAO().getOrdine(ordine_key);
             ordine.setStatoConsegna(Ordine.StatoConsegna.CONSEGNATO);
+            ordine.setDataConsegna(LocalDate.now());
             dl.getOrdineDAO().storeOrdine(ordine);
 
             datamodel.put("success", "2"); // Lo stato dell'ordine è: Consegnato.

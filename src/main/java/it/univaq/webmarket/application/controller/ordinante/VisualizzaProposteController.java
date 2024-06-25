@@ -184,7 +184,7 @@ public class VisualizzaProposteController extends ApplicationBaseController {
                 sender.sendPDFWithEmail(getServletContext(), proposta.getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail(), proposta, EmailSender.Event.PROPOSTA_ACCETTATA);
 
                 datamodel.put("page", page);
-                datamodel.put("success", "2");
+                datamodel.put("success", "1");
                 datamodel.put("proposte", dl.getPropostaDAO().getAllProposteDaDecidereByOrdinante(ordinante, page));
             } else if(parameterMap.containsKey("id")) {
 
@@ -202,7 +202,7 @@ public class VisualizzaProposteController extends ApplicationBaseController {
 
                 datamodel.put("proposte", List.of(proposta));
                 datamodel.put("id", propostaId);
-                datamodel.put("success", "2");
+                datamodel.put("success", "1");
             } else {
                 //Questo perchè potrebbe cancellare dalla URL il parametro id o page
                 datamodel.put("page", 0);

@@ -6,10 +6,8 @@
     <title>MyWebmarket</title>
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/default.css">
-    <link rel="stylesheet" href="/style/card.css">
-    <link rel="stylesheet" href="/style/tecnico-ordini-dashboard.css">
+    <link rel="stylesheet" href="/style/card_tecnico.css">
 </head>
 <body>
 <#include "modules/header.ftl">
@@ -19,15 +17,15 @@
     <a class="card" href="tecnico_ordini_gestione_proposte_accettate?page=0">
         <div class="icon">✅</div>
         <div class="separator"></div>
-        <div class="title">Gestisci Proposte Accettate e crea Ordini</div>
-        <div class="text">Visualizza e gestisci le <b>proposte accettate</b> e crea nuovi <b>ordini</b></div>
+        <div class="title">Crea ordine</div>
+        <div class="text">Crea nuovi <b>ordini</b> dalle proposte accettate</div>
 
     </a>
     <a class="card" href="tecnico_ordini_gestione_ordini?page=0">
         <div class="icon">📦</div>
         <div class="separator"></div>
-        <div class="title">Gestisci gli Ordini</div>
-        <div class="text">Visualizza e gestisci gli <b>Ordini</b></div>
+        <div class="title">Gestisci Ordini</div>
+        <div class="text">Visualizza e gestisci lo stato degli <b>ordini</b></div>
 
     </a>
 
