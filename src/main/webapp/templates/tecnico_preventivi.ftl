@@ -1,8 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html >
 <html lang="it" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="UTF-8" content="">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyWebmarket</title>
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
@@ -41,7 +41,8 @@
             <h2 class="title-postit">Richieste prese in carico</h2>
             <div>
                 <#list richiestePreseInCarico as richiestaPresaIncarico>
-                    <a class="a-postit" href="richieste_prese_in_carico?id=${richiestaPresaIncarico.key}">Richiesta presa in carico:
+                    <a class="a-postit" href="richieste_prese_in_carico?id=${richiestaPresaIncarico.key}">Richiesta
+                        presa in carico:
                         <span class="numeric">${richiestaPresaIncarico.richiesta.codiceRichiesta}</span>
                     </a>
                 </#list>
@@ -55,7 +56,8 @@
             <h2 class="title-postit">Tue Proposte</h2>
             <div>
                 <#list proposte as proposta>
-                    <a class="a-postit" href="proposte_tecnico_preventivi?id_richiesta_presa_in_carico=${proposta.richiestaPresaInCarico.key}">
+                    <a class="a-postit"
+                       href="proposte_tecnico_preventivi?id_richiesta_presa_in_carico=${proposta.richiestaPresaInCarico.key}">
                         Proposte per Richiesta
                         <span class="numeric">${proposta.richiestaPresaInCarico.richiesta.codiceRichiesta}</span>
                     </a>

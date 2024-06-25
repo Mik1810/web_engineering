@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="it">
+<!DOCTYPE html >
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -7,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyWebmarket</title>
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/default.css">
     <link rel="stylesheet" href="/style/table.css">
@@ -45,12 +44,14 @@
                     <td>
                         <#if id??>
                             <form method="POST" action="richieste_prese_in_carico?id=${id}">
-                                <input class="btn btn-primary" type="submit" id="render" name="render" value="Caratteristiche">
+                                <input class="btn btn-primary" type="submit" id="render" name="render"
+                                       value="Caratteristiche">
                             </form>
                         <#else>
                             <form method="POST" action="richieste_prese_in_carico?page=${page!"0"}">
                                 <input type="hidden" id="id" name="id" value="${richiestaPresaInCarico.key}">
-                                <input class="btn btn-primary" type="submit" id="render" name="render" value="Caratteristiche">
+                                <input class="btn btn-primary" type="submit" id="render" name="render"
+                                       value="Caratteristiche">
                             </form>
                         </#if>
 
@@ -58,12 +59,14 @@
                     <td>
                         <#if id??>
                             <form method="POST" action="richieste_prese_in_carico?id=${id}">
-                                <input class="btn btn-success" type="submit" id="render" name="render" value="Crea Proposta">
+                                <input class="btn btn-success" type="submit" id="render" name="render"
+                                       value="Crea Proposta">
                             </form>
                         <#else>
                             <form method="POST" action="richieste_prese_in_carico?page=${page!"0"}">
                                 <input type="hidden" id="id" name="id" value="${richiestaPresaInCarico.key}">
-                                <input class="btn btn-success" type="submit" id="render" name="render" value="Crea Proposta">
+                                <input class="btn btn-success" type="submit" id="render" name="render"
+                                       value="Crea Proposta">
                             </form>
                         </#if>
                     </td>
@@ -81,7 +84,8 @@
                         <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
                     <#else>
                         <li class="page-item">
-                            <a class="btn btn-primary" href="richieste_prese_in_carico?page=${page-1}">Pagina precedente</a>
+                            <a class="btn btn-primary" href="richieste_prese_in_carico?page=${page-1}">Pagina
+                                precedente</a>
                         </li>
                     </#if>
                     <li class="page-item">
@@ -150,22 +154,24 @@
                 <form method="POST" action="richieste_prese_in_carico?id=${id}">
 
                     <label for="produttore">Produttore</label>
-                    <input class="form-control" type="text" id="produttore" name="produttore" required />
+                    <input class="form-control" type="text" id="produttore" name="produttore" required/>
 
                     <label for="prezzo">Prezzo</label>
-                    <input class="form-control" type="text" id="prezzo" name="prezzo"  required />
+                    <input class="form-control" type="text" id="prezzo" name="prezzo" required/>
 
                     <label for="nome_prodotto">Nome prodotto</label>
-                    <input class="form-control" type="text" id="nome_prodotto" name="nome_prodotto" required />
+                    <input class="form-control" type="text" id="nome_prodotto" name="nome_prodotto" required/>
 
                     <label for="URL">URL</label>
-                    <input class="form-control" type="text" name="URL" id="URL" pattern="https://.*" required />
+                    <input class="form-control" type="text" name="URL" id="URL" pattern="https://.*" required/>
 
                     <label for="note"></label>
-                    <textarea class="textarea-note form-control" id="note" name="note" rows="4" cols="50" placeholder="Inserisci note..."></textarea>
+                    <textarea class="textarea-note form-control" id="note" name="note" rows="4" cols="50"
+                              placeholder="Inserisci note..."></textarea>
 
                     <div class="proposta-container-buttons">
-                        <input class="btn btn-primary proposta-buttons" type="submit" id="action" name="action" value="Crea" />
+                        <input class="btn btn-primary proposta-buttons" type="submit" id="action" name="action"
+                               value="Crea"/>
                         <a class="btn btn-danger proposta-buttons" href="richieste_prese_in_carico?id=${id!""}">Esci</a>
                     </div>
                 </form>
@@ -174,25 +180,28 @@
 
                 <form method="POST" action="richieste_prese_in_carico?page=${page!"0"}">
 
-                    <input class="form-control" type="hidden" id="id" name="id" value="${(richiestaPresaInCarico.key)!""}">
+                    <input class="form-control" type="hidden" id="id" name="id"
+                           value="${(richiestaPresaInCarico.key)!""}">
 
                     <label for="produttore">Produttore</label>
-                    <input class="form-control" type="text" id="produttore" name="produttore" required />
+                    <input class="form-control" type="text" id="produttore" name="produttore" required/>
 
                     <label for="prezzo">Prezzo</label>
-                    <input class="form-control" type="text" id="prezzo" name="prezzo" required />
+                    <input class="form-control" type="text" id="prezzo" name="prezzo" required/>
 
                     <label for="nome_prodotto">Nome prodotto</label>
-                    <input class="form-control" type="text" id="nome_prodotto" name="nome_prodotto" required />
+                    <input class="form-control" type="text" id="nome_prodotto" name="nome_prodotto" required/>
 
                     <label for="URL">URL</label>
-                    <input class="form-control" type="text" name="URL" id="URL" pattern="https://.*" required />
+                    <input class="form-control" type="text" name="URL" id="URL" pattern="https://.*" required/>
 
                     <label for="note"></label>
-                    <textarea class="textarea-note form-control" id="note" name="note" rows="4" cols="50" placeholder="Inserisci note..."></textarea>
+                    <textarea class="textarea-note form-control" id="note" name="note" rows="4" cols="50"
+                              placeholder="Inserisci note..."></textarea>
 
                     <div class="proposta-container-buttons">
-                        <input class="btn btn-success proposta-buttons" type="submit" id="action" name="action" value="Crea">
+                        <input class="btn btn-success proposta-buttons" type="submit" id="action" name="action"
+                               value="Crea">
                         <a class="btn btn-danger proposta-buttons" href="richieste_prese_in_carico?page=${page!"0"}">Esci</a>
                     </div>
                 </form>

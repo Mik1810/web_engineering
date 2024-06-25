@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html >
 <html xmlns="http://www.w3.org/1999/xhtml" lang="it">
 <head>
     <meta charset="UTF-8">
@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyWebmarket</title>
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/style/default.css">
@@ -41,17 +41,17 @@
                     <td>
                         <!-- La seconda condizione non serve ma è giusto per stare sicuri -->
                         <#if ordine.feedback?? || ordine.statoConsegna != "Consegnato">
-                            <a class="btn btn-secondary disabled">Aggiungi</a>
+                        <a class="btn btn-secondary disabled">Aggiungi</a>
                         <#else>
-                            <#if id??>
-                                <form method="POST" action="storico?id=${id}">
+                        <#if id??>
+                        <form method="POST" action="storico?id=${id}">
                             <#else>
-                                <form method="POST" action="storico?page=${page!"0"}">
-                                    <input type="hidden" id="id" name="id" value="${ordine.key}">
-                            </#if>
+                            <form method="POST" action="storico?page=${page!"0"}">
+                                <input type="hidden" id="id" name="id" value="${ordine.key}">
+                                </#if>
                                 <input class="btn btn-primary" type="submit" id="render" name="render" value="Aggiungi">
-                                </form>
-                        </#if>
+                            </form>
+                            </#if>
                     </td>
                 </tr>
             </#list>
@@ -89,7 +89,8 @@
             <#if id??>
             <form method="POST" accept-charset="UTF-8" action="storico?id=${id}" class="contenuto-form-popup">
                 <#else>
-                <form method="POST" accept-charset="UTF-8" action="storico?page=${page!"0"}" class="contenuto-form-popup">
+                <form method="POST" accept-charset="UTF-8" action="storico?page=${page!"0"}"
+                      class="contenuto-form-popup">
                     <input type="hidden" id="id" name="id" value="${(ordineDaFeedbackare.key)!"0"}">
                     </#if>
                     <label for="feedback">Scegli Feedback: </label>

@@ -1,4 +1,4 @@
-<html lang="it">
+<!DOCTYPE html >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,32 +45,32 @@
                     <td class="left">${proposta.motivazione!""}</td>
                     <td>
                         <#if proposta.statoProposta == "In attesa">
-                            <#if id??>
-                                <form method="POST" action="proposte?id=${id}">
+                        <#if id??>
+                        <form method="POST" action="proposte?id=${id}">
                             <#else>
-                                <form method="POST" action="proposte?page=${page!"0"}">
+                            <form method="POST" action="proposte?page=${page!"0"}">
                                 <input type="hidden" id="id" name="id" value="${proposta.key}">
-                            </#if>
+                                </#if>
                                 <input class="btn btn-primary" type="submit" id="action" name="action" value="Accetta">
                             </form>
-                        <#else>
-                            <a class="btn btn-secondary disabled">Accetta</a>
-                        </#if>
+                            <#else>
+                                <a class="btn btn-secondary disabled">Accetta</a>
+                            </#if>
 
                     </td>
                     <td>
                         <#if proposta.statoProposta == "In attesa">
-                            <#if id??>
-                                <form method="POST" action="proposte?id=${id}">
+                        <#if id??>
+                        <form method="POST" action="proposte?id=${id}">
                             <#else>
-                                <form method="POST" action="proposte?page=${page!"0"}">
+                            <form method="POST" action="proposte?page=${page!"0"}">
                                 <input type="hidden" id="id" name="id" value="${proposta.key}">
-                            </#if>
+                                </#if>
                                 <input class="btn btn-danger" type="submit" id="render" name="render" value="Rifiuta">
                             </form>
-                        <#else>
-                            <a class="btn btn-secondary disabled">Rifiuta</a>
-                        </#if>
+                            <#else>
+                                <a class="btn btn-secondary disabled">Rifiuta</a>
+                            </#if>
                     </td>
                 </tr>
             </#list>
@@ -106,20 +106,22 @@
                 <h4>Rifiuta Proposta</h4>
             </div>
             <#if id??>
-                <form method="POST" accept-charset="UTF-8" action="proposte?id=${id}" class="contenuto-form-popup">
-            <#else>
-                <form method="POST" accept-charset="UTF-8" action="proposte?page=${page!"0"}" class="contenuto-form-popup">
-                <input type="hidden" id="id" name="id" value="${(propostaDaRifiutare.key)!"0"}">
-            </#if>
-                <label for="motivazione">Inserisci motivazione: </label>
-                <textarea class="textarea-note form-control" id="motivazione" name="motivazione" rows="4" cols="50"></textarea>
-                <p class="p-1"></p>
-                <div class="buttons-choose">
-                    <input class="btn btn-primary" type="submit" id="action" name="action" value="Rifiuta">
-                    <a class="btn btn-danger" href="proposte?page=${page!0}">Annulla</a>
-                </div>
+            <form method="POST" accept-charset="UTF-8" action="proposte?id=${id}" class="contenuto-form-popup">
+                <#else>
+                <form method="POST" accept-charset="UTF-8" action="proposte?page=${page!"0"}"
+                      class="contenuto-form-popup">
+                    <input type="hidden" id="id" name="id" value="${(propostaDaRifiutare.key)!"0"}">
+                    </#if>
+                    <label for="motivazione">Inserisci motivazione: </label>
+                    <textarea class="textarea-note form-control" id="motivazione" name="motivazione" rows="4"
+                              cols="50"></textarea>
+                    <p class="p-1"></p>
+                    <div class="buttons-choose">
+                        <input class="btn btn-primary" type="submit" id="action" name="action" value="Rifiuta">
+                        <a class="btn btn-danger" href="proposte?page=${page!0}">Annulla</a>
+                    </div>
 
-            </form>
+                </form>
         </div>
     </div>
 </div>

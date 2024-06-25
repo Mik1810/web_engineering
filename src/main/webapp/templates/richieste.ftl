@@ -1,7 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html >
 <html lang="it" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8" content="">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyWebmarket</title>
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
@@ -61,21 +61,21 @@
 
     <#if page?? >
         <div class="paginazione">
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <#if page == 0>
-                    <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
-                <#else>
-                    <li class="page-item"><a class="btn btn-primary" href="richieste?page=${page-1}">Pagina
-                            precedente</a>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <#if page == 0>
+                        <li class="page-item"><a class="btn btn-secondary disabled">Pagina Precedente</a></li>
+                    <#else>
+                        <li class="page-item"><a class="btn btn-primary" href="richieste?page=${page-1}">Pagina
+                                precedente</a>
+                        </li>
+                    </#if>
+                    <li class="page-item"><a class="btn btn-primary" href="richieste?page=${page+1}">Pagina
+                            successiva</a>
                     </li>
-                </#if>
-                <li class="page-item"><a class="btn btn-primary" href="richieste?page=${page+1}">Pagina
-                        successiva</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+                </ul>
+            </nav>
+        </div>
     </#if>
 </div>
 
@@ -89,7 +89,8 @@
 
                 <input type="hidden" name="id" value="${(richiestaDaModificare.key)!"0"}">
                 <label for="note">Inserisci nuove note: </label>
-                <textarea class="textarea-note form-control" name="note" rows="4" cols="50" id="note">${(richiestaDaModificare.note)!"0"}</textarea>
+                <textarea class="textarea-note form-control" name="note" rows="4" cols="50"
+                          id="note">${(richiestaDaModificare.note)!"0"}</textarea>
                 <p class="p-1"></p>
                 <div class="buttons-choose">
                     <input class="btn btn-primary" type="submit" id="action" name="action" value="Modifica">
