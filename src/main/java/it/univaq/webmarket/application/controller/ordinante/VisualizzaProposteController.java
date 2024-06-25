@@ -125,6 +125,9 @@ public class VisualizzaProposteController extends ApplicationBaseController {
 
                 dl.getPropostaDAO().storeProposta(proposta);
 
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                sender.sendPDFWithEmail(getServletContext(), proposta.getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail(), proposta, EmailSender.Event.PROPOSTA_RIFIUTATA);
+
                 datamodel.put("page", page);
                 datamodel.put("success", "2");
                 datamodel.put("proposte", dl.getPropostaDAO().getAllProposteDaDecidereByOrdinante(ordinante, page));
@@ -139,6 +142,9 @@ public class VisualizzaProposteController extends ApplicationBaseController {
                 proposta.setMotivazione(motivazione);
 
                 dl.getPropostaDAO().storeProposta(proposta);
+
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                sender.sendPDFWithEmail(getServletContext(), proposta.getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail(), proposta, EmailSender.Event.PROPOSTA_RIFIUTATA);
 
                 datamodel.put("proposte", List.of(proposta));
                 datamodel.put("id", propostaId);
@@ -189,6 +195,10 @@ public class VisualizzaProposteController extends ApplicationBaseController {
                 proposta.setStatoProposta(Proposta.StatoProposta.ACCETTATO);
 
                 dl.getPropostaDAO().storeProposta(proposta);
+
+                EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
+                sender.sendPDFWithEmail(getServletContext(), proposta.getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail(), proposta, EmailSender.Event.PROPOSTA_ACCETTATA);
+
 
                 datamodel.put("proposte", List.of(proposta));
                 datamodel.put("id", propostaId);

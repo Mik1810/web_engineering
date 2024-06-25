@@ -81,7 +81,7 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col" >Nome</th>
+            <th scope="col" class="left">Nome</th>
             <th scope="col">Valore</th>
             <th scope="col">Unità di Misura</th>
         </tr>

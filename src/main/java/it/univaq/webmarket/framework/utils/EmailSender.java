@@ -147,7 +147,7 @@ public class EmailSender {
                     datamodel.put("proposta", proposta);
                     htmlresult = result.activate("/pdf_templates/pdf_proposta.ftl", datamodel, new StringWriter());
 
-                    sb.append("Proposta accettata: ").append(proposta.getCodiceProdotto()).append("\n");
+                    sb.append("Proposta creata con successo: ").append(proposta.getCodiceProdotto()).append("\n");
                     sb.append("Produttore: ").append(proposta.getProduttore()).append("\n");
                     sb.append("Nome Prodotto: ").append(proposta.getNomeProdotto()).append("\n");
                     sb.append("Prezzo: ").append(proposta.getPrezzo()).append("\n");
@@ -177,7 +177,8 @@ public class EmailSender {
                     datamodel.put("proposta", propostaAccettata);
                     htmlresult = result.activate("/pdf_templates/pdf_proposta.ftl", datamodel, new StringWriter());
 
-                    sb.append("Proposta creata con successo: ").append(propostaAccettata.getCodiceProdotto()).append("\n");
+                    sb.append("PROPOSTA ACCETTATA").append("\n\n");
+                    sb.append("Proposta: ").append(propostaAccettata.getCodiceProdotto()).append("\n");
                     sb.append("Produttore: ").append(propostaAccettata.getProduttore()).append("\n");
                     sb.append("Nome Prodotto: ").append(propostaAccettata.getNomeProdotto()).append("\n");
                     sb.append("Prezzo: ").append(propostaAccettata.getPrezzo()).append("\n");
@@ -201,6 +202,39 @@ public class EmailSender {
 
                     newEmailSender(context, to, htmlresult, values);
                     break;
+                case PROPOSTA_RIFIUTATA:
+                    Proposta propostaRifiutata = (Proposta) obj;
+
+                    datamodel.put("proposta", propostaRifiutata);
+                    htmlresult = result.activate("/pdf_templates/pdf_proposta.ftl", datamodel, new StringWriter());
+
+                    sb.append("PROPOSTA RIFIUTATA").append("\n\n");
+                    sb.append("Proposta: ").append(propostaRifiutata.getCodiceProdotto()).append("\n");
+                    sb.append("Produttore: ").append(propostaRifiutata.getProduttore()).append("\n");
+                    sb.append("Nome Prodotto: ").append(propostaRifiutata.getNomeProdotto()).append("\n");
+                    sb.append("Prezzo: ").append(propostaRifiutata.getPrezzo()).append("\n");
+                    sb.append("Note: ").append(propostaRifiutata.getNote()).append("\n");
+                    sb.append("Stato Proposta: ").append(propostaRifiutata.getStatoProposta()).append("\n");
+                    sb.append("Motivazione: ").append(propostaRifiutata.getMotivazione()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta presa in carico da: ").append(propostaRifiutata.getRichiestaPresaInCarico().getTecnicoPreventivi().getEmail()).append("\n");
+                    sb.append("\n");
+                    sb.append("Richiesta: ").append(propostaRifiutata.getRichiestaPresaInCarico().getRichiesta().getCodiceRichiesta()).append("\n");
+                    sb.append("Data: ").append(propostaRifiutata.getRichiestaPresaInCarico().getRichiesta().getData()).append("\n");
+                    sb.append("Ordinante: ").append(propostaRifiutata.getRichiestaPresaInCarico().getRichiesta().getOrdinante().getEmail()).append("\n");
+                    sb.append("Note: ").append(propostaRifiutata.getRichiestaPresaInCarico().getRichiesta().getNote()).append("\n");
+                    sb.append("Caratteristiche: ").append("\n");
+                    for (CaratteristicaConValore ccv : propostaRifiutata.getRichiestaPresaInCarico().getRichiesta().getCaratteristicheConValore()) {
+                        sb.append(ccv.getCaratteristica().getNome()).append(": ").append(ccv.getValore()).append("\n");
+                    }
+
+                    values.put("filename", "proposta_rifiutata_"+propostaRifiutata.getCodiceProdotto());
+                    values.put("subject", "Proposta rifiutata: "+propostaRifiutata.getCodiceProdotto());
+                    values.put("text", sb.toString());
+
+                    newEmailSender(context, to, htmlresult, values);
+                    break;
+
             }
         } catch (TemplateManagerException e) {
             Logger.getLogger(EmailSender.class.getName()).severe(e.getMessage());

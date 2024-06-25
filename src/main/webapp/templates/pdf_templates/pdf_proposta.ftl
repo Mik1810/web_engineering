@@ -61,6 +61,10 @@
         tr:hover {
             background-color: #e9e9e9;
         }
+
+        .message-proposta-rifiutata {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -72,6 +76,13 @@
         </div>
         <hr></hr>
     </header>
+    <#if proposta.statoProposta == "Rifiutato">
+        <h1 class="message-proposta-rifiutata"><b>Proposta rifiutata</b></h1>
+        <hr></hr>
+    <#elseif proposta.statoProposta == "Accettato">
+        <h1><b>Proposta accettata</b></h1>
+        <hr></hr>
+    </#if>
     <h3>Riepilogo Proposta</h3>
     <div>Proposta: ${proposta.codiceProdotto}</div>
     <div>Produttore: ${proposta.produttore}</div>
@@ -98,7 +109,7 @@
     <table class="table">
         <thead class="thead-dark">
         <tr>
-            <th scope="col" >Nome</th>
+            <th scope="col" class="left">Nome</th>
             <th scope="col">Valore</th>
             <th scope="col">Unità di Misura</th>
         </tr>

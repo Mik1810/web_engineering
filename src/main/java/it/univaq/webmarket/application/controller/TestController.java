@@ -21,8 +21,8 @@ public class TestController extends ApplicationBaseController {
             WebmarketDataLayer dl = (WebmarketDataLayer) request.getAttribute("datalayer");
 
             EmailSender sender = (EmailSender) getServletContext().getAttribute("emailsender");
-            Proposta proposta = dl.getPropostaDAO().getProposta(3);
-            sender.sendPDFWithEmail(getServletContext(), "michaelpiccirilli3@gmail.com", proposta, EmailSender.Event.PROPOSTA_INSERITA);
+            Proposta proposta = dl.getPropostaDAO().getProposta(1);
+            sender.sendPDFWithEmail(getServletContext(), "michaelpiccirilli3@gmail.com", proposta, EmailSender.Event.PROPOSTA_RIFIUTATA);
         } catch (Exception e) {
             e.printStackTrace();
         }
