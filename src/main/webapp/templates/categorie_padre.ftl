@@ -17,7 +17,7 @@
 <body>
 <#include "modules/header.ftl">
 <div class="container">
-    <h1>Categorie Padre</h1>
+    <h1>Gestione Categorie Padre</h1>
 
     <div id="aggiungi" class="aggiungi">
         <form method="POST" action="categoria_padre?page=${page}">
