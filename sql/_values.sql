@@ -1,4 +1,4 @@
-/* Populate the init.sql tables */
+/* Populate the _init.sql tables */
 USE webmarket;
 
 -- Popolamento CategoriaPadre
@@ -11,7 +11,8 @@ VALUES ('Modulistica'),
 INSERT INTO CategoriaFiglio (nome, ID_categoria_padre)
 VALUES ('Computer', 2),
        ('Accessori', 2),
-       ('Mobili', 3);
+       ('Mobili', 3),
+       ('Cancelleria', 1);
 
 -- Popolamento CategoriaNipote
 INSERT INTO CategoriaNipote (nome, ID_categoria_figlio)
@@ -19,7 +20,9 @@ VALUES ('PC Desktop', 1),
        ('Notebook', 1),
        ('Scrivania', 3),
        ('Cuffie', 2),
-       ('Mouse', 2);
+       ('Mouse', 2),
+       ('Quaderno', 4),
+       ('Penna', 4);
 
 -- Popolamento Caratteristica
 INSERT INTO caratteristica (nome, unita_di_misura, ID_categoria_nipote)
@@ -40,17 +43,17 @@ VALUES ('Via Roma', 12, 1, '0746229912', 'Milano'),
        ('Via Castello', 11, 1, '0861997534', 'L\'aquila');
 
 -- Popolamento Ordinante
-INSERT INTO Ordinante (email, password, ID_ufficio)
-VALUES ('michaelpiccirilli3@gmail.com','78bcd4a8fdf004fbc369061a84b5cd31312da76008934816ebeb74ea3afd23f66375dffde3b91b8872ca20ed36a7b071',3), #supersafepassword
-       ('paoloccigiacomo@gmail.com','c93af3c4d15d0614f28aa3c0a3f929b01f0bbafc0dcf39608f5934e200b0094b1712e362953461c3b39fba751aae358b',1), #giacomopass
-       ('universale@gmail.com','bf6d14d1110d651f1bb8c4f2a15c62709691e4389ee393e3f6ac56c92a441e1a3243df2dc3a495106bd30573176c5975', 3); #universalepass
+INSERT INTO Ordinante (email, password, ID_ufficio)VALUES
+    ('universale@gmail.com','bf6d14d1110d651f1bb8c4f2a15c62709691e4389ee393e3f6ac56c92a441e1a3243df2dc3a495106bd30573176c5975', 3), #universalepass
+    ('michaelpiccirilli3@gmail.com','78bcd4a8fdf004fbc369061a84b5cd31312da76008934816ebeb74ea3afd23f66375dffde3b91b8872ca20ed36a7b071',3), #supersafepassword
+    ('paoloccigiacomo@gmail.com','c93af3c4d15d0614f28aa3c0a3f929b01f0bbafc0dcf39608f5934e200b0094b1712e362953461c3b39fba751aae358b',1); #giacomopass
 
 
 -- Popolamento RichiestaAcquisto
-INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante)
-VALUES ('7592783840', 'Voglio un Nootbook per poter programmare in ufficio', 1),
-       ('7683845728', 'Voglio una scrivania più larga ', 1),
-       ('7834723777', 'Voglio un paio di cuffie da usare per le videochiamate', 1);
+INSERT INTO Richiesta (codice_richiesta, note, ID_ordinante) VALUES
+    ('7592783840', 'Voglio un Notebook per poter programmare in ufficio', 1),
+    ('7683845728', 'Voglio una scrivania più larga ', 1),
+    ('7834723777', 'Voglio un paio di cuffie da usare per le videochiamate', 1);
 
 -- Popolamento composta
 INSERT INTO composta (valore, ID_richiesta, ID_caratteristica)
@@ -61,11 +64,10 @@ VALUES ('32', 1, 2),
        ('0.4', 3, 6);
 
 -- Popolamento TecnicoPreventivi
-INSERT INTO TecnicoPreventivi (email, password)
-VALUES ('techprev1@gmail.com','19bc1dfbdcdf7d8ddbb8f6b7c12112192b7cc3569eaed68dab0720fd3a93fd7211951aa804aa499d33163944eec1312b'), #techprevpass1
-       ('techprev2@gmail.com', 'e942d4bea001c6c035cf6783f17d8d8b0ab0c5dffee23ff48bd6d157b325079c7a7f3a003fefb42b04cfe5b89123f7ae'), #techprevpass2
-       ('universale@gmail.com', 'bf6d14d1110d651f1bb8c4f2a15c62709691e4389ee393e3f6ac56c92a441e1a3243df2dc3a495106bd30573176c5975'); #universalepass
-#techprevpass2
+INSERT INTO TecnicoPreventivi (email, password) VALUES
+    ('universale@gmail.com', 'bf6d14d1110d651f1bb8c4f2a15c62709691e4389ee393e3f6ac56c92a441e1a3243df2dc3a495106bd30573176c5975'), #universalepass
+    ('techprev1@gmail.com','19bc1dfbdcdf7d8ddbb8f6b7c12112192b7cc3569eaed68dab0720fd3a93fd7211951aa804aa499d33163944eec1312b'), #techprevpass1
+    ('techprev2@gmail.com', 'e942d4bea001c6c035cf6783f17d8d8b0ab0c5dffee23ff48bd6d157b325079c7a7f3a003fefb42b04cfe5b89123f7ae'); #techprevpass2
 
 -- Popolamento RichiestaPresaInCarico
 INSERT INTO RichiestaPresaInCarico (ID_richiesta, ID_tecnico_preventivi)
@@ -79,11 +81,10 @@ VALUES ('admin@gmail.com','282db4a4425f50237e7df29d56988825f15dd8b34fa74af54e650
        ('universale@gmail.com','bf6d14d1110d651f1bb8c4f2a15c62709691e4389ee393e3f6ac56c92a441e1a3243df2dc3a495106bd30573176c5975'); #universalepass
 
 -- Popolamento TecnicoOrdini
-INSERT INTO TecnicoOrdini (email, password)
-VALUES ('techord1@gmail.com','86dfa250e8da2a2add194605ef10dd450692f9706c01e7b352d5f13f410ccf179252694deeecff8e71a416b668abb288'), #techordpass1
-       ('techord2@gmail.com','e1333ca4aa5ee5963c9b8a38bc62024fb9c9636e42d01e4f0fb85f59b94d31256a8d2dd9c3f2aab686345bbebf637f6c'), #techordpass2
-       ('universale@gmail.com','bf6d14d1110d651f1bb8c4f2a15c62709691e4389ee393e3f6ac56c92a441e1a3243df2dc3a495106bd30573176c5975'); #universale
-#techordpass2
+INSERT INTO TecnicoOrdini (email, password) VALUES
+    ('universale@gmail.com','bf6d14d1110d651f1bb8c4f2a15c62709691e4389ee393e3f6ac56c92a441e1a3243df2dc3a495106bd30573176c5975'), #universale
+    ('techord1@gmail.com','86dfa250e8da2a2add194605ef10dd450692f9706c01e7b352d5f13f410ccf179252694deeecff8e71a416b668abb288'), #techordpass1
+    ('techord2@gmail.com','e1333ca4aa5ee5963c9b8a38bc62024fb9c9636e42d01e4f0fb85f59b94d31256a8d2dd9c3f2aab686345bbebf637f6c'); #techordpass2
 
 -- Popolamento Proposta
 INSERT INTO Proposta(codice_prodotto, produttore, note, prezzo, nome_prodotto, URL, stato_proposta, motivazione,
