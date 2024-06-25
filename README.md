@@ -6,7 +6,7 @@
 
 > Versione 1.0
 
-## PASSWORD
+## Account universale
 
 * email: universale@gmail.com
 * password: universale

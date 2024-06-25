@@ -98,7 +98,10 @@
 
         <div class="update-screen">
             <div class="titolo-popup">
-                <h4>Caratteristiche</h4>
+                <div><h4>Caratteristiche</h4></div>
+                <#if caratteristiche??>
+                    <p>Categoria: ${caratteristiche[0].caratteristica.categoriaNipote.categoriaGenitore.categoriaGenitore.nome} > ${caratteristiche[0].caratteristica.categoriaNipote.categoriaGenitore.nome} > ${caratteristiche[0].caratteristica.categoriaNipote.nome}</p>
+                </#if>
             </div>
             <table class="table">
                 <thead class="thead-dark">
@@ -135,7 +138,7 @@
 
         <div class="update-screen">
             <div class="titolo-popup">
-                <h4>Caratteristiche</h4>
+                <h4>Crea Proposta</h4>
             </div>
             <!-- Qui va  la form per compilare la proposta-->
             <!-- Cose da inserire:
