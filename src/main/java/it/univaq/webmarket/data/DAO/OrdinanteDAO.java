@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface OrdinanteDAO {
 
-    //generate javadoc documentation
-
     /**
      * Crea un oggetto di tipo Ordinante.
      *
@@ -21,7 +19,7 @@ public interface OrdinanteDAO {
      * Restituisce l'oggetto Ordinante con l'id passato come parametro
      *
      * @param ordinante_key id della Ordinante
-     * @return l'oggetto Ordiannte con l'id passato come parametro
+     * @return l'oggetto Ordinante con l'id passato come parametro
      */
     Ordinante getOrdinante(int ordinante_key) throws DataException;
 
