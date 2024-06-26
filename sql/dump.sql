@@ -60,7 +60,7 @@ CREATE TABLE `caratteristica` (
   PRIMARY KEY (`ID`),
   KEY `ID_categoria_nipote` (`ID_categoria_nipote`),
   CONSTRAINT `caratteristica_ibfk_1` FOREIGN KEY (`ID_categoria_nipote`) REFERENCES `categorianipote` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `caratteristica` (
 
 LOCK TABLES `caratteristica` WRITE;
 /*!40000 ALTER TABLE `caratteristica` DISABLE KEYS */;
-INSERT INTO `caratteristica` VALUES (1,'RAM','GB',1,1),(2,'RAM','GB',2,1),(3,'CPU','GHz',1,1),(4,'CPU','GHz',2,1),(5,'Lunghezza','cm',3,1),(6,'Peso','kg',4,1),(7,'Lunghezza cavo','m',4,1),(8,'Peso','kg',5,1),(9,'Lunghezza cavo','m',5,1);
+INSERT INTO `caratteristica` VALUES (1,'RAM','GB',1,1),(2,'RAM','GB',2,1),(3,'CPU','GHz',1,1),(4,'CPU','GHz',2,1),(5,'Lunghezza','cm',3,1),(6,'Peso','kg',4,1),(7,'Lunghezza cavo','m',4,1),(8,'Peso','kg',5,1),(9,'Lunghezza cavo','m',5,1),(10,'Pagine','pagine',6,1),(11,'Colore','',7,1);
 /*!40000 ALTER TABLE `caratteristica` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,6 +214,33 @@ LOCK TABLES `composta` WRITE;
 INSERT INTO `composta` VALUES (1,'32',1,2,1),(2,'100',2,5,1),(3,'5',1,4,1),(4,'3.5',3,7,1),(5,'0.4',3,6,1);
 /*!40000 ALTER TABLE `composta` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `rimuovi_richiesta_senza_composta` AFTER DELETE ON `composta` FOR EACH ROW BEGIN
+    DECLARE richiesta_count INT;
+
+    SELECT COUNT(*)
+    INTO richiesta_count
+    FROM composta
+    WHERE ID_richiesta = OLD.ID_richiesta;
+
+    IF richiesta_count = 0 THEN
+        DELETE FROM richiesta
+        WHERE ID = OLD.ID_richiesta;
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `ordinante`
@@ -378,7 +405,7 @@ CREATE TABLE `proposta` (
 
 LOCK TABLES `proposta` WRITE;
 /*!40000 ALTER TABLE `proposta` DISABLE KEYS */;
-INSERT INTO `proposta` VALUES (1,'8456382736','HP','Pc economico ma plasticoso',273.50,'Pixel Intel N4500','https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/','Rifiutato','Non ha abbastanza RAM, non mi piace il materiale',1,1),(2,'7582650098','Honor','Pc molto leggero e di un colore blu elettrico',699.99,'Honor MagicBook 14','https://www.honor.com/it/laptops/honor-magicbook-14/','In attesa',NULL,1,1),(3,'3146259807','MALM','Scrivania con 2 cassetti molto ampii',159.99,'Scrivania Bianca MALM','https://www.ikea.com/it/it/p/malm-scrivania-bianco-60214159/','Accettato',NULL,1,2),(4,'0275637894','ASUS','Cuffie da gaming ASUS',109.99,'ASUS Delta S Core','https://rog.asus.com/it/headsets-audio/headsets/3-5mm-headsets/rog-delta-s-core-model/','Accettato',NULL,1,3);
+INSERT INTO `proposta` VALUES (1,'8fu9eurw9e8ur8u38hc3m','HP','Pc economico ma plasticoso',273.50,'Pixel Intel N4500','https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/','Rifiutato','Non ha abbastanza RAM, non mi piace il materiale',1,1),(2,'229f8ej382j8je9sua0s9','Honor','Pc molto leggero e di un colore blu elettrico',699.99,'Honor MagicBook 14','https://www.honor.com/it/laptops/honor-magicbook-14/','In attesa',NULL,1,1),(3,'34209348nc2034823048c','MALM','Scrivania con 2 cassetti molto ampii',159.99,'Scrivania Bianca MALM','https://www.ikea.com/it/it/p/malm-scrivania-bianco-60214159/','Accettato',NULL,1,2),(4,'2387fsn9d87fsd8f7379n','ASUS','Cuffie da gaming ASUS',109.99,'ASUS Delta S Core','https://rog.asus.com/it/headsets-audio/headsets/3-5mm-headsets/rog-delta-s-core-model/','Accettato',NULL,1,3);
 /*!40000 ALTER TABLE `proposta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -409,32 +436,9 @@ CREATE TABLE `richiesta` (
 
 LOCK TABLES `richiesta` WRITE;
 /*!40000 ALTER TABLE `richiesta` DISABLE KEYS */;
-INSERT INTO `richiesta` VALUES (1,'7592783840','Voglio un Notebook per poter programmare in ufficio','2024-06-25 21:02:57',1,1),(2,'7683845728','Voglio una scrivania più larga ','2024-06-25 21:02:57',1,1),(3,'7834723777','Voglio un paio di cuffie da usare per le videochiamate','2024-06-25 21:02:57',1,1);
+INSERT INTO `richiesta` VALUES (1,'7592783840','Voglio un Notebook per poter programmare in ufficio','2024-06-26 19:54:01',1,1),(2,'7683845728','Voglio una scrivania più larga ','2024-06-26 19:54:01',1,1),(3,'7834723777','Voglio un paio di cuffie da usare per le videochiamate','2024-06-26 19:54:01',1,1);
 /*!40000 ALTER TABLE `richiesta` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Temporary view structure for view `richiesta_con_caratteristiche`
---
-
-DROP TABLE IF EXISTS `richiesta_con_caratteristiche`;
-/*!50001 DROP VIEW IF EXISTS `richiesta_con_caratteristiche`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `richiesta_con_caratteristiche` AS SELECT 
- 1 AS `codice_richiesta`,
- 1 AS `data`,
- 1 AS `ID_richiesta`,
- 1 AS `ID_ordinante`,
- 1 AS `note`,
- 1 AS `richiesta_version`,
- 1 AS `ID_caratteristica`,
- 1 AS `ID_categoria_nipote`,
- 1 AS `nome_caratteristica`,
- 1 AS `unita_di_misura`,
- 1 AS `caratteristica_version`,
- 1 AS `valore`*/;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `richiestapresaincarico`
@@ -465,22 +469,6 @@ LOCK TABLES `richiestapresaincarico` WRITE;
 INSERT INTO `richiestapresaincarico` VALUES (1,1,1,1),(2,2,2,1),(3,3,1,1);
 /*!40000 ALTER TABLE `richiestapresaincarico` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Temporary view structure for view `storico`
---
-
-DROP TABLE IF EXISTS `storico`;
-/*!50001 DROP VIEW IF EXISTS `storico`*/;
-SET @saved_cs_client     = @@character_set_client;
-/*!50503 SET character_set_client = utf8mb4 */;
-/*!50001 CREATE VIEW `storico` AS SELECT 
- 1 AS `ID_ordine`,
- 1 AS `feedback`,
- 1 AS `ID_ordinante`,
- 1 AS `prodotto`,
- 1 AS `data_di_consegna`*/;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `tecnicoordini`
@@ -572,42 +560,6 @@ UNLOCK TABLES;
 --
 -- Dumping routines for database 'webmarket'
 --
-
---
--- Final view structure for view `richiesta_con_caratteristiche`
---
-
-/*!50001 DROP VIEW IF EXISTS `richiesta_con_caratteristiche`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `richiesta_con_caratteristiche` AS select `r`.`codice_richiesta` AS `codice_richiesta`,`r`.`data` AS `data`,`r`.`ID` AS `ID_richiesta`,`r`.`ID_ordinante` AS `ID_ordinante`,`r`.`note` AS `note`,`r`.`version` AS `richiesta_version`,`ca`.`ID` AS `ID_caratteristica`,`ca`.`ID_categoria_nipote` AS `ID_categoria_nipote`,`ca`.`nome` AS `nome_caratteristica`,`ca`.`unita_di_misura` AS `unita_di_misura`,`ca`.`version` AS `caratteristica_version`,`c`.`valore` AS `valore` from ((`richiesta` `r` join `composta` `c` on((`r`.`ID` = `c`.`ID_richiesta`))) join `caratteristica` `ca` on((`ca`.`ID` = `c`.`ID_caratteristica`))) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `storico`
---
-
-/*!50001 DROP VIEW IF EXISTS `storico`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8mb4 */;
-/*!50001 SET character_set_results     = utf8mb4 */;
-/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `storico` AS select `o`.`ID` AS `ID_ordine`,`o`.`feedback` AS `feedback`,`c`.`ID` AS `ID_ordinante`,`p`.`nome_prodotto` AS `prodotto`,`o`.`data_di_consegna` AS `data_di_consegna` from ((`chiude` `c` join `ordine` `o` on((`o`.`ID` = `c`.`ID_ordine`))) join `proposta` `p` on((`p`.`ID` = `o`.`ID_proposta`))) where (`o`.`stato_consegna` = 'Consegnato') */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -618,4 +570,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-25 23:04:49
+-- Dump completed on 2024-06-26 21:55:33

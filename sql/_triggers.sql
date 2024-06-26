@@ -3,6 +3,7 @@ USE webmarket;
 DROP TRIGGER IF EXISTS controlla_inserimento_feedback;
 DROP TRIGGER IF EXISTS aggiorna_data_consegna;
 DROP TRIGGER IF EXISTS inserisci_ordine_chiuso;
+DROP TRIGGER IF EXISTS rimuovi_richiesta_senza_composta;
 
 DELIMITER $$
 
@@ -49,6 +50,23 @@ BEGIN
 
 END;
 
+CREATE TRIGGER rimuovi_richiesta_senza_composta
+    AFTER DELETE
+    ON composta
+    FOR EACH ROW
+BEGIN
+    DECLARE richiesta_count INT;
+
+    SELECT COUNT(*)
+    INTO richiesta_count
+    FROM composta
+    WHERE ID_richiesta = OLD.ID_richiesta;
+
+    IF richiesta_count = 0 THEN
+        DELETE FROM richiesta
+        WHERE ID = OLD.ID_richiesta;
+    END IF;
+END;
 
 $$
 DELIMITER ;

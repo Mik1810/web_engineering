@@ -34,7 +34,9 @@ VALUES ('RAM', 'GB', 1),
        ('Peso', 'kg', 4),
        ('Lunghezza cavo', 'm', 4),
        ('Peso', 'kg', 5),
-       ('Lunghezza cavo', 'm', 5);
+       ('Lunghezza cavo', 'm', 5),
+       ('Pagine', 'pagine', 6),
+       ('Colore', '', 7);
 
 -- Popolamento Ufficio
 INSERT INTO Ufficio (sede, numero, piano, telefono, citta)
