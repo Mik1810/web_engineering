@@ -378,7 +378,7 @@ CREATE TABLE `proposta` (
 
 LOCK TABLES `proposta` WRITE;
 /*!40000 ALTER TABLE `proposta` DISABLE KEYS */;
-INSERT INTO `proposta` VALUES (1,'8fu9eurw9e8ur8u38hc3m','HP','Pc economico ma plasticoso',273.50,'Pixel Intel N4500','https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/','Rifiutato','Non ha abbastanza RAM, non mi piace il materiale',1,1),(2,'229f8ej382j8je9sua0s9','Honor','Pc molto leggero e di un colore blu elettrico',699.99,'Honor MagicBook 14','https://www.honor.com/it/laptops/honor-magicbook-14/','In attesa',NULL,1,1),(3,'34209348nc2034823048c','MALM','Scrivania con 2 cassetti molto ampii',159.99,'Scrivania Bianca MALM','https://www.ikea.com/it/it/p/malm-scrivania-bianco-60214159/','Accettato',NULL,1,2),(4,'2387fsn9d87fsd8f7379n','ASUS','Cuffie da gaming ASUS',109.99,'ASUS Delta S Core','https://rog.asus.com/it/headsets-audio/headsets/3-5mm-headsets/rog-delta-s-core-model/','Accettato',NULL,1,3);
+INSERT INTO `proposta` VALUES (1,'8456382736','HP','Pc economico ma plasticoso',273.50,'Pixel Intel N4500','https://www.amazon.it/HP-255-G8-portatile-DDR4-SDRAM/','Rifiutato','Non ha abbastanza RAM, non mi piace il materiale',1,1),(2,'7582650098','Honor','Pc molto leggero e di un colore blu elettrico',699.99,'Honor MagicBook 14','https://www.honor.com/it/laptops/honor-magicbook-14/','In attesa',NULL,1,1),(3,'3146259807','MALM','Scrivania con 2 cassetti molto ampii',159.99,'Scrivania Bianca MALM','https://www.ikea.com/it/it/p/malm-scrivania-bianco-60214159/','Accettato',NULL,1,2),(4,'0275637894','ASUS','Cuffie da gaming ASUS',109.99,'ASUS Delta S Core','https://rog.asus.com/it/headsets-audio/headsets/3-5mm-headsets/rog-delta-s-core-model/','Accettato',NULL,1,3);
 /*!40000 ALTER TABLE `proposta` ENABLE KEYS */;
 UNLOCK TABLES;
 

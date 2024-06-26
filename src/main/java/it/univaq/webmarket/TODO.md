@@ -5,7 +5,7 @@
 - [x] Template per le modifiche dell'amministratore (Giacomo). Cioè mettere a destra della tabella la parte per la modifica 
 in modo tale che sia inizialmente invisibile, e poi se clicchi modifica viene fatto apparire
 alla destra
-- [ ] Creare tutti gli altri controller
+- [x] Creare tutti gli altri controller
 
 <h1>DAO interfaces</h1>
 

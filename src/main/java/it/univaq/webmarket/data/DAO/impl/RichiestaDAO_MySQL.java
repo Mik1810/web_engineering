@@ -20,6 +20,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
     private PreparedStatement dRichiesta;
     private PreparedStatement sRichiesteByIDOrdinantePage;
     private PreparedStatement sRichiesteNonGestite;
+    private PreparedStatement checkCodiceRichiesta;
 
     public RichiestaDAO_MySQL(DataLayer d) {
         super(d);
@@ -38,6 +39,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             sRichiestaByID = connection.prepareStatement("SELECT * FROM richiesta WHERE ID=? ORDER BY data DESC");
             sRichiesteByIDOrdinantePage = connection.prepareStatement("SELECT ID FROM richiesta WHERE ID_ordinante=? ORDER BY data DESC LIMIT ?,?");
             sRichiesteNonGestite = connection.prepareStatement("SELECT r.ID FROM richiesta r LEFT JOIN richiestapresaincarico rp ON r.ID = rp.ID_richiesta  WHERE rp.ID_richiesta IS NULL ORDER BY r.data LIMIT ?, ?");
+            checkCodiceRichiesta = connection.prepareStatement("SELECT 1 FROM Richiesta WHERE codice_richiesta = ?");
         } catch (SQLException ex) {
             throw new DataException("Error initializing webmarket data layer", ex);
         }
@@ -51,6 +53,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
              sRichiestaByID.close();
              sRichiesteByIDOrdinantePage.close();
              sRichiesteNonGestite.close();
+                checkCodiceRichiesta.close();
         } catch (SQLException ex) {
             //
         }
@@ -171,8 +174,10 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
                 }
 
             } else { //INSERT
-                //TODO: verificare che il codice richiesta non esista già nel DB
-                String codiceRichiesta = getRandomCodiceRichiesta(10);
+                String codiceRichiesta= getRandomCodiceRichiesta(10);
+                while(checkCodiceRichiesta(codiceRichiesta)){
+                    codiceRichiesta = getRandomCodiceRichiesta(10);
+                }
                 iRichiesta.setString(1, codiceRichiesta);
                 if (richiesta.getNote() != null) {
                     iRichiesta.setString(2, richiesta.getNote());
@@ -216,8 +221,6 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
         }
     }
 
-
-
     private String getRandomCodiceRichiesta(int n) {
         Random r = new Random();
         StringBuilder code = new StringBuilder();
@@ -225,5 +228,16 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
             code.append(r.nextInt(10));
         }
         return code.toString();
+    }
+
+    private boolean checkCodiceRichiesta(String codiceRichiesta) throws DataException {
+        try {
+            checkCodiceRichiesta.setString(1, codiceRichiesta);
+            try (ResultSet resultSet = checkCodiceRichiesta.executeQuery()) {
+                return resultSet.next(); // returns true if a row exists
+            }
+        } catch (SQLException e) {
+            throw new DataException("Unable to check codice Richiesta", e);
+        }
     }
 }
