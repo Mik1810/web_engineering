@@ -51,7 +51,7 @@ public class UfficioDAO_MySQL extends DAO implements UfficioDAO {
             uUfficio.close();
             dUfficio.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }

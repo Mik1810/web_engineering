@@ -61,7 +61,7 @@ public class OrdineDAO_MySQL extends DAO implements OrdineDAO {
             iOrdine.close();
             uOrdine.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy prepared statements", ex);
         }
     }
 

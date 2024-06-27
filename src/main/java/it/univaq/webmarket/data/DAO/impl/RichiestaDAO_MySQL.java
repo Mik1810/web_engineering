@@ -55,7 +55,7 @@ public class RichiestaDAO_MySQL extends DAO implements RichiestaDAO {
              sRichiesteNonGestite.close();
                 checkCodiceRichiesta.close();
         } catch (SQLException ex) {
-            //
+             throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }

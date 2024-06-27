@@ -11,6 +11,7 @@ import it.univaq.webmarket.framework.data.DataLayer;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 public class AmministratoreDAO_MySQL extends DAO implements AmministratoreDAO {
 
@@ -38,7 +39,7 @@ public class AmministratoreDAO_MySQL extends DAO implements AmministratoreDAO {
             sAmministratoreByEmail.close();
             sAmministratoreByID.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }

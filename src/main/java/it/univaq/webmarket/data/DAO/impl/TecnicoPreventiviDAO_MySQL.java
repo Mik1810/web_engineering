@@ -53,7 +53,7 @@ public class TecnicoPreventiviDAO_MySQL extends DAO implements TecnicoPreventivi
             uTecnicoPreventivi.close();
             dTecnicoPreventivi.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
 

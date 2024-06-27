@@ -86,7 +86,7 @@ public class PropostaDAO_MySQL extends DAO implements PropostaDAO {
             uProposta.close();
             checkCodiceProposta.close();
         } catch (SQLException ex) {
-            throw new DataException("Can't destroy connections", ex);
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }

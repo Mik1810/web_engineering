@@ -55,7 +55,7 @@ public class TecnicoOrdiniDAO_MySQL extends DAO implements TecnicoOrdiniDAO {
             uTecnicoOrdini.close();
             dTecnicoOrdini.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }

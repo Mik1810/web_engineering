@@ -72,7 +72,7 @@ public class RichiestaPresaInCaricoDAO_MySQL extends DAO implements RichiestaPre
             uRichiestaPresaInCarico.close();
             dRichiestaPresaInCarico.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }

@@ -100,7 +100,7 @@ public class CategoriaDAO_MySQL extends DAO implements CategoriaDAO {
             sCategorieFiglioFromPadre.close();
             sCategorieNipoteFromFiglio.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }

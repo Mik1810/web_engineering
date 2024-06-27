@@ -72,7 +72,7 @@ public class CaratteristicaDAO_MySQL extends DAO implements CaratteristicaDAO {
             uCaratteristicaConValore.close();
             dCaratteristicaConValore.close();
         } catch (SQLException ex) {
-            throw new DataException("Can't destroy connections", ex);
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }

@@ -55,7 +55,7 @@ public class OrdinanteDAO_MySQL extends DAO implements OrdinanteDAO {
             uOrdinante.close();
             dOrdinante.close();
         } catch (SQLException ex) {
-            //
+            throw new DataException("Can't destroy prepared statements", ex);
         }
         super.destroy();
     }
