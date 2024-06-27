@@ -361,7 +361,7 @@ DELIMITER ;;
                                  JOIN proposta p on r2.ID = p.ID_richiesta_presa_in_carico
                                  JOIN ordine o2 ON p.ID = o2.ID_proposta
                         WHERE o2.ID = NEW.ID);
-    IF NEW.stato_consegna = 'Consegnato' THEN
+    IF NEW.stato_consegna = 'Consegnato' AND NEW.feedback IS NULL THEN
         INSERT INTO chiude(ID_ordine, ID_ordinante)
         VALUES (NEW.ID, ID_ordinante);
     END IF;
@@ -436,7 +436,7 @@ CREATE TABLE `richiesta` (
 
 LOCK TABLES `richiesta` WRITE;
 /*!40000 ALTER TABLE `richiesta` DISABLE KEYS */;
-INSERT INTO `richiesta` VALUES (1,'7592783840','Voglio un Notebook per poter programmare in ufficio','2024-06-26 19:54:01',1,1),(2,'7683845728','Voglio una scrivania più larga ','2024-06-26 19:54:01',1,1),(3,'7834723777','Voglio un paio di cuffie da usare per le videochiamate','2024-06-26 19:54:01',1,1);
+INSERT INTO `richiesta` VALUES (1,'7592783840','Voglio un Notebook per poter programmare in ufficio','2024-06-27 14:55:59',1,1),(2,'7683845728','Voglio una scrivania più larga ','2024-06-27 14:55:59',1,1),(3,'7834723777','Voglio un paio di cuffie da usare per le videochiamate','2024-06-27 14:55:59',1,1);
 /*!40000 ALTER TABLE `richiesta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -570,4 +570,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-26 21:55:33
+-- Dump completed on 2024-06-27 16:57:07

@@ -97,7 +97,9 @@
         <div class="update-screen">
             <div class="titolo-popup">
                 <div><h4>Caratteristiche</h4></div>
-                <p>Categoria: ${caratteristiche[0].caratteristica.categoriaNipote.categoriaGenitore.categoriaGenitore.nome} > ${caratteristiche[0].caratteristica.categoriaNipote.categoriaGenitore.nome} > ${caratteristiche[0].caratteristica.categoriaNipote.nome}</p>
+                <#if caratteristiche??>
+                    <p>Categoria: ${caratteristiche[0].caratteristica.categoriaNipote.categoriaGenitore.categoriaGenitore.nome} > ${caratteristiche[0].caratteristica.categoriaNipote.categoriaGenitore.nome} > ${caratteristiche[0].caratteristica.categoriaNipote.nome}</p>
+                </#if>
             </div>
             <table class="table">
                 <thead class="thead-dark">

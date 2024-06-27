@@ -28,6 +28,7 @@
                 <th scope="col" class="left">URL</th>
                 <th scope="col" class="left">Stato</th>
                 <th scope="col">Motivazione</th>
+                <th scope="col">Richiesta</th>
                 <th scope="col">Accetta</th>
                 <th scope="col">Rifiuta</th>
             </tr>
@@ -43,6 +44,7 @@
                     <td class="left"><a href="${proposta.URL!""}">Vai al sito.</a></td>
                     <td class="left">${proposta.statoProposta!""}</td>
                     <td class="left">${proposta.motivazione!""}</td>
+                    <td><a class="left btn btn-success" href="richieste?id=${proposta.richiestaPresaInCarico.richiesta.key!""}">Richiesta</a></td>
                     <td>
                         <#if proposta.statoProposta == "In attesa">
                         <#if id??>
